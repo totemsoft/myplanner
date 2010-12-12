@@ -21,15 +21,11 @@
         <dependency>
             <groupId>net.sourceforge.jtds</groupId>
             <artifactId>jtds</artifactId>
-            <scope>provided</scope>
+            <!--scope>provided</scope-->
         </dependency>
         <dependency>
             <groupId>com.klg.jclass</groupId>
             <artifactId>chart</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.l2fprod</groupId>
-            <artifactId>common</artifactId>
         </dependency>
         <dependency>
             <groupId>com.argus</groupId>

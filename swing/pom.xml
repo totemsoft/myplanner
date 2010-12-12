@@ -26,7 +26,7 @@
         </dependency>
         <dependency>
             <groupId>com.l2fprod</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>l2fprod-common-all</artifactId>
         </dependency>
     </dependencies>
 </project>

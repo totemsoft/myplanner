@@ -98,7 +98,7 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
         <jspapi.version>2.0</jspapi.version>
         <jstl.version>1.1.2</jstl.version>
         <jta.version>1.0.1B</jta.version>
-        <l2fprod.version>6.5.1</l2fprod.version>
+        <l2fprod.version>6.9.1</l2fprod.version>
         <mail.version>1.4</mail.version>
         <opencsv.version>2.0</opencsv.version>
         <poi.version>3.6</poi.version>
@@ -110,6 +110,18 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
         <spring.version>3.0.2.RELEASE</spring.version>
         <velocity.version>1.6.3</velocity.version>
     </properties>
+    <repositories>
+        <!--repository>
+            <id>JBOSS</id>
+            <name>JBoss Repository</name>
+            <url>http://repository.jboss.org/maven2/</url>
+        </repository-->
+        <repository>
+            <id>FreeHEP</id>
+            <name>Free HEP Repository</name>
+            <url>http://java.freehep.org/maven2/</url>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>asm</groupId>
@@ -358,14 +370,12 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
                 <groupId>net.sourceforge.jtds</groupId>
                 <artifactId>jtds</artifactId>
                 <version>${jtds.version}</version>
-                <scope>provided</scope>
             </dependency>
 
             <dependency>
                 <groupId>javax.transaction</groupId>
                 <artifactId>jta</artifactId>
                 <version>${jta.version}</version>
-                <scope>provided</scope>
             </dependency>
 
             <dependency>
@@ -426,7 +436,7 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
             </dependency>
             <dependency>
                 <groupId>com.l2fprod</groupId>
-                <artifactId>common</artifactId>
+                <artifactId>l2fprod-common-all</artifactId>
                 <version>${l2fprod.version}</version>
             </dependency>
             <dependency>

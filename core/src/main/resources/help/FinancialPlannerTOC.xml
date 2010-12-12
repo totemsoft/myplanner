@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='ISO-8859-1'  ?>
+<!DOCTYPE toc
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/toc_1_0.dtd">
+
+<toc version="1.0">
+<tocitem text="Financial Planner System User's Guide" image="openbook">
+<!--
+<tocitem target="dummy" text="Dummy item" image="topic">
+</tocitem>
+-->
+<tocitem target="intro" text="Introduction to Financial Planning" image="topic">
+</tocitem>
+<tocitem target="keymodules" text="Key Modules" image="chapter">
+	<tocitem target="keymodules.clientdata" text="Client Data Collection"  image="topic"/>
+	<tocitem target="keymodules.riskprofile" text="Risk Profile &amp; Investment Strategy Objective (ISO) "  image="topic"/>
+	<tocitem target="keymodules.analyses" text="Analyses of Financial Positions &ndash; Before &amp; After Recommendations "  image="topic"/>
+	<tocitem target="keymodules.stragtegy" text="Strategy Creator &amp; Calculator Tools "  image="topic"/>
+	<tocitem target="keymodules.plangenerator" text="Plan Generator "  image="topic"/>
+	<tocitem target="keymodules.tools" text="Tools "  image="topic"/>
+	<tocitem target="keymodules.additionalmodules" text="Additional Modules "  image="topic"/>
+</tocitem>
+
+<tocitem target="gettingstarted" text="Getting Started - Creating a Financial Plan " image="chapter">
+	<tocitem target="step1" text="Step 1. Data Collection - Input a Clients Present Position "  image="chapter">
+		<tocitem target="step1clientdetails" text="Client Details"  image="chapter">
+			<tocitem target="clientdetailsbasic" text="Basic Client Details"  image="topic"/>
+			<tocitem target="clientdetailsconacts" text="Contact Details"  image="topic"/>
+			<tocitem target="clientdetailsdependents" text="Dependents"  image="topic"/>
+			<tocitem target="clientdetailsadvisors" text="Client Contacts"  image="topic"/>
+			<tocitem target="clientdetailgoals" text="Goals and Interests"  image="topic"/>
+		</tocitem>
+
+		<tocitem target="step1riskiso" text="Risk and ISO"  image="topic"/>
+		<tocitem target="step1finansials" text="Financials"  image="chapter">
+			<tocitem target="finansialsassets" text="Entering Assets"  image="topic"/>
+			<tocitem target="finansialscash" text="Cash Assets"  image="topic"/>
+			<tocitem target="finansialsimvestment" text="Investment Assets"  image="topic"/>
+			<tocitem target="finansialsincomestream" text="Income Streams"  image="topic"/>
+			<tocitem target="finansialssuperannuation" text="Superannuation Assets"  image="topic"/>
+			<tocitem target="finansialspesonal" text="Personal / Physical Assets"  image="topic"/>
+			<tocitem target="finansialsliability" text="Liabilities"  image="topic"/>
+
+		</tocitem>
+		<tocitem target="step1cashflow" text="Cash Flow"  image="chapter">
+			<tocitem target="cashflowincome" text="Income"  image="topic"/>
+			<tocitem target="cashflowoutgoins" text="Out goings"  image="topic"/>
+			<tocitem target="cashflowtaxoffsets" text="Tax Offsets"  image="topic"/>
+		</tocitem>
+	</tocitem>
+
+
+
+	<tocitem target="step2" text="Step 2. Analyse the Clients Present Position"  image="chapter">
+		<tocitem target="step2wealth" text="Wealth Analysis"  image="chapter">
+			<tocitem target="wealthassumptions" text="Assumptions"  image="topic"/>
+			<tocitem target="wealthview" text="Wealth View"  image="topic"/>
+		</tocitem>
+
+		<tocitem target="step2tax" text="Tax Analysis"  image="topic">
+		</tocitem>
+		<tocitem target="step2cashflow" text="Cash Flow Analysis"  image="chapter">
+			<tocitem target="cashflowssumptions" text="Assumptions"  image="topic"/>
+		</tocitem>
+		<tocitem target="step2assetallocation" text="Asset Allocation Analysis"  image="chapter">
+			<tocitem target="assetallocationediting" text="Editing the Asset Allocation"  image="topic"/>
+		</tocitem>
+
+	</tocitem>
+
+	<tocitem target="step3" text="Step 3. Prepare Alternative Strategies"  image="chapter">
+		<tocitem target="step3strategycreator" text="Strategy Creator"  image="topic">
+		</tocitem>
+
+		<tocitem target="step3newstrategy" text="Adding a new Recommended Strategy"  image="topic"/>
+		<tocitem target="step3source" text="Selecting the Source of Funds"  image="topic"/>
+		<tocitem target="step3debt" text="Paying off Debts"  image="topic"/>
+		<tocitem target="step3investment" text="Creating the New Investment"  image="topic"/>
+
+	</tocitem>
+
+	<tocitem target="step4" text="Step 4. Prepare a Written Financial Plan"  image="topic"/>
+	<tocitem target="noteondatacollection" text="Note on Data Collection"  image="topic"/>
+</tocitem>
+
+<tocitem target="calc" text="Calculators" image="chapter">
+	<tocitem target="calcassumptions" text="Calculator Assumptions"  image="chapter">
+		<tocitem target="assumptionsinvstartegy" text="Investment Strategy Earnings"  image="topic"/>
+		<tocitem target="assumptionscompundernings" text="Compounding Earnings"  image="topic"/>
+	</tocitem>
+
+	<tocitem target="calcap" text="Allocated Pension Calculator"  image="chapter">
+		<tocitem target="calcapclientdetails" text="Client Details"  image="topic"/>
+		<tocitem target="calcappensionoptions" text="Pension Options"  image="topic"/>
+		<tocitem target="calcapetp" text="Total (ETP)"  image="topic"/>
+		<tocitem target="calcapprojection" text="Pension Projection and Payment Levels"  image="topic"/>
+		<tocitem target="calcapprojectiontab" text="Allocated Pension - Projections Tab"  image="topic"/>
+	</tocitem>
+
+	<tocitem target="calcetp" text="ETP / Rollover Calculator"  image="topic">
+	</tocitem>
+
+	<tocitem target="calcgearing" text="Investment Gearing Simulation"  image="chapter">
+		<tocitem target="calcgearingcontributions" text="Contributions"  image="topic"/>
+		<tocitem target="calcgearingloan" text="Loan Set up"  image="topic"/>
+		<tocitem target="calcgearinginvestment" text="Investment Details"  image="topic"/>
+		<tocitem target="calcgearingtax" text="Tax Effectiveness"  image="topic"/>
+		<tocitem target="calcgearingcharges" text="Charges"  image="topic"/>
+		<tocitem target="calcgearingprojection" text="Gearing Projections"  image="topic"/>
+		<tocitem target="calcgearinggraph" text="Understanding the Gearing Graph"  image="topic"/>
+		<tocitem target="calcgearingtable" text="Understanding the Gearing Table"  image="topic"/>
+	</tocitem>
+
+	<tocitem target="calcpayg" text="PAYG Calculator"  image="chapter">
+		<tocitem target="calcpaygincome" text="Income"  image="topic"/>
+	</tocitem>
+
+</tocitem>
+<tocitem target="reports" text="Reports" image="chapter">
+	<tocitem target="reports" text="Reports from Client Screens"  image="topic"/>
+</tocitem>
+
+</toc>

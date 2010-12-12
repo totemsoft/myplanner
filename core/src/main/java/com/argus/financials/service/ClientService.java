@@ -1,0 +1,67 @@
+/*
+ * ClientService.java
+ *
+ * Created on 24 July 2001, 13:10
+ */
+
+package com.argus.financials.service;
+
+/**
+ * 
+ * @author valeri chibaev
+ * @version
+ */
+
+import com.argus.financials.strategy.StrategyGroup;
+
+public interface ClientService extends PersonService {
+
+    public void setOwnerPrimaryKey(Object value) throws ServiceException;
+
+    public boolean validatePassword(String password) throws ServiceException;
+
+    public boolean isActive() throws com.argus.financials.service.ServiceException;
+
+    public void setActive(boolean value) throws com.argus.financials.service.ServiceException;
+
+    public java.util.Date getFeeDate() throws com.argus.financials.service.ServiceException;
+
+    public void setFeeDate(java.util.Date value)
+            throws com.argus.financials.service.ServiceException;
+
+    public java.util.Date getReviewDate() throws com.argus.financials.service.ServiceException;
+
+    public void setReviewDate(java.util.Date value)
+            throws com.argus.financials.service.ServiceException;
+
+    public PersonService getPartner(boolean create) throws ServiceException;
+
+    public java.util.Collection getStrategies() throws com.argus.financials.service.ServiceException;
+
+    public void storeStrategy(StrategyGroup strategy) throws ServiceException;
+
+    public void deleteStrategy(StrategyGroup strategy) throws ServiceException;
+
+    public void implementStrategy(StrategyGroup strategy)
+            throws com.argus.financials.service.ServiceException;
+
+    public void rollbackStrategy(StrategyGroup strategy)
+            throws com.argus.financials.service.ServiceException;
+
+    public java.util.Collection getCategories() throws ServiceException;
+
+    public java.util.Collection getSelectedCategories() throws ServiceException;
+
+    public void addCategory(com.argus.util.ReferenceCode category)
+            throws ServiceException;
+
+    public void updateCategory(com.argus.util.ReferenceCode category)
+            throws ServiceException;
+
+    public boolean removeCategory(com.argus.util.ReferenceCode category)
+            throws ServiceException;
+
+    public void addSelectedCategories(java.util.Vector selectedCategories)
+            throws ServiceException;
+
+}

@@ -1,0 +1,142 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
+<!DOCTYPE map
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/map_1_0.dtd">
+
+<map version="1.0">
+
+<mapID target="toplevelfolder" url="images/toplevel.gif" />
+<mapID target="chapter" url="images/chapTopic.gif" />
+<mapID target="topic" url="images/topic.gif" />
+<mapID target="tocspacer1" url="images/tocspacer1.gif" />
+<mapID target="openbook" url="images/openbook.gif" />
+
+<mapID target="dummy" url="html/abc.htm" />
+
+<!-- root -->
+
+<mapID target="intro"  url="html/FinancialPlannerHelp.htm#introduction" />
+<mapID target="keymodules" url="html/FinancialPlannerHelp.htm#KeyModulesList" />
+<mapID target="calc" url="html/FinancialPlannerHelp.htm#calc" />
+<mapID target="reports" url="html/FinancialPlannerHelp.htm#reports" />
+
+
+<!-- key modules -->
+<mapID target="keymodules.clientdata" url="html/FinancialPlannerHelp.htm#keymodulesclientdata" />
+<mapID target="keymodules.riskprofile" url="html/FinancialPlannerHelp.htm#keymodulesriskprofile" />
+<mapID target="keymodules.analyses" url="html/FinancialPlannerHelp.htm#keymodulesanalyses" />
+<mapID target="keymodules.stragtegy" url="html/FinancialPlannerHelp.htm#keymodulesstragtegy" />
+<mapID target="keymodules.plangenerator" url="html/FinancialPlannerHelp.htm#keymodulesplangenerator" />
+<mapID target="keymodules.tools" url="html/FinancialPlannerHelp.htm#keymodulestools" />
+<mapID target="keymodules.additionalmodules" url="html/FinancialPlannerHelp.htm#keymodulesadditionalmodules" />
+
+<!-- getting started -->
+<mapID target="gettingstarted" url="html/FinancialPlannerHelp.htm#gettingstarted" />
+<mapID target="step1" url="html/FinancialPlannerHelp.htm#step1" />
+<mapID target="step2" url="html/FinancialPlannerHelp.htm#step2" />
+<mapID target="step3" url="html/FinancialPlannerHelp.htm#step3" />
+<mapID target="step4" url="html/FinancialPlannerHelp.htm#step4" />
+<mapID target="noteondatacollection" url="html/FinancialPlannerHelp.htm#noteondatacollection" />
+<!-- Step1 -->
+<mapID target="step1clientdetails" url="html/FinancialPlannerHelp.htm#step1clientdetails" />
+<mapID target="step1riskiso" url="html/FinancialPlannerHelp.htm#step1riskiso" />
+<mapID target="step1finansials" url="html/FinancialPlannerHelp.htm#step1finansials" />
+<mapID target="step1cashflow" url="html/FinancialPlannerHelp.htm#step1cashflow" />
+
+<!-- Client Details -->
+
+<mapID target="clientdetailsbasic" url="html/FinancialPlannerHelp.htm#clientdetailsbasic" />
+<mapID target="clientdetailsconacts" url="html/FinancialPlannerHelp.htm#clientdetailsconacts" />
+<mapID target="clientdetailsdependents" url="html/FinancialPlannerHelp.htm#clientdetailsdependents" />
+<mapID target="clientdetailsadvisors" url="html/FinancialPlannerHelp.htm#clientdetailsadvisors" />
+<mapID target="clientdetailgoals" url="html/FinancialPlannerHelp.htm#clientdetailgoals" />
+
+<!-- Financials -->
+
+<mapID target="finansialsassets" url="html/FinancialPlannerHelp.htm#finansialsassets" />
+<mapID target="finansialscash" url="html/FinancialPlannerHelp.htm#finansialscash" />
+<mapID target="finansialsimvestment" url="html/FinancialPlannerHelp.htm#finansialsimvestment" />
+<mapID target="finansialsincomestream" url="html/FinancialPlannerHelp.htm#finansialsincomestream" />
+<mapID target="finansialssuperannuation" url="html/FinancialPlannerHelp.htm#finansialssuperannuation" />
+<mapID target="finansialspesonal" url="html/FinancialPlannerHelp.htm#finansialspesonal" />
+<mapID target="finansialsliability" url="html/FinancialPlannerHelp.htm#finansialsliability" />
+
+<!-- Cash flow -->
+
+<mapID target="cashflowincome" url="html/FinancialPlannerHelp.htm#cashflowincome" />
+<mapID target="cashflowoutgoins" url="html/FinancialPlannerHelp.htm#cashflowoutgoins" />
+<mapID target="cashflowtaxoffsets" url="html/FinancialPlannerHelp.htm#cashflowtaxoffsets" />
+
+<!-- Step2 -->
+
+<mapID target="step2wealth" url="html/FinancialPlannerHelp.htm#step2wealth" />
+<mapID target="step2tax" url="html/FinancialPlannerHelp.htm#step2tax" />
+<mapID target="step2cashflow" url="html/FinancialPlannerHelp.htm#step2cashflow" />
+<mapID target="step2assetallocation" url="html/FinancialPlannerHelp.htm#step2assetallocation" />
+
+<!-- Wealth analyses-->
+
+<mapID target="wealthassumptions" url="html/FinancialPlannerHelp.htm#wealthassumptions" />
+<mapID target="wealthview" url="html/FinancialPlannerHelp.htm#wealthview" />
+
+<!-- Cash flow-->
+
+<mapID target="cashflowssumptions" url="html/FinancialPlannerHelp.htm#cashflowssumptions" />
+
+<!-- asset allocation-->
+
+<mapID target="assetallocationediting" url="html/FinancialPlannerHelp.htm#assetallocationediting" />
+
+<!-- Step 3  -->
+<mapID target="step3strategycreator" url="html/FinancialPlannerHelp.htm#step3strategycreator" />
+<mapID target="step3newstrategy" url="html/FinancialPlannerHelp.htm#step3newstrategy" />
+<mapID target="step3source" url="html/FinancialPlannerHelp.htm#step3source" />
+<mapID target="step3debt" url="html/FinancialPlannerHelp.htm#step3debt" />
+<mapID target="step3investment" url="html/FinancialPlannerHelp.htm#step3investment" />
+
+<!-- New Startegy -->
+
+<mapID target="newstrategystep1" url="html/FinancialPlannerHelp.htm#newstrategystep1" />
+	
+<!-- Calculators -->
+<mapID target="calcassumptions" url="html/FinancialPlannerHelp.htm#calcassumptions" />
+<mapID target="calcap" url="html/FinancialPlannerHelp.htm#calcap" />
+<mapID target="calcetp" url="html/FinancialPlannerHelp.htm#calcetp" />
+<mapID target="calcgearing" url="html/FinancialPlannerHelp.htm#calcgearing" />
+<mapID target="calcpayg" url="html/FinancialPlannerHelp.htm#calcpayg" />
+
+<!-- Calculators assumptions-->
+
+<mapID target="assumptionsinvstartegy" url="html/FinancialPlannerHelp.htm#assumptionsinvstartegy" />
+<mapID target="assumptionscompundernings" url="html/FinancialPlannerHelp.htm#assumptionscompundernings" />
+
+<!-- Allocated pension -->
+
+<mapID target="calcapclientdetails" url="html/FinancialPlannerHelp.htm#calcapclientdetails" />
+<mapID target="calcappensionoptions" url="html/FinancialPlannerHelp.htm#calcappensionoptions" />
+<mapID target="calcapetp" url="html/FinancialPlannerHelp.htm#calcapetp" />
+<mapID target="calcapprojection" url="html/FinancialPlannerHelp.htm#calcapprojection" />
+<mapID target="calcapprojectiontab" url="html/FinancialPlannerHelp.htm#calcapprojectiontab" />
+
+<!-- Investment gearing -->
+
+<mapID target="calcgearingcontributions" url="html/FinancialPlannerHelp.htm#calcgearingcontributions" />
+<mapID target="calcgearingloan" url="html/FinancialPlannerHelp.htm#calcgearingloan" />
+<mapID target="calcgearinginvestment" url="html/FinancialPlannerHelp.htm#calcgearinginvestment" />
+<mapID target="calcgearingtax" url="html/FinancialPlannerHelp.htm#calcgearingtax" />
+<mapID target="calcgearingcharges" url="html/FinancialPlannerHelp.htm#calcgearingcharges" />
+<mapID target="calcgearingprojection" url="html/FinancialPlannerHelp.htm#calcgearingprojection" />
+<mapID target="calcgearinggraph" url="html/FinancialPlannerHelp.htm#calcgearinggraph" />
+<mapID target="calcgearingtable" url="html/FinancialPlannerHelp.htm#calcgearingtable" />
+
+<!-- PAYG -->
+
+<mapID target="calcpaygincome" url="html/FinancialPlannerHelp.htm#calcpaygincome" />
+
+
+<!-- Reports -->
+
+<mapID target="reportsclientscreen" url="html/FinancialPlannerHelp.htm#reportsclientscreen" />
+
+
+</map>

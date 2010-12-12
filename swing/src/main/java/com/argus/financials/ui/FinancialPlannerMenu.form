@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.1">
+  <NonVisualComponents>
+    <Menu class="javax.swing.JMenuBar" name="jMenuBar">
+
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="this;"/>
+      </AuxValues>
+      <SubComponents>
+        <Menu class="javax.swing.JMenu" name="jMenuFile">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="File"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemExport">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Export"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemImport">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Import"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JSeparator" name="jSeparatorFileExit">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemExit">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Exit"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenuClientManagement">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Client Management"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSearchClients">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Search Clients"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemAddClient">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Add New Client"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenuClientData">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Client Details"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemClientDetails">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Client Details"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemPartnerDetails">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Partner Details"/>
+              </Properties>
+            </MenuItem>
+            <Menu class="javax.swing.JMenu" name="jMenuRiskProfile">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Risk Evaluation/ISO..."/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemClientISO">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Client"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemPartnerISO">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Partner"/>
+                    <Property name="actionCommand" type="java.lang.String" value="Risk Evaluation/ISO.. (Partner)"/>
+                  </Properties>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemFinancials">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Financials"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenuStrategyDevelopment">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Strategy Development"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemStrategyCreator">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Strategy Creator"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenuCalculators">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Calculators"/>
+          </Properties>
+          <SubComponents>
+            <Menu class="javax.swing.JMenu" name="jMenuQuickView">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Quick View"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemQuickViewNew">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="New"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JSeparator" name="jSeparatorQuickViewNew">
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="jMenuETP">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="ETP &amp; Rollover"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemETPNew">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="New"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JSeparator" name="jSeparatorETPNew">
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="jMenuAP">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Allocated Pension"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemAPNew">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="New"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JSeparator" name="jSeparatorAPNew">
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="jMenuGearing">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Investment Gearing"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemGearingNew">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="New"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JSeparator" name="jSeparatorGearingNew">
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="jMenuCentrelinkCalculator">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Centrelink Calculator"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemCentrelinkCalculatorNew">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="New"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JSeparator" name="jSeparatorCentrelinkCalculatorNew">
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="jMenuLoans">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Loan &amp; Mortgage"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemLoansNew">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="New"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JSeparator" name="jSeparatorLoansNew">
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+            <Menu class="javax.swing.JMenu" name="jMenuTax">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="PAYG"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemTaxNew">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="New"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JSeparator" name="jSeparatorTaxNew">
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenuPlan">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Plan Writer"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemPlanWriter">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Plan Writer"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemPlanWriterTemplate">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Template Editor"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenuTools">
+          <Properties>
+            <Property name="toolTipText" type="java.lang.String" value="Utilities"/>
+            <Property name="text" type="java.lang.String" value="Tools"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemUpdateRefData">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Update Reference Data"/>
+              </Properties>
+            </MenuItem>
+            <Menu class="javax.swing.JMenu" name="jMenuMaintenance">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Maintenance"/>
+              </Properties>
+              <SubComponents>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemMaintainReferenceData">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Reference Data"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JSeparator" name="jSeparator1">
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSwapAssets">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Swap Assets"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemRecoverAssets">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Recover Assets"/>
+                  </Properties>
+                </MenuItem>
+                <MenuItem class="javax.swing.JMenuItem" name="jMenuItemRemoveAssets">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Remove Assets"/>
+                  </Properties>
+                </MenuItem>
+              </SubComponents>
+            </Menu>
+            <MenuItem class="javax.swing.JSeparator" name="jSeparatorSystemErr">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemSystemErr">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="View System Log File"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JSeparator" name="jSeparatorLookAndFeel">
+            </MenuItem>
+            <Menu class="javax.swing.JMenu" name="jMenuLookAndFeel">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Look And Feel"/>
+                <Property name="text" type="java.lang.String" value="Look And Feel"/>
+              </Properties>
+            </Menu>
+            <MenuItem class="javax.swing.JSeparator" name="jSeparatorMailMerge">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemMailMerge">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Mail Merge"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JSeparator" name="jSeparatorGenerateDataSource">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemGenerateDataSource">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Generate Data Source"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="jMenuHelp">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Help"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemContentsIndex">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Contents Index"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JSeparator" name="jSeparatorFeedback">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemDownloadUpdate">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="Download Update"/>
+                <Property name="text" type="java.lang.String" value="Download Update"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemFeedback">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="E-mail your feedback to Fiducian"/>
+                <Property name="text" type="java.lang.String" value="Feedback"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemWebSite">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="http:\\www.fiducian.com.au"/>
+                <Property name="text" type="java.lang.String" value="Fiducian Web Site"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JSeparator" name="jSeparatorAbout">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMenuItemAbout">
+              <Properties>
+                <Property name="toolTipText" type="java.lang.String" value="About"/>
+                <Property name="text" type="java.lang.String" value="About"/>
+              </Properties>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+      </SubComponents>
+    </Menu>
+  </NonVisualComponents>
+  <Properties>
+    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[600, 23]"/>
+    </Property>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,0,112,0,0,2,71"/>
+  </SyntheticProperties>
+
+  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+</Form>

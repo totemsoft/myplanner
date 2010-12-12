@@ -1,0 +1,87 @@
+
+h1  {
+	font-weight: bold;
+	color: White;
+	margin-top: 10;
+	margin-bottom: 10;
+	font : 22pt Times New Roman;
+	background : Gray;
+	padding : 10pt;
+	display : block;
+}
+
+
+
+h2 {
+	font-weight: bold;
+	margin-top: 10;
+	margin-bottom: 10;
+	font : bold 13pt Arial;
+	background : Silver;
+	padding : 5pt;
+	display : block;
+	color : Navy;
+}
+
+h3 {
+	margin-top: 10;
+	margin-bottom: 10;
+	font : bold 12pt Arial;
+	background : #FFFFE1;
+	padding : 3pt;
+	display : block;
+	color : Navy;
+}
+
+h4 {
+	margin-top: 10;
+	margin-bottom: 10;
+	font : bold italic 11pt Arial;
+	background : transparent;
+	padding : 3pt;
+	color : Navy;
+}
+
+
+p   {
+	margin-top: 1;
+	margin-bottom: 0;
+	font : 12pt Arial;
+	margin : 0 0 0 0;
+	margin-left :5;
+	margin-right : 5;
+	padding : 0 0 0 0;
+	padding-bottom : 0;
+	padding-left : 0;
+	padding-right : 0;
+	padding-top : 0;
+	text-align : left;
+}
+
+
+ul {
+	margin-top: 0;
+	margin-bottom: 0;
+	margin-left: 30;
+	bullet-gap: 30;
+	list-style-image: none;
+	list-style-type : disc;
+	font : 12pt Arial;
+}
+
+
+a {
+	font : 12pt Arial;
+}
+
+table {
+	margin-top: 10;
+	margin-bottom: 5;
+	margin-left: 5;
+	margin-right: 5;
+	border : thin Black;
+}
+
+td {
+	border: none;
+}

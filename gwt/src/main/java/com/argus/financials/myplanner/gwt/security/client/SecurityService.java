@@ -1,9 +1,7 @@
 package com.argus.financials.myplanner.gwt.security.client;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 @RemoteServiceRelativePath("SecurityService")
 public interface SecurityService extends RemoteService
@@ -16,10 +14,7 @@ public interface SecurityService extends RemoteService
      * @return error message or null if success
      */
     String login(String userName, String userPassword);
-
-    /**
-     * Utility class for simplifying access to the instance of async service.
-     */
+/*
     public static class Util
     {
         private static SecurityServiceAsync instance;
@@ -35,5 +30,5 @@ public interface SecurityService extends RemoteService
             return instance;
         }
     }
-
+*/
 }

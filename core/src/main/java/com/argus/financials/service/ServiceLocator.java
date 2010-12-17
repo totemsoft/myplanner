@@ -65,7 +65,6 @@ public final class ServiceLocator {
             Integer userPersonID = (Integer) userPerson.getPrimaryKey();
         } catch (Exception e) {
             lastError = e.getMessage();
-            e.printStackTrace();
             throw e;
         }
     }

@@ -58,19 +58,23 @@
 
     <build>
         <plugins>
-	        <plugin>
-		        <groupId>org.codehaus.mojo</groupId>
-		        <artifactId>gwt-maven-plugin</artifactId>
-		        <executions>
-		            <execution>
-			            <goals>
-			                <goal>compile</goal>
-			                <goal>generateAsync</goal>
-			                <goal>test</goal>
-			            </goals>
-		            </execution>
-		        </executions>
-	        </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <!--extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs-->
+                            <servicePattern>**/gwt/**/*Service.java</servicePattern>
+                            <generateDirectory>${basedir}/src/main/java</generateDirectory>
+                        </configuration>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>generateAsync</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <finalName>myplanner</finalName>
     </build>

@@ -16,6 +16,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -70,6 +72,11 @@ public class Login implements EntryPoint, ClickHandler {
 		grid.setWidget(1, 1, password);
 		
 		Button loginButton = new Button("New button");
+		loginButton.addMouseOverHandler(new MouseOverHandler() {
+		    public void onMouseOver(MouseOverEvent event) {
+		        Window.alert("onMouseOver!");
+		    }
+		});
 		loginButton.addClickHandler(this);
 		grid.setWidget(2, 1, loginButton);
 		loginButton.setText("Login");
@@ -80,7 +87,7 @@ public class Login implements EntryPoint, ClickHandler {
      */
     public void onClick(ClickEvent event)
     {
-        SecurityService.Util.getInstance().login(login.getText(), password.getText(), new AsyncCallback<String>()
+        SecurityServiceAsync.Util.getInstance().login(login.getText(), password.getText(), new AsyncCallback<String>()
         {
             /* (non-Javadoc)
              * @see com.google.gwt.user.client.rpc.AsyncCallback#onFailure(java.lang.Throwable)
@@ -96,7 +103,7 @@ public class Login implements EntryPoint, ClickHandler {
             {
                 if (result == null)
                 {
-                    Window.alert("User login success!"); 
+                    Window.alert("User login success!");
                 }
                 else
                 {

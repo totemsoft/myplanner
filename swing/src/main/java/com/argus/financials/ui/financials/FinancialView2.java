@@ -162,7 +162,7 @@ public class FinancialView2 extends BaseView implements IReset {
     }
 
     protected ReportFields getReportData(PersonService person)
-            throws java.io.IOException {
+            throws Exception {
 
         // new reporting ( using pre-defined map(field,value) )
         ReportFields reportFields = ReportFields.getInstance();

@@ -342,10 +342,10 @@ public class WealthView extends com.argus.financials.ui.GraphTableView
     /***************************************************************************
      * 
      **************************************************************************/
-    public void saveView(PersonService person) throws java.io.IOException {
+    public void saveView(PersonService person) throws Exception {
     }
 
-    public void updateView(PersonService person) throws java.io.IOException {
+    public void updateView(PersonService person) throws Exception {
         updateView(person, person.getFinancials(), ReportFields.CURRENT_PREFIX);
     }
 
@@ -364,7 +364,7 @@ public class WealthView extends com.argus.financials.ui.GraphTableView
     }
 
     protected ReportFields getReportData(PersonService person)
-            throws java.io.IOException {
+            throws Exception {
 
         if (person == null)
             return null;

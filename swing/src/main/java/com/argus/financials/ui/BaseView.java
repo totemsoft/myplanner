@@ -12,7 +12,6 @@ package com.argus.financials.ui;
  */
 
 import java.awt.Cursor;
-import java.io.IOException;
 
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -303,7 +302,7 @@ public abstract class BaseView extends javax.swing.JPanel implements
     } // user will be propted for report name
 
     protected abstract ReportFields getReportData(PersonService person)
-            throws java.io.IOException;
+            throws Exception;
 
     protected PersonService getPerson() throws com.argus.financials.service.ServiceException {
         return ServiceLocator.getInstance().getClientPerson();
@@ -318,18 +317,19 @@ public abstract class BaseView extends javax.swing.JPanel implements
                     getReportData(getPerson()),
                     getDefaultReport());
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new PlanWriterException(e);
         }
 
     }
 
-    /***************************************************************************
+    /**
+     * @throws Exception *************************************************************************
      * 
      **************************************************************************/
-    public abstract void updateView(PersonService person) throws java.io.IOException;
+    public abstract void updateView(PersonService person) throws Exception;
 
-    public abstract void saveView(PersonService person) throws java.io.IOException;
+    public abstract void saveView(PersonService person) throws Exception;
 
     public static int closeDialog(com.argus.financials.swing.ICloseDialog view) {
 

@@ -55,7 +55,7 @@ public class PlanWriterData
      **************************************************************************/
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields)
-            throws java.io.IOException {
+            throws Exception {
         initializeReportData(reportFields,
                 com.argus.financials.service.ServiceLocator.getInstance()
                         .getClientPerson());
@@ -64,7 +64,7 @@ public class PlanWriterData
     public void initializeReportData(
             ReportFields reportFields,
             PersonService person)
-            throws java.io.IOException {
+            throws Exception {
 
         if (person != null)
             reportFields.initialize(person);

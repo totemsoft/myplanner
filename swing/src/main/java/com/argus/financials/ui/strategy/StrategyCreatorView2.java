@@ -84,7 +84,7 @@ public class StrategyCreatorView2 extends BaseView implements
         try {
             view.reset();
             view.updateView(ServiceLocator.getInstance().getClientPerson());
-        } catch (java.io.IOException e) {
+        } catch (Exception e) {
             System.err.println(e.getMessage());
             return;
         } finally {
@@ -118,7 +118,7 @@ public class StrategyCreatorView2 extends BaseView implements
     public void doSave(java.awt.event.ActionEvent evt) {
         try {
             saveView(null);
-        } catch (java.io.IOException e) {
+        } catch (Exception e) {
             e.printStackTrace(System.err);
         }
     }
@@ -149,7 +149,7 @@ public class StrategyCreatorView2 extends BaseView implements
     /***************************************************************************
      * 
      **************************************************************************/
-    public void updateView(PersonService person) throws java.io.IOException {
+    public void updateView(PersonService person) throws Exception {
 
         if (person == null)
             person = ServiceLocator.getInstance().getClientPerson();
@@ -158,7 +158,7 @@ public class StrategyCreatorView2 extends BaseView implements
 
     }
 
-    public void saveView(PersonService person) throws java.io.IOException {
+    public void saveView(PersonService person) throws Exception {
 
         if (person == null)
             person = ServiceLocator.getInstance().getClientPerson();
@@ -175,7 +175,7 @@ public class StrategyCreatorView2 extends BaseView implements
     }
 
     protected ReportFields getReportData(PersonService person)
-            throws java.io.IOException {
+            throws Exception {
 
         if (person == null)
             return null;

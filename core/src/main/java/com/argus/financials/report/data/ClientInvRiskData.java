@@ -28,7 +28,7 @@ public class ClientInvRiskData extends ClientPersonData {
     }
 
     public void init(com.argus.financials.service.PersonService person)
-            throws java.io.IOException {
+            throws Exception {
         super.init(person);
 
         clientData.init(person);
@@ -48,17 +48,17 @@ public class ClientInvRiskData extends ClientPersonData {
     }
 
     public void init(com.argus.financials.etc.Survey survey)
-            throws java.io.IOException {
+            throws Exception {
         clientData.init(survey);
     }
 
     public void initPartner(com.argus.financials.etc.Survey survey)
-            throws java.io.IOException {
+            throws Exception {
         partnerData.init(survey);
     }
 
     public void init(Integer investmentStrategyCodeID)
-            throws java.io.IOException {
+            throws Exception {
         clientData.init(investmentStrategyCodeID);
     }
 }

@@ -1210,7 +1210,7 @@ public class GearingView2 extends javax.swing.JPanel implements ActionEventID,
             String title = model == null ? view.getDefaultTitle() : model.getTitle();
             SwingUtil.setTitle(view, title);
             SwingUtil.setVisible(view, true);
-        } catch (java.io.IOException e) {
+        } catch (Exception e) {
             e.printStackTrace(System.err);
             view = null;
         }
@@ -1514,7 +1514,7 @@ public class GearingView2 extends javax.swing.JPanel implements ActionEventID,
     /***************************************************************************
      * 
      **************************************************************************/
-    public void updateView(String modelTitle) throws java.io.IOException {
+    public void updateView(String modelTitle) throws Exception {
 
         PersonService person = ServiceLocator.getInstance().getClientPerson();
         Model m = person == null ? null : person.getModel(getDefaultType(),
@@ -1529,7 +1529,7 @@ public class GearingView2 extends javax.swing.JPanel implements ActionEventID,
 
     }
 
-    public void updateView(Model m) throws java.io.IOException {
+    public void updateView(Model m) throws Exception {
 
         // saveView();
 
@@ -1622,7 +1622,7 @@ public class GearingView2 extends javax.swing.JPanel implements ActionEventID,
 
     }
 
-    public void saveView(PersonService person) throws java.io.IOException {
+    public void saveView(PersonService person) throws Exception {
 
         java.io.StringWriter w = new java.io.StringWriter();
         java.io.BufferedWriter output = new java.io.BufferedWriter(w);
@@ -1639,13 +1639,13 @@ public class GearingView2 extends javax.swing.JPanel implements ActionEventID,
             if (w != null) {
                 try {
                     w.close();
-                } catch (java.io.IOException e) { /* ignore by now */
+                } catch (Exception e) { /* ignore by now */
                 }
             }
             if (output != null) {
                 try {
                     output.close();
-                } catch (java.io.IOException e) { /* ignore by now */
+                } catch (Exception e) { /* ignore by now */
                 }
             }
         }
@@ -1863,7 +1863,7 @@ public class GearingView2 extends javax.swing.JPanel implements ActionEventID,
     }
 
     protected ReportFields getReportData(PersonService person)
-            throws java.io.IOException {
+            throws Exception {
 
         ReportFields reportFields = ReportFields.getInstance();
         gCalc.initializeReportData(reportFields);
@@ -1880,7 +1880,7 @@ public class GearingView2 extends javax.swing.JPanel implements ActionEventID,
                     getReportData(ServiceLocator.getInstance().getClientPerson()),
                     getDefaultReport());
 
-        } catch (java.io.IOException e) {
+        } catch (Exception e) {
             e.printStackTrace(System.err);
         }
 

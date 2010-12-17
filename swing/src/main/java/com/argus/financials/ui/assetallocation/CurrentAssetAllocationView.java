@@ -778,7 +778,7 @@ public class CurrentAssetAllocationView extends AssetAllocationView implements
         return WordSettings.getInstance().getAssetAllocationCurrentReport();
     }
 
-    public ReportFields getReportData(PersonService person) throws java.io.IOException {
+    public ReportFields getReportData(PersonService person) throws Exception {
 
         ReportFields reportFields = ReportFields.getInstance();
         _data.initializeReportData(reportFields);

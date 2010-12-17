@@ -1606,7 +1606,7 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
     }
 
     protected ReportFields getReportData(PersonService person)
-            throws java.io.IOException {
+            throws Exception {
 
         // if ( person == null ) return null;
 
@@ -1625,7 +1625,7 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
                     getReportData(ServiceLocator.getInstance().getClientPerson()),
                     getDefaultReport());
 
-        } catch (java.io.IOException e) {
+        } catch (Exception e) {
             e.printStackTrace(System.err);
         }
 
@@ -1665,7 +1665,7 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
             String title = model == null ? view.getDefaultTitle() : model.getTitle();
             SwingUtil.setTitle(view, title);
             SwingUtil.setVisible(view, true);
-        } catch (java.io.IOException e) {
+        } catch (Exception e) {
             e.printStackTrace(System.err);
             view = null;
         }
@@ -2068,7 +2068,7 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
         jPanelControl.setVisible(true);
     }
 
-    public void updateView(String modelTitle) throws java.io.IOException {
+    public void updateView(String modelTitle) throws Exception {
         jTextFieldClientName.requestFocus();
         PersonService person = ServiceLocator.getInstance().getClientPerson();
         Model m = person == null ? null : person.getModel(getDefaultType(),
@@ -2084,7 +2084,7 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
 
     }
 
-    public void updateView(Model m) throws java.io.IOException {
+    public void updateView(Model m) throws Exception {
 
         // doClear(null);
 
@@ -2186,19 +2186,19 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
 
             getModel().setData(w.toString());
 
-        } catch (java.io.IOException e) {
+        } catch (Exception e) {
             throw new ServiceException(e);
         } finally {
             if (w != null) {
                 try {
                     w.close();
-                } catch (java.io.IOException e) { /* ignore by now */
+                } catch (Exception e) { /* ignore by now */
                 }
             }
             if (output != null) {
                 try {
                     output.close();
-                } catch (java.io.IOException e) { /* ignore by now */
+                } catch (Exception e) { /* ignore by now */
                 }
             }
         }

@@ -49,7 +49,7 @@ public class ClientDetailsData extends ClientPersonData {
             public String supportToAge = STRING_EMPTY;
         }
 
-        public void init(PersonService person) throws java.io.IOException {
+        public void init(PersonService person) throws Exception {
 
             // for client's dependents
             Map details = person.getDependents();
@@ -153,7 +153,7 @@ public class ClientDetailsData extends ClientPersonData {
     /**
      * create and initialize data
      */
-    public void init(PersonService person) throws java.io.IOException {
+    public void init(PersonService person) throws Exception {
         super.init(person);
 
         dependents.init(person);

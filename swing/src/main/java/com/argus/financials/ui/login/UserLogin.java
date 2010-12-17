@@ -13,6 +13,7 @@ package com.argus.financials.ui.login;
  */
 
 import com.argus.crypto.Digest;
+import com.argus.financials.code.ReferenceDataLoader;
 import com.argus.financials.config.FPSLocale;
 import com.argus.financials.config.PropertySourceManager;
 import com.argus.financials.service.ServiceLocator;
@@ -60,9 +61,8 @@ public final class UserLogin extends javax.swing.JPanel implements
         jCheckBoxDisplayOnDesktop.setSelected(l.isDisplayOnDesktop());
         jCheckBoxDisplayOnDesktop.setVisible(allowDisplayOnDesktop);
 
-        setServerURL(l.getServerURL());
-        jLabelServerName.setVisible(!l.isLocalServer());
-        jTextFieldServerName.setVisible(jLabelServerName.isVisible());
+        jLabelServerName.setVisible(false);
+        jTextFieldServerName.setVisible(false);
 
         setUserName(l.getLastUserName());
 
@@ -349,14 +349,6 @@ public final class UserLogin extends javax.swing.JPanel implements
         return jButtonOK;
     }
 
-    public String getServerURL() {
-        return jTextFieldServerName.getText();
-    }
-
-    public void setServerURL(String value) {
-        jTextFieldServerName.setText(value);
-    }
-
     public String getUserName() {
         return jTextFieldUserID.getText();
     }
@@ -379,23 +371,24 @@ public final class UserLogin extends javax.swing.JPanel implements
      * do login/logout on rmi server
      */
     public boolean login() {
-
-        if (ServiceLocator.getInstance().login(getServerURL(), getUserName(),
-                getUserPassword())) { // already digested
-
+        try
+        {
+            ServiceLocator.getInstance().login(getUserName(), getUserPassword());
             String msg = "<<<<<<<<<< LOGIN for user: "
-                    + FPSLocale.getUserName() + ", "
-                    + new java.util.Date();
+                + FPSLocale.getUserName() + ", "
+                + new java.util.Date();
             System.out.println(msg);
             System.err.println(msg);
-
+            // pre-load ALL referewnce codes
+            Thread t = new Thread(new ReferenceDataLoader(), "ReferenceDataLoader");
+            t.start();
             return true;
-
         }
-
-        lastError = ServiceLocator.getInstance().getLastError();
-        return false;
-
+        catch (Exception e)
+        {
+            lastError = ServiceLocator.getInstance().getLastError();
+            return false;
+        }
     }
 
     public void logout() {

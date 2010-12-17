@@ -2058,7 +2058,7 @@ public class ETPRolloverViewNew extends javax.swing.JPanel implements
                 .getETPReport();
     }
 
-    public ReportFields getReportData(PersonService person) throws java.io.IOException {
+    public ReportFields getReportData(PersonService person) throws Exception {
 
         // if ( person == null || !etpCalc.isReady() ) return null;
 
@@ -2077,7 +2077,7 @@ public class ETPRolloverViewNew extends javax.swing.JPanel implements
                     getReportData(ServiceLocator.getInstance().getClientPerson()),
                     getDefaultReport());
 
-        } catch (java.io.IOException e) {
+        } catch (Exception e) {
             e.printStackTrace(System.err);
         }
 
@@ -2720,7 +2720,7 @@ public class ETPRolloverViewNew extends javax.swing.JPanel implements
             String title = model == null ? view.getDefaultTitle() : model.getTitle();
             SwingUtil.setTitle(view, title);
             SwingUtil.setVisible(view, true);
-        } catch (java.io.IOException e) {
+        } catch (Exception e) {
             e.printStackTrace(System.err); // ( e.getMessage() );
             view = null;
         }
@@ -3084,7 +3084,7 @@ public class ETPRolloverViewNew extends javax.swing.JPanel implements
         return null;
     }
 
-    public void updateView(String modelTitle) throws java.io.IOException {
+    public void updateView(String modelTitle) throws Exception {
 
         PersonService person = ServiceLocator.getInstance().getClientPerson();
         Model m = person == null ? null : person.getModel(getDefaultType(),
@@ -3100,7 +3100,7 @@ public class ETPRolloverViewNew extends javax.swing.JPanel implements
 
     }
 
-    public void updateView(Model m) throws java.io.IOException {
+    public void updateView(Model m) throws Exception {
 
         // saveView();
 
@@ -3241,19 +3241,19 @@ public class ETPRolloverViewNew extends javax.swing.JPanel implements
 
             getModel().setData(w.toString());
 
-        } catch (java.io.IOException e) {
+        } catch (Exception e) {
             throw new ServiceException(e);
         } finally {
             if (w != null) {
                 try {
                     w.close();
-                } catch (java.io.IOException e) { /* ignore by now */
+                } catch (Exception e) { /* ignore by now */
                 }
             }
             if (output != null) {
                 try {
                     output.close();
-                } catch (java.io.IOException e) { /* ignore by now */
+                } catch (Exception e) { /* ignore by now */
                 }
             }
         }

@@ -17,7 +17,6 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 
 import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
@@ -1057,10 +1056,8 @@ public class GraphView extends javax.swing.JPanel implements IGraphView {
             // if ( fileName.indexOf( '.' ) <= 0 )
             // fileName += "." + IOUtils.JPG;
             saveChart(fileName);
-
             return fileName;
-
-        } catch (java.io.IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -1070,18 +1067,18 @@ public class GraphView extends javax.swing.JPanel implements IGraphView {
     /* (non-Javadoc)
      * @see com.argus.financials.ui.IGraphView#saveChart(java.lang.String)
      */
-    public void saveChart(String fileName) throws java.io.IOException {
+    public void saveChart(String fileName) throws Exception {
         saveChart(new java.io.File(fileName));
     }
 
     /* (non-Javadoc)
      * @see com.argus.financials.ui.IGraphView#saveChart(java.io.File)
      */
-    public void saveChart(java.io.File file) throws java.io.IOException {
+    public void saveChart(java.io.File file) throws Exception {
         try {
             ImageUtils.encodeAsJPEG(chart, file);
         } catch (Exception e) {
-            throw new java.io.IOException(e.getMessage());
+            throw new Exception(e.getMessage());
         }
     }
 
@@ -1089,24 +1086,24 @@ public class GraphView extends javax.swing.JPanel implements IGraphView {
     /* (non-Javadoc)
      * @see com.argus.financials.ui.IGraphView#saveChart2(java.lang.String)
      */
-    public void saveChart2(String fileName) throws java.io.IOException {
+    public void saveChart2(String fileName) throws Exception {
         saveChart2(new java.io.File(fileName));
     }
 
     /* (non-Javadoc)
      * @see com.argus.financials.ui.IGraphView#saveChart2(java.io.File)
      */
-    public void saveChart2(java.io.File file) throws java.io.IOException {
-        BufferedImage image = (BufferedImage) chart
-                .snapshot(BufferedImage.SCALE_SMOOTH);
-        ImageUtils.encodeAsJPEG(image, file);
+    public void saveChart2(java.io.File file) throws Exception {
+//        BufferedImage image = (BufferedImage) chart.snapshot(BufferedImage.SCALE_SMOOTH);
+//        ImageUtils.encodeAsJPEG(image, file);
+        ImageUtils.encodeAsJPEG(chart, file);
     }
 
     // prepare chart for save (set optimal size, background color, etc.)
     /* (non-Javadoc)
      * @see com.argus.io.Encoder#encodeAsJPEG(java.io.File)
      */
-    public void encodeAsJPEG(java.io.File file) throws java.io.IOException {
+    public void encodeAsJPEG(java.io.File file) throws Exception {
         // remove background
         Color oldBackground = chart.getBackground();
         chart.setBackground(Color.white);
@@ -1129,7 +1126,7 @@ public class GraphView extends javax.swing.JPanel implements IGraphView {
      * @see com.argus.io.Encoder#encodeAsJPEG(java.io.File, javax.swing.JComponent)
      */
     public void encodeAsJPEG(java.io.File file, JComponent comp)
-            throws java.io.IOException {
+            throws Exception {
 
         JDialog window = new JDialog();
         comp.setBorder(new javax.swing.border.LineBorder(java.awt.Color.black));
@@ -1149,8 +1146,6 @@ public class GraphView extends javax.swing.JPanel implements IGraphView {
 
         try {
             ImageUtils.encodeAsJPEG(comp, file);
-        } catch (Exception e) {
-            throw new java.io.IOException(e.getMessage());
         } finally {
             window.getContentPane().remove(comp);
             window.dispose();

@@ -105,7 +105,7 @@ public abstract class PersonData extends BaseData {
     }
 
     public void init(com.argus.financials.service.PersonService person)
-            throws java.io.IOException {
+            throws Exception {
 
         super.init(person);
         if (person == null)

@@ -6,6 +6,8 @@
 
 package com.argus.financials.report.data;
 
+import com.argus.io.ImageUtils;
+
 /**
  * 
  * @author valeri chibaev
@@ -101,14 +103,14 @@ public class BaseData extends java.lang.Object implements java.io.Serializable {
     }
 
     public void init(com.argus.financials.service.PersonService person)
-            throws java.io.IOException {
+            throws Exception {
         if (person == null)
             clear();
     }
 
     public static String encodeAsJPEG(com.argus.io.ImageEncoder encoder)
-            throws java.io.IOException {
-        return com.argus.io.ImageUtils.encodeAsJPEG(encoder);
+            throws Exception {
+        return ImageUtils.encodeAsJPEG(encoder);
     }
 
 }

@@ -6,6 +6,8 @@
 
 package com.argus.financials.report.data;
 
+import com.argus.financials.service.BusinessService;
+
 /**
  * 
  * @author valeri chibaev
@@ -27,14 +29,14 @@ public class BusinessData extends BaseData {
     }
 
     public void init(com.argus.financials.service.PersonService person)
-            throws java.io.IOException// , com.argus.financials.service.ServiceException,
+            throws Exception
     {
 
         super.init(person);
         if (person == null)
             return;
 
-        com.argus.financials.service.BusinessService b = person.getEmployerBusiness();
+        BusinessService b = person.getEmployerBusiness();
         if (b == null) {
             clear();
 

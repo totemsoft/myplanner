@@ -547,10 +547,8 @@ public class DataCollectionModel extends FinancialDataModel {
         if (person == null)
             return null;
 
-        // get ALL current financial data (null means ALL object types,
-        // financial)
-        if (FPSLocale.getInstance().isLocalServer()) // not required for rmi
-            person.setFinancials(null, null); // reset all data
+        // get ALL current financial data (null means ALL object types, financial)
+        person.setFinancials(null, null); // reset all data
 
         // reload COPY financials for Strategy Collection
         return reload(Financials.deepCopy(person.getFinancials(), true));

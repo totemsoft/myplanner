@@ -823,10 +823,8 @@ public class FinancialDataModel extends BaseDataModel implements
         if (person == null)
             return null;
 
-        // get ALL current financial data (null means ALL object types,
-        // financial)
-        if (FPSLocale.getInstance().isLocalServer()) // not required for rmi
-            person.setFinancials(null, null); // reset all data
+        // get ALL current financial data (null means ALL object types, financial)
+        person.setFinancials(null, null); // reset all data
         details = person.getFinancials();
 
         return reload(details);

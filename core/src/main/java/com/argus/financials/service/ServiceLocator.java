@@ -14,10 +14,7 @@ package com.argus.financials.service;
 
 import javax.sql.DataSource;
 
-import org.springframework.context.support.AbstractApplicationContext;
-
-import com.argus.financials.code.ReferenceDataLoader;
-import com.argus.financials.config.FPSLocale;
+import org.springframework.context.ApplicationContext;
 
 public final class ServiceLocator {
 
@@ -28,7 +25,7 @@ public final class ServiceLocator {
 
     private static ServiceLocator instance = new ServiceLocator();
 
-    private AbstractApplicationContext applicationContext;
+    private ApplicationContext applicationContext;
 
     protected String lastError;
 
@@ -46,43 +43,31 @@ public final class ServiceLocator {
     /**
      * @return the applicationContext
      */
-    public AbstractApplicationContext getApplicationContext() {
+    public ApplicationContext getApplicationContext() {
         return applicationContext;
     }
 
     /**
      * @param applicationContext the applicationContext to set
      */
-    public void setApplicationContext(AbstractApplicationContext applicationContext) {
+    public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
     /**
      * do login on rmi server
      */
-    public boolean login(String serverURL, String userName, String userPassword) {
-
-        FPSLocale.getInstance().setServerURL(serverURL);
-
+    public void login(String userName, String userPassword) throws Exception {
         // do it just in case
         // logout();
-
-        // pre-load ALL referewnce codes
-        Thread t = new Thread(new ReferenceDataLoader(), "ReferenceDataLoader");
-
         try {
             UserService userPerson = getUserPerson().findByLoginNamePassword(userName, userPassword);
             Integer userPersonID = (Integer) userPerson.getPrimaryKey();
         } catch (Exception e) {
             lastError = e.getMessage();
             e.printStackTrace();
-            return false;
+            throw e;
         }
-
-        t.start();
-
-        return true;
-
     }
 
     public void logout() {
@@ -111,13 +96,6 @@ public final class ServiceLocator {
 
     public UtilityService getUtility() {
         return (UtilityService) applicationContext.getBean("utility");
-    }
-
-    /**
-     * get/set methodes
-     */
-    public String getServerURL() {
-        return FPSLocale.getInstance().getServerURL();
     }
 
     public UserService getUserPerson() {

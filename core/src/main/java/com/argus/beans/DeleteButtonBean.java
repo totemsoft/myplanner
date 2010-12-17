@@ -62,15 +62,6 @@ public class DeleteButtonBean extends JButton implements ActionListener {
         this.message = message;
     }
 
-    public static void main(String[] args) {
-        DeleteButtonBean deletebuttonbean1 = new DeleteButtonBean();
-
-        JFrame frame = new JFrame();
-        frame.getContentPane().add(deletebuttonbean1);
-        frame.setVisible(true);
-        frame.pack();
-    }
-
     public void actionPerformed(ActionEvent e) {
         if (JOptionPane.showConfirmDialog(null, message, "",
                 JOptionPane.YES_NO_OPTION) == 0) {

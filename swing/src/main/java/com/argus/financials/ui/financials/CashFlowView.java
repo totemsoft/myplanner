@@ -307,7 +307,7 @@ public class CashFlowView extends com.argus.financials.ui.GraphTableView
     }
 
     protected ReportFields getReportData(PersonService person)
-            throws java.io.IOException {
+            throws Exception {
         if (person == null)
             return null;
 

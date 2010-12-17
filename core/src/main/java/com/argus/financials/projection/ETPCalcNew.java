@@ -1903,7 +1903,7 @@ public class ETPCalcNew extends MoneyCalc implements
 
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields)
-            throws java.io.IOException {
+            throws Exception {
         initializeReportData(reportFields,
                 com.argus.financials.service.ServiceLocator.getInstance()
                         .getClientPerson());
@@ -1913,7 +1913,7 @@ public class ETPCalcNew extends MoneyCalc implements
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields,
             com.argus.financials.service.PersonService person)
-            throws java.io.IOException {
+            throws Exception {
 
         if (person != null)
             reportFields.initialize(person);

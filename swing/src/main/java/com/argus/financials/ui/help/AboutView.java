@@ -29,8 +29,6 @@ public class AboutView extends javax.swing.JPanel {
 
     public static final String DATABASE_SERVER_VERSION = "DATABASE_SERVER_VERSION";
 
-    public static final String SERVER = "SERVER";
-
     private static AboutView view;
 
     /** Creates new form AboutView */
@@ -46,10 +44,6 @@ public class AboutView extends javax.swing.JPanel {
                 ServiceLocator.getInstance().getDBVersion());
         setProperty(APPLICATION_VERSION,
                 ServiceLocator.APP_VERSION);
-        
-        String server = ServiceLocator.getInstance().getServerURL();
-        setProperty(SERVER, server);
-
     }
 
     /**
@@ -244,7 +238,6 @@ public class AboutView extends javax.swing.JPanel {
         applicationVersion.setText(properties.getProperty(APPLICATION_VERSION, UNKNOWN));
         databaseVersion.setText(properties.getProperty(DATABASE_VERSION, UNKNOWN));
         dbServerVersion.setText(properties.getProperty(DATABASE_SERVER_VERSION, UNKNOWN));
-        server.setText(properties.getProperty(SERVER, UNKNOWN));
     }
 
     public void setProperty(String key, String value) {
@@ -254,8 +247,6 @@ public class AboutView extends javax.swing.JPanel {
             databaseVersion.setText(value);
         else if (DATABASE_SERVER_VERSION.equals(key))
             dbServerVersion.setText(value);
-        else if (SERVER.equals(key))
-            server.setText(value);
     }
     
 }

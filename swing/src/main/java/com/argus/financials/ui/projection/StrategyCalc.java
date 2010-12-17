@@ -58,13 +58,13 @@ public class StrategyCalc extends MoneyCalc implements Reportable {
      * com.argus.activex.Reportable interface
      **************************************************************************/
     public void initializeReportData(ReportFields reportFields)
-            throws java.io.IOException {
+            throws Exception {
         initializeReportData(reportFields, ServiceLocator.getInstance()
                 .getClientPerson());
     }
 
     public void initializeReportData(ReportFields reportFields, PersonService person)
-            throws java.io.IOException {
+            throws Exception {
 
         if (person != null)
             reportFields.initialize(person);

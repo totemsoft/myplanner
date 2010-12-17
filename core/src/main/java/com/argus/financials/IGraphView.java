@@ -142,13 +142,13 @@ public interface IGraphView extends ImageEncoder {
     String saveChart();
 
     // using JClass encoder
-    void saveChart(String fileName) throws java.io.IOException;
+    void saveChart(String fileName) throws Exception;
 
-    void saveChart(java.io.File file) throws java.io.IOException;
+    void saveChart(java.io.File file) throws Exception;
 
     // using Sun encoder
-    void saveChart2(String fileName) throws java.io.IOException;
+    void saveChart2(String fileName) throws Exception;
 
-    void saveChart2(java.io.File file) throws java.io.IOException;
+    void saveChart2(java.io.File file) throws Exception;
 
 }

@@ -1861,7 +1861,7 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
     /**
      * 
      */
-    public void updateView(String modelTitle) throws java.io.IOException {
+    public void updateView(String modelTitle) throws Exception {
 
         PersonService person = ServiceLocator.getInstance().getClientPerson();
         Model m = person == null ? null : person.getModel(getDefaultType(), modelTitle);
@@ -1872,7 +1872,7 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
 
     }
 
-    public void updateView(Model m) throws java.io.IOException {
+    public void updateView(Model m) throws Exception {
 
         // saveView();
 
@@ -2099,19 +2099,19 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
 
             getModel().setData(w.toString());
 
-        } catch (java.io.IOException e) {
+        } catch (Exception e) {
             throw new ServiceException(e);
         } finally {
             if (w != null) {
                 try {
                     w.close();
-                } catch (java.io.IOException e) { /* ignore by now */
+                } catch (Exception e) { /* ignore by now */
                 }
             }
             if (output != null) {
                 try {
                     output.close();
-                } catch (java.io.IOException e) { /* ignore by now */
+                } catch (Exception e) { /* ignore by now */
                 }
             }
         }
@@ -2401,7 +2401,7 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
         return WordSettings.getInstance().getCurrentPositionReport();
     }
 
-    public ReportFields getReportData(PersonService person) throws java.io.IOException {
+    public ReportFields getReportData(PersonService person) throws Exception {
 
         if (!snapshotCalc.isReady())
             return null;
@@ -2421,7 +2421,7 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
                     getReportData(ServiceLocator.getInstance().getClientPerson()),
                     getDefaultReport());
 
-        } catch (java.io.IOException e) {
+        } catch (Exception e) {
             e.printStackTrace(System.err);
         }
 

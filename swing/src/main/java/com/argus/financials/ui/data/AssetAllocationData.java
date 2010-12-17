@@ -190,7 +190,7 @@ public class AssetAllocationData extends com.argus.financials.bean.AbstractBase
      *            not
      */
     public void init(PersonService person, java.util.Map financials,
-            java.util.Map newFinancials) throws java.io.IOException {
+            java.util.Map newFinancials) throws Exception {
         base = new AssetAllocationTableModel(person, financials, newFinancials);
         Recommended = new ProxyTableModel(base, RECOMMENDED);
         Current = new ProxyTableModel(base, CURRENT);
@@ -209,18 +209,18 @@ public class AssetAllocationData extends com.argus.financials.bean.AbstractBase
      * @param person -
      *            a PersonService object
      */
-    public void init(PersonService person) throws java.io.IOException {
+    public void init(PersonService person) throws Exception {
         init(person, null, null);
     }
 
     public void init(PersonService person, java.util.Map financials)
-            throws java.io.IOException {
+            throws Exception {
         init(person, financials, null);
     }
 
     public void init(PersonService person,
             com.argus.financials.strategy.model.DataCollectionModel dcm)
-            throws java.io.IOException {
+            throws Exception {
         base = new AssetAllocationTableModel(person, dcm);
         Recommended = new ProxyTableModel(base, RECOMMENDED);
         Current = new ProxyTableModel(base, CURRENT);
@@ -258,7 +258,7 @@ public class AssetAllocationData extends com.argus.financials.bean.AbstractBase
 
         public AssetAllocationTableModel(PersonService person,
                 com.argus.financials.strategy.model.DataCollectionModel dcm)
-                throws java.io.IOException {
+                throws Exception {
             generalInit();
 
             // init recommended data (from ISO Risk Profile)
@@ -273,7 +273,7 @@ public class AssetAllocationData extends com.argus.financials.bean.AbstractBase
         /** Creates a new instance of AssetAllocationTableModel */
         public AssetAllocationTableModel(PersonService person,
                 java.util.Map financials, java.util.Map newFinancials)
-                throws java.io.IOException {
+                throws Exception {
             super();
 
             generalInit();
@@ -486,7 +486,7 @@ public class AssetAllocationData extends com.argus.financials.bean.AbstractBase
          *            a person
          */
         private void initRecommendedData(PersonService person)
-                throws java.io.IOException {
+                throws Exception {
 
             Integer surveyID = null;
             try {
@@ -567,7 +567,7 @@ public class AssetAllocationData extends com.argus.financials.bean.AbstractBase
          *            a map of finacials
          */
         private void initCurrentData(java.util.Map financials)
-                throws java.io.IOException {
+                throws Exception {
 
             CurrentAssetAllocationTableModel tm = new CurrentAssetAllocationTableModel(
                     new CurrentAssetAllocationPercent(), new java.util.Vector());
@@ -651,7 +651,7 @@ public class AssetAllocationData extends com.argus.financials.bean.AbstractBase
          */
         private void initCurrentData(
                 com.argus.financials.strategy.model.DataCollectionModel dcm)
-                throws java.io.IOException {
+                throws Exception {
 
             CurrentAssetAllocationTableModel tm = new CurrentAssetAllocationTableModel(
                     new CurrentAssetAllocationPercent(), new java.util.Vector());
@@ -727,7 +727,7 @@ public class AssetAllocationData extends com.argus.financials.bean.AbstractBase
          *            a map of "new" finacials
          */
         private void initNewData(java.util.Map newFinancials)
-                throws java.io.IOException {
+                throws Exception {
 
             NewAssetAllocationTableModel tm = new NewAssetAllocationTableModel(
                     new NewAssetAllocationPercent(), new java.util.Vector());
@@ -799,7 +799,7 @@ public class AssetAllocationData extends com.argus.financials.bean.AbstractBase
      **************************************************************************/
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields)
-            throws java.io.IOException {
+            throws Exception {
         initializeReportData(reportFields,
                 com.argus.financials.service.ServiceLocator.getInstance()
                         .getClientPerson());
@@ -808,7 +808,7 @@ public class AssetAllocationData extends com.argus.financials.bean.AbstractBase
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields,
             com.argus.financials.service.PersonService person)
-            throws java.io.IOException {
+            throws Exception {
         if (person != null)
             reportFields.initialize(person);
 

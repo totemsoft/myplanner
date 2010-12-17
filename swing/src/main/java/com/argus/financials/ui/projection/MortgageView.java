@@ -1141,7 +1141,7 @@ public class MortgageView extends javax.swing.JPanel implements ActionEventID,
     }
 
     protected ReportFields getReportData(PersonService person)
-            throws java.io.IOException {
+            throws Exception {
 
         // if ( person == null ) return null;
 
@@ -1160,7 +1160,7 @@ public class MortgageView extends javax.swing.JPanel implements ActionEventID,
                     getReportData(ServiceLocator.getInstance().getClientPerson()),
                     getDefaultReport());
 
-        } catch (java.io.IOException e) {
+        } catch (Exception e) {
             e.printStackTrace(System.err);
         }
 

@@ -90,7 +90,7 @@ public class ClientPersonData extends BaseData {
         }
 
         public void init(com.argus.financials.service.PersonService person)
-                throws java.io.IOException {
+                throws Exception {
 
             super.init(person);
             if (person == null)
@@ -143,7 +143,7 @@ public class ClientPersonData extends BaseData {
              *  }
              *  }
              *  } catch ( javax.ejb.ObjectNotFoundException e ) { throw new
-             * java.io.IOException( e.getMessage() ); }
+             * Exception( e.getMessage() ); }
              */
         }
 
@@ -186,7 +186,7 @@ public class ClientPersonData extends BaseData {
         }
 
         public void init(com.argus.financials.service.PersonService person)
-                throws java.io.IOException {
+                throws Exception {
 
             super.init(person);
 
@@ -226,7 +226,7 @@ public class ClientPersonData extends BaseData {
      * 
      **************************************************************************/
     public void init(com.argus.financials.service.PersonService person)
-            throws java.io.IOException {
+            throws Exception {
 
         if (person == null)
             return;

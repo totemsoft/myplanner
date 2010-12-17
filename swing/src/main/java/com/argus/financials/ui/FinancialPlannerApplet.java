@@ -135,7 +135,6 @@ public class FinancialPlannerApplet extends javax.swing.JApplet implements
                         // setJMenuBar(mainMenu);
                         updateComponents();
 
-                        jLabelServer.setText(userLogin.getServerURL());
                         jLabelUser.setText(userLogin.getUserName());
 
                         resize(getWidth() + 1, getHeight() + 1);

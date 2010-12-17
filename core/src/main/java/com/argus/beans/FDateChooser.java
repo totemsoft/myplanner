@@ -195,42 +195,6 @@ public class FDateChooser extends JPanel implements DocumentListener,
         return iAmPressed;
     }
 
-    static void main(String[] args) {
-        final FDateChooser dateChooser1 = new FDateChooser();
-        FDateChooser dateChooser2 = new FDateChooser();
-        FDateChooser dateChooser3 = new FDateChooser();
-        FDateChooser dateChooser4 = new FDateChooser();
-
-        final JLabel lab = new JLabel("Text");
-
-        dateChooser1.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                lab.setText("Text =" + dateChooser1.getText());
-            }
-        });
-
-        JFrame frame = new JFrame();
-
-        frame.getContentPane().setLayout(
-                new javax.swing.BoxLayout(frame.getContentPane(),
-                        javax.swing.BoxLayout.Y_AXIS));
-        frame.getContentPane().add(dateChooser1);
-        frame.getContentPane().add(dateChooser2);
-        frame.getContentPane().add(dateChooser3);
-        frame.getContentPane().add(dateChooser4);
-        frame.getContentPane().add(lab);
-
-        frame.pack();
-        frame.show();
-
-        frame.addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                System.exit(0);
-            }
-        });
-
-    }
-
     public BoxLayout getBorderLayout1() {
         return borderLayout1;
     }

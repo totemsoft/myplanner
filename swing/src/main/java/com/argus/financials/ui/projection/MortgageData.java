@@ -24,7 +24,7 @@ public class MortgageData extends ClientPersonData implements
     }
 
     public MortgageData(PersonService person, MortgageCalc calc)
-            throws java.io.IOException {
+            throws Exception {
         this();
         init(person, calc);
     }
@@ -86,7 +86,7 @@ public class MortgageData extends ClientPersonData implements
 
     }
 
-    public void init(PersonService person, Model model) throws java.io.IOException {
+    public void init(PersonService person, Model model) throws Exception {
 
         if (model == null)
             model = Model.NONE;
@@ -98,7 +98,7 @@ public class MortgageData extends ClientPersonData implements
     }
 
     public void init(PersonService person, MortgageCalc calc)
-            throws java.io.IOException {
+            throws Exception {
 
         super.init(person);
 

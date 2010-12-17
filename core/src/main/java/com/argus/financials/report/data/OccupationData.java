@@ -27,7 +27,7 @@ public class OccupationData extends BaseData {
     }
 
     public void init(com.argus.financials.service.PersonService person)
-            throws java.io.IOException// , com.argus.financials.service.ServiceException,
+            throws Exception
     {
 
         super.init(person);

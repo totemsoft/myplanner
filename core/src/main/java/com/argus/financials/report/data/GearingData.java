@@ -96,7 +96,7 @@ public class GearingData extends ClientPersonData {
 
     }
 
-    public void init(PersonService person, Model model) throws java.io.IOException {
+    public void init(PersonService person, Model model) throws Exception {
 
         if (model == null)
             model = Model.NONE;
@@ -108,7 +108,7 @@ public class GearingData extends ClientPersonData {
     }
 
     public void init(PersonService person, GearingCalc2 calc)
-            throws java.io.IOException {
+            throws Exception {
 
         super.init(person);
 

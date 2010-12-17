@@ -16,6 +16,7 @@ import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.PersonService;
 import com.argus.financials.swing.table.ProxyTableModel;
 import com.argus.financials.table.CashflowTableModel;
+import com.argus.io.ImageUtils;
 
 public class CashFlowData extends com.argus.financials.bean.AbstractBase
         implements com.argus.financials.report.Reportable,
@@ -109,7 +110,7 @@ public class CashFlowData extends com.argus.financials.bean.AbstractBase
      **************************************************************************/
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields)
-            throws java.io.IOException {
+            throws Exception {
         initializeReportData(reportFields,
                 com.argus.financials.service.ServiceLocator.getInstance()
                         .getClientPerson());
@@ -118,7 +119,7 @@ public class CashFlowData extends com.argus.financials.bean.AbstractBase
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields,
             com.argus.financials.service.PersonService person)
-            throws java.io.IOException {
+            throws Exception {
 
         if (person != null)
             reportFields.initialize(person);
@@ -176,7 +177,7 @@ public class CashFlowData extends com.argus.financials.bean.AbstractBase
                     .setLabelGeneratorAxisY1(com.argus.beans.format.CurrencyLabelGenerator
                             .getInstance());
             reportFields.setValue(prefix + reportFields.Cashflow_Graph,
-                    com.argus.io.ImageUtils.encodeAsJPEG(graph));
+                    ImageUtils.encodeAsJPEG(graph));
 
         }
 

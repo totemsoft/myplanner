@@ -135,25 +135,6 @@ public class FPSLocale extends BasePropertySource {
 
     }
 
-    // rmi server URL (can be localhost or null or www.feducin.com.au)
-    public String getServerURL() {
-        return getProperties().getProperty("ServerURL");
-    }
-
-    public void setServerURL(String value) {
-        getProperties().setProperty("ServerURL", value);
-    }
-
-    public boolean isLocalServer() {
-        String server = getServerURL();
-        return server == null || server.trim().length() == 0;
-    }
-
-    public boolean useRMIServer() {
-        String server = getServerURL();
-        return server != null && server.trim().length() > 0;
-    }
-
     public String getLanguage() {
         return getProperties().getProperty("Language");
     }

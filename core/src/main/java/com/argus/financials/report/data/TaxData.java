@@ -114,7 +114,7 @@ public class TaxData extends ClientPersonData {
 
     }
 
-    public void init(PersonService person, Model model) throws java.io.IOException {
+    public void init(PersonService person, Model model) throws Exception {
 
         if (model == null)
             model = Model.NONE;
@@ -131,7 +131,7 @@ public class TaxData extends ClientPersonData {
     }
 
     public void init(PersonService person, AbstractComponentModel dm)
-            throws java.io.IOException {
+            throws Exception {
 
         super.init(person);
 

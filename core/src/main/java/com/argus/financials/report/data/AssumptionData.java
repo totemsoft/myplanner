@@ -66,7 +66,7 @@ public class AssumptionData extends BaseData {
     }
 
     public void init(com.argus.financials.service.PersonService person)
-            throws java.io.IOException {
+            throws Exception {
 
         super.init(person);
         if (person == null)
@@ -78,7 +78,7 @@ public class AssumptionData extends BaseData {
 
     }
 
-    public void init(Assumptions a) throws java.io.IOException {
+    public void init(Assumptions a) throws Exception {
 
         super.init(null);
         if (a == null)

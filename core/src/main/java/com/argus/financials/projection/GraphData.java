@@ -96,7 +96,7 @@ public class GraphData {
             String[] labels, String[] legends, java.awt.Color[] colors,
             int[] linePaterns, boolean leftAxisY, boolean inverted,
             com.klg.jclass.chart.JCLabelGenerator labelGenerator)
-            throws java.io.IOException {
+            throws Exception {
 
         if (title == null || title.trim().length() < 3)
             title = "___"; // 3 or more, restriction on
@@ -119,29 +119,6 @@ public class GraphData {
         graphView.encodeAsJPEG(file);
 
         return file; // .getCanonicalPath();
-
-    }
-
-    static void main(String args[]) {
-
-        GraphData gd = new GraphData();
-        try {
-            gd.encodeAsJPEG("GraphView", new double[][] { { 1, 2, 3 },
-                    { 1, 2, 3 } }, new String[] { "10", "20", "30" },
-                    new String[] { "xxx", "yyy" }, null // new java.awt.Color []
-                                                        // colors
-                    , null // new int [] linePaterns
-                    , true // boolean leftAxisY
-                    , false // boolean inverted
-                    , null // com.klg.jclass.chart.JCLabelGenerator
-                            // labelGenerator )
-
-                    );
-        } catch (java.io.IOException e) {
-            e.printStackTrace(System.err);
-        }
-
-        System.exit(0);
 
     }
 

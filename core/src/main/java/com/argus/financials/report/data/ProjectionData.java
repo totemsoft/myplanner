@@ -126,7 +126,7 @@ public class ProjectionData extends ClientPersonData implements
     }
 
     public void init(PersonService person, CurrentPositionCalc calc)
-            throws java.io.IOException {
+            throws Exception {
 
         super.init(person);
 

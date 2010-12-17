@@ -900,7 +900,7 @@ public class NewAssetAllocationView extends AssetAllocationView implements
         return WordSettings.getInstance().getAssetAllocationNewReport();
     }
 
-    public ReportFields getReportData(PersonService person) throws java.io.IOException {
+    public ReportFields getReportData(PersonService person) throws Exception {
 
         ReportFields reportFields = ReportFields.getInstance();
         _data.initializeReportData(reportFields, person);
@@ -926,7 +926,7 @@ public class NewAssetAllocationView extends AssetAllocationView implements
                     getReportData(cp),
                     getDefaultReport());
 
-        } catch (java.io.IOException e) {
+        } catch (Exception e) {
             e.printStackTrace(System.err);
         }
 

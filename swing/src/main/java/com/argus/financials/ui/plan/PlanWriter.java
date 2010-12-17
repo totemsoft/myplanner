@@ -196,7 +196,7 @@ public class PlanWriter extends BaseView implements
     /***************************************************************************
      * these two methods has to work together (as ctor/dtor)
      */
-    private void initialize() throws ReportException, java.io.IOException {
+    private void initialize() throws ReportException, Exception {
 
         clientPlans = null;
 
@@ -219,7 +219,7 @@ public class PlanWriter extends BaseView implements
     }
 
     protected ReportFields getReportData(PersonService person)
-            throws java.io.IOException {
+            throws Exception {
 
         if (person == null)
             return null;
@@ -2121,11 +2121,11 @@ public class PlanWriter extends BaseView implements
      **************************************************************************/
     transient private PersonService person;
 
-    public void saveView(PersonService person) throws java.io.IOException {
+    public void saveView(PersonService person) throws Exception {
 
     }
 
-    public void updateView(PersonService person) throws java.io.IOException {
+    public void updateView(PersonService person) throws Exception {
 
         this.person = person;
 

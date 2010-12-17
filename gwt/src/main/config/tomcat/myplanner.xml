@@ -1,0 +1,22 @@
+<Context
+    path="/myplanner" 
+    reloadable="true"
+    docBase="C:\dev\workspace-3.5\myplanner\gwt\target\myplanner"
+    workDir="C:\dev\workspace-3.5\myplanner\gwt\work">
+
+<Resource
+    name="jdbc/DataSource_myplanner"
+    auth="Container"
+    type="javax.sql.DataSource"
+    maxActive="5" 
+    maxIdle="1" 
+    maxWait="5000"
+    removeAbandoned="true"
+    removeAbandonedTimeout="60"
+    logAbandoned="true"
+    username="sa"
+    password="superuser" 
+    driverClassName="net.sourceforge.jtds.jdbc.Driver"
+    url="jdbc:jtds:sqlserver://localhost:1433/MyPlanner" />
+
+</Context>

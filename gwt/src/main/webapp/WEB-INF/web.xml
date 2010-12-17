@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+    <display-name>MyPlanner J2EE 1.4 GWT Webapp</display-name>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath:applicationContext.xml
+        </param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>com.argus.financials.myplanner.web.servlet.SetupContextListener</listener-class>
+    </listener>
+
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
+    <welcome-file-list>
+        <welcome-file>Login.html</welcome-file>
+    </welcome-file-list>
+
+    <resource-env-ref>
+        <description>MyPlanner DataSource</description>
+        <resource-env-ref-name>jdbc/DataSource_myplanner</resource-env-ref-name>
+        <resource-env-ref-type>javax.sql.DataSource</resource-env-ref-type>
+    </resource-env-ref>
+    <servlet>
+    	<servlet-name>SecurityService</servlet-name>
+    	<servlet-class>com.argus.financials.myplanner.gwt.security.server.SecurityServiceImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    	<servlet-name>SecurityService</servlet-name>
+    	<url-pattern>/com.argus.financials.myplanner.gwt.security.Login/SecurityService</url-pattern>
+    </servlet-mapping>
+
+</web-app>

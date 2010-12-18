@@ -72,11 +72,6 @@ public class Login implements EntryPoint, ClickHandler {
 		grid.setWidget(1, 1, password);
 		
 		Button loginButton = new Button("New button");
-		loginButton.addMouseOverHandler(new MouseOverHandler() {
-		    public void onMouseOver(MouseOverEvent event) {
-		        Window.alert("onMouseOver!");
-		    }
-		});
 		loginButton.addClickHandler(this);
 		grid.setWidget(2, 1, loginButton);
 		loginButton.setText("Login");

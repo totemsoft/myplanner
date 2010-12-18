@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 mvn install:install-file -DgroupId=com.klg.jclass -DartifactId=chart -Dversion=5.0.0 -Dpackaging=jar -Dfile=lib/JClass50K/jcchartK.jar
-mvn install:install-file -DgroupId=com.l2fprod -DartifactId=common -Dversion=6.5.1 -Dpackaging=jar -Dfile=lib/l2fprod-common/l2fprod-common-all.jar
 mvn install:install-file -DgroupId=com.argus -DartifactId=java2com -Dversion=1.4.0 -Dpackaging=jar -Dfile=lib/java2com/java2com.jar
 mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversion=1.4.0 -Dpackaging=jar -Dfile=lib/java2com/java2comUtils.jar
 -->
@@ -43,21 +42,26 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
         <module>gwt</module>
     </modules>
     <build>
+        <!-- Instructing the resources plugin to filter certain directories -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
-            <!-- Enabling and configuring regular resources filtering.
-                 See also section "resources" below -->
             <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-resources-plugin</artifactId>
-              <configuration>
-                <encoding>UTF-8</encoding>
-              </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
             </plugin>
             <plugin>
-              <artifactId>maven-surefire-plugin</artifactId>
-              <configuration>
-                <skip>true</skip>
-              </configuration>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -70,6 +74,7 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
     </build>
     <properties>
         <application.version>1.0.0</application.version>
+
         <!-- commonly used library versions -->
         <asm.version>2.2.3</asm.version>
         <cglib.version>2.2</cglib.version>
@@ -472,17 +477,20 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
     -->
     <profiles>
         <profile>
-            <id>dev</id>
+            <id>local</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+                <application.env>local</application.env>
+                <application.context.root>myplanner</application.context.root>
+            </properties>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
                 <application.env>dev</application.env>
                 <application.context.root>myplanner-dev</application.context.root>
-                <smtp.host>localhost</smtp.host>
-		<smtp.port>25</smtp.port>
-		<smtp.userName>myplanner@myjms.com.au</smtp.userName>
-                <smtp.password>myplanner</smtp.password>
             </properties>
         </profile>
     </profiles>

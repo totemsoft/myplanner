@@ -26,9 +26,10 @@
 
     <resource-env-ref>
         <description>MyPlanner DataSource</description>
-        <resource-env-ref-name>jdbc/DataSource_myplanner</resource-env-ref-name>
+        <resource-env-ref-name>jdbc/DataSource_myplanner_${application.env}</resource-env-ref-name>
         <resource-env-ref-type>javax.sql.DataSource</resource-env-ref-type>
     </resource-env-ref>
+
     <servlet>
     	<servlet-name>SecurityService</servlet-name>
     	<servlet-class>com.argus.financials.myplanner.gwt.security.server.SecurityServiceImpl</servlet-class>

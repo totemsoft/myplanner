@@ -155,7 +155,7 @@ public final class TitleCode extends Code {
 
         try {
             Map map = com.argus.financials.service.ServiceLocator.getInstance()
-                    .getUtility().getCodes(TABLE_NAME);
+                    .getUtilityService().getCodes(TABLE_NAME);
             if (map == null)
                 return;
             codeMap.putAll(map);

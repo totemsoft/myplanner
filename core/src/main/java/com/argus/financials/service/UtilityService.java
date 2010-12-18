@@ -59,7 +59,8 @@ public interface UtilityService {
 
     public String getDBVersion() throws ServiceException;
 
-    public void syncDBSchema(String curr, String req) throws ServiceException,
-            java.io.IOException, java.sql.SQLException;
+    public void syncDBSchema() throws Exception;
+
+    public void syncDBSchema(String curr, String req) throws Exception;
 
 }

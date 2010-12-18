@@ -63,7 +63,7 @@ public class FinancialType extends BaseCode implements FinancialTypeID {
      */
     private static void initCodes() {
         try {
-            Map map = ServiceLocator.getInstance().getUtility()
+            Map map = ServiceLocator.getInstance().getUtilityService()
                     .getFinancialObjectTypes();
             if (map == null)
                 codes.clear();

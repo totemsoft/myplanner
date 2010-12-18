@@ -49,7 +49,7 @@ public class SuburbPostCode extends Code {
 
     private static void initCodeMap(Integer countryCodeID) {
         try {
-            codeMap = ServiceLocator.getInstance().getUtility().getPostCodes(
+            codeMap = ServiceLocator.getInstance().getUtilityService().getPostCodes(
                     countryCodeID);
             countryID = countryCodeID;
         } catch (com.argus.financials.service.ServiceException e) {

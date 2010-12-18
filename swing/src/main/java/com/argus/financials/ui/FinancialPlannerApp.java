@@ -255,11 +255,7 @@ public class FinancialPlannerApp extends javax.swing.JFrame
 
     private void syncDBSchema() {
         try {
-            String dbVersion = ServiceLocator.getInstance().getDBVersion();
-            ServiceLocator.getInstance().getUtility().syncDBSchema(dbVersion,
-                    ServiceLocator.REQUIRED_DBVERSION);
-            dbVersion = ServiceLocator.REQUIRED_DBVERSION;
-
+            ServiceLocator.getInstance().getUtilityService().syncDBSchema();
         } catch (Exception e) {
             e.printStackTrace(System.err);
 

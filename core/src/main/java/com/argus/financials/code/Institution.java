@@ -40,7 +40,7 @@ public class Institution extends Code {
         codeMap.put(KEY_NONE, VALUE_NONE);
 
         try {
-            Map map = ServiceLocator.getInstance().getUtility().getCodes(
+            Map map = ServiceLocator.getInstance().getUtilityService().getCodes(
                     "Institution", "InstitutionID", "InstitutionName");
             if (map == null)
                 return;

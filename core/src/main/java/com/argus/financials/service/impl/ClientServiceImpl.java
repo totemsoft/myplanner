@@ -17,6 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
 import com.argus.financials.bean.LinkObjectTypeConstant;
 import com.argus.financials.bean.db.FPSLinkObject;
 import com.argus.financials.code.BooleanCode;
@@ -37,6 +39,7 @@ import com.argus.util.ReferenceCode;
  * @author Valeri Chibaev
  * @created 24 July 2001, 13:11
  */
+@Service
 public class ClientServiceImpl extends PersonServiceImpl implements ClientService {
 
     /*

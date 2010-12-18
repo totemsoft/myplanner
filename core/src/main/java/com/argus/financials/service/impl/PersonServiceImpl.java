@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
 
+import org.springframework.stereotype.Service;
+
 import com.argus.financials.bean.Assets;
 import com.argus.financials.bean.DbConstant;
 import com.argus.financials.bean.Financial;
@@ -67,6 +69,7 @@ import com.argus.util.DateTimeUtils;
 import com.argus.util.ReferenceCode;
 import com.argus.util.StringUtils;
 
+@Service
 public class PersonServiceImpl extends AbstractServiceImpl implements PersonService {
 
     /**
@@ -676,7 +679,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     /**
      * 
      */
-    public BusinessService getEmployerBusiness() throws com.argus.financials.service.ServiceException {
+    public BusinessService getEmployerBusiness() throws ServiceException {
 
         if (employerBusiness == null) {
             Connection con = null;

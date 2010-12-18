@@ -11,6 +11,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.argus.financials.code.ReferenceDataLoader;
 import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.service.UtilityService;
 
 /**
  * Helper class for setting up the web application.
@@ -70,6 +71,16 @@ public class SetupContextListener extends ContextLoaderListener
     {
         WebApplicationContext ctx = super.initWebApplicationContext(servletContext);
         ServiceLocator.getInstance().setApplicationContext(ctx);
+        try
+        {
+            UtilityService utilityService = (UtilityService) WebUtils.getBean(servletContext, "utilityService");
+            utilityService.syncDBSchema();
+        }
+        catch (Exception e)
+        {
+            LOG.error("Failed to syncDBSchema", e);
+            // throw ???
+        }
         return ctx;
     }
 

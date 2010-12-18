@@ -5,9 +5,10 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
     default-autowire="byName" default-lazy-init="true">
 
-    <bean id="business" class="com.argus.financials.service.impl.BusinessServiceImpl" />
-    <bean id="person" class="com.argus.financials.service.impl.PersonServiceImpl" />
-    <bean id="clientPerson" class="com.argus.financials.service.impl.ClientServiceImpl" />
-    <bean id="userPerson" class="com.argus.financials.service.impl.UserServiceImpl" />
+    <bean id="businessService" class="com.argus.financials.service.impl.BusinessServiceImpl" />
+    <bean id="personService" class="com.argus.financials.service.impl.PersonServiceImpl" />
+    <bean id="clientService" class="com.argus.financials.service.impl.ClientServiceImpl" />
+    <bean id="userService" class="com.argus.financials.service.impl.UserServiceImpl" />
+    <bean id="utilityService" class="com.argus.financials.service.impl.UtilityServiceImpl" />
 
 </beans>

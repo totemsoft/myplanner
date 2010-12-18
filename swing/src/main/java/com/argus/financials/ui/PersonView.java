@@ -1473,7 +1473,7 @@ public abstract class PersonView extends BaseView {
             return;
 
         try {
-            ServiceLocator.getInstance().getUtility().addCode(
+            ServiceLocator.getInstance().getUtilityService().addCode(
                     OccupationCode.OCCUPATION_TABLE, occupation);
         } catch (Exception e) {
             e.printStackTrace(System.err);

@@ -38,7 +38,7 @@ public class LifeExpectancy {
                     .getCodeID(com.argus.financials.config.FPSLocale
                             .getInstance().getDisplayCountry());
             lifeMap = com.argus.financials.service.ServiceLocator.getInstance()
-                    .getUtility().getLifeExpectancy(countryCodeID);
+                    .getUtilityService().getLifeExpectancy(countryCodeID);
             if (lifeMap == null)
                 return;
         } catch (Exception e) { // if rmi not configured/started

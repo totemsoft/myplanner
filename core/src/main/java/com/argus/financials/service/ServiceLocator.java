@@ -49,6 +49,7 @@ public final class ServiceLocator {
 
     /**
      * @param applicationContext the applicationContext to set
+     * @throws Exception 
      */
     public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
@@ -75,7 +76,7 @@ public final class ServiceLocator {
 
     public String getDBVersion() {
         try {
-            return getUtility().getDBVersion();
+            return getUtilityService().getDBVersion();
         } catch (ServiceException e) {
             return null;
         }
@@ -83,7 +84,7 @@ public final class ServiceLocator {
 
     public String getDBServerVersion() {
         try {
-            return getUtility().getDBServerVersion();
+            return getUtilityService().getDBServerVersion();
         } catch (ServiceException e) {
             return "___???___";
         }
@@ -93,17 +94,17 @@ public final class ServiceLocator {
         return (DataSource) applicationContext.getBean("dataSource");
     }
 
-    public UtilityService getUtility() {
-        return (UtilityService) applicationContext.getBean("utility");
+    public UtilityService getUtilityService() {
+        return (UtilityService) applicationContext.getBean("utilityService");
     }
 
     public UserService getUserPerson() {
-        UserService person = (UserService) applicationContext.getBean("userPerson");
+        UserService person = (UserService) applicationContext.getBean("userService");
         return person;
     }
 
     public ClientService getClientPerson() {
-        ClientService client = (ClientService) applicationContext.getBean("clientPerson");
+        ClientService client = (ClientService) applicationContext.getBean("clientService");
         return client == null || client.getPrimaryKey() == null ? null : client;
     }
 
@@ -112,7 +113,7 @@ public final class ServiceLocator {
     }
 
     public void setClientPersonID(Integer value) throws Exception {
-        ClientService client = (ClientService) applicationContext.getBean("clientPerson");
+        ClientService client = (ClientService) applicationContext.getBean("clientService");
         client.findByPrimaryKey(value);
     }
 

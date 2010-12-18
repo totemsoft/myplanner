@@ -66,7 +66,7 @@ public class FinancialServiceCode extends BaseCode {
         codes.add(CODE_NONE);
 
         try {
-            Map map = ServiceLocator.getInstance().getUtility().getCodes(
+            Map map = ServiceLocator.getInstance().getUtilityService().getCodes(
                     TABLE,
                     columnName[CODE] + ", " + columnName[DESC] + ", "
                             + columnName[DATE] + ", " + columnName[DELETED],
@@ -109,7 +109,7 @@ public class FinancialServiceCode extends BaseCode {
             return;
 
         // save to db
-        UtilityService utility = ServiceLocator.getInstance().getUtility();
+        UtilityService utility = ServiceLocator.getInstance().getUtilityService();
         for (int r = 0; r < tm.getRowCount(); r++) {
 
             if (tm.isCellEditable(r, CODE)) {

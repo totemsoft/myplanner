@@ -64,7 +64,7 @@ public class AdviserTypeCode extends BaseCode {
          */
 
         try {
-            Map map = ServiceLocator.getInstance().getUtility().getCodes(
+            Map map = ServiceLocator.getInstance().getUtilityService().getCodes(
                     "AdviserTypeCode");
             if (map == null)
                 return;

@@ -12,7 +12,6 @@ package com.argus.financials.service.impl;
  * @version
  */
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,6 +20,8 @@ import java.sql.Statement;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.Vector;
+
+import org.springframework.stereotype.Service;
 
 import com.argus.financials.bean.db.AbstractPersistable;
 import com.argus.financials.code.BaseCode;
@@ -32,6 +33,7 @@ import com.argus.financials.projection.save.Model;
 import com.argus.financials.projection.save.db.ModelBean;
 import com.argus.financials.service.RemoveException;
 import com.argus.financials.service.ServiceException;
+import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.service.UtilityService;
 import com.argus.financials.strategy.StrategyGroup;
 import com.argus.financials.strategy.db.StrategyGroupBean;
@@ -39,6 +41,7 @@ import com.argus.swing.SplashWindow;
 import com.argus.util.ReferenceCode;
 import com.argus.util.StringUtils;
 
+@Service
 public class UtilityServiceImpl extends AbstractPersistable implements UtilityService {
 
     private String dbVersion;
@@ -549,8 +552,17 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
 
     }
 
-    public void syncDBSchema(String currVersion, String reqVersion)
-            throws ServiceException, IOException, SQLException {
+    /* (non-Javadoc)
+     * @see com.argus.financials.service.UtilityService#syncDBSchema()
+     */
+    public void syncDBSchema() throws Exception
+    {
+        String dbVersion = ServiceLocator.getInstance().getDBVersion();
+        ServiceLocator.getInstance().getUtilityService().syncDBSchema(dbVersion,
+                ServiceLocator.REQUIRED_DBVERSION);
+    }
+
+    public void syncDBSchema(String currVersion, String reqVersion) throws Exception {
         int curr = getFullVersionID(currVersion);
         int req = getFullVersionID(reqVersion);
         
@@ -597,7 +609,7 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
     
                     con.commit();
     
-                } catch (SQLException e) {
+                } catch (Exception e) {
                     System.err.println("\tUtilityBean::syncDBSchema(...) FAILED for:\n" + sql + "\n" + e.getMessage());
                     if (i == 4) {// after 4.sql
                         updateAfter4(con);

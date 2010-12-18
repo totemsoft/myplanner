@@ -39,7 +39,7 @@ public class InvestmentType extends Code {
         codeMap.put(KEY_NONE, VALUE_NONE);
 
         try {
-            Map map = ServiceLocator.getInstance().getUtility().getCodes(
+            Map map = ServiceLocator.getInstance().getUtilityService().getCodes(
                     "InvestmentType");
             if (map == null)
                 return;

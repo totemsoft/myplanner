@@ -35,7 +35,7 @@ public class Parameters {
          * load other values from db (Parameters table)
          */
         try {
-            Map paramMap = ServiceLocator.getInstance().getUtility()
+            Map paramMap = ServiceLocator.getInstance().getUtilityService()
                     .getParameters(null);
             if (paramMap == null)
                 return;

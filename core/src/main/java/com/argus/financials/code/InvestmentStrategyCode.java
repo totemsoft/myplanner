@@ -102,7 +102,7 @@ public class InvestmentStrategyCode extends Code {
     private static void initGrowthRates() {
 
         try {
-            params = ServiceLocator.getInstance().getUtility().getParameters(
+            params = ServiceLocator.getInstance().getUtilityService().getParameters(
                     UtilityService.PARAM_INVESTMENT_STRATEGY);
             if (params == null)
                 return;

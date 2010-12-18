@@ -41,7 +41,7 @@ public class InterestCategoryCode extends BaseCode {
     private void initCodes() {
 
         try {
-            Map map = ServiceLocator.getInstance().getUtility().getCodes(
+            Map map = ServiceLocator.getInstance().getUtilityService().getCodes(
                     "Category", "CategoryID", "CategoryName");
             if (map == null)
                 return;

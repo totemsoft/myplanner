@@ -69,6 +69,6 @@ public interface UtilityService {
     public void syncDBSchema(String curr, String req) throws Exception;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false)
-    void syncDBSchema(int i, String update) throws Exception;
+    int syncDBSchema(int i, String update) throws Exception;
     
 }

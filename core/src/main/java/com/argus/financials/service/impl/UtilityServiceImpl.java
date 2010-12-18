@@ -582,7 +582,7 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
             String updateDir = curr < 200 ? "data/updates/core" : "data/updates";
             for (int i = curr + 1; i <= req; i++) {
                 update = updateDir + "/" + i + ".sql";
-                ServiceLocator.getInstance().getUtilityService().syncDBSchema(i, update);
+                i = ServiceLocator.getInstance().getUtilityService().syncDBSchema(i, update);
             } 
         } finally {
             if (splash != null) {
@@ -592,7 +592,7 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
         }
     }
 
-    public void syncDBSchema(int i, String update) throws Exception {
+    public int syncDBSchema(int i, String update) throws Exception {
         List<String> list = BaseSQLHelper.parse(update);
 
         LOG.info("Preparing to run update script: " + update);
@@ -656,6 +656,7 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
             close(null, stmt);
         }
         LOG.info("\tSuccessfully completed: " + update);
+        return i;
     }
 
     private String fromText(String data) {

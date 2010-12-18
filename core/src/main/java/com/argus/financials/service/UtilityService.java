@@ -62,10 +62,13 @@ public interface UtilityService {
 
     public String getDBVersion() throws ServiceException;
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
     public void syncDBSchema() throws Exception;
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
     public void syncDBSchema(String curr, String req) throws Exception;
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false)
+    void syncDBSchema(int i, String update) throws Exception;
+    
 }

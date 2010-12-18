@@ -581,71 +581,8 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
         try {
             String updateDir = curr < 200 ? "data/updates/core" : "data/updates";
             for (int i = curr + 1; i <= req; i++) {
-    
                 update = updateDir + "/" + i + ".sql";
-                List<String> list = BaseSQLHelper.parse(update);
-    
-                LOG.info("Preparing to run update script: " + update);
-    
-                // add to Map, send to execute
-                Connection con = getConnection();
-                Statement stmt = null;
-                String sql = null;
-                try {
-                    for (int j = 0; j < list.size(); j++) {
-                        stmt = con.createStatement();
-                        sql = list.get(j);
-                        LOG.info(sql);
-                        int count = stmt.executeUpdate(sql);
-                    }
-    
-                    // //////////////////////////////////////////////////////////////////////////////
-                    // !!! IF YOU NEED TO RUN SOME JAVA CODE AFTER SQL UPDATE, DO IT
-                    // HERE!!! //
-                    // //////////////////////////////////////////////////////////////////////////////
-                    if (i == 0) // after 0.sql
-                        ;
-                    else if (i == 13)
-                        i = 109; // in update 00.12 we jump to 01.10 (increment major version)
-                    else if (i == 163) // after 163.sql
-                        updateAfter163(con);
-                    else if (i == 166)
-                        i = 199; // in update 01.67 we jump to 02.00 (increment major version)
-                    // //////////////////////////////////////////////////////////////////////////////
-                    // !!! IF YOU NEED TO RUN SOME JAVA CODE AFTER SQL UPDATE, DO IT
-                    // HERE!!! //
-                    // //////////////////////////////////////////////////////////////////////////////
-    
-                    //con.commit();
-    
-                } catch (Exception e) {
-                    LOG.error("\tUtilityBean::syncDBSchema(...) FAILED for:\n" + sql + "\n" + e.getMessage());
-                    if (i == 4) {// after 4.sql
-                        updateAfter4(con);
-                        //con.commit();
-                    } else if (i == 162) {// after 162.sql
-                        //export for MSSQL only
-                        //con.commit();
-                    } else if (i == 163) {// after 163.sql
-                        //import for MSSQL only
-                        //con.commit();
-                    } else if (i == 165) {// after 165.sql
-                        //TODO: fix 4 HSQLDB
-                        //intensive use of sroreproc (Journal???) for MSSQL only
-                        //con.commit();
-                    } else if (i == 166) {// after 166.sql
-                        i = 199;
-                        //import for MSSQL only
-                        //con.commit();
-                    } else {
-                        //con.rollback();
-                        throw new ServiceException(e);
-                    }
-                    LOG.error("Recovered from error!");
-                } finally {
-                    close(null, stmt);
-                }
-                LOG.info("\tSuccessfully completed: " + update);
+                ServiceLocator.getInstance().getUtilityService().syncDBSchema(i, update);
             } 
         } finally {
             if (splash != null) {
@@ -653,6 +590,72 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
                 splash.dispose();
             }
         }
+    }
+
+    public void syncDBSchema(int i, String update) throws Exception {
+        List<String> list = BaseSQLHelper.parse(update);
+
+        LOG.info("Preparing to run update script: " + update);
+
+        // add to Map, send to execute
+        Connection con = getConnection();
+        Statement stmt = null;
+        String sql = null;
+        try {
+            for (int j = 0; j < list.size(); j++) {
+                stmt = con.createStatement();
+                sql = list.get(j);
+                LOG.info(sql);
+                int count = stmt.executeUpdate(sql);
+            }
+
+            // //////////////////////////////////////////////////////////////////////////////
+            // !!! IF YOU NEED TO RUN SOME JAVA CODE AFTER SQL UPDATE, DO IT
+            // HERE!!! //
+            // //////////////////////////////////////////////////////////////////////////////
+            if (i == 0) // after 0.sql
+                ;
+            else if (i == 13)
+                i = 109; // in update 00.12 we jump to 01.10 (increment major version)
+            else if (i == 163) // after 163.sql
+                updateAfter163(con);
+            else if (i == 166)
+                i = 199; // in update 01.67 we jump to 02.00 (increment major version)
+            // //////////////////////////////////////////////////////////////////////////////
+            // !!! IF YOU NEED TO RUN SOME JAVA CODE AFTER SQL UPDATE, DO IT
+            // HERE!!! //
+            // //////////////////////////////////////////////////////////////////////////////
+
+            //con.commit();
+
+        } catch (Exception e) {
+            LOG.error("\tUtilityBean::syncDBSchema(...) FAILED for:\n" + sql + "\n" + e.getMessage());
+            if (i == 4) {// after 4.sql
+                updateAfter4(con);
+                //con.commit();
+            } else if (i == 162) {// after 162.sql
+                //export for MSSQL only
+                //con.commit();
+            } else if (i == 163) {// after 163.sql
+                //import for MSSQL only
+                //con.commit();
+            } else if (i == 165) {// after 165.sql
+                //TODO: fix 4 HSQLDB
+                //intensive use of sroreproc (Journal???) for MSSQL only
+                //con.commit();
+            } else if (i == 166) {// after 166.sql
+                i = 199;
+                //import for MSSQL only
+                //con.commit();
+            } else {
+                //con.rollback();
+                throw new ServiceException(e);
+            }
+            LOG.error("Recovered from error!");
+        } finally {
+            close(null, stmt);
+        }
+        LOG.info("\tSuccessfully completed: " + update);
     }
 
     private String fromText(String data) {

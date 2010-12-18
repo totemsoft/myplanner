@@ -104,7 +104,6 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
         <jclass.version>5.0.0</jclass.version>
         <jspapi.version>2.0</jspapi.version>
         <jstl.version>1.1.2</jstl.version>
-        <jta.version>1.0.1B</jta.version>
         <l2fprod.version>6.9.1</l2fprod.version>
         <mail.version>1.4</mail.version>
         <opencsv.version>2.0</opencsv.version>
@@ -391,12 +390,6 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
                 <groupId>net.sourceforge.jtds</groupId>
                 <artifactId>jtds</artifactId>
                 <version>${jtds.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>javax.transaction</groupId>
-                <artifactId>jta</artifactId>
-                <version>${jta.version}</version>
             </dependency>
 
             <dependency>

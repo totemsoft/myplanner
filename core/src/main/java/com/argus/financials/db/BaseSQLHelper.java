@@ -197,12 +197,12 @@ public abstract class BaseSQLHelper implements java.io.Serializable {
      * @return
      * @throws IOException
      */
-    public static List parse(String source) throws IOException
+    public static List<String> parse(String source) throws IOException
     {
         BufferedReader reader = new BufferedReader(new InputStreamReader(
                 ResourceLoader.loadInputStream(source)));
     
-        List list = new ArrayList();
+        List<String> list = new ArrayList<String>();
         String sql = "";
         String line;
         while ((line = reader.readLine()) != null) {

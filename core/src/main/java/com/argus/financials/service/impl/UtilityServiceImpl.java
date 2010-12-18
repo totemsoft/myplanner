@@ -583,9 +583,9 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
             for (int i = curr + 1; i <= req; i++) {
     
                 update = updateDir + "/" + i + ".sql";
-                List list = BaseSQLHelper.parse(update);
+                List<String> list = BaseSQLHelper.parse(update);
     
-                System.out.println("Preparing to run update script: " + update);
+                LOG.info("Preparing to run update script: " + update);
     
                 // add to Map, send to execute
                 Connection con = getConnection();
@@ -594,8 +594,8 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
                 try {
                     for (int j = 0; j < list.size(); j++) {
                         stmt = con.createStatement();
-                        sql = (String) list.get(j);
-                        System.out.println(sql);
+                        sql = list.get(j);
+                        LOG.info(sql);
                         int count = stmt.executeUpdate(sql);
                     }
     
@@ -619,7 +619,7 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
                     //con.commit();
     
                 } catch (Exception e) {
-                    System.err.println("\tUtilityBean::syncDBSchema(...) FAILED for:\n" + sql + "\n" + e.getMessage());
+                    LOG.error("\tUtilityBean::syncDBSchema(...) FAILED for:\n" + sql + "\n" + e.getMessage());
                     if (i == 4) {// after 4.sql
                         updateAfter4(con);
                         //con.commit();
@@ -641,11 +641,11 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
                         //con.rollback();
                         throw new ServiceException(e);
                     }
-                    System.err.println("Recovered from error!");
+                    LOG.error("Recovered from error!");
                 } finally {
                     close(null, stmt);
                 }
-                System.out.println("\tSuccessfully completed: " + update);
+                LOG.info("\tSuccessfully completed: " + update);
             } 
         } finally {
             if (splash != null) {

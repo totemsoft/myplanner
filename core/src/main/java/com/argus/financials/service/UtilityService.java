@@ -6,13 +6,16 @@
 
 package com.argus.financials.service;
 
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 /**
  * 
  * @author valeri chibaev
  * @version
  */
 
-
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 public interface UtilityService {
 
     // Parameter Type IDs
@@ -59,8 +62,10 @@ public interface UtilityService {
 
     public String getDBVersion() throws ServiceException;
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void syncDBSchema() throws Exception;
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void syncDBSchema(String curr, String req) throws Exception;
 
 }

@@ -616,30 +616,30 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
                     // HERE!!! //
                     // //////////////////////////////////////////////////////////////////////////////
     
-                    con.commit();
+                    //con.commit();
     
                 } catch (Exception e) {
                     System.err.println("\tUtilityBean::syncDBSchema(...) FAILED for:\n" + sql + "\n" + e.getMessage());
                     if (i == 4) {// after 4.sql
                         updateAfter4(con);
-                        con.commit();
+                        //con.commit();
                     } else if (i == 162) {// after 162.sql
                         //export for MSSQL only
-                        con.commit();
+                        //con.commit();
                     } else if (i == 163) {// after 163.sql
                         //import for MSSQL only
-                        con.commit();
+                        //con.commit();
                     } else if (i == 165) {// after 165.sql
                         //TODO: fix 4 HSQLDB
                         //intensive use of sroreproc (Journal???) for MSSQL only
-                        con.commit();
+                        //con.commit();
                     } else if (i == 166) {// after 166.sql
                         i = 199;
                         //import for MSSQL only
-                        con.commit();
+                        //con.commit();
                     } else {
-                        con.rollback();
-                        throw e;
+                        //con.rollback();
+                        throw new ServiceException(e);
                     }
                     System.err.println("Recovered from error!");
                 } finally {

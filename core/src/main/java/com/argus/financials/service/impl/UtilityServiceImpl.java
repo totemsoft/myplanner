@@ -567,13 +567,22 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
         int req = getFullVersionID(reqVersion);
         
         // create splash window
-        final SplashWindow splash = new SplashWindow("/image/financial-planner.jpg");
-        new Thread( splash, "SplashWindowThread" ).start();
+        SplashWindow splash = null;
+        String update = null;
+        try
+        {
+            splash = new SplashWindow("/image/financial-planner.jpg");
+            new Thread( splash, "SplashWindowThread" ).start();
+        }
+        catch (Exception ignore)
+        {
+            LOG.warn(ignore.getMessage());
+        }
         try {
             String updateDir = curr < 200 ? "data/updates/core" : "data/updates";
             for (int i = curr + 1; i <= req; i++) {
     
-                String update = updateDir + "/" + i + ".sql";
+                update = updateDir + "/" + i + ".sql";
                 List list = BaseSQLHelper.parse(update);
     
                 System.out.println("Preparing to run update script: " + update);
@@ -637,11 +646,12 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
                     close(null, stmt);
                 }
                 System.out.println("\tSuccessfully completed: " + update);
-                splash.setStringPainted("Successfully completed: " + update);
             } 
-
         } finally {
-            splash.dispose();
+            if (splash != null) {
+                splash.setStringPainted("Successfully completed: " + update);
+                splash.dispose();
+            }
         }
     }
 

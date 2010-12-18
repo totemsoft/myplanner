@@ -630,7 +630,7 @@ public class ExportImportManagerApp extends javax.swing.JPanel {
             root = new CheckBoxTreeNode("Advisers");
 
             UserService userPerson = ServiceLocator.getInstance()
-                    .getUserPerson();
+                    .getUserService();
             try {
                 if (userPerson != null)
                     init(userPerson);

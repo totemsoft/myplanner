@@ -62,7 +62,7 @@ public final class ServiceLocator {
         // do it just in case
         // logout();
         try {
-            UserService userPerson = getUserPerson().findByLoginNamePassword(userName, userPassword);
+            UserService userPerson = getUserService().findByLoginNamePassword(userName, userPassword);
             Integer userPersonID = (Integer) userPerson.getPrimaryKey();
         } catch (Exception e) {
             lastError = e.getMessage();
@@ -98,7 +98,7 @@ public final class ServiceLocator {
         return (UtilityService) applicationContext.getBean("utilityService");
     }
 
-    public UserService getUserPerson() {
+    public UserService getUserService() {
         UserService person = (UserService) applicationContext.getBean("userService");
         return person;
     }
@@ -109,7 +109,7 @@ public final class ServiceLocator {
     }
 
     public Integer getUserPersonID() {
-        return (Integer) getUserPerson().getPrimaryKey();
+        return (Integer) getUserService().getPrimaryKey();
     }
 
     public void setClientPersonID(Integer value) throws Exception {

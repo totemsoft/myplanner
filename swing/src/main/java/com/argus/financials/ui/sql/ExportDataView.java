@@ -498,7 +498,7 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
             return tableModelStep1;
 
         try {
-            UserService user = ServiceLocator.getInstance().getUserPerson();
+            UserService user = ServiceLocator.getInstance().getUserService();
 
             HashMap selectionCriteria = new HashMap();
             if (AdviserTypeCode.isSupportPerson(user.getAdviserTypeCodeID()))

@@ -711,7 +711,7 @@ class FinancialPlannerActionMap
 
             try {
                 String webPassword = Digest.digest(webUser);
-                ServiceLocator.getInstance().getUserPerson().downloadData(
+                ServiceLocator.getInstance().getUserService().downloadData(
                         webUser, webPassword, tables, app);
             } catch (Exception ex) {
                 String msg = "Failed to process request.\n" + ex.getMessage();
@@ -849,7 +849,7 @@ class FinancialPlannerActionMap
     public void updateAccessability() {
 
         try {
-            UserService user = ServiceLocator.getInstance().getUserPerson();
+            UserService user = ServiceLocator.getInstance().getUserService();
             Integer userTypeID = user == null ? null : user.getAdviserTypeCodeID();
 
             boolean adminPerson = AdviserTypeCode.isAdminPerson(userTypeID);

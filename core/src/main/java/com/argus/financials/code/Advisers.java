@@ -51,7 +51,7 @@ public class Advisers extends BaseCode {
         codes.add(NONE);
 
         try {
-            UserService user = ServiceLocator.getInstance().getUserPerson();
+            UserService user = ServiceLocator.getInstance().getUserService();
             java.util.List l = user == null ? null : user.findUsers(null); // ALL
             if (l == null)
                 return;

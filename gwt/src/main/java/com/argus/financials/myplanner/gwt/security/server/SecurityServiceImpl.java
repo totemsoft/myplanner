@@ -18,6 +18,7 @@ public class SecurityServiceImpl extends RemoteServiceServlet implements Securit
     {
         try
         {
+            //getThreadLocalRequest()
             ServiceLocator.getInstance().login(userName, Digest.digest(userPassword));
             return null;
         }

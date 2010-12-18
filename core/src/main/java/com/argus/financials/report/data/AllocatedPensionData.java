@@ -152,7 +152,7 @@ public class AllocatedPensionData extends ClientPersonData {
         client = new Client();
         adviser = new Adviser();
         partner = new Partner();
-        adviser.FullName = ServiceLocator.getInstance().getUserPerson()
+        adviser.FullName = ServiceLocator.getInstance().getUserService()
                 .getPersonName().getFullName();
 
         if (calc.getIsClient() == null || calc.getIsClient().booleanValue()) {

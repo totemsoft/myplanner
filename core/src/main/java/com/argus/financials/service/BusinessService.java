@@ -20,7 +20,7 @@ import com.argus.financials.bean.DbConstant;
 import com.argus.financials.code.InvalidCodeException;
 
 @Service
-@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public interface BusinessService extends DbConstant {
 
     public Integer getParentBusinessID() throws com.argus.financials.service.ServiceException;
@@ -58,6 +58,7 @@ public interface BusinessService extends DbConstant {
 
     public void setWebSiteName(String value) throws com.argus.financials.service.ServiceException;
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void remove() throws com.argus.financials.service.ServiceException, RemoveException;
 
     public Object getPrimaryKey();

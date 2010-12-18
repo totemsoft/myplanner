@@ -466,7 +466,7 @@ public final class ClientSearch extends javax.swing.JPanel {
         TableModel tm = jTable.getModel();
         ((SortedTableModel) tm).removeRow(selectedRow);
         try {
-            ServiceLocator.getInstance().getUserPerson().removeClient(clientID);
+            ServiceLocator.getInstance().getUserService().removeClient(clientID);
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -520,7 +520,7 @@ public final class ClientSearch extends javax.swing.JPanel {
         ClientSearch view = getInstance();
 
         try {
-            view.setUserType(ServiceLocator.getInstance().getUserPerson()
+            view.setUserType(ServiceLocator.getInstance().getUserService()
                     .getAdviserTypeCodeID());
 
             SwingUtil.add2Dialog(owner, view.getViewCaption(), true, view,
@@ -709,7 +709,7 @@ public final class ClientSearch extends javax.swing.JPanel {
 
         HashMap map = new HashMap();
 
-        UserService user = ServiceLocator.getInstance().getUserPerson();
+        UserService user = ServiceLocator.getInstance().getUserService();
         boolean supportPerson = AdviserTypeCode.isSupportPerson(user
                 .getAdviserTypeCodeID());
 
@@ -839,7 +839,7 @@ public final class ClientSearch extends javax.swing.JPanel {
     {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         try {
-            UserService userPerson = ServiceLocator.getInstance().getUserPerson();
+            UserService userPerson = ServiceLocator.getInstance().getUserService();
             initTable(userPerson);
         } finally {
             setCursor(null);

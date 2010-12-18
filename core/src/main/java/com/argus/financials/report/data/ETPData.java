@@ -150,7 +150,7 @@ public class ETPData extends ClientPersonData {
 
         client = new Client();
         adviser = new Adviser();
-        adviser.FullName = ServiceLocator.getInstance().getUserPerson()
+        adviser.FullName = ServiceLocator.getInstance().getUserService()
                 .getPersonName().getFullName();
 
         // etp data

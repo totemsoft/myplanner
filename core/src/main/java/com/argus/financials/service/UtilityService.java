@@ -19,20 +19,17 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @Service
-@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public interface UtilityService {
 
     // Parameter Type IDs
     public static final Integer PARAM_INVESTMENT_STRATEGY = new Integer(1);
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public java.util.TreeMap getCodes(String tableName) throws ServiceException;
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public java.util.TreeMap getCodes(String tableName, String fieldKeyValues,
             String fieldKey) throws ServiceException;
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public java.util.Map getPostCodes(Integer countryCodeID)
             throws ServiceException;
 
@@ -40,14 +37,11 @@ public interface UtilityService {
      * CONTAINER structure Map( objType, Map( ReferenceCode( finTypeID,
      * finTypeDesc ), Vector( ReferenceCode( finCodeID, finCode, finCodeDesc ) ) ) )
      */
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public java.util.Map getFinancialObjectTypes() throws ServiceException;
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public java.util.HashMap getLifeExpectancy(Integer countryCodeID)
             throws ServiceException;
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public java.util.HashMap getParameters(Integer paramTypeID)
             throws ServiceException;
 
@@ -72,10 +66,8 @@ public interface UtilityService {
     /**
      * 
      */
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public String getDBServerVersion() throws ServiceException;
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public String getDBVersion() throws ServiceException;
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)

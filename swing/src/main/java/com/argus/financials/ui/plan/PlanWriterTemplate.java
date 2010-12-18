@@ -351,7 +351,7 @@ public class PlanWriterTemplate
         boolean adminPerson = false;
         boolean supportPerson = false;
         try {
-            Integer userTypeID = ServiceLocator.getInstance().getUserPerson()
+            Integer userTypeID = ServiceLocator.getInstance().getUserService()
                     .getAdviserTypeCodeID();
             adminPerson = AdviserTypeCode.isAdminPerson(userTypeID);
             supportPerson = AdviserTypeCode.isSupportPerson(userTypeID);
@@ -1262,7 +1262,7 @@ public class PlanWriterTemplate
 
         }
 
-        PersonService person = ServiceLocator.getInstance().getUserPerson();
+        PersonService person = ServiceLocator.getInstance().getUserService();
         try {
             boolean newPlan = plan.getCodeID() <= 0;
 
@@ -1379,7 +1379,7 @@ public class PlanWriterTemplate
             return;
 
         try {
-            if (!ServiceLocator.getInstance().getUserPerson().deletePlan(plan,
+            if (!ServiceLocator.getInstance().getUserService().deletePlan(plan,
                     PersonService.TEMPLATE_PLAN)) {
                 System.err.println("FAILED to delete: " + plan);
                 return;
@@ -1423,14 +1423,14 @@ public class PlanWriterTemplate
      * 
      **************************************************************************/
     public void updateView() throws java.io.IOException {
-        updateView(ServiceLocator.getInstance().getUserPerson());
+        updateView(ServiceLocator.getInstance().getUserService());
     }
 
     public void updateView(PersonService person) throws java.io.IOException {
 
         //
         if (person == null)
-            person = ServiceLocator.getInstance().getUserPerson();
+            person = ServiceLocator.getInstance().getUserService();
         getTemplatePlans(person);
 
         jComboBoxPlanTemplate.setModel(new DefaultComboBoxModel(templatePlans));

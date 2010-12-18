@@ -1432,7 +1432,7 @@ public class DSSCalcNew extends AbstractComponentModel implements
         else {
             reportFields.setValue(reportFields.Adviser_FullName,
                     com.argus.financials.service.ServiceLocator.getInstance()
-                            .getUserPerson().getPersonName().getFullName());
+                            .getUserService().getPersonName().getFullName());
             reportFields.setValue(reportFields.Client_FullName,
                     getValue(CLIENT_NAME));
             java.util.Date now = new java.util.Date();

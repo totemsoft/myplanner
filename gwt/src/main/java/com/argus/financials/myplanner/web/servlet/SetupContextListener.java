@@ -60,7 +60,6 @@ public class SetupContextListener extends ContextLoaderListener
     {
         super.contextInitialized(event);
         LOG.info("Application Context has been initialised.");
-        new ReferenceDataLoader().run();
     }
 
     /* (non-Javadoc)
@@ -75,6 +74,7 @@ public class SetupContextListener extends ContextLoaderListener
         {
             UtilityService utilityService = (UtilityService) WebUtils.getBean(servletContext, "utilityService");
             utilityService.syncDBSchema();
+            //new ReferenceDataLoader().run();
         }
         catch (Exception e)
         {

@@ -12,9 +12,15 @@ package com.argus.financials.service;
  * @version
  */
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.argus.financials.bean.DbConstant;
 import com.argus.financials.code.InvalidCodeException;
 
+@Service
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 public interface BusinessService extends DbConstant {
 
     public Integer getParentBusinessID() throws com.argus.financials.service.ServiceException;

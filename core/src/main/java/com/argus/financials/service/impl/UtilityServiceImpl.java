@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.Vector;
 
-import org.springframework.stereotype.Service;
-
 import com.argus.financials.bean.db.AbstractPersistable;
 import com.argus.financials.code.BaseCode;
 import com.argus.financials.code.Code;
@@ -41,7 +39,6 @@ import com.argus.swing.SplashWindow;
 import com.argus.util.ReferenceCode;
 import com.argus.util.StringUtils;
 
-@Service
 public class UtilityServiceImpl extends AbstractPersistable implements UtilityService {
 
     private String dbVersion;
@@ -56,9 +53,7 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
      * 
      */
     public java.util.TreeMap getCodes(String tableName) throws ServiceException {
-
         return getCodes(tableName, tableName + "ID", tableName + "Desc");
-
     }
 
     public java.util.TreeMap getCodes(String tableName, String fieldKeyValues,

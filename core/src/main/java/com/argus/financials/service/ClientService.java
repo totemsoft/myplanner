@@ -12,8 +12,14 @@ package com.argus.financials.service;
  * @version
  */
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.argus.financials.strategy.StrategyGroup;
 
+@Service
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 public interface ClientService extends PersonService {
 
     public void setOwnerPrimaryKey(Object value) throws ServiceException;

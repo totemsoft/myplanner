@@ -14,6 +14,12 @@ package com.argus.financials.service;
 
 import java.util.Vector;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 public interface UserService extends PersonService {
 
     public static final String ALL_USERS_CLIENTS = "ALL_USERS_CLIENTS";

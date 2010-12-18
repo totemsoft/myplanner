@@ -17,8 +17,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.springframework.stereotype.Service;
-
 import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.service.BusinessService;
 import com.argus.financials.service.CreateException;
@@ -26,7 +24,6 @@ import com.argus.financials.service.FinderException;
 import com.argus.financials.service.ObjectNotFoundException;
 import com.argus.financials.service.ServiceException;
 
-@Service
 public class BusinessServiceImpl extends AbstractServiceImpl implements BusinessService {
 
     /**

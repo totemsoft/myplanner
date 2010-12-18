@@ -8,6 +8,7 @@ package com.argus.financials.service;
 
 import java.sql.Connection;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,17 +18,21 @@ import org.springframework.transaction.annotation.Transactional;
  * @version
  */
 
+@Service
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 public interface UtilityService {
 
     // Parameter Type IDs
     public static final Integer PARAM_INVESTMENT_STRATEGY = new Integer(1);
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public java.util.TreeMap getCodes(String tableName) throws ServiceException;
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public java.util.TreeMap getCodes(String tableName, String fieldKeyValues,
             String fieldKey) throws ServiceException;
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public java.util.Map getPostCodes(Integer countryCodeID)
             throws ServiceException;
 
@@ -35,33 +40,42 @@ public interface UtilityService {
      * CONTAINER structure Map( objType, Map( ReferenceCode( finTypeID,
      * finTypeDesc ), Vector( ReferenceCode( finCodeID, finCode, finCodeDesc ) ) ) )
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public java.util.Map getFinancialObjectTypes() throws ServiceException;
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public java.util.HashMap getLifeExpectancy(Integer countryCodeID)
             throws ServiceException;
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public java.util.HashMap getParameters(Integer paramTypeID)
             throws ServiceException;
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public Integer addCode(String tableName, String codeValue)
             throws ServiceException,
             com.argus.financials.code.InvalidCodeException;
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public Integer addCode(String tableName, String idFieldName,
             String descFieldName, String codeValue) throws ServiceException,
             com.argus.financials.code.InvalidCodeException;
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void addCode(String tableName, java.util.Map addData)
             throws ServiceException;
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void updateCode(String tableName, java.util.Map updateData,
             java.util.Map whereData) throws ServiceException;
 
     /**
      * 
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public String getDBServerVersion() throws ServiceException;
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public String getDBVersion() throws ServiceException;
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)

@@ -15,6 +15,10 @@ package com.argus.financials.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.argus.financials.bean.DbConstant;
 import com.argus.financials.bean.Financial;
 import com.argus.financials.bean.FinancialGoal;
@@ -27,6 +31,8 @@ import com.argus.financials.etc.Survey;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.projection.save.ModelCollection;
 
+@Service
+@Transactional(propagation = Propagation.REQUIRED, readOnly = false)
 public interface PersonService extends DbConstant {
 
     // GLOBAL PLAN TEMPLATE

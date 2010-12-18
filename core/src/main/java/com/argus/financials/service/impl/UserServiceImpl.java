@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.springframework.stereotype.Service;
-
 import com.argus.financials.bean.LinkObjectTypeConstant;
 import com.argus.financials.bean.db.FPSLinkObject;
 import com.argus.financials.etc.Address;
@@ -40,7 +38,6 @@ import com.argus.financials.service.ServiceException;
 import com.argus.financials.service.UserService;
 import com.argus.swing.SplashWindow;
 
-@Service
 public class UserServiceImpl extends PersonServiceImpl implements UserService {
 
     private Integer advisorTypeCodeID;

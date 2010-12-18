@@ -6,6 +6,8 @@
 
 package com.argus.financials.code;
 
+import org.apache.log4j.Logger;
+
 /**
  * 
  * @author valeri chibaev
@@ -13,28 +15,36 @@ package com.argus.financials.code;
 
 public class ReferenceDataLoader implements Runnable {
 
-    public ReferenceDataLoader() {
-        new TitleCode(); // <--- first one to load (required for user login)
-        new CountryCode(); // <--- second one to load (required for user login)
-    }
+    /** Logger. */
+    private final static Logger LOG = Logger.getLogger(ReferenceDataLoader.class);
 
     public void run() {
-        new AdviserTypeCode();
-        // new SexCode();
-        // new MaritalCode();
-        // new StateCode( null );
-        // new SuburbPostCode( null );
-        new FinancialType();
-        new FundType();
-        new Institution();
-        new FrequencyCode();
-        new IndustryCode();
-        new InvestmentType();
-        new OccupationCode();
-        new PeriodCode();
-        new SourceCode();
-        new FinancialServiceCode();
-        System.out.println("ReferenceDataLoader finished!");
+        try
+        {
+            //Connection con = ServiceLocator.getInstance().getDataSource().getConnection();
+            new TitleCode(); // <--- first one to load (required for user login)
+            new CountryCode(); // <--- second one to load (required for user login)
+            new AdviserTypeCode();
+            // new SexCode();
+            // new MaritalCode();
+            // new StateCode( null );
+            // new SuburbPostCode( null );
+            new FinancialType();
+            new FundType();
+            new Institution();
+            new FrequencyCode();
+            new IndustryCode();
+            new InvestmentType();
+            new OccupationCode();
+            new PeriodCode();
+            new SourceCode();
+            new FinancialServiceCode();
+            LOG.info("ReferenceDataLoader finished!");
+        }
+        catch (Exception e)
+        {
+            LOG.error(e);
+        }
     }
 
 }

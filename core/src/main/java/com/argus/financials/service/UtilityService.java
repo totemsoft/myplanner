@@ -6,6 +6,8 @@
 
 package com.argus.financials.service;
 
+import java.sql.Connection;
+
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,6 +71,6 @@ public interface UtilityService {
     public void syncDBSchema(String curr, String req) throws Exception;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false)
-    int syncDBSchema(int i, String update) throws Exception;
+    int syncDBSchema(Connection con, int i, String update) throws Exception;
     
 }

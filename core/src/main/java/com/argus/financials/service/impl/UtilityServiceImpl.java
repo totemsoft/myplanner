@@ -580,9 +580,10 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
         }
         try {
             String updateDir = curr < 200 ? "data/updates/core" : "data/updates";
+            Connection con = getConnection();
             for (int i = curr + 1; i <= req; i++) {
                 update = updateDir + "/" + i + ".sql";
-                i = ServiceLocator.getInstance().getUtilityService().syncDBSchema(i, update);
+                i = ServiceLocator.getInstance().getUtilityService().syncDBSchema(con, i, update);
             } 
         } finally {
             if (splash != null) {
@@ -592,13 +593,12 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
         }
     }
 
-    public int syncDBSchema(int i, String update) throws Exception {
+    public int syncDBSchema(Connection con, int i, String update) throws Exception {
         List<String> list = BaseSQLHelper.parse(update);
 
         LOG.info("Preparing to run update script: " + update);
 
         // add to Map, send to execute
-        Connection con = getConnection();
         Statement stmt = null;
         String sql = null;
         try {

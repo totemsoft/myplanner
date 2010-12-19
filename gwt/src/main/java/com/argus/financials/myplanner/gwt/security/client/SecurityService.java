@@ -3,8 +3,8 @@ package com.argus.financials.myplanner.gwt.security.client;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
-@RemoteServiceRelativePath("SecurityController")
-public interface SecurityController extends RemoteService
+@RemoteServiceRelativePath("SecurityService")
+public interface SecurityService extends RemoteService
 {
 
     /**

@@ -96,7 +96,7 @@
                     <execution>
                         <configuration>
                             <!--extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs-->
-                            <servicePattern>**/gwt/**/*Controller.java</servicePattern>
+                            <servicePattern>**/gwt/**/*Service.java</servicePattern>
                             <generateDirectory>${basedir}/src/main/java</generateDirectory>
                         </configuration>
                         <goals>

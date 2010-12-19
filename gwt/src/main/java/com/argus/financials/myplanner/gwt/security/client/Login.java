@@ -71,10 +71,9 @@ public class Login implements EntryPoint, ClickHandler {
 		password = new PasswordTextBox();
 		grid.setWidget(1, 1, password);
 		
-		Button loginButton = new Button("New button");
+		Button loginButton = new Button("Login");
 		loginButton.addClickHandler(this);
 		grid.setWidget(2, 1, loginButton);
-		loginButton.setText("Login");
 	}
 
     /* (non-Javadoc)
@@ -82,7 +81,7 @@ public class Login implements EntryPoint, ClickHandler {
      */
     public void onClick(ClickEvent event)
     {
-        SecurityControllerAsync.Util.getInstance().login(login.getText(), password.getText(), new AsyncCallback<String>()
+        SecurityServiceAsync.Util.getInstance().login(login.getText(), password.getText(), new AsyncCallback<String>()
         {
             /* (non-Javadoc)
              * @see com.google.gwt.user.client.rpc.AsyncCallback#onFailure(java.lang.Throwable)

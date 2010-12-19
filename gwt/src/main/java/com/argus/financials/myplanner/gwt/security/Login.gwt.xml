@@ -4,6 +4,4 @@
 	<inherits name="com.google.gwt.user.User"/>
 	<inherits name="com.google.gwt.user.theme.standard.Standard"/>
 	<entry-point class="com.argus.financials.myplanner.gwt.security.client.Login"/>
-
-	<servlet path="/security.do" class="com.argus.financials.myplanner.gwt.security.server.SecurityControllerImpl" />
 </module>

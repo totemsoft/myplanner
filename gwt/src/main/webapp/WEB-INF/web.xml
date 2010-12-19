@@ -40,20 +40,20 @@
 	<servlet>
 		<servlet-name>gwt-controller</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
+		<load-on-startup>0</load-on-startup>
 	</servlet>
     <servlet>
     	<servlet-name>SecurityController</servlet-name>
-    	<servlet-class>com.argus.financials.myplanner.gwt.security.server.SecurityControllerImpl</servlet-class>
+    	<servlet-class>com.argus.financials.myplanner.gwt.security.server.SecurityController</servlet-class>
     </servlet>
 
 	<servlet-mapping>
 	    <servlet-name>gwt-controller</servlet-name>
-	    <url-pattern>/com.argus.financials.myplanner.gwt.*/*Controller</url-pattern>
+	    <url-pattern>*.do</url-pattern>
 	</servlet-mapping>
     <servlet-mapping>
     	<servlet-name>SecurityController</servlet-name>
-    	<url-pattern>/com.argus.financials.myplanner.gwt.security.Login/SecurityController</url-pattern>
+    	<url-pattern>/com.argus.financials.myplanner.gwt.security.Login/SecurityService</url-pattern>
     </servlet-mapping>
 
 </web-app>

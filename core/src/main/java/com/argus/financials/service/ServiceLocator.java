@@ -62,8 +62,8 @@ public final class ServiceLocator {
         // do it just in case
         // logout();
         try {
-            UserService userPerson = getUserService().findByLoginNamePassword(userName, userPassword);
-            Integer userPersonID = (Integer) userPerson.getPrimaryKey();
+            UserService user = getUserService().findByLoginNamePassword(userName, userPassword);
+            Integer userID = (Integer) user.getPrimaryKey();
         } catch (Exception e) {
             lastError = e.getMessage();
             throw e;

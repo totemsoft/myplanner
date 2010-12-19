@@ -4,12 +4,12 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
-public interface SecurityServiceAsync
+public interface SecurityControllerAsync
 {
 
     /**
      * GWT-RPC service  asynchronous (client-side) interface
-     * @see com.argus.financials.myplanner.gwt.security.client.SecurityService
+     * @see com.argus.financials.myplanner.gwt.security.client.SecurityController
      */
     void login( java.lang.String userName, java.lang.String userPassword, AsyncCallback<java.lang.String> callback );
 
@@ -19,15 +19,15 @@ public interface SecurityServiceAsync
      */
     public static final class Util 
     { 
-        private static SecurityServiceAsync instance;
+        private static SecurityControllerAsync instance;
 
-        public static final SecurityServiceAsync getInstance()
+        public static final SecurityControllerAsync getInstance()
         {
             if ( instance == null )
             {
-                instance = (SecurityServiceAsync) GWT.create( SecurityService.class );
+                instance = (SecurityControllerAsync) GWT.create( SecurityController.class );
                 ServiceDefTarget target = (ServiceDefTarget) instance;
-                target.setServiceEntryPoint( GWT.getModuleBaseURL() + "SecurityService" );
+                target.setServiceEntryPoint( GWT.getModuleBaseURL() + "SecurityController" );
             }
             return instance;
         }

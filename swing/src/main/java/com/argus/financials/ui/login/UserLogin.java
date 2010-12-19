@@ -360,7 +360,7 @@ public final class UserLogin extends javax.swing.JPanel implements
     }
 
     public String getUserPassword() {
-        return Digest.digest(new String(jPasswordField.getPassword()));
+        return new String(jPasswordField.getPassword());
     }
 
     public String getLastError() {

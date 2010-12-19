@@ -82,7 +82,7 @@ public class Login implements EntryPoint, ClickHandler {
      */
     public void onClick(ClickEvent event)
     {
-        SecurityServiceAsync.Util.getInstance().login(login.getText(), password.getText(), new AsyncCallback<String>()
+        SecurityControllerAsync.Util.getInstance().login(login.getText(), password.getText(), new AsyncCallback<String>()
         {
             /* (non-Javadoc)
              * @see com.google.gwt.user.client.rpc.AsyncCallback#onFailure(java.lang.Throwable)

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
+import com.argus.crypto.Digest;
 import com.argus.financials.bean.LinkObjectTypeConstant;
 import com.argus.financials.bean.db.FPSLinkObject;
 import com.argus.financials.etc.Address;
@@ -238,7 +239,7 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
                     .prepareStatement("SELECT UserPersonID FROM UserPerson"
                             + " WHERE ( LoginName = ? ) AND ( LoginPassword = ? ) AND (ActiveUser <> 'N' OR ActiveUser IS NULL)");
             sql.setString(1, name);
-            sql.setString(2, password);
+            sql.setString(2, Digest.digest(password));
 
             rs = sql.executeQuery();
 

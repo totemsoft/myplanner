@@ -1,12 +1,14 @@
 package com.argus.financials.myplanner.gwt.security.client;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
@@ -16,13 +18,14 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class Login implements EntryPoint, ClickHandler {
+public class Login implements EntryPoint, ClickHandler
+{
+
+    public static final String HISTORY_TOKEN = "login";
 
     private TextBox login;
 
@@ -33,14 +36,17 @@ public class Login implements EntryPoint, ClickHandler {
      */
     public void onModuleLoad()
     {
-		RootPanel rootPanel = RootPanel.get();
+        RootPanel rootPanel = RootPanel.get();
+        rootPanel.setSize("100%", "100%");
 		
-		DockPanel dockPanel = new DockPanel();
-		dockPanel.setStyleName("mp-Panel-center");
-		rootPanel.add(dockPanel);
+        DockLayoutPanel dockLayoutPanel = new DockLayoutPanel(Unit.EM);
+        dockLayoutPanel.setStyleName("mp-Panel-center");
+		rootPanel.add(dockLayoutPanel);
+		dockLayoutPanel.setSize("230px", "160px");
 		
 		VerticalPanel verticalPanel = new VerticalPanel();
-		dockPanel.add(verticalPanel, DockPanel.CENTER);
+		verticalPanel.setStyleName("mp-Panel-center");
+		dockLayoutPanel.add(verticalPanel);
 		
 		SimplePanel infoPanel = new SimplePanel();
 		verticalPanel.add(infoPanel);
@@ -49,7 +55,6 @@ public class Login implements EntryPoint, ClickHandler {
 		infoLabel.setStyleName("mp-h1");
 		infoLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		infoPanel.setWidget(infoLabel);
-		infoLabel.setSize("100%", "100%");
 		
 		FormPanel formPanel = new FormPanel();
 		formPanel.setMethod(FormPanel.METHOD_POST);
@@ -63,6 +68,7 @@ public class Login implements EntryPoint, ClickHandler {
 		grid.setWidget(0, 0, loginLabel);
 		
 		login = new TextBox();
+		login.setText("trial");
 		grid.setWidget(0, 1, login);
 		
 		Label passwordLabel = new Label("Password:");
@@ -74,6 +80,12 @@ public class Login implements EntryPoint, ClickHandler {
 		Button loginButton = new Button("Login");
 		loginButton.addClickHandler(this);
 		grid.setWidget(2, 1, loginButton);
+
+		//
+        String historyToken = History.getToken();
+        if (historyToken.length() == 0) {
+            History.newItem(HISTORY_TOKEN);
+        }
 	}
 
     /* (non-Javadoc)
@@ -81,30 +93,26 @@ public class Login implements EntryPoint, ClickHandler {
      */
     public void onClick(ClickEvent event)
     {
-        SecurityServiceAsync.Util.getInstance().login(login.getText(), password.getText(), new AsyncCallback<String>()
+        SecurityServiceAsync.Util.getInstance().login(login.getText(), password.getText(), new LoginCallback());
+    }
+
+    private static class LoginCallback implements AsyncCallback<String>
+    {
+        public void onFailure(Throwable t)
         {
-            /* (non-Javadoc)
-             * @see com.google.gwt.user.client.rpc.AsyncCallback#onFailure(java.lang.Throwable)
-             */
-            public void onFailure(Throwable t)
+            Window.alert("Failure: " + t.getMessage()); 
+        }
+        public void onSuccess(String result)
+        {
+            if (result == null)
             {
-                Window.alert("Failure: " + t.getMessage()); 
+                Window.Location.replace("Main.html");
             }
-            /* (non-Javadoc)
-             * @see com.google.gwt.user.client.rpc.AsyncCallback#onSuccess(java.lang.String)
-             */
-            public void onSuccess(String result)
+            else
             {
-                if (result == null)
-                {
-                    Window.alert("User login success!");
-                }
-                else
-                {
-                    Window.alert("User login failed:\n" + result); 
-                }
+                Window.alert("User login failed:\n" + result); 
             }
-        });
+        }
     }
 
 }

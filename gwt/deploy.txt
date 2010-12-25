@@ -8,7 +8,7 @@ mvn -o clean install -Pdev
 ####################################################
 service jboss stop
 
-cp /home/shibaevv/dev/.m2/repository/com/argus/financials/myplanner/myplanner-gwt/1.0.0/myplanner-gwt-1.0.0-dev.war $JBOSS_HOME/server/default/deploy/myplanner-gwt-1.0.0-dev.war
+cp -u /home/shibaevv/dev/.m2/repository/com/argus/financials/myplanner/myplanner-gwt/1.0.0/myplanner-gwt-1.0.0-dev.war $JBOSS_HOME/server/default/deploy/myplanner-gwt-1.0.0-dev.war
 chown -R jboss:jboss $JBOSS_HOME
 
 service jboss start

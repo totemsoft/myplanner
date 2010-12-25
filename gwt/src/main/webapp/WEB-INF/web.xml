@@ -42,18 +42,27 @@
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
-    <servlet>
-    	<servlet-name>SecurityController</servlet-name>
-    	<servlet-class>com.argus.financials.myplanner.gwt.security.server.SecurityController</servlet-class>
-    </servlet>
-
 	<servlet-mapping>
 	    <servlet-name>gwt-controller</servlet-name>
 	    <url-pattern>*.do</url-pattern>
 	</servlet-mapping>
+
+    <servlet>
+    	<servlet-name>SecurityController</servlet-name>
+    	<servlet-class>com.argus.financials.myplanner.gwt.security.server.SecurityController</servlet-class>
+    </servlet>
     <servlet-mapping>
     	<servlet-name>SecurityController</servlet-name>
     	<url-pattern>/com.argus.financials.myplanner.gwt.security.Login/SecurityService</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+    	<servlet-name>MainService</servlet-name>
+    	<servlet-class>com.argus.financials.myplanner.gwt.main.server.MainServiceImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    	<servlet-name>MainService</servlet-name>
+    	<url-pattern>/com.argus.financials.myplanner.gwt.main.Main/MainService</url-pattern>
     </servlet-mapping>
 
 </web-app>

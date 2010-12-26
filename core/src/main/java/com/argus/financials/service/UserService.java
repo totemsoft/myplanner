@@ -12,11 +12,15 @@ package com.argus.financials.service;
  * @version
  */
 
+import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.argus.financials.etc.Contact;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
@@ -37,8 +41,7 @@ public interface UserService extends PersonService {
     UserService findByLoginNamePassword(String loginName, String loginPassword)
         throws ServiceException, ObjectNotFoundException;
 
-    public java.util.Vector findClients(java.util.HashMap selectionCriteria)
-            throws com.argus.financials.service.ServiceException;
+    public List<Contact> findClients(Map<String, Object> criteria) throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public boolean removeClient(Integer clientID)

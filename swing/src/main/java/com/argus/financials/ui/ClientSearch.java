@@ -14,7 +14,7 @@ package com.argus.financials.ui;
 
 import java.awt.Cursor;
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -776,7 +776,7 @@ public final class ClientSearch extends javax.swing.JPanel {
     private Object[][] getRowData(UserService userPerson) {
 
         try {
-            Vector data = userPerson.findClients(getSelectionCriteria());
+            List<Contact> data = userPerson.findClients(getSelectionCriteria());
 
             if (data == null)
                 return new Object[0][COLUMN_COUNT];
@@ -785,7 +785,7 @@ public final class ClientSearch extends javax.swing.JPanel {
 
             // "Name", "Adviser"
             for (int i = 0; i < data.size(); i++) {
-                Contact c = (Contact) data.elementAt(i);
+                Contact c = (Contact) data.get(i);
 
                 rowData[i][COLUMN_CLIENT] = c;// n.getShortName() + " (" +
                                                 // n.getTitleCode() + ")";

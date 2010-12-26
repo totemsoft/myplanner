@@ -126,3 +126,6 @@ body {
 .nonDataTable td {
     padding: 0 5px 2px 0;
 }
+.overflow {
+overflow:auto
+}

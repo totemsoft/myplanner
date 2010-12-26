@@ -18,6 +18,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import com.argus.crypto.Digest;
@@ -356,8 +358,7 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
         loginPassword = value;
     }
 
-    public java.util.Vector findClients(java.util.HashMap selectionCriteria)
-            throws ServiceException {
+    public List<Contact> findClients(Map<String, Object> criteria) throws ServiceException {
 
         if (getPrimaryKeyID() == null)
             return null;
@@ -371,65 +372,47 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
 
             String sql = "SELECT * FROM vUserPersonClients";
 
-            Integer countryID = null;
-            Integer stateID = null;
-            String addressSQL = "";
-            String advisorSQL = "";
-            String ownerSQL = "";
             String selectionOptions = "";
-
-            if (selectionCriteria != null) {
-
+            if (criteria != null) {
                 String fn = PersonName.FAMILY_NAME;
-                if (selectionCriteria.containsKey(fn))
-                    selectionOptions += " AND ( " + fn + " LIKE '"
-                            + (String) selectionCriteria.get(fn) + "%')";
-
+                if (criteria.containsKey(fn)) {
+                    String surname = (String) criteria.get(fn);
+                    selectionOptions += " AND ( " + fn + " LIKE '" + surname + "%')";
+                }
                 fn = PersonName.FIRST_NAME;
-                if (selectionCriteria.containsKey(fn))
-                    selectionOptions += " AND ( " + fn + " LIKE '"
-                            + (String) selectionCriteria.get(fn) + "%')";
-
+                if (criteria.containsKey(fn)) {
+                    String firstname = (String) criteria.get(fn);
+                    selectionOptions += " AND ( " + fn + " LIKE '" + firstname + "%')";
+                }
                 fn = PersonName.DATE_OF_BIRTH;
-                if (selectionCriteria.containsKey(fn))
-                    selectionOptions += " AND ( " + fn + " = '"
-                            + (String) selectionCriteria.get(fn) + "')";
-
+                if (criteria.containsKey(fn)) {
+                    String dob = (String) criteria.get(fn);
+                    selectionOptions += " AND ( " + fn + " = '" + dob + "')";
+                }
                 fn = Address.COUNTRY;
-                if (selectionCriteria.containsKey(fn)) {
-                    countryID = (Integer) selectionCriteria.get(fn);
-                    selectionOptions += " AND countrycodeid = "
-                            + countryID.toString();
+                if (criteria.containsKey(fn)) {
+                    String countryID = criteria.get(fn).toString();
+                    selectionOptions += " AND countrycodeid = " + countryID;
                 }
-
                 fn = Address.STATE;
-                if (selectionCriteria.containsKey(fn)) {
-                    stateID = (Integer) selectionCriteria.get(fn);
-                    selectionOptions = selectionOptions + " AND statecodeid = "
-                            + stateID.toString();
-
+                if (criteria.containsKey(fn)) {
+                    String stateID = criteria.get(fn).toString();
+                    selectionOptions = selectionOptions + " AND statecodeid = " + stateID.toString();
                 }
-
                 fn = Address.POSTCODE;
-                if (selectionCriteria.containsKey(fn)) {
-                    String postCode = (String) selectionCriteria.get(fn);
+                if (criteria.containsKey(fn)) {
+                    String postCode = (String) criteria.get(fn);
                     selectionOptions += " AND postcode = " + postCode;
-
                 }
-
-                if (selectionCriteria.containsKey(ALL_USERS_CLIENTS)
-                        && Boolean.TRUE.equals(selectionCriteria
-                                .get(ALL_USERS_CLIENTS))) {
+                if (criteria.containsKey(ALL_USERS_CLIENTS)
+                        && Boolean.TRUE.equals(criteria.get(ALL_USERS_CLIENTS))) {
                     // add nothing
-
                 } else {
                     fn = UserService.ADVISORID;
-                    if (selectionCriteria.containsKey(fn)) {
-                        Object advisorID = selectionCriteria.get(fn);
-                        selectionOptions += " AND AdviserID = "
-                                + advisorID.toString();
+                    if (criteria.containsKey(fn)) {
+                        String advisorID = criteria.get(fn).toString();
+                        selectionOptions += " AND AdviserID = " + advisorID;
                     }
-
                 }
 
                 selectionOptions = selectionOptions.trim();
@@ -446,8 +429,7 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
             stmt = con.prepareStatement(sql);
             rs = stmt.executeQuery();
 
-            Vector data = new Vector();
-
+            List<Contact> data = new ArrayList<Contact>();
             while (rs.next()) {
 
                 PersonName pOwner = new PersonName();
@@ -516,7 +498,7 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
                 c.setFaxWork(pFaxWork);
                 c.setEmailWork(pEmailWork);
 
-                data.addElement(c);
+                data.add(c);
             }
 
             close(rs, stmt);
@@ -530,10 +512,6 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
 //            PersonNameAddressBean pnab = null;
 //            ListIterator iter = data.listIterator();
 
-            if (TRIALID.equalsIgnoreCase(loginName)) {
-                data.setSize(1);
-            }
-            
             return data;
 
         } catch (SQLException e) {

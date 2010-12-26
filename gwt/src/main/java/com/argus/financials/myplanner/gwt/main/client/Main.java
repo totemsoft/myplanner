@@ -16,12 +16,13 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class Main implements EntryPoint, ValueChangeHandler<String> {
 
     public static final String TITLE = "MyPlanner :: ";
 
-    private SimplePanel centerPanel;
+    private ScrollPanel centerPanel;
 
     /* (non-Javadoc)
      * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
@@ -124,9 +125,9 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         dockLayoutPanel.addSouth(horizontalPanel, 1.2);
         horizontalPanel.setSize("100%", "100%");
         
-        centerPanel = new SimplePanel();
+        centerPanel = new ScrollPanel();
         dockLayoutPanel.add(centerPanel);
-
+        
         History.addValueChangeHandler(this);
 
         showClientSearch(); // default

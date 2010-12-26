@@ -14,9 +14,9 @@ package com.argus.financials.ui.sql;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Vector;
 
 import javax.swing.JTree;
 import javax.swing.UIManager;
@@ -654,13 +654,13 @@ public class ExportImportManagerApp extends javax.swing.JPanel {
                 selectionCriteria.put(UserService.ADVISORID, userPerson
                         .getPrimaryKey());
 
-            Vector clients = userPerson.findClients(selectionCriteria);
+            List<Contact> clients = userPerson.findClients(selectionCriteria);
             int size = clients == null ? 0 : clients.size();
 
             Map users = new TreeMap();
 
             for (int i = 0; i < size; i++) {
-                Contact c = (Contact) clients.elementAt(i);
+                Contact c = (Contact) clients.get(i);
                 if (c == null || c.getName() == null
                         || c.getName().getFullName() == null)
                     continue;

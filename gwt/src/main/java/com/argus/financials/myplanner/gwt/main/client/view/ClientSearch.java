@@ -4,12 +4,14 @@ import java.util.Arrays;
 
 import com.argus.financials.myplanner.commons.client.AbstractAsyncCallback;
 import com.argus.financials.myplanner.commons.client.BasePair;
+import com.argus.financials.myplanner.commons.client.StringPair;
 import com.argus.financials.myplanner.gwt.main.client.Main;
 import com.argus.financials.myplanner.gwt.main.client.MainServiceAsync;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.Window;
@@ -35,11 +37,23 @@ public class ClientSearch extends Composite
 
     private CellTable<BasePair> table;
 
+    private ListBox stateComboBox;
+
+    private ListBox countryComboBox;
+
+    private TextBox surnameTextBox;
+
+    private TextBox firstnameTextBox;
+
+    private DateBox dobDateBox;
+
+    private TextBox postcodeTextBox;
+
     public ClientSearch()
     {
         VerticalPanel verticalPanel = new VerticalPanel();
-        verticalPanel.setStyleName("mp-Panel-center");
         initWidget(verticalPanel);
+        verticalPanel.setStyleName("mp-Panel-center");
         verticalPanel.setSize("30em", null);
 
         FormPanel formPanel = new FormPanel();
@@ -53,16 +67,17 @@ public class ClientSearch extends Composite
         Label label = new Label("Surname");
         grid.setWidget(0, 0, label);
 
-        TextBox textBox = new TextBox();
-        textBox.setFocus(true);
-        grid.setWidget(0, 1, textBox);
+        surnameTextBox = new TextBox();
+        surnameTextBox.setFocus(true);
+        grid.setWidget(0, 1, surnameTextBox);
 
         Label label_1 = new Label("DOB");
         grid.setWidget(0, 2, label_1);
 
-        DateBox dateBox = new DateBox();
-        dateBox.setFormat(new DefaultFormat(DateTimeFormat.getShortDateFormat()));
-        grid.setWidget(0, 3, dateBox);
+        dobDateBox = new DateBox();
+        dobDateBox.setFormat(new DefaultFormat(DateTimeFormat
+            .getFormat(PredefinedFormat.DATE_SHORT)));
+        grid.setWidget(0, 3, dobDateBox);
 
         Button button = new Button("Search");
         button.addClickHandler(new ClickHandler()
@@ -77,31 +92,31 @@ public class ClientSearch extends Composite
         Label label_2 = new Label("Firstname");
         grid.setWidget(1, 0, label_2);
 
-        TextBox textBox_1 = new TextBox();
-        grid.setWidget(1, 1, textBox_1);
+        firstnameTextBox = new TextBox();
+        grid.setWidget(1, 1, firstnameTextBox);
 
         Label label_3 = new Label("State");
         grid.setWidget(1, 2, label_3);
 
-        ListBox comboBox = new ListBox();
-        grid.setWidget(1, 3, comboBox);
+        stateComboBox = new ListBox();
+        grid.setWidget(1, 3, stateComboBox);
 
         Label label_4 = new Label("Country");
         grid.setWidget(2, 0, label_4);
 
-        ListBox comboBox_1 = new ListBox();
-        grid.setWidget(2, 1, comboBox_1);
+        countryComboBox = new ListBox();
+        grid.setWidget(2, 1, countryComboBox);
 
         Label label_5 = new Label("Postcode");
         grid.setWidget(2, 2, label_5);
 
-        TextBox textBox_2 = new TextBox();
-        grid.setWidget(2, 3, textBox_2);
+        postcodeTextBox = new TextBox();
+        grid.setWidget(2, 3, postcodeTextBox);
 
         table = new CellTable<BasePair>();
         verticalPanel.add(table);
+        table.setWidth("100%");
         table.setStyleName("border");
-        table.setSize("100%", "100%");
         table.setPageSize(10);
 
         Column<BasePair, String> columnId = new Column<BasePair, String>(new TextCell())
@@ -124,6 +139,8 @@ public class ClientSearch extends Composite
         };
         table.addColumn(columnDetails, "Client Details");
         table.setSelectionModel(new ClientSelectionModel());
+        //table.setRowData(0, Collections.EMPTY_LIST);
+        table.setRowCount(0, true);
 
         Window.setTitle(Main.TITLE + TITLE);
     }
@@ -149,7 +166,8 @@ public class ClientSearch extends Composite
 
     private void onSearch()
     {
-        MainServiceAsync.Util.getInstance().findClients(new SearchCallback());
+        StringPair[] criteria = new StringPair[6];
+        MainServiceAsync.Util.getInstance().findClients(criteria, new SearchCallback());
     }
 
     private class SearchCallback extends AbstractAsyncCallback<BasePair[]>

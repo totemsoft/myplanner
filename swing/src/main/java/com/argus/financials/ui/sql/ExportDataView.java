@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JFileChooser;
@@ -508,11 +509,11 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
                 selectionCriteria.put(UserService.ADVISORID, user
                         .getPrimaryKey());
 
-            Vector clients = user.findClients(selectionCriteria);
+            List<Contact> clients = user.findClients(selectionCriteria);
             int size = clients == null ? 0 : clients.size();
             Vector data = new Vector(size);
             for (int i = 0; i < size; i++) {
-                Contact c = (Contact) clients.elementAt(i);
+                Contact c = (Contact) clients.get(i);
 
                 java.util.Vector row = new java.util.Vector();
 

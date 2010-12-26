@@ -1,5 +1,6 @@
 package com.argus.financials.myplanner.gwt.main.client;
 
+import com.argus.financials.myplanner.commons.client.AbstractAsyncCallback;
 import com.argus.financials.myplanner.gwt.main.client.view.ClientSearch;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
@@ -8,7 +9,6 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -17,18 +17,16 @@ import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class Main implements EntryPoint, ValueChangeHandler<String>
-{
+public class Main implements EntryPoint, ValueChangeHandler<String> {
 
-    public static final String HISTORY_TOKEN = "main";
+    public static final String TITLE = "MyPlanner :: ";
 
     private SimplePanel centerPanel;
 
     /* (non-Javadoc)
      * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
      */
-    public void onModuleLoad()
-    {
+    public void onModuleLoad() {
         RootPanel rootPanel = RootPanel.get();
         rootPanel.setSize("100%", "100%");
         
@@ -68,7 +66,7 @@ public class Main implements EntryPoint, ValueChangeHandler<String>
         
         MenuItem mntmSearch = new MenuItem("Search", false, new Command() {
             public void execute() {
-                onClientSearch();
+                showClientSearch();
             }
         });
         menuBar_2.addItem(mntmSearch);
@@ -129,13 +127,9 @@ public class Main implements EntryPoint, ValueChangeHandler<String>
         centerPanel = new SimplePanel();
         dockLayoutPanel.add(centerPanel);
 
-        //
-        String historyToken = History.getToken();
-        if (historyToken == null || historyToken.length() == 0) {
-            History.newItem(HISTORY_TOKEN);
-            History.addValueChangeHandler(this);
-            //Window.alert("History Token added: " + HISTORY_TOKEN);
-        }
+        History.addValueChangeHandler(this);
+
+        showClientSearch(); // default
     }
 
     /* (non-Javadoc)
@@ -143,26 +137,33 @@ public class Main implements EntryPoint, ValueChangeHandler<String>
      */
     public void onValueChange(ValueChangeEvent<String> event) {
         String historyToken = event.getValue();
+        if (historyToken.length() == 0) {
+            Window.alert("Empty History Token");
+            return;
+        }
+
+        Window.alert("History Token changed: " + historyToken);
         // parse url fragment
-        if (historyToken.endsWith(HISTORY_TOKEN)) {
-            
-        } else if (historyToken.endsWith(ClientSearch.HISTORY_TOKEN)) {
-            onClientSearch();
+        if (historyToken.equals(ClientSearch.HISTORY_TOKEN)) {
+            centerPanel.setWidget(new ClientSearch());
+        } else {
+            Window.alert("Unhandled History Token: " + historyToken);
         }
     }
 
-    private void onClientSearch() {
-        centerPanel.add(new ClientSearch());
+    private void showClientSearch() {
+        if (History.getToken().equals(ClientSearch.HISTORY_TOKEN)) {
+            History.fireCurrentHistoryState();
+        } else {
+            History.newItem(ClientSearch.HISTORY_TOKEN);
+        }
     }
 
     private void onLogout() {
         MainServiceAsync.Util.getInstance().logout(new LogoutCallback());
     }
 
-    private static class LogoutCallback implements AsyncCallback<Void> {
-        public void onFailure(Throwable t) {
-            Window.alert("Failure: " + t.getMessage());
-        }
+    private class LogoutCallback extends AbstractAsyncCallback<Void> {
         public void onSuccess(Void result) {
             Window.Location.replace("Login.html");
         }

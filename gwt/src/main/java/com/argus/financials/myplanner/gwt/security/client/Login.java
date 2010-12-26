@@ -1,12 +1,11 @@
 package com.argus.financials.myplanner.gwt.security.client;
 
+import com.argus.financials.myplanner.commons.client.AbstractAsyncCallback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FormPanel;
@@ -22,10 +21,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class Login implements EntryPoint, ClickHandler
-{
-
-    public static final String HISTORY_TOKEN = "login";
+public class Login implements EntryPoint, ClickHandler {
 
     private TextBox login;
 
@@ -34,8 +30,7 @@ public class Login implements EntryPoint, ClickHandler
 	/* (non-Javadoc)
      * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
      */
-    public void onModuleLoad()
-    {
+    public void onModuleLoad() {
         RootPanel rootPanel = RootPanel.get();
         rootPanel.setSize("100%", "100%");
 		
@@ -80,36 +75,20 @@ public class Login implements EntryPoint, ClickHandler
 		Button loginButton = new Button("Login");
 		loginButton.addClickHandler(this);
 		grid.setWidget(2, 1, loginButton);
-
-		//
-        String historyToken = History.getToken();
-        if (historyToken.length() == 0) {
-            History.newItem(HISTORY_TOKEN);
-        }
 	}
 
     /* (non-Javadoc)
      * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt.event.dom.client.ClickEvent)
      */
-    public void onClick(ClickEvent event)
-    {
+    public void onClick(ClickEvent event) {
         SecurityServiceAsync.Util.getInstance().login(login.getText(), password.getText(), new LoginCallback());
     }
 
-    private static class LoginCallback implements AsyncCallback<String>
-    {
-        public void onFailure(Throwable t)
-        {
-            Window.alert("Failure: " + t.getMessage()); 
-        }
-        public void onSuccess(String result)
-        {
-            if (result == null)
-            {
+    private static class LoginCallback extends AbstractAsyncCallback<String> {
+        public void onSuccess(String result) {
+            if (result == null) {
                 Window.Location.replace("Main.html");
-            }
-            else
-            {
+            } else {
                 Window.alert("User login failed:\n" + result); 
             }
         }

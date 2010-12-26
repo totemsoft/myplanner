@@ -18,8 +18,37 @@ public class MainServiceImpl extends AbstractGwtController implements MainServic
     public BasePair[] findClients()
     {
         List<BasePair> result = new ArrayList<BasePair>();
-        result.add(new BasePair(1, "Valera"));
-        result.add(new BasePair(2, "Ilia"));
+        int i = 1;
+        result.add(new BasePair(i++, "Valera"));
+        result.add(new BasePair(i++, "Ilia"));
+        result.add(new BasePair(i++, "Valera"));
+        result.add(new BasePair(i++, "Ilia"));
+        result.add(new BasePair(i++, "Valera"));
+        result.add(new BasePair(i++, "Ilia"));
+        result.add(new BasePair(i++, "Valera"));
+        result.add(new BasePair(i++, "Ilia"));
+        result.add(new BasePair(i++, "Valera"));
+        result.add(new BasePair(i++, "Ilia"));
+        result.add(new BasePair(i++, "Valera"));
+        result.add(new BasePair(i++, "Ilia"));
+        result.add(new BasePair(i++, "Valera"));
+        result.add(new BasePair(i++, "Ilia"));
+        result.add(new BasePair(i++, "Valera"));
+        result.add(new BasePair(i++, "Ilia"));
+        result.add(new BasePair(i++, "Valera"));
+        result.add(new BasePair(i++, "Ilia"));
+        result.add(new BasePair(i++, "Valera"));
+        result.add(new BasePair(i++, "Ilia"));
+        result.add(new BasePair(i++, "Valera"));
+        result.add(new BasePair(i++, "Ilia"));
+        result.add(new BasePair(i++, "Valera"));
+        result.add(new BasePair(i++, "Ilia"));
+        result.add(new BasePair(i++, "Valera"));
+        result.add(new BasePair(i++, "Ilia"));
+        result.add(new BasePair(i++, "Valera"));
+        result.add(new BasePair(i++, "Ilia"));
+        result.add(new BasePair(i++, "Valera"));
+        result.add(new BasePair(i++, "Ilia"));
         return (BasePair[]) result.toArray(new BasePair[0]);
     }
 

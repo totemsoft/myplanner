@@ -79,6 +79,7 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
         <asm.version>2.2.3</asm.version>
         <cglib.version>2.2</cglib.version>
         <antlr.version>2.7.7</antlr.version>
+        <btm.version>2.1.0</btm.version>
         <org.antlr.version>3.0.1</org.antlr.version>
         <aspectj.version>1.6.2</aspectj.version>
         <commons-beanutils.version>1.8.3</commons-beanutils.version>
@@ -92,7 +93,9 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
         <commons-lang.version>2.5</commons-lang.version>
         <commons-logging.version>1.1.1</commons-logging.version>
         <commons-net.version>2.0</commons-net.version>
-        <hibernate.version>3.2.7.ga</hibernate.version>
+        <hibernate.version>3.3.1.GA</hibernate.version>
+        <hibernate-annotations.version>3.4.0.GA</hibernate-annotations.version>
+        <hibernate-entitymanager.version>3.4.0.GA</hibernate-entitymanager.version>
         <junit.version>3.8.2</junit.version>
         <jxl.version>2.6.10</jxl.version>
         <log4j.version>1.2.15</log4j.version>
@@ -200,6 +203,16 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
@@ -207,6 +220,10 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -221,6 +238,7 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
                 <artifactId>myplanner-core</artifactId>
                 <version>${application.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>asm</groupId>
                 <artifactId>asm-commons</artifactId>
@@ -246,6 +264,7 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
                 <artifactId>antlr</artifactId>
                 <version>${org.antlr.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjrt</artifactId>
@@ -365,6 +384,11 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
+                <artifactId>spring-jdbc</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
                 <version>${spring.version}</version>
             </dependency>
@@ -380,21 +404,63 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
                 <scope>test</scope>
             </dependency>
 
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate</artifactId>
-                <version>${hibernate.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>cglib</groupId>
-                        <artifactId>cglib</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-core</artifactId>
+        <version>${hibernate.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-ehcache</artifactId>
+        <version>${hibernate.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-annotations</artifactId>
+        <version>${hibernate-annotations.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-entitymanager</artifactId>
+        <version>${hibernate-entitymanager.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>${log4j.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>javax.jms</groupId>
+            <artifactId>jms</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.sun.jmx</groupId>
+            <artifactId>jmxri</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>com.sun.jdmk</groupId>
+            <artifactId>jmxtools</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+
             <dependency>
                 <groupId>net.sourceforge.jtds</groupId>
                 <artifactId>jtds</artifactId>
                 <version>${jtds.version}</version>
+                <scope>test</scope>
             </dependency>
 
             <dependency>

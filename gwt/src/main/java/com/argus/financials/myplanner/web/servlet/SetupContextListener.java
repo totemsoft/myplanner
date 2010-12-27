@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.argus.financials.code.ReferenceDataLoader;
 import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.service.UtilityService;
 

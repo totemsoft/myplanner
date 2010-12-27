@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+      http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+  default-lazy-init="true">
+
+  <context:annotation-config />
+
+  <!--context:component-scan base-package="com.argus.financials.myplanner" /-->
+
+  <!-- ========================= JPA DEFINITIONS ========================= -->
+  <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+    <property name="showSql" value="false" />
+    <property name="generateDdl" value="false" />
+    <property name="databasePlatform" value="org.hibernate.dialect.SQLServerDialect" />
+  </bean>
+  
+  <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <property name="dataSource" ref="dataSource" />
+    <property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+    <property name="persistenceUnitName" value="myplanner" />
+    <!--property name="jpaPropertyMap">
+      <map>
+        <entry key="transaction.factory_class" value="org.hibernate.transaction.JTATransactionFactory"/>
+        <entry key="hibernate.transaction.manager_lookup_class" value="$jdbc{hibernate.transaction.manager_lookup_class}"/>
+      </map>
+    </property-->
+  </bean>
+  
+  <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+    <constructor-arg ref="dataSource" />
+  </bean>
+
+</beans>

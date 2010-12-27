@@ -776,7 +776,7 @@ public final class ClientSearch extends javax.swing.JPanel {
     private Object[][] getRowData(UserService userPerson) {
 
         try {
-            List<Contact> data = userPerson.findClients(getSelectionCriteria());
+            List<Contact> data = userPerson.findClients(getSelectionCriteria(), null);
 
             if (data == null)
                 return new Object[0][COLUMN_COUNT];

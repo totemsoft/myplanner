@@ -12,6 +12,12 @@
     <!-- ========================= SERVICE DEFINITIONS ===================== -->
     <import resource="classpath:spring/spring-inc-service.xml" />
 
+    <!-- ========================= JPA DEFINITIONS ========================= -->
+    <import resource="classpath:spring/spring-inc-jpa.xml" />
+
+    <!-- ========================= TXN DEFINITIONS ========================= -->
+    <!--import resource="classpath:spring/spring-inc-tx-local.xml" /-->
+
     <!-- ========================= OTHER DEFINITIONS ============================= -->
     <bean id="userPreferences" class="com.argus.financials.security.UserPreferences" scope="session" />
 

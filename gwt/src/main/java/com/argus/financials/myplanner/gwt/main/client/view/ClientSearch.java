@@ -1,6 +1,8 @@
 package com.argus.financials.myplanner.gwt.main.client.view;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import com.argus.financials.myplanner.commons.client.AbstractAsyncCallback;
 import com.argus.financials.myplanner.commons.client.BasePair;
@@ -11,9 +13,9 @@ import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -25,8 +27,11 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
 import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
+import com.google.gwt.view.client.Range;
+import com.google.gwt.view.client.RangeChangeEvent;
 import com.google.gwt.view.client.SelectionChangeEvent;
 import com.google.gwt.view.client.SingleSelectionModel;
+import com.google.gwt.view.client.RangeChangeEvent.Handler;
 
 public class ClientSearch extends Composite
 {
@@ -56,12 +61,12 @@ public class ClientSearch extends Composite
         verticalPanel.setStyleName("mp-Panel-center");
         verticalPanel.setSize("30em", null);
 
-        FormPanel formPanel = new FormPanel();
-        verticalPanel.add(formPanel);
-        formPanel.setMethod(FormPanel.METHOD_POST);
+        FormPanel form = new FormPanel();
+        verticalPanel.add(form);
+        form.setMethod(FormPanel.METHOD_POST);
 
         Grid grid = new Grid(3, 5);
-        formPanel.setWidget(grid);
+        form.setWidget(grid);
         grid.setStyleName("nonDataTable");
 
         Label label = new Label("Surname");
@@ -75,8 +80,7 @@ public class ClientSearch extends Composite
         grid.setWidget(0, 2, label_1);
 
         dobDateBox = new DateBox();
-        dobDateBox.setFormat(new DefaultFormat(DateTimeFormat
-            .getFormat(PredefinedFormat.DATE_SHORT)));
+        dobDateBox.setFormat(new DefaultFormat(DateTimeFormat.getFormat("dd/MM/yyyy")));
         grid.setWidget(0, 3, dobDateBox);
 
         Button button = new Button("Search");
@@ -84,7 +88,7 @@ public class ClientSearch extends Composite
         {
             public void onClick(ClickEvent event)
             {
-                onSearch();
+                onSearch(new Range(0, 10));
             }
         });
         grid.setWidget(0, 4, button);
@@ -114,6 +118,11 @@ public class ClientSearch extends Composite
         grid.setWidget(2, 3, postcodeTextBox);
 
         table = new CellTable<BasePair>();
+        table.addRangeChangeHandler(new Handler() {
+            public void onRangeChange(RangeChangeEvent event) {
+                onSearch(event.getNewRange());
+            }
+        });
         verticalPanel.add(table);
         table.setWidth("100%");
         table.setStyleName("border");
@@ -124,7 +133,7 @@ public class ClientSearch extends Composite
             @Override
             public String getValue(BasePair object)
             {
-                return object.getFirst().toString();
+                return "" + object.getFirst();
             }
         };
         table.addColumn(columnId, "Client ID");
@@ -134,11 +143,15 @@ public class ClientSearch extends Composite
             @Override
             public String getValue(BasePair object)
             {
-                return object.getSecond().toString();
+                return object.getSecond();
             }
         };
         table.addColumn(columnDetails, "Client Details");
         table.setSelectionModel(new ClientSelectionModel());
+        
+        SimplePager pager = new SimplePager();
+        pager.setDisplay(table);
+        verticalPanel.add(pager);
         //table.setRowData(0, Collections.EMPTY_LIST);
         table.setRowCount(0, true);
 
@@ -157,17 +170,24 @@ public class ClientSearch extends Composite
                     BasePair selected = ClientSelectionModel.this.getSelectedObject();
                     if (selected != null)
                     {
-                        Window.alert("You selected: " + selected.toString());
+                        //Window.alert("You selected: " + selected.toString());
+                        
                     }
                 }
             });
         }
     }
 
-    private void onSearch()
+    private void onSearch(Range range)
     {
-        StringPair[] criteria = new StringPair[6];
-        MainServiceAsync.Util.getInstance().findClients(criteria, new SearchCallback());
+        List<StringPair> criteria = new ArrayList<StringPair>();
+//        criteria.add(new StringPair("FamilyName", surnameTextBox.getText()));
+//        criteria.add(new StringPair("FirstName", firstnameTextBox.getText()));
+//        criteria.add(new StringPair("DateOfBirth", dobDateBox.getTextBox().getText()));
+//        criteria.add(new StringPair("CountryCodeID", countryComboBox.getValue(countryComboBox.getSelectedIndex())));
+//        criteria.add(new StringPair("StateCodeID", stateComboBox.getValue(stateComboBox.getSelectedIndex())));
+//        criteria.add(new StringPair("PostCode", postcodeTextBox.getText()));
+        MainServiceAsync.Util.getInstance().findClients((StringPair[]) criteria.toArray(new StringPair[0]), range, new SearchCallback());
     }
 
     private class SearchCallback extends AbstractAsyncCallback<BasePair[]>

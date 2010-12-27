@@ -4,11 +4,12 @@ import com.argus.financials.myplanner.commons.client.BasePair;
 import com.argus.financials.myplanner.commons.client.StringPair;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.google.gwt.view.client.Range;
 
 @RemoteServiceRelativePath("MainService")
 public interface MainService extends RemoteService {
 
-    BasePair[] findClients(StringPair[] criteria);
+    BasePair[] findClients(StringPair[] criteria, Range range);
 
     void logout();
 

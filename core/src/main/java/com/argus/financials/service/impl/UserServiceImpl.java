@@ -17,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,7 @@ import com.argus.financials.service.ObjectNotFoundException;
 import com.argus.financials.service.ServiceException;
 import com.argus.financials.service.UserService;
 import com.argus.swing.SplashWindow;
+import com.argus.util.Range;
 
 public class UserServiceImpl extends PersonServiceImpl implements UserService {
 
@@ -358,15 +360,14 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
         loginPassword = value;
     }
 
-    public List<Contact> findClients(Map<String, Object> criteria) throws ServiceException {
+    public List<Contact> findClients(Map<String, Object> criteria, Range range) throws ServiceException {
 
         if (getPrimaryKeyID() == null)
-            return null;
+            return Collections.emptyList();
 
         Connection con = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
         try {
             con = this.getConnection();
 
@@ -423,7 +424,6 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
                         selectionOptions = selectionOptions.substring(3);
                     sql += " WHERE " + selectionOptions;
                 }
-
             }
 
             stmt = con.prepareStatement(sql);
@@ -431,7 +431,6 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
 
             List<Contact> data = new ArrayList<Contact>();
             while (rs.next()) {
-
                 PersonName pOwner = new PersonName();
                 PersonName pName = new PersonName();
                 ContactMedia pPhone = new ContactMedia();
@@ -502,15 +501,6 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
             }
 
             close(rs, stmt);
-            rs = null;
-            stmt = null;
-
-            if (data == null)
-                return null;
-
-//            ContactBean cb = null;
-//            PersonNameAddressBean pnab = null;
-//            ListIterator iter = data.listIterator();
 
             return data;
 

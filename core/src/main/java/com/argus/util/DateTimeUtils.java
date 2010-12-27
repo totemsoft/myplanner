@@ -322,27 +322,6 @@ public class DateTimeUtils {
 
     }
     
-    
-    /**
-     * @param args the command line arguments
-     */
-    static void main( String args[] ) {
-        System.out.println( "FinancialYearEnd=" + 
-            DateTimeUtils.getFinancialYearEnd( new java.util.Date() ) );
-        
-        System.out.println( "" + 
-            getFinancialYearFraction( 
-                2003, 
-                //new java.util.Date(),
-                null,
-                //getDate( "10/7/2002" ),
-                //null
-                getDate( "1/2/2003" ) 
-            )
-        );
-    }
-    
-    
     public static double getFinancialYearFraction( java.util.Date calcDate, boolean left ) {
 
         int year = getFinancialYearEnd( calcDate );

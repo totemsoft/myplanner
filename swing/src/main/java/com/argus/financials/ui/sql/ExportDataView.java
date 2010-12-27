@@ -509,7 +509,7 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
                 selectionCriteria.put(UserService.ADVISORID, user
                         .getPrimaryKey());
 
-            List<Contact> clients = user.findClients(selectionCriteria);
+            List<Contact> clients = user.findClients(selectionCriteria, null);
             int size = clients == null ? 0 : clients.size();
             Vector data = new Vector(size);
             for (int i = 0; i < size; i++) {

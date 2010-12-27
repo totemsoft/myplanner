@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.argus.financials.etc.Contact;
+import com.argus.util.Range;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
@@ -41,7 +42,7 @@ public interface UserService extends PersonService {
     UserService findByLoginNamePassword(String loginName, String loginPassword)
         throws ServiceException, ObjectNotFoundException;
 
-    public List<Contact> findClients(Map<String, Object> criteria) throws ServiceException;
+    public List<Contact> findClients(Map<String, Object> criteria, Range range) throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public boolean removeClient(Integer clientID)

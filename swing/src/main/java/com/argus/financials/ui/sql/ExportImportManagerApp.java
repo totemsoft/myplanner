@@ -654,7 +654,7 @@ public class ExportImportManagerApp extends javax.swing.JPanel {
                 selectionCriteria.put(UserService.ADVISORID, userPerson
                         .getPrimaryKey());
 
-            List<Contact> clients = userPerson.findClients(selectionCriteria);
+            List<Contact> clients = userPerson.findClients(selectionCriteria, null);
             int size = clients == null ? 0 : clients.size();
 
             Map users = new TreeMap();

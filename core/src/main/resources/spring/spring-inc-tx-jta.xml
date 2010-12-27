@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="
+      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+  default-autowire="byName" default-lazy-init="false">
+
+  <tx:annotation-driven />
+
+  <!-- There is a requirement for XA transactions. -->
+  <!-- standard scenarios, including WebLogic, WebSphere and OC4J -->
+  <tx:jta-transaction-manager>
+    <property name="defaultTimeout" value="300" />
+  </tx:jta-transaction-manager>
+
+  <!-- When running on JBoss, I'd like to use JBoss' own TransactionManager -->
+  <!--bean id="transactionManager" class="org.springframework.transaction.jta.JtaTransactionManager">
+    <property name="defaultTimeout" value="300" />
+    <property name="transactionManager">
+      <bean class="org.springframework.jndi.JndiObjectFactoryBean">
+           <property name="resourceRef" value="true" />
+           <property name="jndiName" value="java:/TransactionManager" />
+           <property name="expectedType" value="javax.transaction.TransactionManager" />
+      </bean>
+    </property>
+  </bean-->
+
+</beans>

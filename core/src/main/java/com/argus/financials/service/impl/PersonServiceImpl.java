@@ -98,123 +98,79 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     /**
      * 
      */
-    public void storePerson() throws com.argus.financials.service.ServiceException {
-        Connection con = null;
+    public void storePerson() throws ServiceException {
         try {
-            con = getConnection();
-            try {
-                storePerson(con);
-                if (financialGoal != null)
-                    storeFinancialGoal(con);
-                con.commit();
-            } catch (SQLException e) {
-                con.rollback();
-                throw e;
-            }
+            Connection con = getConnection();
+            storePerson(con);
+            if (financialGoal != null)
+                storeFinancialGoal(con);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
         }
     }
 
-    public void storeFinancials() throws com.argus.financials.service.ServiceException {
+    public void storeFinancials() throws ServiceException {
         if (financials == null && financialGoal == null)
             return;
-        Connection con = null;
         try {
-            con = getConnection();
-            try {
-                if (financials != null)
-                    storeFinancials(con); // first
-                if (financialGoal != null)
-                    storeFinancialGoal(con); // second (will use financial
-                                                // data)
-                con.commit();
-
-                setFinancialSaved();
-            } catch (SQLException e) {
-                con.rollback();
-                throw e;
-            }
+            Connection con = getConnection();
+            if (financials != null)
+                storeFinancials(con); // first
+            if (financialGoal != null)
+                storeFinancialGoal(con); // second (will use financial data)
+            setFinancialSaved();
         } catch (SQLException e) {
             e.printStackTrace(System.err);
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
     }
 
-    public void storeComments() throws com.argus.financials.service.ServiceException {
+    public void storeComments() throws ServiceException {
         if (comments == null)
             return;
-        Connection con = null;
         try {
-            con = getConnection();
-            try {
-                storeComments(con);
-                con.commit();
-            } catch (SQLException e) {
-                con.rollback();
-                throw e;
-            }
+            Connection con = getConnection();
+            storeComments(con);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
     }
 
-    public void storeSurveys() throws com.argus.financials.service.ServiceException {
+    public void storeSurveys() throws ServiceException {
         if (surveys == null)
             return;
-        Connection con = null;
         try {
-            con = getConnection();
-            try {
-                storeSurveys(con);
-                con.commit();
-            } catch (SQLException e) {
-                con.rollback();
-                throw e;
-            }
+            Connection con = getConnection();
+            storeSurveys(con);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
     }
 
-    public void storeModels() throws com.argus.financials.service.ServiceException {
+    public void storeModels() throws ServiceException {
         if (models == null)
             return;
-        Connection con = null;
         try {
-            con = getConnection();
-            try {
-                storeModels(con);
-                con.commit();
-            } catch (SQLException e) {
-                con.rollback();
-                throw e;
-            }
+            Connection con = getConnection();
+            storeModels(con);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
     }
 
-    public void storeEmployerBusiness() throws com.argus.financials.service.ServiceException {
+    public void storeEmployerBusiness() throws ServiceException {
         if (employerBusiness == null)
             return;
-        Connection con = null;
         try {
-            con = getConnection();
-            try {
-                storeEmployerBusiness(con);
-                con.commit();
-            } catch (SQLException e) {
-                con.rollback();
-                throw e;
-            }
+            Connection con = getConnection();
+            storeEmployerBusiness(con);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
     }
 
@@ -257,36 +213,14 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     }
 
     public Integer create() throws ServiceException, CreateException {
-
-        Connection con = null;
-
         try {
-            con = getConnection();
-
+            Connection con = getConnection();
             Integer personID = create(con);
-
-            con.commit();
-
             return personID;
-
-        } catch (SQLException e) {
-            try {
-                con.rollback();
-            } catch (SQLException e2) {
-            }
-            e.printStackTrace(System.err);
-            throw new CreateException(e.getMessage());
-
         } catch (Exception e) {
-
-            try {
-                con.rollback();
-            } catch (SQLException e2) {
-            }
             e.printStackTrace(System.err);
             throw new ServiceException(e.getMessage());
         }
-
     }
 
     public Object getOwnerPrimaryKey() throws ServiceException {
@@ -439,7 +373,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
             } catch (Exception e) {
                 ownerName = null;
                 e.printStackTrace(System.err);
-                // throw new com.argus.financials.service.ServiceException( e.getMessage() );
+                // throw new ServiceException( e.getMessage() );
             }
 
         }
@@ -448,11 +382,11 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
 
     }
 
-    public PersonName getPersonName() throws com.argus.financials.service.ServiceException {
+    public PersonName getPersonName() throws ServiceException {
         return personName;
     }
 
-    public void setPersonName(PersonName value) throws com.argus.financials.service.ServiceException {
+    public void setPersonName(PersonName value) throws ServiceException {
         if (equals(personName, value))
             return;
 
@@ -460,11 +394,11 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         super.setModified(true);
     }
 
-    public Integer getDobCountryID() throws com.argus.financials.service.ServiceException {
+    public Integer getDobCountryID() throws ServiceException {
         return dobCountryID;
     }
 
-    public void setDobCountryID(Integer value) throws com.argus.financials.service.ServiceException {
+    public void setDobCountryID(Integer value) throws ServiceException {
         if (equals(dobCountryID, value))
             return;
 
@@ -472,11 +406,11 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         super.setModified(true);
     }
 
-    public String getTaxFileNumber() throws com.argus.financials.service.ServiceException {
+    public String getTaxFileNumber() throws ServiceException {
         return taxFileNumber;
     }
 
-    public void setTaxFileNumber(String value) throws com.argus.financials.service.ServiceException {
+    public void setTaxFileNumber(String value) throws ServiceException {
         if (equals(taxFileNumber, value))
             return;
 
@@ -484,12 +418,12 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         super.setModified(true);
     }
 
-    public boolean isDSSRecipient() throws com.argus.financials.service.ServiceException {
+    public boolean isDSSRecipient() throws ServiceException {
         return isDSSRecipient;
 
     }
 
-    public void setDSSRecipient(boolean value) throws com.argus.financials.service.ServiceException {
+    public void setDSSRecipient(boolean value) throws ServiceException {
         if (value == isDSSRecipient)
             return;
 
@@ -497,12 +431,12 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         super.setModified(true);
     }
 
-    public Integer getPreferredLanguageID() throws com.argus.financials.service.ServiceException {
+    public Integer getPreferredLanguageID() throws ServiceException {
         return preferredLanguageID;
     }
 
     public void setPreferredLanguageID(Integer value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         if (equals(preferredLanguageID, value))
             return;
 
@@ -510,12 +444,12 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         super.setModified(true);
     }
 
-    public String getPreferredLanguage() throws com.argus.financials.service.ServiceException {
+    public String getPreferredLanguage() throws ServiceException {
         return preferredLanguage;
     }
 
     public void setPreferredLanguage(String value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         if (equals(preferredLanguage, value))
             return;
 
@@ -523,12 +457,12 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         super.setModified(true);
     }
 
-    public Integer getReferalSourceCodeID() throws com.argus.financials.service.ServiceException {
+    public Integer getReferalSourceCodeID() throws ServiceException {
         return referalSourceCodeID;
     }
 
     public void setReferalSourceCodeID(Integer value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         if (equals(referalSourceCodeID, value))
             return;
 
@@ -536,12 +470,12 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         super.setModified(true);
     }
 
-    public Integer getResidenceStatusCodeID() throws com.argus.financials.service.ServiceException {
+    public Integer getResidenceStatusCodeID() throws ServiceException {
         return residenceStatusCodeID;
     }
 
     public void setResidenceStatusCodeID(Integer value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         if (equals(residenceStatusCodeID, value))
             return;
 
@@ -549,12 +483,12 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         super.setModified(true);
     }
 
-    public Integer getResidenceCountryCodeID() throws com.argus.financials.service.ServiceException {
+    public Integer getResidenceCountryCodeID() throws ServiceException {
         return residenceCountryCodeID;
     }
 
     public void setResidenceCountryCodeID(Integer value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         if (equals(residenceCountryCodeID, value))
             return;
 
@@ -562,12 +496,12 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         super.setModified(true);
     }
 
-    public java.util.Date getDateOfBirth() throws com.argus.financials.service.ServiceException {
+    public java.util.Date getDateOfBirth() throws ServiceException {
         return getPersonName().getDateOfBirth();
     }
 
     public void setDateOfBirth(java.util.Date value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         getPersonName().setDateOfBirth(value);
     }
 
@@ -580,29 +514,29 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         return personHealth;
     }
 
-    public Boolean getIsSmoker() throws com.argus.financials.service.ServiceException {
+    public Boolean getIsSmoker() throws ServiceException {
         return personHealth == null ? null : getPersonHealth().getIsSmoker();
     }
 
-    public void setIsSmoker(Boolean value) throws com.argus.financials.service.ServiceException {
+    public void setIsSmoker(Boolean value) throws ServiceException {
         getPersonHealth().setIsSmoker(value);
     }
 
-    public Integer getHealthStateCodeID() throws com.argus.financials.service.ServiceException {
+    public Integer getHealthStateCodeID() throws ServiceException {
         return personHealth == null ? null : getPersonHealth()
                 .getHealthStateCodeID();
     }
 
     public void setHealthStateCodeID(Integer value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         getPersonHealth().setHealthStateCodeID(value);
     }
 
-    public boolean hasHospitalCover() throws com.argus.financials.service.ServiceException {
+    public boolean hasHospitalCover() throws ServiceException {
         return getPersonHealth().hasHospitalCover();
     }
 
-    public void hasHospitalCover(boolean value) throws com.argus.financials.service.ServiceException {
+    public void hasHospitalCover(boolean value) throws ServiceException {
         getPersonHealth().hasHospitalCover(value);
     }
 
@@ -615,55 +549,55 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         return personTrustDIYStatus;
     }
 
-    public Integer getTrustStatusCodeID() throws com.argus.financials.service.ServiceException {
+    public Integer getTrustStatusCodeID() throws ServiceException {
         if (personTrustDIYStatus == null)
             return null;
         return getTrustStatus().getTrustStatusCodeID();
     }
 
     public void setTrustStatusCodeID(Integer value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         getTrustStatus().setTrustStatusCodeID(value);
     }
 
-    public Integer getDIYStatusCodeID() throws com.argus.financials.service.ServiceException {
+    public Integer getDIYStatusCodeID() throws ServiceException {
         return personTrustDIYStatus == null ? null : getTrustStatus()
                 .getDIYStatusCodeID();
     }
 
     public void setDIYStatusCodeID(Integer value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         getTrustStatus().setDIYStatusCodeID(value);
     }
 
-    public Integer getCompanyStatusCodeID() throws com.argus.financials.service.ServiceException {
+    public Integer getCompanyStatusCodeID() throws ServiceException {
         return personTrustDIYStatus == null ? null : getTrustStatus()
                 .getCompanyStatusCodeID();
     }
 
     public void setCompanyStatusCodeID(Integer value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         getTrustStatus().setCompanyStatusCodeID(value);
     }
 
-    public String getTrustDIYStatusComment() throws com.argus.financials.service.ServiceException {
+    public String getTrustDIYStatusComment() throws ServiceException {
         return personTrustDIYStatus == null ? null : getTrustStatus()
                 .getComment();
     }
 
     public void setTrustDIYStatusComment(String value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         getTrustStatus().setComment(value);
     }
 
     /**
      * 
      */
-    public Occupation getOccupation() throws com.argus.financials.service.ServiceException {
+    public Occupation getOccupation() throws ServiceException {
         return occupation;
     }
 
-    public void setOccupation(Occupation value) throws com.argus.financials.service.ServiceException {
+    public void setOccupation(Occupation value) throws ServiceException {
         if (equals(occupation, value))
             return;
 
@@ -694,12 +628,12 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
             } catch (SQLException e) {
                 employerBusiness = null;
                 e.printStackTrace(System.err);
-                throw new com.argus.financials.service.ServiceException(e.getMessage());
+                throw new ServiceException(e.getMessage());
 
             } catch (ObjectNotFoundException e) {
                 employerBusiness = null;
                 e.printStackTrace(System.err);
-                throw new com.argus.financials.service.ServiceException(e.getMessage());
+                throw new ServiceException(e.getMessage());
             }
 
         }
@@ -732,7 +666,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     /**
      * 
      */
-    public Address getResidentialAddress() throws com.argus.financials.service.ServiceException {
+    public Address getResidentialAddress() throws ServiceException {
         if (residentialAddress == null) {
             residentialAddress = new Address(getPersonID());
             residentialAddress.setAddressCodeID(AddressCode.RESIDENTIAL);
@@ -741,7 +675,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     }
 
     public void setResidentialAddress(Address value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         if (equals(residentialAddress, value))
             return;
 
@@ -751,7 +685,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
             residentialAddress.assign(value);
     }
 
-    public Address getPostalAddress() throws com.argus.financials.service.ServiceException {
+    public Address getPostalAddress() throws ServiceException {
         if (postalAddress == null) {
             postalAddress = new Address(getPersonID());
             postalAddress.setAddressCodeID(AddressCode.POSTAL);
@@ -759,7 +693,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         return postalAddress;
     }
 
-    public void setPostalAddress(Address value) throws com.argus.financials.service.ServiceException {
+    public void setPostalAddress(Address value) throws ServiceException {
         if (equals(postalAddress, value))
             return;
 
@@ -861,14 +795,14 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
      * Map( ObjectTypeID, Map( ObjectID, Object ) )
      */
     public Map getFinancials(Integer objectTypeID)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         if (financials == null)
             financials = getFinancials();
         return getFinancials(financials, objectTypeID);
     }
 
     public Map getFinancials(java.util.Map financialMap, Integer objectTypeID)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         if (objectTypeID == null)
             return financialMap;
         return financialMap == null ? null : (Map) financialMap
@@ -876,14 +810,14 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     }
 
     public Financial getFinancial(Integer financialID)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         if (financials == null)
             financials = getFinancials();
         return getFinancial(financials, financialID);
     }
 
     public Financial getFinancial(java.util.Map financialMap,
-            Integer financialID) throws com.argus.financials.service.ServiceException {
+            Integer financialID) throws ServiceException {
 
         if (financialID == null)
             return null;
@@ -906,7 +840,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     }
 
     // get current financials, collection data
-    public java.util.Map getFinancials() throws com.argus.financials.service.ServiceException {
+    public java.util.Map getFinancials() throws ServiceException {
 
         if (financials == null) {
 
@@ -917,7 +851,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
 
             } catch (SQLException e) {
                 e.printStackTrace(System.err);
-                throw new com.argus.financials.service.ServiceException(e.getMessage());
+                throw new ServiceException(e.getMessage());
             }
 
         }
@@ -926,7 +860,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     }
 
     public java.util.Map getStrategyGroupFinancials(Integer strategyGroupID,
-            boolean complex) throws com.argus.financials.service.ServiceException {
+            boolean complex) throws ServiceException {
 
         Connection con = null;
         try {
@@ -935,7 +869,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
 
         } catch (SQLException e) {
             e.printStackTrace(System.err);
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
 
     }
@@ -1106,7 +1040,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     }
 
     public void setFinancials(Integer objectTypeID, Map value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         if (objectTypeID == null)
             financials = value;
         else
@@ -1342,7 +1276,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     /**
      * get/set dependents
      */
-    public java.util.TreeMap getDependents() throws com.argus.financials.service.ServiceException {
+    public java.util.TreeMap getDependents() throws ServiceException {
 
         if (dependents == null) {
 
@@ -1391,7 +1325,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     }
 
     public void setDependents(java.util.TreeMap value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
 
         dependents = value;// new HashMap(value);
         if (dependents == null)
@@ -1450,7 +1384,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     /**
      * 
      */
-    public FinancialGoal getFinancialGoal() throws com.argus.financials.service.ServiceException {
+    public FinancialGoal getFinancialGoal() throws ServiceException {
 
         int personID = this.getPersonID();
 
@@ -1487,7 +1421,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     }
 
     public void setFinancialGoal(FinancialGoal value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         financialGoal = value;
     }
 
@@ -1510,14 +1444,14 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
      * contactMediaID = null, return ALL otherwise, return ONLY this type
      */
     public ContactMedia getContactMedia(Integer contactMediaCodeID)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         getContactMedia(Boolean.FALSE);
         return (contactMediaDetails == null) ? null
                 : (ContactMedia) contactMediaDetails.get(contactMediaCodeID);
     }
 
     public HashMap getContactMedia(Boolean refresh)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
 
         if (refresh.booleanValue())
             contactMediaDetails = null;
@@ -1572,7 +1506,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
                 close(rs, sql);
             } catch (SQLException e) {
                 e.printStackTrace(System.err);
-                throw new com.argus.financials.service.ServiceException(e.getMessage());
+                throw new ServiceException(e.getMessage());
             }
         }
 
@@ -1581,7 +1515,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     }
 
     public void setContactMedia(ContactMedia contactMedia)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         if (contactMedia == null)
             return;
 
@@ -1593,7 +1527,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
                 contactMedia);
     }
 
-    public void setContactMedia(HashMap value) throws com.argus.financials.service.ServiceException {
+    public void setContactMedia(HashMap value) throws ServiceException {
         contactMediaDetails = value;// new HashMap(value);
     }
 
@@ -1634,7 +1568,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
      * get comment of link type PERSON$COMMENT_2_objectTypeID2 (most recent one)
      */
     public Comment getComment(Integer linkObjectTypeID)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
 
         Comment c = null;
 
@@ -1700,17 +1634,17 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
                 close(rs, sql);
             } catch (SQLException e) {
                 e.printStackTrace(System.err);
-                throw new com.argus.financials.service.ServiceException(e.getMessage());
+                throw new ServiceException(e.getMessage());
             }
         }
 
     }
 
     public void setComment(Integer linkObjectTypeID, Comment value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
 
         if (linkObjectTypeID == null || value == null)
-            throw new com.argus.financials.service.ServiceException(
+            throw new ServiceException(
                     "linkObjectTypeID == null || value == null");
 
         if (comments == null)
@@ -1752,7 +1686,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     /**
      * 
      */
-    public Survey getSurvey(Integer surveyID) throws com.argus.financials.service.ServiceException {
+    public Survey getSurvey(Integer surveyID) throws ServiceException {
 
         if (surveyID == null)
             return null;
@@ -1766,7 +1700,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
             sb.load(surveyID, null);
         } catch (Exception e) {
             System.err.println(e.getMessage());
-            //throw new com.argus.financials.service.ServiceException(e.getMessage());
+            //throw new ServiceException(e.getMessage());
             return null;
         }
 
@@ -1775,7 +1709,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     }
 
     public Integer getSurveyID(int surveyTypeID)
-            throws com.argus.financials.service.ServiceException, ObjectNotFoundException {
+            throws ServiceException, ObjectNotFoundException {
 
         Connection con = null;
         PreparedStatement sql = null;
@@ -1833,16 +1767,16 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
                 close(rs, sql);
             } catch (SQLException e) {
                 e.printStackTrace(System.err);
-                throw new com.argus.financials.service.ServiceException(e.getMessage());
+                throw new ServiceException(e.getMessage());
             }
         }
 
     }
 
-    public void setSurvey(Survey survey) throws com.argus.financials.service.ServiceException {
+    public void setSurvey(Survey survey) throws ServiceException {
 
         if (survey == null)
-            throw new com.argus.financials.service.ServiceException("survey == null");
+            throw new ServiceException("survey == null");
 
         if (surveys == null)
             surveys = new HashMap();
@@ -1883,7 +1817,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     /***************************************************************************
      * Calculation Models
      */
-    public ModelCollection getModels() throws com.argus.financials.service.ServiceException {
+    public ModelCollection getModels() throws ServiceException {
 
         // if ( models == null ) {
         models = new ModelCollection();
@@ -1894,7 +1828,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
             loadModels(con);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
         // }
 
@@ -1903,13 +1837,13 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     }
 
     public Vector getModels(Integer modelTypeID)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         getModels();
         return models == null ? null : models.getModels(modelTypeID);
     }
 
     public Model getModel(Integer modelTypeID, String title)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         if (title == null || title.trim().length() == 0)
             return null;
 
@@ -1927,7 +1861,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     }
 
     public Model getModel(Integer modelTypeID, Integer modelID)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         Vector _models = getModels(modelTypeID);
         if (_models != null) {
             Iterator iter = _models.iterator();
@@ -1941,13 +1875,13 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         return null;
     }
 
-    public void addModel(Model value) throws com.argus.financials.service.ServiceException {
+    public void addModel(Model value) throws ServiceException {
         if (value == null || value.getTitle() == null)
             return;
         getModels().addModel(value);
     }
 
-    public void removeModel(Model value) throws com.argus.financials.service.ServiceException {
+    public void removeModel(Model value) throws ServiceException {
         if (value == null)
             return;
         getModels();
@@ -2063,7 +1997,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
             return getPlans(planTypeID, con);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
 
     }
@@ -2170,7 +2104,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
             return storePlan(plan, planTypeID, con);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
 
     }
@@ -2260,27 +2194,16 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
 
         try {
             Connection con = getConnection();
-            try {
-
-                Integer ownerID = getPlanOwner(planTypeID);
-                int linkID = FPSLinkObject.getInstance().unlink(
-                        ownerID == null ? GLOBAL_PLAN_TEMPLATE : ownerID
-                                .intValue(),
-                        // getPersonID(),
-                        planID, LinkObjectTypeConstant.PERSON_2_PLAN, con);
-
-                con.commit();
-
-                return linkID > 0;
-
-            } catch (SQLException e) {
-                con.rollback();
-                throw e;
-            }
-
+            Integer ownerID = getPlanOwner(planTypeID);
+            int linkID = FPSLinkObject.getInstance().unlink(
+                    ownerID == null ? GLOBAL_PLAN_TEMPLATE : ownerID
+                            .intValue(),
+                    // getPersonID(),
+                    planID, LinkObjectTypeConstant.PERSON_2_PLAN, con);
+            return linkID > 0;
         } catch (SQLException e) {
             e.printStackTrace(System.err);
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
 
     }
@@ -2434,7 +2357,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
                     java.sql.Types.INTEGER);
             sql.setObject(++i, personName.getMaritalCodeID(),
                     java.sql.Types.INTEGER);
-            sql.setString(++i, personName.getFamilyName());
+            sql.setString(++i, personName.getSurname());
             sql.setString(++i, personName.getFirstName());
             sql.setString(++i, personName.getOtherGivenNames());
             sql.setString(++i, personName.getPreferredName());

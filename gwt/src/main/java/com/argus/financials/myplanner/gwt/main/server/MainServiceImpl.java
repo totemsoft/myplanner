@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.argus.financials.etc.Contact;
+import com.argus.financials.domain.hibernate.view.Client;
 import com.argus.financials.myplanner.commons.client.BasePair;
 import com.argus.financials.myplanner.commons.client.StringPair;
 import com.argus.financials.myplanner.gwt.AbstractGwtController;
@@ -28,11 +28,11 @@ public class MainServiceImpl extends AbstractGwtController implements MainServic
                 criteriaMap.put(p.getFirst(), p.getSecond());
             }
         }
-        List<Contact> clients = getUserService().findClients(criteriaMap, range == null ? null :
+        List<Client> clients = getUserService().findClients(criteriaMap, range == null ? null :
             new com.argus.util.Range(range.getStart(), range.getLength()));
         List<BasePair> result = new ArrayList<BasePair>();
-        for (Contact c : clients) {
-            result.add(new BasePair(c.getOwnerPrimaryKeyID(), c.getName().getFullName()));
+        for (Client c : clients) {
+            result.add(new BasePair(c.getId(), c.getShortName()));
         }
         return (BasePair[]) result.toArray(new BasePair[0]);
     }

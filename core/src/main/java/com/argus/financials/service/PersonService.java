@@ -1,13 +1,10 @@
 /*
- * PersonService.java
- *
- * Created on 24 July 2000, 10:32
+ * PersonService.java Created on 24 July 2000, 10:32
  */
 
 package com.argus.financials.service;
 
 /**
- * 
  * @author valeri chibaev
  * @version
  */
@@ -20,24 +17,18 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.argus.financials.bean.DbConstant;
+import com.argus.financials.domain.IPerson;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.projection.save.ModelCollection;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-public interface PersonService extends IPerson, DbConstant {
-
-    // GLOBAL PLAN TEMPLATE
-    public static final Integer TEMPLATE_PLAN = new Integer(1);
-
-    // USER PLAN TEMPLATE
-    public static final Integer TEMPLATE_PLAN_USER = new Integer(2);
-
-    // CLIENT PLAN TEMPLATE
-    public static final Integer TEMPLATE_PLAN_CLIENT = new Integer(3);
+public interface PersonService extends IPerson, DbConstant
+{
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    PersonService create(Integer ownerPersonID, boolean store) throws ServiceException, CreateException;
+    PersonService create(Integer ownerPersonID, boolean store) throws ServiceException,
+        CreateException;
 
     PersonService findByPrimaryKey(Integer personID, boolean store) throws ServiceException,
         FinderException;
@@ -47,62 +38,54 @@ public interface PersonService extends IPerson, DbConstant {
 
     public Object getOwnerPrimaryKey() throws ServiceException;
 
-    public Integer findByPrimaryKey(Integer personID) throws ServiceException,
-            FinderException;
+    public Integer findByPrimaryKey(Integer personID) throws ServiceException, FinderException;
 
     public boolean isModifiedRemote() throws ServiceException;
 
     // store the Person details.
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void storePerson() throws com.argus.financials.service.ServiceException;
+    public void storePerson() throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void storeFinancials() throws com.argus.financials.service.ServiceException;
+    public void storeFinancials() throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void storeComments() throws com.argus.financials.service.ServiceException;
+    public void storeComments() throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void storeSurveys() throws com.argus.financials.service.ServiceException;
+    public void storeSurveys() throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void storeModels() throws com.argus.financials.service.ServiceException;
+    public void storeModels() throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void storeEmployerBusiness() throws com.argus.financials.service.ServiceException;
+    public void storeEmployerBusiness() throws ServiceException;
 
-    /**
-     * 
-     */
-    public ModelCollection getModels() throws com.argus.financials.service.ServiceException;
+    public ModelCollection getModels() throws ServiceException;
 
-    public Vector getModels(Integer modelTypeID)
-            throws com.argus.financials.service.ServiceException;
+    public Vector getModels(Integer modelTypeID) throws ServiceException;
 
-    public Model getModel(Integer modelTypeID, String title)
-            throws com.argus.financials.service.ServiceException;
+    public Model getModel(Integer modelTypeID, String title) throws ServiceException;
 
-    public Model getModel(Integer modelTypeID, Integer modelID)
-            throws com.argus.financials.service.ServiceException;
+    public Model getModel(Integer modelTypeID, Integer modelID) throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void addModel(Model value) throws com.argus.financials.service.ServiceException;
+    public void addModel(Model value) throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void removeModel(Model value) throws com.argus.financials.service.ServiceException;
+    public void removeModel(Model value) throws ServiceException;
 
-    public Collection getPlans(Integer planTypeID)
-            throws ServiceException;
+    public Collection getPlans(Integer planTypeID) throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public int storePlan(com.argus.util.ReferenceCode plan, Integer planTypeID)
-            throws ServiceException;
+        throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public boolean deletePlan(com.argus.util.ReferenceCode plan,
-            Integer planTypeID) throws ServiceException;
+    public boolean deletePlan(com.argus.util.ReferenceCode plan, Integer planTypeID)
+        throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void remove() throws com.argus.financials.service.ServiceException, RemoveException;
+    public void remove() throws ServiceException, RemoveException;
 
 }

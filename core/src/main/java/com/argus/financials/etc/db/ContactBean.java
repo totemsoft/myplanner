@@ -204,7 +204,7 @@ public class ContactBean extends AbstractPersistable {
                         java.sql.Types.INTEGER);
                 sql.setObject(++i, getContact().getName().getTitleCodeID(),
                         java.sql.Types.INTEGER);
-                sql.setString(++i, getContact().getName().getFamilyName());
+                sql.setString(++i, getContact().getName().getSurname());
                 sql.setString(++i, getContact().getName().getFirstName());
                 sql.setString(++i, getContact().getName().getOtherGivenNames());
 
@@ -234,7 +234,7 @@ public class ContactBean extends AbstractPersistable {
                         java.sql.Types.INTEGER);
                 sql.setObject(++i, getContact().getName().getTitleCodeID(),
                         java.sql.Types.INTEGER);
-                sql.setString(++i, getContact().getName().getFamilyName());
+                sql.setString(++i, getContact().getName().getSurname());
                 sql.setString(++i, getContact().getName().getFirstName());
                 sql.setString(++i, getContact().getName().getOtherGivenNames());
 

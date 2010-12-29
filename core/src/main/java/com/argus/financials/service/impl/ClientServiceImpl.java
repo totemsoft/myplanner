@@ -52,31 +52,18 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
 
     // value has to be Integer
     public void setOwnerPrimaryKey(Object value) throws ServiceException {
-
         if (equals(value, getOwnerPrimaryKeyID()))
             return;
-
         FPSLinkObject lo = FPSLinkObject.getInstance();
         try {
             Connection con = getConnection();
-            try {
-                lo.unlink(getOwnerPrimaryKeyID(), getPrimaryKeyID(),
-                        USER_2_CLIENT, con);
-                if (value != null)
-                    lo.link((Integer) value, getPrimaryKeyID(), USER_2_CLIENT,
-                            con);
-
-                setOwnerPrimaryKeyID((Integer) value);
-
-                con.commit();
-            } catch (SQLException e) {
-                con.rollback();
-                throw e;
-            }
+            lo.unlink(getOwnerPrimaryKeyID(), getPrimaryKeyID(), USER_2_CLIENT, con);
+            if (value != null)
+                lo.link((Integer) value, getPrimaryKeyID(), USER_2_CLIENT, con);
+            setOwnerPrimaryKeyID((Integer) value);
         } catch (SQLException e) {
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
-
     }
 
     public boolean validatePassword(String password) throws ServiceException {
@@ -129,38 +116,25 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
      */
     public Integer create() throws ServiceException, CreateException {
 
-        Connection con = null;
         PreparedStatement sql = null;
-
         try {
-            con = this.getConnection();
-
+            Connection con = this.getConnection();
             // get new ObjectID for client
             Integer personID = new Integer(getNewObjectID(CLIENT_PERSON, con));
-
             // add to person table
-            sql = con
-                    .prepareStatement("INSERT INTO person (PersonID) VALUES (?)");
+            sql = con.prepareStatement("INSERT INTO person (PersonID) VALUES (?)");
             sql.setInt(1, personID.intValue());
             sql.executeUpdate();
-
             // add to ClientPerson table
-            sql = con
-                    .prepareStatement("INSERT INTO ClientPerson (ClientPersonID) VALUES (?)");
+            sql = con.prepareStatement("INSERT INTO ClientPerson (ClientPersonID) VALUES (?)");
             sql.setInt(1, personID.intValue());
             sql.executeUpdate();
-
             // link user and client
             if (getOwnerPrimaryKeyID() != null)
                 FPSLinkObject.getInstance().link(getOwnerPrimaryKeyID(),
                         personID, USER_2_CLIENT, con);
-
-            con.commit();
-
             this.setPrimaryKeyID(personID);
-
             return personID;
-
         } catch (SQLException e) {
             throw new CreateException(e.getMessage());
         } catch (Exception e) {
@@ -268,11 +242,11 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
     /*
      * get/set
      */
-    public boolean isActive() throws com.argus.financials.service.ServiceException {
+    public boolean isActive() throws ServiceException {
         return active;
     }
 
-    public void setActive(boolean value) throws com.argus.financials.service.ServiceException {
+    public void setActive(boolean value) throws ServiceException {
         if (value == active)
             return;
 
@@ -280,12 +254,12 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
         setModified(true);
     }
 
-    public java.util.Date getFeeDate() throws com.argus.financials.service.ServiceException {
+    public java.util.Date getFeeDate() throws ServiceException {
         return feeDate;
     }
 
     public void setFeeDate(java.util.Date value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         if (equals(feeDate, value))
             return;
 
@@ -293,12 +267,12 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
         setModified(true);
     }
 
-    public java.util.Date getReviewDate() throws com.argus.financials.service.ServiceException {
+    public java.util.Date getReviewDate() throws ServiceException {
         return reviewDate;
     }
 
     public void setReviewDate(java.util.Date value)
-            throws com.argus.financials.service.ServiceException {
+            throws ServiceException {
         if (equals(reviewDate, value))
             return;
 
@@ -370,13 +344,13 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
      * @exception ServiceException
      *                Description of the Exception
      */
-    public java.util.Collection getStrategies() throws com.argus.financials.service.ServiceException {
+    public java.util.Collection getStrategies() throws ServiceException {
 
         try {
             Connection con = getConnection();
             return getStrategies(con);
         } catch (SQLException e) {
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
 
     }
@@ -422,82 +396,45 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
     }
 
     public void storeStrategy(StrategyGroup strategy) throws ServiceException {
-
         if (strategy == null)
             return;
-
         try {
             Connection con = getConnection();
-            try {
-                StrategyGroupBean sgb = new StrategyGroupBean(strategy);
-                sgb.setOwnerPrimaryKeyID(getPrimaryKeyID());
-
-                sgb.store(con);
-
-                con.commit();
-            } catch (SQLException e) {
-                con.rollback();
-                throw e;
-            }
-
+            StrategyGroupBean sgb = new StrategyGroupBean(strategy);
+            sgb.setOwnerPrimaryKeyID(getPrimaryKeyID());
+            sgb.store(con);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
-
     }
 
     public void deleteStrategy(StrategyGroup strategy) throws ServiceException {
-
         if (strategy == null || strategy.getPrimaryKeyID() == null)
             return;
-
         try {
             Connection con = getConnection();
-            try {
-                FPSLinkObject.getInstance().unlink(getPrimaryKeyID(),
-                        strategy.getPrimaryKeyID(),
-                        LinkObjectTypeConstant.PERSON_2_STRATEGYGROUP, con);
-
-                con.commit();
-
-            } catch (SQLException e) {
-                con.rollback();
-                throw e;
-            }
-
+            FPSLinkObject.getInstance().unlink(getPrimaryKeyID(),
+                    strategy.getPrimaryKeyID(),
+                    LinkObjectTypeConstant.PERSON_2_STRATEGYGROUP, con);
         } catch (SQLException e) {
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
-
     }
 
     public void implementStrategy(StrategyGroup strategy)
-            throws com.argus.financials.service.ServiceException {
-
+            throws ServiceException {
         if (strategy == null || strategy.getPrimaryKeyID() == null)
             return;
-
         getFinancials(); // refresh ( for deleteFinancials( true, con ) )
-
         try {
             Connection con = getConnection();
-            try {
-                // delete all current financials
-                deleteFinancials(con);
-
-                implementStrategy(strategy, con);
-                con.commit();
-
-            } catch (SQLException e) {
-                setFinancials(null);
-                con.rollback();
-                throw e;
-            }
-
+            // delete all current financials
+            deleteFinancials(con);
+            implementStrategy(strategy, con);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
 
     }
@@ -517,29 +454,17 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
     }
 
     public void rollbackStrategy(StrategyGroup strategy)
-            throws com.argus.financials.service.ServiceException {
-
+            throws ServiceException {
         if (strategy == null || strategy.getPrimaryKeyID() == null)
             return;
-
         try {
             Connection con = getConnection();
-            try {
-                // delete all current financials
-                deleteFinancials(con);
-
-                rollbackStrategy(strategy, con);
-                con.commit();
-
-            } catch (SQLException e) {
-                con.rollback();
-                throw e;
-            }
-
+            // delete all current financials
+            deleteFinancials(con);
+            rollbackStrategy(strategy, con);
         } catch (SQLException e) {
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
-
     }
 
     private void rollbackStrategy(StrategyGroup strategy, Connection con)
@@ -596,22 +521,12 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
      *                Description of the Exception
      */
     private void storePartner() throws ServiceException {
-
-        Connection con = null;
         try {
-            con = getConnection();
-            try {
-                storePartner(con);
-                con.commit();
-            } catch (SQLException e) {
-                con.rollback();
-                throw e;
-            }
-
+            Connection con = getConnection();
+            storePartner(con);
         } catch (SQLException e) {
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
-
     }
 
     /**
@@ -643,7 +558,7 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
             Connection con = getConnection();
             return getCategories(con);
         } catch (SQLException e) {
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
 
     }
@@ -690,7 +605,7 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
             Connection con = getConnection();
             return getSelectedCategories(con);
         } catch (SQLException e) {
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
 
     }
@@ -751,7 +666,7 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
             Connection con = getConnection();
             addCategory(category, con);
         } catch (SQLException e) {
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
 
     }
@@ -786,33 +701,24 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
             Connection con = getConnection();
             return removeCategory(category, con);
         } catch (SQLException e) {
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
 
     }
 
     private boolean removeCategory(ReferenceCode category, Connection con)
             throws java.sql.SQLException, ServiceException {
-
         Statement stmt = null;
         try {
             // do insert into Category table
             int id = category.getCodeID();
             stmt = con.createStatement();
-            String sql = "SELECT * from SelectedCategory "
-                    + "WHERE CategoryID = " + id;
+            String sql = "SELECT * from SelectedCategory WHERE CategoryID = " + id;
             ResultSet rs = stmt.executeQuery(sql);
             if (rs.next())
                 return false;
-
             sql = "DELETE from Category " + "WHERE CategoryID = " + id;
             stmt.executeUpdate(sql);
-            con.commit();
-
-        } catch (SQLException e) {
-            con.rollback();
-            throw e;
-
         } finally {
             close(null, stmt);
         }
@@ -823,18 +729,16 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
             throws ServiceException {
         if (category == null)
             return;
-
         try {
             Connection con = getConnection();
             updateCategory(category, con);
         } catch (SQLException e) {
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
     }
 
     private void updateCategory(ReferenceCode category, Connection con)
             throws java.sql.SQLException, ServiceException {
-
         Statement stmt = null;
         try {
             // do insert into Category table
@@ -843,36 +747,25 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
                     + category.getCodeDesc() + "'" + " WHERE CategoryID = "
                     + category.getCodeID();
             stmt.executeUpdate(sql);
-            con.commit();
-
-        } catch (SQLException e) {
-            con.rollback();
-            throw e;
-
         } finally {
             close(null, stmt);
         }
-
     }
 
     public void addSelectedCategories(java.util.Vector selectedCategories)
             throws ServiceException {
-
         if (selectedCategories == null)
             return;
-
         try {
             Connection con = getConnection();
             addSelectedCategories(selectedCategories, con);
         } catch (SQLException e) {
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
-
     }
 
     private void addSelectedCategories(java.util.Vector selectedCategories,
             Connection con) throws java.sql.SQLException, ServiceException {
-
         Statement stmt = null;
         try {
             // do insert into Category table
@@ -888,20 +781,9 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
             }
             int[] results = stmt.executeBatch();
             stmt.clearBatch();
-            con.commit();
-
-        } catch (java.sql.BatchUpdateException e) {
-            con.rollback();
-            throw e;
-
-        } catch (SQLException e) {
-            con.rollback();
-            throw e;
-
         } finally {
             close(null, stmt);
         }
-
     }
 
 }

@@ -122,7 +122,7 @@ public class DependentBean extends ContactBean {
                         java.sql.Types.INTEGER);
                 sql.setObject(++i, getDependent().getName().getTitleCodeID(),
                         java.sql.Types.INTEGER);
-                sql.setString(++i, getDependent().getName().getFamilyName());
+                sql.setString(++i, getDependent().getName().getSurname());
                 sql.setString(++i, getDependent().getName().getFirstName());
                 sql.setString(++i, getDependent().getName()
                         .getOtherGivenNames());
@@ -179,7 +179,7 @@ public class DependentBean extends ContactBean {
                             .getTitleCodeID(), java.sql.Types.INTEGER);
                     sql
                             .setString(++i, getDependent().getName()
-                                    .getFamilyName());
+                                    .getSurname());
                     sql.setString(++i, getDependent().getName().getFirstName());
                     sql.setString(++i, getDependent().getName()
                             .getOtherGivenNames());
@@ -250,7 +250,7 @@ public class DependentBean extends ContactBean {
                             + " (FamilyName=?) AND (FirstName=?) AND (OtherGivenNames=?)");
 
             // ??? what if IS NULL ???
-            sql.setString(1, getDependent().getName().getFamilyName());
+            sql.setString(1, getDependent().getName().getSurname());
             sql.setString(2, getDependent().getName().getFirstName());
             sql.setString(3, getDependent().getName().getOtherGivenNames());
 

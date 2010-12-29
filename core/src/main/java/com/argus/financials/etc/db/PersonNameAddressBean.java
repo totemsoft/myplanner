@@ -79,7 +79,7 @@ public class PersonNameAddressBean extends AbstractPersistable {
 
         getPersonName().setSexCodeID((Integer) rs.getObject("SexCodeID"));
         getPersonName().setTitleCodeID((Integer) rs.getObject("TitleCodeID"));
-        getPersonName().setFamilyName(rs.getString("FamilyName"));
+        getPersonName().setSurname(rs.getString("FamilyName"));
         getPersonName().setFirstName(rs.getString("FirstName"));
         getPersonName().setOtherGivenNames(rs.getString("OtherGivenNames"));
         getPersonName().setPreferredName(rs.getString("PreferredName"));

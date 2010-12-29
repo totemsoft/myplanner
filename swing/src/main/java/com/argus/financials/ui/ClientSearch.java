@@ -15,6 +15,7 @@ package com.argus.financials.ui;
 import java.awt.Cursor;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -30,6 +31,7 @@ import com.argus.financials.code.CountryCode;
 import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.StateCode;
 import com.argus.financials.config.FPSLocale;
+import com.argus.financials.domain.hibernate.view.Client;
 import com.argus.financials.etc.Address;
 import com.argus.financials.etc.Contact;
 import com.argus.financials.etc.PersonName;
@@ -78,23 +80,23 @@ public final class ClientSearch extends javax.swing.JPanel {
         // jScrollPaneClientDetails.setVisible(false);
 
         jTable.getSelectionModel().addListSelectionListener(
-                new javax.swing.event.ListSelectionListener() {
-                    public void valueChanged(
-                            javax.swing.event.ListSelectionEvent e) {
-                        if (!e.getValueIsAdjusting()) {
-
-                            Contact c = getSelectedPerson();
-                            jTextPaneClientDetails.setText(c == null ? "" : c
-                                    .getAddress()
-                                    + "\n" + c.getContactAsString());
-
-                        } else {
-                            // if (DEBUG) System.out.println( "...
-                            // ValueIsAdjusting ..." );
-                        }
+            new javax.swing.event.ListSelectionListener()
+            {
+                public void valueChanged(javax.swing.event.ListSelectionEvent e)
+                {
+                    if (!e.getValueIsAdjusting())
+                    {
+                        Client c = getSelectedPerson();
+                        jTextPaneClientDetails.setText(c == null ? "" : c.getDetails());
                     }
-                });
-
+                    else
+                    {
+                        // if (DEBUG) System.out.println( "...
+                        // ValueIsAdjusting ..." );
+                    }
+                }
+            }
+        );
     }
 
     public static boolean exists() {
@@ -702,102 +704,90 @@ public final class ClientSearch extends javax.swing.JPanel {
             column.setPreferredWidth(preferredWidth);
     }
 
-    private HashMap getSelectionCriteria() throws com.argus.financials.service.ServiceException {
+    private Map<String, Object> getSelectionCriteria() throws com.argus.financials.service.ServiceException {
 
         if (jCheckBoxDisplayAll.isSelected())
             return null;
 
-        HashMap map = new HashMap();
-
         UserService user = ServiceLocator.getInstance().getUserService();
-        boolean supportPerson = AdviserTypeCode.isSupportPerson(user
-                .getAdviserTypeCodeID());
-
-        if (!supportPerson) {
-            map.put(UserService.ADVISORID, user.getPrimaryKey());
-
-        } else if (jCheckBoxAllUsersClients.isSelected()) {
-            map.put(UserService.ALL_USERS_CLIENTS, Boolean.TRUE);
-
-        } else {
+        boolean supportPerson = AdviserTypeCode.isSupportPerson(user.getAdviserTypeCodeID());
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        if (!supportPerson)
+        {
+            criteria.put(UserService.ADVISORID, user.getPrimaryKey());
+        }
+        else if (jCheckBoxAllUsersClients.isSelected())
+        {
+            criteria.put(UserService.ALL_USERS_CLIENTS, Boolean.TRUE);
+        }
+        else
+        {
             Object obj = jComboBoxAdviser.getSelectedItem();
             Contact cs = (Contact) obj;
-
-            PersonName name = cs == null || cs == Advisers.NONE ? null : cs
-                    .getName();
-            if (name == null || name.getFamilyName().trim().length() == 0) {
-                map.put(UserService.ADVISORID, user.getPrimaryKey());
-            } else {
+            PersonName name = cs == null || cs == Advisers.NONE ? null : cs.getName();
+            if (name == null || name.getSurname().trim().length() == 0)
+            {
+                criteria.put(UserService.ADVISORID, user.getPrimaryKey());
+            }
+            else
+            {
                 Integer adviserCodeID = cs.getPrimaryKeyID();
                 if (adviserCodeID != null)
-                    map.put(UserService.ADVISORID, adviserCodeID);
+                    criteria.put(UserService.ADVISORID, adviserCodeID);
             }
-
         }
 
         // String s = (String) jComboBoxFamilyName.getSelectedItem();
         // //.getText();
         String s = (String) jComboBoxFamilyName.getText();
         if (s != null && s.length() > 0)
-            map.put(PersonName.FAMILY_NAME, s);
+            criteria.put(PersonName.SURNAME, s);
 
         // s = (String) jComboBoxFirstName.getSelectedItem(); //.getText();
         s = (String) jComboBoxFirstName.getText();
         if (s != null && s.length() > 0)
-            map.put(PersonName.FIRST_NAME, s);
+            criteria.put(PersonName.FIRST_NAME, s);
 
         s = jTextFieldDOB.getText();
         if (s != null && s.length() > 0) {
             s = DateTimeUtils.getJdbcDate(s);
-            map.put(PersonName.DATE_OF_BIRTH, s);
+            criteria.put(PersonName.DATE_OF_BIRTH, s);
         }
 
         s = (String) jComboBoxCountry.getSelectedItem();
         Integer countryCodeID = new CountryCode().getCodeID(s);
         if (countryCodeID != null
                 && !countryCodeID.equals(CountryCode.AUSTRALIA))
-            map.put(Address.COUNTRY, countryCodeID);
+            criteria.put(Address.COUNTRY, countryCodeID);
 
         s = (String) jTextFieldPostCode.getText();
         s = s.trim();
         if (s != null && s.length() > 0) {
-            map.put(Address.POSTCODE, s);
+            criteria.put(Address.POSTCODE, s);
         }
 
         s = (String) jComboBoxState.getSelectedItem();
         Integer stateCodeID = new StateCode(countryCodeID).getCodeID(s);
         if (stateCodeID != null)
-            map.put(Address.STATE, stateCodeID);
+            criteria.put(Address.STATE, stateCodeID);
 
-        return map;
+        return criteria;
 
     }
 
     private Object[][] getRowData(UserService userPerson) {
-
         try {
-            List<Contact> data = userPerson.findClients(getSelectionCriteria(), null);
-
+            List<Client> data = userPerson.findClients(getSelectionCriteria(), null);
             if (data == null)
                 return new Object[0][COLUMN_COUNT];
-
             Object[][] rowData = new Object[data.size()][COLUMN_COUNT];
-
             // "Name", "Adviser"
             for (int i = 0; i < data.size(); i++) {
-                Contact c = (Contact) data.get(i);
-
-                rowData[i][COLUMN_CLIENT] = c;// n.getShortName() + " (" +
-                                                // n.getTitleCode() + ")";
-
-                PersonName n = c.getOwnerName();
-                rowData[i][COLUMN_ADVISER] = n == null ? null : n
-                        .getShortName();
-
+                Client c = data.get(i);
+                rowData[i][COLUMN_CLIENT] = c;
+                rowData[i][COLUMN_ADVISER] = c.getOwnerShortName();
             }
-
             return rowData;
-
         } catch (Exception e) {
             e.printStackTrace(System.err);
             return null; // throw e;
@@ -805,23 +795,22 @@ public final class ClientSearch extends javax.swing.JPanel {
 
     }
 
-    private Contact getSelectedPerson() {
+    private Client getSelectedPerson() {
         // no selection
         if (jTable.getSelectedRow() < 0)
             return null;
-
-        return (Contact) jTable.getModel().getValueAt(jTable.getSelectedRow(),
+        return (Client) jTable.getModel().getValueAt(jTable.getSelectedRow(),
                 COLUMN_CLIENT);
     }
 
     public Integer getSelectedPersonID() {
-        Contact c = getSelectedPerson();
-        return c == null ? null : c.getPrimaryKeyID();
+        Client c = getSelectedPerson();
+        return c == null ? null : c.getId();
     }
 
     public String getClientName() {
-        Contact c = getSelectedPerson();
-        return c == null ? null : c.getName().getFullName();
+        Client c = getSelectedPerson();
+        return c == null ? null : c.getShortName();
     }
 
     public void setUserType(Integer userTypeCodeID) {

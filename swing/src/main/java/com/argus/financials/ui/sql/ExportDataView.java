@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.JFileChooser;
@@ -32,8 +33,7 @@ import com.argus.beans.MessageSent;
 import com.argus.beans.MessageSentEvent;
 import com.argus.beans.WizardContentHandler;
 import com.argus.financials.code.AdviserTypeCode;
-import com.argus.financials.etc.Contact;
-import com.argus.financials.etc.PersonName;
+import com.argus.financials.domain.hibernate.view.Client;
 import com.argus.financials.exchange.ExportData;
 import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.service.UserService;
@@ -500,45 +500,34 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
 
         try {
             UserService user = ServiceLocator.getInstance().getUserService();
-
-            HashMap selectionCriteria = new HashMap();
+            Map<String, Object> criteria = new HashMap<String, Object>();
             if (AdviserTypeCode.isSupportPerson(user.getAdviserTypeCodeID()))
-                selectionCriteria.put(UserService.ALL_USERS_CLIENTS,
-                        Boolean.TRUE);
+            {
+                criteria.put(UserService.ALL_USERS_CLIENTS, Boolean.TRUE);
+            }
             else
-                selectionCriteria.put(UserService.ADVISORID, user
-                        .getPrimaryKey());
+            {
+                criteria.put(UserService.ADVISORID, user.getPrimaryKey());
+            }
 
-            List<Contact> clients = user.findClients(selectionCriteria, null);
+            List<Client> clients = user.findClients(criteria, null);
             int size = clients == null ? 0 : clients.size();
             Vector data = new Vector(size);
             for (int i = 0; i < size; i++) {
-                Contact c = (Contact) clients.get(i);
-
+                Client c = clients.get(i);
                 java.util.Vector row = new java.util.Vector();
-
                 row.add(Boolean.FALSE); // Selected
-
                 row.add(c); // Client
-
-                PersonName pn = c.getOwnerName();
-                row.add(pn == null ? null : pn.getShortName()); // Adviser
-
+                row.add(c.getOwnerShortName()); // Adviser
                 if (STRATEGY < COLUMNS)
                     row.add(Boolean.FALSE); // Strategy
-
                 data.add(row);
-
             }
-
             tableModelStep1 = new TableModelStep1(data);
-
         } catch (com.argus.financials.service.ServiceException e) {
             e.printStackTrace(System.err);
         }
-
         return tableModelStep1;
-
     }
 
     private static final int SELECTED = 0;
@@ -672,51 +661,32 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
                                 .append("--------------------------------------------------------------\n");
 
                         int i = 0;
-                        Iterator iter = tableModelStep1.getSelected()
-                                .iterator();
+                        Iterator iter = tableModelStep1.getSelected().iterator();
                         while (iter.hasNext()) {
-                            Contact c = (Contact) iter.next();
-
-                            PersonName pn = c.getName();
-                            if (pn == null)
-                                continue;
-
-                            String fileName = pn.getFamilyName()
-                                    + pn.getFirstName() + ".xml";
+                            Client c = (Client) iter.next();
+                            String fileName = c.getSurname() + c.getFirstname() + ".xml";
                             String msg = "" + ++i + "). Exporting "
-                                    + pn.getFullName().trim() + " into " + "'"
+                                    + c.getShortName() + " into " + "'"
                                     + fileName + "'";
                             sb.append("\t" + msg);
                             splash.setStringPainted(msg);
-
-                            exportData.exportFile(c.getOwnerPrimaryKeyID(), c
-                                    .getPrimaryKeyID(), dir + fileName);
-
+                            exportData.exportFile(c.getOwnerId(), c.getId(), dir + fileName);
                             sb.append("\tOK\n");
-
                         }
-
                         sb.append("SUCCESS");
-
                     } catch (Exception e) {
                         sb.append("FAILED\t" + e.getMessage());
                         model.putValue(WIZARD, STEP_3);
-
                         e.printStackTrace(System.err);
                         return;
-
                     } finally {
-                        ((FTextArea) textAreaDetailsStep4).setText(sb
-                                .toString(), true);
+                        ((FTextArea) textAreaDetailsStep4).setText(sb.toString(), true);
                     }
-
                     model.putValue(WIZARD, STEP_4);
                     model.sendNotification(new Object());
-
                 } finally {
                     splash.close();
                 }
-
             }
         }, "doExport").start();
 
@@ -802,32 +772,19 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
             if (tableModelStep1 != null) {
                 int count = 0;
                 StringBuffer summary = new StringBuffer();
-                summary.append("Export Data File(s) into '"
-                        + textFieldStep2.getText() + "' directory\n");
-                summary
-                        .append("--------------------------------------------------------------\n");
-
+                summary.append("Export Data File(s) into '" + textFieldStep2.getText() + "' directory\n");
+                summary.append("--------------------------------------------------------------\n");
                 Iterator iter = tableModelStep1.getSelected().iterator();
                 while (iter.hasNext()) {
-                    Contact c = (Contact) iter.next();
-
-                    PersonName pn = c.getName();
-                    if (pn == null)
-                        continue;
-
+                    Client c = (Client) iter.next();
                     summary.append(++count + "). ");
-                    summary.append(pn.getFullName().trim());
+                    summary.append(c.getShortName());
                     summary.append("\t");
-                    summary.append("'" + pn.getFamilyName() + pn.getFirstName()
-                            + ".xml'");
+                    summary.append("'" + c.getSurname() + c.getFirstname() + ".xml'");
                     summary.append("\n");
-
                 }
-
                 putValue(STEP_3, summary.toString());
-
             }
-
         }
 
         public boolean validate(String whoIsChanged) {

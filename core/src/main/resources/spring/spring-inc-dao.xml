@@ -5,6 +5,8 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
     default-autowire="byName" default-lazy-init="true">
 
+    <bean id="clientDao" class="com.argus.financials.dao.hibernate.ClientDaoImpl" />
+
     <bean id="utility" class="com.argus.financials.service.impl.UtilityServiceImpl" />
 
 </beans>

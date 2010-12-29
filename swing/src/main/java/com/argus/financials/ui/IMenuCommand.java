@@ -124,13 +124,6 @@ public interface IMenuCommand {
 
     public static final Pair CENTRELINK_CALC = new Pair("CENTRELINK_CALC", "CentreLink Calculator");
 
-    public static final Pair ADVISER_REVENUE_CALC = new Pair("ADVISER_REVENUE_CALC", "Adviser Revenue");
-
-    // tools
-    public static final Pair UPDATE_REF_DATA = new Pair("UPDATE_REF_DATA", "Update reference data");
-
-    public static final Pair MAINTAIN_REF_DATA = new Pair("MAINTAIN_REF_DATA", "Maintain reference data");
-
     public static final Pair SWAP_ASSETS = new Pair("SWAP_ASSETS", "Swap Assets");
 
     public static final Pair RECOVER_ASSETS = new Pair("RECOVER_ASSETS", "Recover Assets");

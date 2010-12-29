@@ -240,7 +240,7 @@ public final class ReportFields implements IReportFields {
     private void initAdviser(PersonName pn) throws com.argus.financials.service.ServiceException {
 
         fields.put(Adviser_Title, pn == null ? null : pn.getTitleCode());
-        fields.put(Adviser_FamilyName, pn == null ? null : pn.getFamilyName());
+        fields.put(Adviser_FamilyName, pn == null ? null : pn.getSurname());
         fields.put(Adviser_FirstName, pn == null ? null : pn.getFirstName());
         fields.put(Adviser_OtherGivenNames, pn == null ? null : pn
                 .getOtherGivenNames());
@@ -257,7 +257,7 @@ public final class ReportFields implements IReportFields {
         fields.put(Client_IsMarried, pn == null ? null
                 : (pn.isMarried() ? "Yes" : "No"));
         fields.put(Client_MaritalCode, pn == null ? null : pn.getMaritalCode());
-        fields.put(Client_FamilyName, pn == null ? null : pn.getFamilyName());
+        fields.put(Client_FamilyName, pn == null ? null : pn.getSurname());
         fields.put(Client_FirstName, pn == null ? null : pn.getFirstName());
         fields.put(Client_OtherGivenNames, pn == null ? null : pn
                 .getOtherGivenNames());
@@ -390,7 +390,7 @@ public final class ReportFields implements IReportFields {
         fields
                 .put(Partner_MaritalCode, pn == null ? null : pn
                         .getMaritalCode());
-        fields.put(Partner_FamilyName, pn == null ? null : pn.getFamilyName());
+        fields.put(Partner_FamilyName, pn == null ? null : pn.getSurname());
         fields.put(Partner_FirstName, pn == null ? null : pn.getFirstName());
         fields.put(Partner_OtherGivenNames, pn == null ? null : pn
                 .getOtherGivenNames());

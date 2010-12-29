@@ -27,8 +27,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import com.argus.financials.code.AdviserTypeCode;
 import com.argus.financials.config.PropertySourceManager;
 import com.argus.financials.config.ViewSettings;
-import com.argus.financials.etc.Contact;
-import com.argus.financials.etc.PersonName;
+import com.argus.financials.domain.hibernate.view.Client;
 import com.argus.financials.exchange.ExportData;
 import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.service.UserService;
@@ -645,42 +644,29 @@ public class ExportImportManagerApp extends javax.swing.JPanel {
         private void init(UserService userPerson)
                 throws com.argus.financials.service.ServiceException {
 
-            HashMap selectionCriteria = new HashMap();
-            if (AdviserTypeCode.isSupportPerson(userPerson
-                    .getAdviserTypeCodeID()))
-                selectionCriteria.put(UserService.ALL_USERS_CLIENTS,
-                        Boolean.TRUE);
+            Map<String, Object> criteria = new HashMap<String, Object>();
+            if (AdviserTypeCode.isSupportPerson(userPerson.getAdviserTypeCodeID()))
+            {
+                criteria.put(UserService.ALL_USERS_CLIENTS, Boolean.TRUE);
+            }
             else
-                selectionCriteria.put(UserService.ADVISORID, userPerson
-                        .getPrimaryKey());
-
-            List<Contact> clients = userPerson.findClients(selectionCriteria, null);
-            int size = clients == null ? 0 : clients.size();
-
-            Map users = new TreeMap();
-
-            for (int i = 0; i < size; i++) {
-                Contact c = (Contact) clients.get(i);
-                if (c == null || c.getName() == null
-                        || c.getName().getFullName() == null)
-                    continue;
-
-                PersonName pn = c.getOwnerName();
-                if (pn == null)
-                    continue;
-
-                DefaultMutableTreeNode user = (DefaultMutableTreeNode) users
-                        .get(c.getOwnerName().getFullName());
-                if (user == null) {
-                    user = new CheckBoxTreeNode(c.getOwnerName());
-                    users.put(c.getOwnerName().getFullName(), user);
-                    root.add(user);
-                }
-
-                user.add(new CheckBoxTreeNode(c));
-
+            {
+                criteria.put(UserService.ADVISORID, userPerson.getPrimaryKey());
             }
 
+            List<Client> clients = userPerson.findClients(criteria, null);
+            int size = clients == null ? 0 : clients.size();
+            Map users = new TreeMap();
+            for (int i = 0; i < size; i++) {
+                Client c = clients.get(i);
+                DefaultMutableTreeNode user = (DefaultMutableTreeNode) users.get(c.getOwnerShortName());
+                if (user == null) {
+                    user = new CheckBoxTreeNode(c.getOwnerShortName());
+                    users.put(c.getOwnerShortName(), user);
+                    root.add(user);
+                }
+                user.add(new CheckBoxTreeNode(c));
+            }
         }
 
         public void addTreeModelListener(

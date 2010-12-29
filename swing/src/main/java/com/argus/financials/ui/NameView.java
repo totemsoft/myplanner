@@ -270,7 +270,7 @@ public class NameView extends javax.swing.JPanel {
         Integer id = personName.getTitleCodeID();
         jComboBoxTitle.setSelectedItem(new TitleCode().getCodeDescription(id));
 
-        jTextFieldFamilyName.setText(personName.getFamilyName());
+        jTextFieldFamilyName.setText(personName.getSurname());
         jTextFieldFirstName.setText(personName.getFirstName());
         jTextFieldOtherGivenNames.setText(personName.getOtherGivenNames());
 
@@ -297,7 +297,7 @@ public class NameView extends javax.swing.JPanel {
         s = jTextFieldFamilyName.getText();
         if (s != null && s.length() == 0)
             s = null;
-        personName.setFamilyName(s);
+        personName.setSurname(s);
 
         s = jTextFieldFirstName.getText();
         if (s != null && s.length() == 0)

@@ -20,7 +20,7 @@ import com.argus.util.DateTimeUtils;
 public class PersonName implements java.io.Serializable {
 
     // used in search person
-    public static final String FAMILY_NAME = "FamilyName";
+    public static final String SURNAME = "FamilyName";
 
     public static final String FIRST_NAME = "FirstName";
 
@@ -51,10 +51,6 @@ public class PersonName implements java.io.Serializable {
 
     public String toString() {
         return getShortName();
-        /*
-         * getTitleCode() + " " + familyName + " " + firstName + " " +
-         * otherGivenNames + " (" + preferredName + ", " + getSexCode() + ")" ;
-         */
     }
 
     public boolean isModified() {
@@ -132,7 +128,7 @@ public class PersonName implements java.io.Serializable {
                 || MaritalCode.SEPARATED_HEALTH.equals(maritalCodeID);
     }
 
-    public String getFamilyName() {
+    public String getSurname() {
         if (familyName == null)
             familyName = "";
         return familyName;
@@ -165,28 +161,11 @@ public class PersonName implements java.io.Serializable {
     }
 
     public String getShortName() {
-        String s = getFamilyName();
-
-        String first = getFirstName();
-        if (first.trim().length() > 0)
-            s += ", " + first;
-
-        return s;
+        return getSurname() + ", " + getFirstName();
     }
 
     public String getFullName() {
-        String s = getTitleCode();
-
-        if (s == null)
-            s = "";
-        if (firstName != null)
-            s += " " + firstName;
-        if (otherGivenNames != null)
-            s += " " + otherGivenNames;
-        if (familyName != null)
-            s += " " + familyName;
-
-        return s;
+        return getTitleCode() + " " + firstName + " " + otherGivenNames + " " + familyName;
     }
 
     /**
@@ -216,7 +195,7 @@ public class PersonName implements java.io.Serializable {
         modified = true;
     }
 
-    public void setFamilyName(String value) {
+    public void setSurname(String value) {
         if (equals(familyName, value))
             return;
 

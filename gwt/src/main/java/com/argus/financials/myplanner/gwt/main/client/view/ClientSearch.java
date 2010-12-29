@@ -181,12 +181,27 @@ public class ClientSearch extends Composite
     private void onSearch(Range range)
     {
         List<StringPair> criteria = new ArrayList<StringPair>();
-//        criteria.add(new StringPair("FamilyName", surnameTextBox.getText()));
-//        criteria.add(new StringPair("FirstName", firstnameTextBox.getText()));
-//        criteria.add(new StringPair("DateOfBirth", dobDateBox.getTextBox().getText()));
-//        criteria.add(new StringPair("CountryCodeID", countryComboBox.getValue(countryComboBox.getSelectedIndex())));
-//        criteria.add(new StringPair("StateCodeID", stateComboBox.getValue(stateComboBox.getSelectedIndex())));
-//        criteria.add(new StringPair("PostCode", postcodeTextBox.getText()));
+        String surname = surnameTextBox.getText();
+        if (surname.trim().length() > 0) {
+            criteria.add(new StringPair("FamilyName", surname));
+        }
+        String firstname = firstnameTextBox.getText();
+        if (firstname.trim().length() > 0) {
+            criteria.add(new StringPair("FirstName", firstname));
+        }
+        if (dobDateBox.getValue() != null) {
+            criteria.add(new StringPair("DateOfBirth", dobDateBox.getTextBox().getText()));
+        }
+        if (countryComboBox.getSelectedIndex() >= 0) {
+            criteria.add(new StringPair("CountryCodeID", countryComboBox.getValue(countryComboBox.getSelectedIndex())));
+        }
+        if (stateComboBox.getSelectedIndex() >= 0) {
+            criteria.add(new StringPair("StateCodeID", stateComboBox.getValue(stateComboBox.getSelectedIndex())));
+        }
+        String postcode = postcodeTextBox.getText();
+        if (postcode.trim().length() > 0) {
+            criteria.add(new StringPair("PostCode", postcode));
+        }
         MainServiceAsync.Util.getInstance().findClients((StringPair[]) criteria.toArray(new StringPair[0]), range, new SearchCallback());
     }
 

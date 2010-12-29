@@ -23,12 +23,10 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JDialog;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import com.argus.crypto.Digest;
 import com.argus.financials.code.AdviserTypeCode;
 import com.argus.financials.code.MaritalCode;
 import com.argus.financials.config.FPSLocale;
@@ -37,7 +35,6 @@ import com.argus.financials.config.ViewSettings;
 import com.argus.financials.etc.ActionEventID;
 import com.argus.financials.io.ErrorView;
 import com.argus.financials.io.OutputView;
-import com.argus.financials.legacy.DataExtractor;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.ServiceLocator;
@@ -423,24 +420,6 @@ class FinancialPlannerActionMap
             }
         });
     
-        put(ADVISER_REVENUE_CALC, new AbstractAction(NEW.getSecond().toString()) {
-            public void actionPerformed(ActionEvent evt) {
-
-            }
-        });
-    
-        put(UPDATE_REF_DATA, new AbstractAction(UPDATE_REF_DATA.getSecond().toString()) {
-            public void actionPerformed(ActionEvent evt) {
-                downloadData();
-            }
-        });
-    
-        put(MAINTAIN_REF_DATA, new AbstractAction(MAINTAIN_REF_DATA.getSecond().toString()) {
-            public void actionPerformed(ActionEvent evt) {
-                maintainReferenceData();
-            }
-        });
-    
         put(SWAP_ASSETS, new AbstractAction(SWAP_ASSETS.getSecond().toString()) {
             public void actionPerformed(ActionEvent evt) {
                 swapAssets();
@@ -665,81 +644,6 @@ class FinancialPlannerActionMap
         // } } );
     }
 
-    /***************************************************************************
-     * Database syncronization (from master db via web server)
-     **************************************************************************/
-    private void downloadData() {
-        /*
-         * boolean exists = WebLogin.exists(); final WebLogin view =
-         * WebLogin.getInstance();
-         * 
-         * if ( !exists ) {
-         * 
-         * view.setActionListener( new ActionListener() { public void
-         * actionPerformed( ActionEvent e) {
-         * 
-         * SwingUtils.setVisible( view, false);
-         */
-        java.util.GregorianCalendar calendar = new java.util.GregorianCalendar();
-
-        String webUser = DateTimeUtils.asString(calendar.getTime());
-
-        String title;
-        int messageType;
-
-        // ask user for selection of tables to update
-        ListSelection tableList = new ListSelection(new JList());
-        tableList.setMultipleSelection();
-        String[] data = new String[DataExtractor.MORNING_STAR.length
-                + DataExtractor.IRESS.length];
-        System.arraycopy(DataExtractor.MORNING_STAR, 0, data, 0,
-                DataExtractor.MORNING_STAR.length);
-        System.arraycopy(DataExtractor.IRESS, 0, data,
-                DataExtractor.MORNING_STAR.length, DataExtractor.IRESS.length);
-
-        tableList.setListData(data);
-        SwingUtil.add2Dialog(app,
-                "Please select the table(s) to be downloaded", true, tableList);
-
-        Object[] items = tableList.getSelectedValues();
-        if (items != null && items.length >= 0
-                && tableList.getResult() == javax.swing.JOptionPane.OK_OPTION) {
-            java.util.Vector tables = new java.util.Vector();
-
-            for (int i = 0; i < items.length; i++)
-                tables.add(items[i]);
-
-            try {
-                String webPassword = Digest.digest(webUser);
-                ServiceLocator.getInstance().getUserService().downloadData(
-                        webUser, webPassword, tables, app);
-            } catch (Exception ex) {
-                String msg = "Failed to process request.\n" + ex.getMessage();
-                title = "WEB Server processing error";
-                messageType = JOptionPane.ERROR_MESSAGE;
-                javax.swing.JOptionPane.showMessageDialog(app, msg, title,
-                        messageType);
-            }
-        }
-    }
-
-    private com.argus.financials.ui.sql.ReferenceDataView rdv;
-
-    private void maintainReferenceData() {
-        if (rdv == null) {
-            rdv = new com.argus.financials.ui.sql.ReferenceDataView();
-            SwingUtil.add2Frame(
-                rdv,
-                (java.awt.event.FocusListener[]) null,
-                IMenuCommand.MAINTAIN_REF_DATA.getSecond().toString(),
-                ViewSettings.getInstance().getViewImage(rdv.getClass().getName()),
-                true,
-                true,
-                false);
-        }
-        SwingUtil.setVisible(rdv, true);
-    }
-
     private static com.argus.financials.ui.sql.AssetSwapView assetSwapView;
 
     private void swapAssets() {
@@ -873,8 +777,6 @@ class FinancialPlannerActionMap
 
             get(IMenuCommand.PLAN_WIZARD).setEnabled(isClient);
             get(IMenuCommand.PLAN_TEMPLATE_WIZARD).setEnabled(adminPerson);
-
-            get(IMenuCommand.MAINTAIN_REF_DATA).setEnabled(adminPerson || supportPerson);
 
         } catch (com.argus.financials.service.ServiceException e) {
             e.printStackTrace(System.err);

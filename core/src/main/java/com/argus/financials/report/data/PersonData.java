@@ -69,8 +69,8 @@ public abstract class PersonData extends BaseData {
                 .getTitleCode();
         MaritalCode = name.getMaritalCode() == null ? STRING_EMPTY : name
                 .getMaritalCode();
-        FamilyName = name.getFamilyName() == null ? STRING_EMPTY : name
-                .getFamilyName();
+        FamilyName = name.getSurname() == null ? STRING_EMPTY : name
+                .getSurname();
         FirstName = name.getFirstName() == null ? STRING_EMPTY : name
                 .getFirstName();
         OtherGivenNames = name.getOtherGivenNames() == null ? STRING_EMPTY

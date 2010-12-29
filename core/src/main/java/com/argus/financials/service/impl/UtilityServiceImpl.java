@@ -45,7 +45,7 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
 
     private String dbServerVersion;
 
-    public void remove() throws com.argus.financials.service.ServiceException, RemoveException {
+    public void remove() throws ServiceException, RemoveException {
         // getEJBHome().remove( getPrimaryKey() );
     }
 
@@ -621,29 +621,21 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
             // HERE!!! //
             // //////////////////////////////////////////////////////////////////////////////
 
-            //con.commit();
-
         } catch (Exception e) {
             LOG.error("\tUtilityBean::syncDBSchema(...) FAILED for:\n" + sql + "\n" + e.getMessage());
             if (i == 4) {// after 4.sql
                 updateAfter4(con);
-                //con.commit();
             } else if (i == 162) {// after 162.sql
                 //export for MSSQL only
-                //con.commit();
             } else if (i == 163) {// after 163.sql
                 //import for MSSQL only
-                //con.commit();
             } else if (i == 165) {// after 165.sql
                 //TODO: fix 4 HSQLDB
                 //intensive use of sroreproc (Journal???) for MSSQL only
-                //con.commit();
             } else if (i == 166) {// after 166.sql
                 i = 199;
                 //import for MSSQL only
-                //con.commit();
             } else {
-                //con.rollback();
                 throw new ServiceException(e);
             }
             LOG.error("Recovered from error!");
@@ -823,13 +815,10 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
                             + codeValue);
 
         int count = 0;
-        Connection con = null;
         PreparedStatement sql = null;
         ResultSet rs = null;
-
         try {
-            con = getConnection();
-
+            Connection con = getConnection();
             sql = con.prepareStatement("SELECT count(*) FROM " + tableName
                     + " WHERE " + descFieldName + " LIKE ?");
             sql.setString(1, codeValue);
@@ -837,27 +826,15 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
             rs.next();
 
             if (rs.getInt(1) == 0) {
-                con.setAutoCommit(false);
-
                 sql = con.prepareStatement("INSERT INTO " + tableName + " ( "
                         + idFieldName + ", " + descFieldName
                         + " ) VALUES ( ?, ? )");
                 sql.setInt(1, codeID.intValue());
                 sql.setString(2, codeValue);
                 count = sql.executeUpdate();
-
-                con.commit();
-
             }
-
         } catch (SQLException e) {
-            try {
-                if (!con.getAutoCommit())
-                    con.rollback();
-            } catch (SQLException e2) { /* do nothing */
-            }
-
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
         } finally {
             try {
                 close(rs, sql);
@@ -900,13 +877,10 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
 
     public void addCode(String tableName, java.util.Map addData)
             throws ServiceException {
-
-        Connection con = null;
         PreparedStatement sql = null;
         ResultSet rs = null;
-
         try {
-            con = getConnection();
+            Connection con = getConnection();
 
             String names = null;
             String values = null;
@@ -935,15 +909,7 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
             for (int i = 0; i < values2.length; i++)
                 sql.setObject(i + 1, values2[i]);
 
-            if (sql.executeUpdate() == 1)
-                con.commit();
-
         } catch (SQLException e) {
-            try {
-                con.rollback();
-            } catch (SQLException e2) {
-            }
-
             throw new ServiceException(e.getMessage());
         } finally {
             try {
@@ -958,12 +924,10 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
     public void updateCode(String tableName, java.util.Map updateData,
             java.util.Map whereData) throws ServiceException {
 
-        Connection con = null;
         PreparedStatement sql = null;
         ResultSet rs = null;
-
         try {
-            con = getConnection();
+            Connection con = getConnection();
 
             String values = null;
             java.util.Iterator iter = updateData.entrySet().iterator();
@@ -1003,15 +967,7 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
             for (int i = 0; i < values2.length; i++)
                 sql.setObject(j++, values2[i]);
 
-            if (sql.executeUpdate() == 1)
-                con.commit();
-
         } catch (SQLException e) {
-            try {
-                con.rollback();
-            } catch (SQLException e2) {
-            }
-
             throw new ServiceException(e.getMessage());
         } finally {
             try {

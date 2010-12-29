@@ -96,7 +96,7 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
         <hibernate.version>3.3.1.GA</hibernate.version>
         <hibernate-annotations.version>3.4.0.GA</hibernate-annotations.version>
         <hibernate-entitymanager.version>3.4.0.GA</hibernate-entitymanager.version>
-        <hibernate-validator.version>4.0.2.GA</hibernate-validator.version>
+        <hibernate-validator.version>3.1.0.GA</hibernate-validator.version>
         <junit.version>3.8.2</junit.version>
         <jxl.version>2.6.10</jxl.version>
         <log4j.version>1.2.15</log4j.version>

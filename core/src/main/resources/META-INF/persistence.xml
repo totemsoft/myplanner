@@ -10,6 +10,7 @@
     <non-jta-data-source>java:jdbc/DataSource_myplanner</non-jta-data-source>
     <class>com.argus.financials.domain.hibernate.Address</class>
     <class>com.argus.financials.domain.hibernate.Person</class>
+    <class>com.argus.financials.domain.hibernate.User</class>
     <class>com.argus.financials.domain.hibernate.view.Client</class>
     <!--properties>
       <property name="hibernate.ejb.interceptor" value="...AuditableInterceptor"/>

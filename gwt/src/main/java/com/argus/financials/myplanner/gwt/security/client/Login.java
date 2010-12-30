@@ -51,18 +51,20 @@ public class Login implements EntryPoint, ClickHandler {
 		infoLabel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		infoPanel.setWidget(infoLabel);
 		
-		FormPanel formPanel = new FormPanel();
-		formPanel.setMethod(FormPanel.METHOD_POST);
-		verticalPanel.add(formPanel);
+		FormPanel form = new FormPanel();
+		//form.setAction("/j_spring_security_check");
+		form.setMethod(FormPanel.METHOD_POST);
+		verticalPanel.add(form);
 		
 		Grid grid = new Grid(3, 2);
-		formPanel.setWidget(grid);
+		form.setWidget(grid);
 		grid.setSize("100%", "100%");
 		
 		Label loginLabel = new Label("User ID:");
 		grid.setWidget(0, 0, loginLabel);
 		
 		login = new TextBox();
+		login.setName("j_username");
 		login.setText("trial");
 		grid.setWidget(0, 1, login);
 		
@@ -70,9 +72,11 @@ public class Login implements EntryPoint, ClickHandler {
 		grid.setWidget(1, 0, passwordLabel);
 		
 		password = new PasswordTextBox();
+		password.setName("j_password");
 		grid.setWidget(1, 1, password);
 		
 		Button loginButton = new Button("Login");
+		//loginButton.getElement().setPropertyString("type", "submit");
 		loginButton.addClickHandler(this);
 		grid.setWidget(2, 1, loginButton);
 	}

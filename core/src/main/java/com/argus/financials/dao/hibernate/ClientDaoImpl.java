@@ -79,17 +79,14 @@ public class ClientDaoImpl extends BaseDAOImpl implements ClientDao
             if (criteria.containsKey(DbConstant.ALL_USERS_CLIENTS)
                 && Boolean.TRUE.equals(criteria.get(DbConstant.ALL_USERS_CLIENTS)))
             {
-                // add nothing
+                // add nothing - all clients for all users
             }
             else
             {
                 fn = DbConstant.ADVISORID;
-                if (criteria.containsKey(fn))
-                {
-                    String advisorID = criteria.get(fn).toString();
-                    sql += " AND ownerId = :ownerId";
-                    parameters.put("ownerId", NumberUtils.createInteger(advisorID));
-                }
+                String advisorID = criteria.get(fn).toString();
+                sql += " AND ownerId = :ownerId";
+                parameters.put("ownerId", NumberUtils.createInteger(advisorID));
             }
         }
         Query qry = getEntityManager().createQuery(sql);

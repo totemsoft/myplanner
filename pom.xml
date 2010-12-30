@@ -482,7 +482,6 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
                 <groupId>net.sourceforge.jtds</groupId>
                 <artifactId>jtds</artifactId>
                 <version>${jtds.version}</version>
-                <scope>test</scope>
             </dependency>
 
             <dependency>

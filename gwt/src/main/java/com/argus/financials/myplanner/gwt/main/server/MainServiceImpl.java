@@ -30,6 +30,7 @@ public class MainServiceImpl extends AbstractGwtController implements MainServic
         }
         List<Client> clients = getUserService().findClients(criteriaMap, range == null ? null :
             new com.argus.util.Range(range.getStart(), range.getLength()));
+        // convert to dto
         List<BasePair> result = new ArrayList<BasePair>();
         for (Client c : clients) {
             result.add(new BasePair(c.getId(), c.getShortName()));

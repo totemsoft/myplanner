@@ -61,12 +61,13 @@ public class FinancialPlannerApp extends javax.swing.JFrame
     private StatusBarPanel statusBarPanel;
     private SplashWindow splashWindow;// = new SplashWindow("/image/logo/splash.gif", this, 10000);
     
-    /** Creates new form FinancialPlannerApp2 */
+    /** Creates new form FinancialPlannerApp */
     public FinancialPlannerApp(String config)
         throws IOException
     {
         // open/read the application context file
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+        //applicationContext.getBeanFactory().registerScope("session", new org.springframework.web.context.request.SessionScope());
         ServiceLocator.getInstance().setApplicationContext(applicationContext);
 
         boolean useTaskBar = true;

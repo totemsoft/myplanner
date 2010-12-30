@@ -9,7 +9,7 @@ import com.argus.util.Range;
 /**
  * @author vchibaev (Valeri SHIBAEV)
  */
-public interface ClientDao
+public interface ClientDao extends BaseDAO
 {
     /**
      * 

@@ -32,13 +32,13 @@ import com.argus.financials.code.MaritalCode;
 import com.argus.financials.config.FPSLocale;
 import com.argus.financials.config.PropertySourceManager;
 import com.argus.financials.config.ViewSettings;
+import com.argus.financials.domain.hibernate.User;
 import com.argus.financials.etc.ActionEventID;
 import com.argus.financials.io.ErrorView;
 import com.argus.financials.io.OutputView;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.UserService;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.ui.financials.FinancialView2;
 import com.argus.financials.ui.help.AboutView;
@@ -753,11 +753,11 @@ class FinancialPlannerActionMap
     public void updateAccessability() {
 
         try {
-            UserService user = ServiceLocator.getInstance().getUserService();
-            Integer userTypeID = user == null ? null : user.getAdviserTypeCodeID();
+            User user = ServiceLocator.getInstance().getUserPreferences().getUser();
+            Integer userTypeId = user == null ? null : user.getTypeId();
 
-            boolean adminPerson = AdviserTypeCode.isAdminPerson(userTypeID);
-            boolean supportPerson = AdviserTypeCode.isSupportPerson(userTypeID);
+            boolean adminPerson = AdviserTypeCode.isAdminPerson(userTypeId);
+            boolean supportPerson = AdviserTypeCode.isSupportPerson(userTypeId);
 
             ClientService client = ServiceLocator.getInstance().getClientPerson();
             boolean isClient = client != null;

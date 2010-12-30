@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.argus.financials.myplanner.web.servlet.WebUtils;
+import com.argus.financials.security.UserPreferences;
 import com.argus.financials.service.UserService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -21,6 +22,11 @@ public abstract class AbstractGwtController extends RemoteServiceServlet
 
     @Autowired
     private UserService userService;
+
+    protected UserPreferences getUserPreferences()
+    {
+        return (UserPreferences) WebUtils.getBean(getServletContext(), "userPreferences");
+    }
 
     /**
      * @return the userService

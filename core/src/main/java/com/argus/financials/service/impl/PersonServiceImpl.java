@@ -24,6 +24,9 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
 
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.argus.financials.bean.Assets;
 import com.argus.financials.bean.DbConstant;
 import com.argus.financials.bean.Financial;
@@ -57,6 +60,7 @@ import com.argus.financials.io.IOUtils2;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.projection.save.ModelCollection;
 import com.argus.financials.projection.save.db.ModelBean;
+import com.argus.financials.security.UserPreferences;
 import com.argus.financials.service.BusinessService;
 import com.argus.financials.service.CreateException;
 import com.argus.financials.service.FinderException;
@@ -68,6 +72,16 @@ import com.argus.util.ReferenceCode;
 import com.argus.util.StringUtils;
 
 public class PersonServiceImpl extends AbstractServiceImpl implements PersonService {
+
+    @Autowired
+    private BeanFactory beanFactory;
+
+    /**
+     * @return the userPreferences
+     */
+    protected UserPreferences getUserPreferences() {
+        return (UserPreferences) beanFactory.getBean("userPreferences");
+    }
 
     /**
      * to create a new instance of Person entity bean and therefore insert data

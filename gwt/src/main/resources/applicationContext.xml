@@ -24,4 +24,7 @@
     <!-- ========================= CORE DEFINITIONS ======================== -->
     <import resource="classpath:spring/spring-inc.xml" />
 
+    <!-- ========================= OTHER DEFINITIONS ============================= -->
+    <bean id="userPreferences" class="com.argus.financials.security.UserPreferences" scope="session" />
+
 </beans>

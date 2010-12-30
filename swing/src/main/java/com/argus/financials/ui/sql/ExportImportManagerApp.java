@@ -24,11 +24,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
-import com.argus.financials.code.AdviserTypeCode;
 import com.argus.financials.config.PropertySourceManager;
 import com.argus.financials.config.ViewSettings;
 import com.argus.financials.domain.hibernate.view.Client;
 import com.argus.financials.exchange.ExportData;
+import com.argus.financials.service.ServiceException;
 import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.service.UserService;
 import com.argus.financials.swing.SwingUtil;
@@ -628,12 +628,9 @@ public class ExportImportManagerApp extends javax.swing.JPanel {
 
             root = new CheckBoxTreeNode("Advisers");
 
-            UserService userPerson = ServiceLocator.getInstance()
-                    .getUserService();
             try {
-                if (userPerson != null)
-                    init(userPerson);
-            } catch (com.argus.financials.service.ServiceException e) {
+                init();
+            } catch (ServiceException e) {
                 e.printStackTrace(System.err);
             }
 
@@ -641,31 +638,21 @@ public class ExportImportManagerApp extends javax.swing.JPanel {
 
         }
 
-        private void init(UserService userPerson)
-                throws com.argus.financials.service.ServiceException {
-
+        private void init() throws ServiceException {
             Map<String, Object> criteria = new HashMap<String, Object>();
-            if (AdviserTypeCode.isSupportPerson(userPerson.getAdviserTypeCodeID()))
-            {
-                criteria.put(UserService.ALL_USERS_CLIENTS, Boolean.TRUE);
-            }
-            else
-            {
-                criteria.put(UserService.ADVISORID, userPerson.getPrimaryKey());
-            }
-
-            List<Client> clients = userPerson.findClients(criteria, null);
+            UserService userService = ServiceLocator.getInstance().getUserService();
+            List<Client> clients = userService.findClients(criteria, null);
             int size = clients == null ? 0 : clients.size();
             Map users = new TreeMap();
             for (int i = 0; i < size; i++) {
                 Client c = clients.get(i);
-                DefaultMutableTreeNode user = (DefaultMutableTreeNode) users.get(c.getOwnerShortName());
-                if (user == null) {
-                    user = new CheckBoxTreeNode(c.getOwnerShortName());
-                    users.put(c.getOwnerShortName(), user);
-                    root.add(user);
+                DefaultMutableTreeNode u = (DefaultMutableTreeNode) users.get(c.getOwnerShortName());
+                if (u == null) {
+                    u = new CheckBoxTreeNode(c.getOwnerShortName());
+                    users.put(c.getOwnerShortName(), u);
+                    root.add(u);
                 }
-                user.add(new CheckBoxTreeNode(c));
+                u.add(new CheckBoxTreeNode(c));
             }
         }
 

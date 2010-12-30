@@ -31,6 +31,7 @@ import com.argus.financials.code.CountryCode;
 import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.StateCode;
 import com.argus.financials.config.FPSLocale;
+import com.argus.financials.domain.hibernate.User;
 import com.argus.financials.domain.hibernate.view.Client;
 import com.argus.financials.etc.Address;
 import com.argus.financials.etc.Contact;
@@ -516,25 +517,23 @@ public final class ClientSearch extends javax.swing.JPanel {
                 new StateCode(countryCodeID).getCodeDescriptions()));
     }// GEN-LAST:event_jComboBoxCountryItemStateChanged
 
-    public static ClientSearch display(java.awt.Frame owner) {
-
+    public static ClientSearch display(java.awt.Frame owner)
+    {
         boolean exists = exists();
         ClientSearch view = getInstance();
-
-        try {
-            view.setUserType(ServiceLocator.getInstance().getUserService()
-                    .getAdviserTypeCodeID());
-
-            SwingUtil.add2Dialog(owner, view.getViewCaption(), true, view,
-                    true, true);
-
+        try
+        {
+            User user = ServiceLocator.getInstance().getUserPreferences().getUser();
+            Integer userTypeId = user == null ? null : user.getTypeId();
+            view.setUserType(userTypeId);
+            SwingUtil.add2Dialog(owner, view.getViewCaption(), true, view, true, true);
             return view;
-
-        } catch (com.argus.financials.service.ServiceException e) {
+        }
+        catch (com.argus.financials.service.ServiceException e)
+        {
             e.printStackTrace(System.err);
             return null;
         }
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -664,9 +663,9 @@ public final class ClientSearch extends javax.swing.JPanel {
 
     }
 
-    private void initTable(UserService userPerson) {
+    private void initTable() {
 
-        Object[][] rowData = getRowData(userPerson);
+        Object[][] rowData = getRowData();
 
         TableModel tm = jTable.getModel();
 
@@ -706,15 +705,16 @@ public final class ClientSearch extends javax.swing.JPanel {
 
     private Map<String, Object> getSelectionCriteria() throws com.argus.financials.service.ServiceException {
 
-        if (jCheckBoxDisplayAll.isSelected())
-            return null;
-
-        UserService user = ServiceLocator.getInstance().getUserService();
-        boolean supportPerson = AdviserTypeCode.isSupportPerson(user.getAdviserTypeCodeID());
         Map<String, Object> criteria = new HashMap<String, Object>();
+        if (jCheckBoxDisplayAll.isSelected())
+            return criteria;
+
+        User user = ServiceLocator.getInstance().getUserPreferences().getUser();
+        Integer userTypeId = user == null ? null : user.getTypeId();
+        boolean supportPerson = AdviserTypeCode.isSupportPerson(userTypeId);
         if (!supportPerson)
         {
-            criteria.put(UserService.ADVISORID, user.getPrimaryKey());
+            criteria.put(UserService.ADVISORID, user.getId());
         }
         else if (jCheckBoxAllUsersClients.isSelected())
         {
@@ -727,13 +727,13 @@ public final class ClientSearch extends javax.swing.JPanel {
             PersonName name = cs == null || cs == Advisers.NONE ? null : cs.getName();
             if (name == null || name.getSurname().trim().length() == 0)
             {
-                criteria.put(UserService.ADVISORID, user.getPrimaryKey());
+                criteria.put(UserService.ADVISORID, user.getId());
             }
             else
             {
-                Integer adviserCodeID = cs.getPrimaryKeyID();
-                if (adviserCodeID != null)
-                    criteria.put(UserService.ADVISORID, adviserCodeID);
+                Integer adviserId = cs.getPrimaryKeyID();
+                if (adviserId != null)
+                    criteria.put(UserService.ADVISORID, adviserId);
             }
         }
 
@@ -775,9 +775,10 @@ public final class ClientSearch extends javax.swing.JPanel {
 
     }
 
-    private Object[][] getRowData(UserService userPerson) {
+    private Object[][] getRowData() {
         try {
-            List<Client> data = userPerson.findClients(getSelectionCriteria(), null);
+            UserService userService = ServiceLocator.getInstance().getUserService();
+            List<Client> data = userService.findClients(getSelectionCriteria(), null);
             if (data == null)
                 return new Object[0][COLUMN_COUNT];
             Object[][] rowData = new Object[data.size()][COLUMN_COUNT];
@@ -792,7 +793,6 @@ public final class ClientSearch extends javax.swing.JPanel {
             e.printStackTrace(System.err);
             return null; // throw e;
         }
-
     }
 
     private Client getSelectedPerson() {
@@ -828,8 +828,7 @@ public final class ClientSearch extends javax.swing.JPanel {
     {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         try {
-            UserService userPerson = ServiceLocator.getInstance().getUserService();
-            initTable(userPerson);
+            initTable();
         } finally {
             setCursor(null);
         }

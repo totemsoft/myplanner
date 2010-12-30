@@ -16,6 +16,9 @@ import javax.sql.DataSource;
 
 import org.springframework.context.ApplicationContext;
 
+import com.argus.financials.domain.hibernate.User;
+import com.argus.financials.security.UserPreferences;
+
 public final class ServiceLocator {
 
     public static final String APP_VERSION = "1.02.b01";
@@ -55,15 +58,19 @@ public final class ServiceLocator {
         this.applicationContext = applicationContext;
     }
 
+    public UserPreferences getUserPreferences()
+    {
+        return (UserPreferences) applicationContext.getBean("userPreferences");
+    }
+
     /**
      * do login on rmi server
      */
-    public void login(String userName, String userPassword) throws Exception {
+    public void login(String login, String password) throws Exception {
         // do it just in case
         // logout();
         try {
-            UserService user = getUserService().findByLoginNamePassword(userName, userPassword);
-            Integer userID = (Integer) user.getPrimaryKey();
+            User user = getUserService().login(login, password);
         } catch (Exception e) {
             lastError = e.getMessage();
             throw e;
@@ -71,7 +78,7 @@ public final class ServiceLocator {
     }
 
     public void logout() {
-
+        getUserService().logout();
     }
 
     public String getDBVersion() {

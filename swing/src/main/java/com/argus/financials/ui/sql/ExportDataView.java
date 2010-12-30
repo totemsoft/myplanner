@@ -32,7 +32,6 @@ import com.argus.beans.FTextField;
 import com.argus.beans.MessageSent;
 import com.argus.beans.MessageSentEvent;
 import com.argus.beans.WizardContentHandler;
-import com.argus.financials.code.AdviserTypeCode;
 import com.argus.financials.domain.hibernate.view.Client;
 import com.argus.financials.exchange.ExportData;
 import com.argus.financials.service.ServiceLocator;
@@ -499,18 +498,9 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
             return tableModelStep1;
 
         try {
-            UserService user = ServiceLocator.getInstance().getUserService();
             Map<String, Object> criteria = new HashMap<String, Object>();
-            if (AdviserTypeCode.isSupportPerson(user.getAdviserTypeCodeID()))
-            {
-                criteria.put(UserService.ALL_USERS_CLIENTS, Boolean.TRUE);
-            }
-            else
-            {
-                criteria.put(UserService.ADVISORID, user.getPrimaryKey());
-            }
-
-            List<Client> clients = user.findClients(criteria, null);
+            UserService userService = ServiceLocator.getInstance().getUserService();
+            List<Client> clients = userService.findClients(criteria, null);
             int size = clients == null ? 0 : clients.size();
             Vector data = new Vector(size);
             for (int i = 0; i < size; i++) {

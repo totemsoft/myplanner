@@ -128,7 +128,14 @@ public final class ClientView extends PersonView2 {
         jGoalsAndInterests.saveView(person);
 
         Object obj = jComboBoxAdviser.getSelectedItem();
-        person.setOwnerPrimaryKey(((Contact) obj).getPrimaryKeyID());
+        if (obj == null)
+        {
+            person.setOwnerPrimaryKey(ServiceLocator.getInstance().getUserPreferences().getUser().getId());
+        }
+        else
+        {
+            person.setOwnerPrimaryKey(((Contact) obj).getPrimaryKeyID());
+        }
 
         person.setActive(jCheckBoxClientActive.isSelected());
 

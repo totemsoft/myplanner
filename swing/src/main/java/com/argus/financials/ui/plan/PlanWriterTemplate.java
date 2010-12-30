@@ -44,6 +44,7 @@ import com.argus.financials.code.AdviserTypeCode;
 import com.argus.financials.config.FPSLocale;
 import com.argus.financials.config.ViewSettings;
 import com.argus.financials.config.WordSettings;
+import com.argus.financials.domain.hibernate.User;
 import com.argus.financials.service.PersonService;
 import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.swing.SwingUtil;
@@ -351,15 +352,14 @@ public class PlanWriterTemplate
         boolean adminPerson = false;
         boolean supportPerson = false;
         try {
-            Integer userTypeID = ServiceLocator.getInstance().getUserService()
-                    .getAdviserTypeCodeID();
-            adminPerson = AdviserTypeCode.isAdminPerson(userTypeID);
-            supportPerson = AdviserTypeCode.isSupportPerson(userTypeID);
+            User user = ServiceLocator.getInstance().getUserPreferences().getUser();
+            Integer userTypeId = user == null ? null : user.getTypeId();
+            adminPerson = AdviserTypeCode.isAdminPerson(userTypeId);
+            supportPerson = AdviserTypeCode.isSupportPerson(userTypeId);
         } catch (com.argus.financials.service.ServiceException e) {
             e.printStackTrace(System.err);
         }
         // jButtonSaveAsTemplate.setVisible( adminPerson || supportPerson );
-
     }
 
     /**

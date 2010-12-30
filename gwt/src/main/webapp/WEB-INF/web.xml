@@ -15,6 +15,9 @@
     <listener>
         <listener-class>com.argus.financials.myplanner.web.servlet.SetupContextListener</listener-class>
     </listener>
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+    </listener>
 
     <session-config>
         <session-timeout>30</session-timeout>

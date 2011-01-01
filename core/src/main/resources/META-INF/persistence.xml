@@ -12,6 +12,7 @@
     <class>com.argus.financials.domain.hibernate.Person</class>
     <class>com.argus.financials.domain.hibernate.User</class>
     <class>com.argus.financials.domain.hibernate.refdata.Country</class>
+    <class>com.argus.financials.domain.hibernate.refdata.State</class>
     <class>com.argus.financials.domain.hibernate.view.Client</class>
     <!--properties>
       <property name="hibernate.ejb.interceptor" value="...AuditableInterceptor"/>

@@ -14,23 +14,33 @@ package com.argus.financials.code;
 
 import java.util.Map;
 
-public class StateCode extends Code {
+import com.argus.financials.domain.refdata.IState;
 
-    public final static Integer NSW = new Integer(1);
+public class StateCode extends Code implements IState {
 
-    public final static Integer VIC = new Integer(2);
+    /* (non-Javadoc)
+     * @see com.argus.financials.domain.refdata.ICode#getCode()
+     */
+    public String getCode()
+    {
+        return null;
+    }
 
-    public final static Integer QLD = new Integer(3);
+    /* (non-Javadoc)
+     * @see com.argus.financials.domain.refdata.ICode#getDescription()
+     */
+    public String getDescription()
+    {
+        return null;
+    }
 
-    public final static Integer ACT = new Integer(4);
-
-    public final static Integer SA = new Integer(5);
-
-    public final static Integer WA = new Integer(6);
-
-    public final static Integer NT = new Integer(7);
-
-    public final static Integer TAS = new Integer(8);
+    /* (non-Javadoc)
+     * @see com.argus.financials.domain.IBase#getId()
+     */
+    public Integer getId()
+    {
+        return null;
+    }
 
     private static Map codeMap;
 
@@ -68,8 +78,8 @@ public class StateCode extends Code {
 
         } else {
             /*
-             * try { codeMap = RmiParams.getInstance().getUtility().getStates(
-             * countryID ); } catch (com.argus.financials.service.ServiceException e) { countryID =
+             * try { codeMap = ServiseLocator.getInstance().getUtility().getStates(
+             * countryID ); } catch (ServiceException e) { countryID =
              * null; e.printStackTrace(); }
              */
         }

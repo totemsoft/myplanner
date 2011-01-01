@@ -3,6 +3,9 @@ package com.argus.financials.myplanner.gwt.main.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+
 import com.argus.financials.domain.refdata.ICode;
 import com.argus.financials.myplanner.gwt.AbstractGwtController;
 import com.argus.financials.myplanner.gwt.commons.client.BasePair;
@@ -19,6 +22,15 @@ public class RefDataServiceImpl extends AbstractGwtController implements RefData
     public BasePair[] findCountries()
     {
         return convert(getEntityService().findCountries());
+    }
+
+    /* (non-Javadoc)
+     * @see com.argus.financials.myplanner.gwt.main.client.RefDataService#findStates(java.lang.String)
+     */
+    public BasePair[] findStates(String countryId)
+    {
+        return convert(getEntityService().findStates(
+            StringUtils.isNotBlank(countryId) ? NumberUtils.createInteger(countryId) : null));
     }
 
     /**

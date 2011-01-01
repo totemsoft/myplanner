@@ -13,4 +13,11 @@ public interface RefDataService extends RemoteService {
      */
     BasePair[] findCountries();
 
+    /**
+     * 
+     * @param countryId
+     * @return
+     */
+    BasePair[] findStates(String countryId);
+
 }

@@ -191,6 +191,7 @@ public class ClientSearch extends Composite
     {
         public void onSuccess(BasePair[] result)
         {
+            country.addItem("", null);
             for (BasePair item : result)
             {
                 country.addItem(item.getSecond(), item.getFirst().toString());

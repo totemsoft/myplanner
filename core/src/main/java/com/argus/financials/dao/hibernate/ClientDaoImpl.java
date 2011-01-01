@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.persistence.Query;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.stereotype.Repository;
 
@@ -52,29 +53,41 @@ public class ClientDaoImpl extends BaseDAOImpl implements ClientDao
             if (criteria.containsKey(fn))
             {
                 String dateOfBirth = (String) criteria.get(fn);
-                sql += " AND dateOfBirth = :dateOfBirth";
-                parameters.put("dateOfBirth", DateTimeUtils.getDate(dateOfBirth));
+                if (StringUtils.isNotBlank(dateOfBirth))
+                {
+                    sql += " AND dateOfBirth = :dateOfBirth";
+                    parameters.put("dateOfBirth", DateTimeUtils.getDate(dateOfBirth));
+                }
             }
             fn = Address.COUNTRY;
             if (criteria.containsKey(fn))
             {
                 String countryCode = criteria.get(fn).toString();
-                sql += " AND address.countryCodeId = :countryCode";
-                parameters.put("countryCode", NumberUtils.createInteger(countryCode));
+                if (StringUtils.isNotBlank(countryCode))
+                {
+                    sql += " AND address.countryCodeId = :countryCode";
+                    parameters.put("countryCode", NumberUtils.createInteger(countryCode));
+                }
             }
             fn = Address.STATE;
             if (criteria.containsKey(fn))
             {
                 String stateCode = criteria.get(fn).toString();
-                sql += " AND address.stateCodeId = :stateCode";
-                parameters.put("stateCode", NumberUtils.createInteger(stateCode));
+                if (StringUtils.isNotBlank(stateCode))
+                {
+                    sql += " AND address.stateCodeId = :stateCode";
+                    parameters.put("stateCode", NumberUtils.createInteger(stateCode));
+                }
             }
             fn = Address.POSTCODE;
             if (criteria.containsKey(fn))
             {
                 String postcode = (String) criteria.get(fn);
-                sql += " AND address.postcode = :postcode";
-                parameters.put("postcode", NumberUtils.createInteger(postcode));
+                if (StringUtils.isNotBlank(postcode))
+                {
+                    sql += " AND address.postcode = :postcode";
+                    parameters.put("postcode", NumberUtils.createInteger(postcode));
+                }
             }
             if (criteria.containsKey(DbConstant.ALL_USERS_CLIENTS)
                 && Boolean.TRUE.equals(criteria.get(DbConstant.ALL_USERS_CLIENTS)))

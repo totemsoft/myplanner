@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.argus.financials.config.FPSLocale;
 import com.argus.financials.dao.EntityDao;
 import com.argus.financials.domain.hibernate.refdata.Country;
 import com.argus.financials.domain.hibernate.refdata.Country.CountryComparator;
@@ -22,7 +23,8 @@ public class EntityServiceImpl implements EntityService
     public List<Country> findCountries()
     {
         List<Country> result = entityDao.findCountries();
-        Collections.sort(result, new CountryComparator());
+        String defaultCountry = FPSLocale.getInstance().getDisplayCountry();
+        Collections.sort(result, new CountryComparator(defaultCountry));
         return result;
     }
 

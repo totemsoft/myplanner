@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.argus.financials.config.FPSLocale;
 import com.argus.financials.domain.refdata.ICountry;
 import com.argus.util.BeanUtils;
 
@@ -54,7 +53,12 @@ public class Country extends AbstractCode implements ICountry
 
     public static class CountryComparator implements Comparator<Country>
     {
-        private String defaultCountry = FPSLocale.getInstance().getDisplayCountry();
+        private String defaultCountry;
+
+        public CountryComparator(String defaultCountry)
+        {
+            this.defaultCountry = defaultCountry;
+        }
 
         public int compare(Country c1, Country c2)
         {

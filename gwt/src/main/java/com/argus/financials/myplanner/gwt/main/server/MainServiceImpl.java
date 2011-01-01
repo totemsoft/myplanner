@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.argus.financials.domain.hibernate.view.Client;
-import com.argus.financials.myplanner.commons.client.BasePair;
-import com.argus.financials.myplanner.commons.client.StringPair;
 import com.argus.financials.myplanner.gwt.AbstractGwtController;
+import com.argus.financials.myplanner.gwt.commons.client.BasePair;
+import com.argus.financials.myplanner.gwt.commons.client.StringPair;
 import com.argus.financials.myplanner.gwt.main.client.MainService;
 import com.google.gwt.view.client.Range;
 

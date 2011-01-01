@@ -1,7 +1,7 @@
 package com.argus.financials.myplanner.gwt.main.client;
 
-import com.argus.financials.myplanner.commons.client.BasePair;
-import com.argus.financials.myplanner.commons.client.StringPair;
+import com.argus.financials.myplanner.gwt.commons.client.BasePair;
+import com.argus.financials.myplanner.gwt.commons.client.StringPair;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import com.google.gwt.view.client.Range;

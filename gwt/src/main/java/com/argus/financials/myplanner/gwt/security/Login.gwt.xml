@@ -3,6 +3,6 @@
 <module>
 	<inherits name="com.google.gwt.user.User"/>
 	<inherits name="com.google.gwt.user.theme.standard.Standard"/>
-	<inherits name="com.argus.financials.myplanner.commons.Commons" />
+	<inherits name="com.argus.financials.myplanner.gwt.commons.Commons" />
 	<entry-point class="com.argus.financials.myplanner.gwt.security.client.Login"/>
 </module>

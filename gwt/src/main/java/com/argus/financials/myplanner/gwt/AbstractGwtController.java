@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.argus.financials.myplanner.web.servlet.WebUtils;
 import com.argus.financials.security.UserPreferences;
+import com.argus.financials.service.EntityService;
 import com.argus.financials.service.UserService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -21,11 +22,23 @@ public abstract class AbstractGwtController extends RemoteServiceServlet
     protected final Logger LOG = Logger.getLogger(getClass());
 
     @Autowired
+    private EntityService entityService;
+
+    @Autowired
     private UserService userService;
 
-    protected UserPreferences getUserPreferences()
+    /**
+     * @return the entityService
+     */
+    protected EntityService getEntityService()
     {
-        return (UserPreferences) WebUtils.getBean(getServletContext(), "userPreferences");
+        // FIXME: spring
+        if (entityService == null)
+        {
+            LOG.warn("entityService=" + entityService);
+            entityService = (EntityService) WebUtils.getBean(getServletContext(), "entityService");
+        }
+        return entityService;
     }
 
     /**
@@ -42,12 +55,9 @@ public abstract class AbstractGwtController extends RemoteServiceServlet
         return userService;
     }
 
-    /**
-     * @param userService the userService to set
-     */
-    public void setUserService(UserService userService)
+    protected UserPreferences getUserPreferences()
     {
-        this.userService = userService;
+        return (UserPreferences) WebUtils.getBean(getServletContext(), "userPreferences");
     }
 
 }

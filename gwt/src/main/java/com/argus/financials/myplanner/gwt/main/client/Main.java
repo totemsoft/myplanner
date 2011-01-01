@@ -1,6 +1,6 @@
 package com.argus.financials.myplanner.gwt.main.client;
 
-import com.argus.financials.myplanner.commons.client.AbstractAsyncCallback;
+import com.argus.financials.myplanner.gwt.commons.client.AbstractAsyncCallback;
 import com.argus.financials.myplanner.gwt.main.client.view.ClientSearch;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
@@ -143,7 +143,8 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
             return;
         }
 
-        Window.alert("History Token changed: " + historyToken);
+        // for DEBUG only
+        //Window.alert("History Token changed: " + historyToken);
         // parse url fragment
         if (historyToken.equals(ClientSearch.HISTORY_TOKEN)) {
             centerPanel.setWidget(new ClientSearch());

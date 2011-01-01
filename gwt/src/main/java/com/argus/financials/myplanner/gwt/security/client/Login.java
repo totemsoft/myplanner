@@ -1,6 +1,6 @@
 package com.argus.financials.myplanner.gwt.security.client;
 
-import com.argus.financials.myplanner.commons.client.AbstractAsyncCallback;
+import com.argus.financials.myplanner.gwt.commons.client.AbstractAsyncCallback;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;

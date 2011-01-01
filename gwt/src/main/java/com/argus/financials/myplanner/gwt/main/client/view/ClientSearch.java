@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.argus.financials.myplanner.commons.client.AbstractAsyncCallback;
-import com.argus.financials.myplanner.commons.client.BasePair;
-import com.argus.financials.myplanner.commons.client.StringPair;
+import com.argus.financials.myplanner.gwt.commons.client.AbstractAsyncCallback;
+import com.argus.financials.myplanner.gwt.commons.client.BasePair;
+import com.argus.financials.myplanner.gwt.commons.client.StringPair;
 import com.argus.financials.myplanner.gwt.main.client.Main;
 import com.argus.financials.myplanner.gwt.main.client.MainServiceAsync;
+import com.argus.financials.myplanner.gwt.main.client.RefDataServiceAsync;
 import com.google.gwt.cell.client.TextCell;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -42,17 +43,17 @@ public class ClientSearch extends Composite
 
     private CellTable<BasePair> table;
 
-    private ListBox stateComboBox;
+    private ListBox state;
 
-    private ListBox countryComboBox;
+    private ListBox country;
 
     private TextBox surnameTextBox;
 
     private TextBox firstnameTextBox;
 
-    private DateBox dobDateBox;
+    private DateBox dateOfBirth;
 
-    private TextBox postcodeTextBox;
+    private TextBox postcode;
 
     public ClientSearch()
     {
@@ -79,9 +80,9 @@ public class ClientSearch extends Composite
         Label label_1 = new Label("DOB");
         grid.setWidget(0, 2, label_1);
 
-        dobDateBox = new DateBox();
-        dobDateBox.setFormat(new DefaultFormat(DateTimeFormat.getFormat("dd/MM/yyyy")));
-        grid.setWidget(0, 3, dobDateBox);
+        dateOfBirth = new DateBox();
+        dateOfBirth.setFormat(new DefaultFormat(DateTimeFormat.getFormat("dd/MM/yyyy")));
+        grid.setWidget(0, 3, dateOfBirth);
 
         Button button = new Button("Search");
         button.addClickHandler(new ClickHandler()
@@ -102,24 +103,27 @@ public class ClientSearch extends Composite
         Label label_3 = new Label("State");
         grid.setWidget(1, 2, label_3);
 
-        stateComboBox = new ListBox();
-        grid.setWidget(1, 3, stateComboBox);
+        state = new ListBox();
+        grid.setWidget(1, 3, state);
 
         Label label_4 = new Label("Country");
         grid.setWidget(2, 0, label_4);
 
-        countryComboBox = new ListBox();
-        grid.setWidget(2, 1, countryComboBox);
+        country = new ListBox();
+        grid.setWidget(2, 1, country);
+        addCountries();
 
         Label label_5 = new Label("Postcode");
         grid.setWidget(2, 2, label_5);
 
-        postcodeTextBox = new TextBox();
-        grid.setWidget(2, 3, postcodeTextBox);
+        postcode = new TextBox();
+        grid.setWidget(2, 3, postcode);
 
         table = new CellTable<BasePair>();
-        table.addRangeChangeHandler(new Handler() {
-            public void onRangeChange(RangeChangeEvent event) {
+        table.addRangeChangeHandler(new Handler()
+        {
+            public void onRangeChange(RangeChangeEvent event)
+            {
                 onSearch(event.getNewRange());
             }
         });
@@ -148,7 +152,7 @@ public class ClientSearch extends Composite
         };
         table.addColumn(columnDetails, "Client Details");
         table.setSelectionModel(new ClientSelectionModel());
-        
+
         SimplePager pager = new SimplePager();
         pager.setDisplay(table);
         verticalPanel.add(pager);
@@ -171,10 +175,26 @@ public class ClientSearch extends Composite
                     if (selected != null)
                     {
                         //Window.alert("You selected: " + selected.toString());
-                        
+                        // TODO: implement
                     }
                 }
             });
+        }
+    }
+
+    private void addCountries()
+    {
+        RefDataServiceAsync.Util.getInstance().findCountries(new AddCountriesCallback());
+    }
+
+    private class AddCountriesCallback extends AbstractAsyncCallback<BasePair[]>
+    {
+        public void onSuccess(BasePair[] result)
+        {
+            for (BasePair item : result)
+            {
+                country.addItem(item.getSecond(), item.getFirst().toString());
+            }
         }
     }
 
@@ -182,27 +202,33 @@ public class ClientSearch extends Composite
     {
         List<StringPair> criteria = new ArrayList<StringPair>();
         String surname = surnameTextBox.getText();
-        if (surname.trim().length() > 0) {
+        if (surname.trim().length() > 0)
+        {
             criteria.add(new StringPair("FamilyName", surname));
         }
         String firstname = firstnameTextBox.getText();
-        if (firstname.trim().length() > 0) {
+        if (firstname.trim().length() > 0)
+        {
             criteria.add(new StringPair("FirstName", firstname));
         }
-        if (dobDateBox.getValue() != null) {
-            criteria.add(new StringPair("DateOfBirth", dobDateBox.getTextBox().getText()));
+        if (dateOfBirth.getValue() != null)
+        {
+            criteria.add(new StringPair("DateOfBirth", dateOfBirth.getTextBox().getText()));
         }
-        if (countryComboBox.getSelectedIndex() >= 0) {
-            criteria.add(new StringPair("CountryCodeID", countryComboBox.getValue(countryComboBox.getSelectedIndex())));
+        if (country.getSelectedIndex() >= 0)
+        {
+            criteria.add(new StringPair("CountryCodeID", country.getValue(country.getSelectedIndex())));
         }
-        if (stateComboBox.getSelectedIndex() >= 0) {
-            criteria.add(new StringPair("StateCodeID", stateComboBox.getValue(stateComboBox.getSelectedIndex())));
+        if (state.getSelectedIndex() >= 0)
+        {
+            criteria.add(new StringPair("StateCodeID", state.getValue(state.getSelectedIndex())));
         }
-        String postcode = postcodeTextBox.getText();
-        if (postcode.trim().length() > 0) {
-            criteria.add(new StringPair("PostCode", postcode));
+        if (postcode.getText().trim().length() > 0)
+        {
+            criteria.add(new StringPair("PostCode", postcode.getText()));
         }
-        MainServiceAsync.Util.getInstance().findClients((StringPair[]) criteria.toArray(new StringPair[0]), range, new SearchCallback());
+        MainServiceAsync.Util.getInstance().findClients(
+            (StringPair[]) criteria.toArray(new StringPair[0]), range, new SearchCallback());
     }
 
     private class SearchCallback extends AbstractAsyncCallback<BasePair[]>

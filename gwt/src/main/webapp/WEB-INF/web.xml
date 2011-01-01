@@ -67,5 +67,13 @@
     	<servlet-name>MainService</servlet-name>
     	<url-pattern>/com.argus.financials.myplanner.gwt.main.Main/MainService</url-pattern>
     </servlet-mapping>
+    <servlet>
+    	<servlet-name>RefDataService</servlet-name>
+    	<servlet-class>com.argus.financials.myplanner.gwt.main.server.RefDataServiceImpl</servlet-class>
+    </servlet>
+    <servlet-mapping>
+    	<servlet-name>RefDataService</servlet-name>
+    	<url-pattern>/com.argus.financials.myplanner.gwt.main.Main/RefDataService</url-pattern>
+    </servlet-mapping>
 
 </web-app>

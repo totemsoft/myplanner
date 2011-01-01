@@ -36,7 +36,7 @@ public class ContactOccupationCode extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         codeMap.put("Legal Adviser", LEGAL_ADVISER);
         codeMap.put("Accountant", ACCOUNTANT);

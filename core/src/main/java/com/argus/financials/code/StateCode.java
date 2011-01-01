@@ -51,7 +51,7 @@ public class StateCode extends Code {
             codeMap = new java.util.TreeMap();
         else
             codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         countryID = countryCodeID;
 

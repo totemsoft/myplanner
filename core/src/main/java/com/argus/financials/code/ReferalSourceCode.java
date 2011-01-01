@@ -40,7 +40,7 @@ public class ReferalSourceCode extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         codeMap.put("Family Member", FAMILY_MEMBER);
         codeMap.put("Friend", FRIEND);

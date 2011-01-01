@@ -6,6 +6,7 @@
     default-autowire="byName" default-lazy-init="true">
 
     <bean id="businessService" class="com.argus.financials.service.impl.BusinessServiceImpl" />
+    <bean id="entityService" class="com.argus.financials.service.impl.EntityServiceImpl" />
     <bean id="personService" class="com.argus.financials.service.impl.PersonServiceImpl" />
     <bean id="clientService" class="com.argus.financials.service.impl.ClientServiceImpl" />
     <bean id="userService" class="com.argus.financials.service.impl.UserServiceImpl" />

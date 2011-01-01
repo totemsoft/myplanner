@@ -92,8 +92,8 @@ public interface IGraphView extends ImageEncoder {
 //    /**
 //     * set dual data view, two Y axis (controlled by leftAxisY parameter)
 //     * 
-//     * JCLineStyle.* NONE, SOLID, LONG_DASH, SHORT_DASH, LSL_DASH or DASH_DOT
-//     * JCSymbolStyle.* NONE, DOT, BOX, TRIANGLE, DIAMOND, STAR, VERT_LINE,
+//     * JCLineStyle.* EMPTY, SOLID, LONG_DASH, SHORT_DASH, LSL_DASH or DASH_DOT
+//     * JCSymbolStyle.* EMPTY, DOT, BOX, TRIANGLE, DIAMOND, STAR, VERT_LINE,
 //     * HORIZ_LINE, CROSS, CIRCLE, SQUARE
 //     */
 //    ChartDataView customizeChart(double[][] values, String[] labels,

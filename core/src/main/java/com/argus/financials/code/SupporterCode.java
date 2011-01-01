@@ -36,7 +36,7 @@ public class SupporterCode extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         codeMap.put("Client", CLIENT);
         codeMap.put("Not Client", NOT_CLIENT);

@@ -39,7 +39,7 @@ public class WillChangeCode extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         codeMap.put("No Changes Planned", NO_CHANGE);
         codeMap.put("Include Children", INCLUDE_KIDS);

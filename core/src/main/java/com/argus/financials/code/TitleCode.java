@@ -95,9 +95,9 @@ public final class TitleCode extends Code {
                     if (s1.equalsIgnoreCase(s2))
                         return 0;
 
-                    if (s1.equalsIgnoreCase(KEY_NONE))
+                    if (s1.equalsIgnoreCase(NONE))
                         return -1;
-                    if (s2.equalsIgnoreCase(KEY_NONE))
+                    if (s2.equalsIgnoreCase(NONE))
                         return 1;
 
                     if (s1.equalsIgnoreCase(strMR))
@@ -151,7 +151,7 @@ public final class TitleCode extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         try {
             Map map = com.argus.financials.service.ServiceLocator.getInstance()

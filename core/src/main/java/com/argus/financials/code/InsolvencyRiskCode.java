@@ -39,7 +39,7 @@ public class InsolvencyRiskCode extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         codeMap.put("No Concerns", NO_CONCERNS);
         codeMap.put("Pending Investigation", PENDING_INVESTIGATION);

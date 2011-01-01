@@ -18,12 +18,15 @@ public class ReferenceDataLoader implements Runnable {
     /** Logger. */
     private final static Logger LOG = Logger.getLogger(ReferenceDataLoader.class);
 
+    public ReferenceDataLoader()
+    {
+        new TitleCode(); // <--- first one to load (required for user login)
+        new CountryCode(); // <--- second one to load (required for user login)
+    }
+
     public void run() {
         try
         {
-            //Connection con = ServiceLocator.getInstance().getDataSource().getConnection();
-            new TitleCode(); // <--- first one to load (required for user login)
-            new CountryCode(); // <--- second one to load (required for user login)
             new AdviserTypeCode();
             // new SexCode();
             // new MaritalCode();

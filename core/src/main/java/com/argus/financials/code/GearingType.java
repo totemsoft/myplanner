@@ -37,7 +37,7 @@ public class GearingType extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        // codeMap.put( KEY_NONE, VALUE_NONE );
+        // codeMap.put( EMPTY, VALUE_NONE );
 
         codeMap.put("Instalment", INSTALLMENT);
         codeMap.put("Lump Sum", LUMP_SUM);

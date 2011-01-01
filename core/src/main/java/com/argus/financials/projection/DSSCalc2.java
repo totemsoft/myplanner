@@ -1802,7 +1802,7 @@ public class DSSCalc2 extends DSSCalc {
         }
 
         // client gets Age Pension, is not single and partner's Benefit Type =
-        // NONE
+        // EMPTY
         // ==> client = $2.90, , partner = $0.00
         if (BenefitTypeCode.AGE_PENSION.equals(client_benefit_type)) {
             if (getMaritalStatus() == null || !entitledForAgePension()
@@ -1815,7 +1815,7 @@ public class DSSCalc2 extends DSSCalc {
         }
 
         // client gets Age Pension, is not single and partner's Benefit Type =
-        // NONE
+        // EMPTY
         // ==> client = $2.90, , partner = $2.90
         if (BenefitTypeCode.AGE_PENSION.equals(client_benefit_type)) {
             if (getMaritalStatus() == null || !entitledForAgePension()

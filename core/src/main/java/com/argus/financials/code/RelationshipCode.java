@@ -45,7 +45,7 @@ public class RelationshipCode extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         codeMap.put("Wife", WIFE);
         codeMap.put("Defacto", DEFACTO);

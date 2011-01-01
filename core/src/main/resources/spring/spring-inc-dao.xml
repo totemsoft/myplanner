@@ -6,6 +6,7 @@
     default-autowire="byName" default-lazy-init="true">
 
     <bean id="clientDao" class="com.argus.financials.dao.hibernate.ClientDaoImpl" />
+    <bean id="entityDao" class="com.argus.financials.dao.hibernate.EntityDaoImpl" />
     <bean id="userDao" class="com.argus.financials.dao.hibernate.UserDaoImpl" />
 
     <bean id="utility" class="com.argus.financials.service.impl.UtilityServiceImpl" />

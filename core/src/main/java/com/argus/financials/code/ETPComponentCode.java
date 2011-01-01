@@ -48,7 +48,7 @@ public class ETPComponentCode extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         codeMap.put("Undeducted", UNDEDUCTED);
         codeMap.put("Pre 1 July 1983", PRE_1JULY_1983);

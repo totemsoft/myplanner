@@ -17,50 +17,46 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.argus.financials.config.FPSLocale;
+import com.argus.financials.domain.refdata.ICountry;
+import com.argus.util.BeanUtils;
 
-public class CountryCode extends Code {
+public class CountryCode extends Code implements ICountry {
 
-    public static String TABLE_NAME = "CountryCode";
+    /* (non-Javadoc)
+     * @see com.argus.financials.domain.refdata.ICode#getCode()
+     */
+    public String getCode()
+    {
+        return null;
+    }
 
-    public final static Integer AUSTRALIA = new Integer(13);
+    /* (non-Javadoc)
+     * @see com.argus.financials.domain.refdata.ICode#getDescription()
+     */
+    public String getDescription()
+    {
+        return null;
+    }
 
-    private final static String strAUSTRALIA = "Australia";
-
-    private final static String strNEW_ZEALAND = "New Zealand";
-
-    private final static String strUNITED_KINGDOM = "United Kingdom";
-
-    private final static String strUNITED_STATES = "United States";
-
-    private final static String strSINGAPORE = "Singapore";
-
-    private final static String strJAPAN = "Japan";
-
-    private final static String strHONG_KONG = "Hong Kong";
-
-    private final static String strCHINA = "China";
-
-    private final static String strCANADA = "Canada";
-
-    private final static String strITALY = "Italy";
-
-    private final static String strGREECE = "Greece";
-
-    private final static String strFRANCE = "France";
+    /* (non-Javadoc)
+     * @see com.argus.financials.domain.IBase#getId()
+     */
+    public Integer getId()
+    {
+        return null;
+    }
 
     public static boolean isAustralia(Integer countryCodeID) {
-        return AUSTRALIA.equals(countryCodeID);
+        return AUSTRALIA_ID.equals(countryCodeID);
     }
 
     private static Map codeMap;
 
     // static {
     public CountryCode() {
-        final String defaultCountry = FPSLocale.getInstance()
-                .getDisplayCountry();
-
         if (codeMap == null) {
             codeMap = new TreeMap(new Comparator() {
+                private String defaultCountry = FPSLocale.getInstance().getDisplayCountry();
 
                 public int compare(Object o1, Object o2) {
                     String s1 = (String) o1;
@@ -69,9 +65,9 @@ public class CountryCode extends Code {
                     if (s1.equalsIgnoreCase(s2))
                         return 0;
 
-                    if (s1.equalsIgnoreCase(KEY_NONE))
+                    if (s1.equalsIgnoreCase(EMPTY))
                         return -1;
-                    if (s2.equalsIgnoreCase(KEY_NONE))
+                    if (s2.equalsIgnoreCase(EMPTY))
                         return 1;
 
                     if (s1.equalsIgnoreCase(defaultCountry))
@@ -79,89 +75,68 @@ public class CountryCode extends Code {
                     if (s2.equalsIgnoreCase(defaultCountry))
                         return 1;
 
-                    if (s1.equalsIgnoreCase(strAUSTRALIA))
+                    if (s1.equalsIgnoreCase(AUSTRALIA))
                         return -1;
-                    if (s2.equalsIgnoreCase(strAUSTRALIA))
+                    if (s2.equalsIgnoreCase(AUSTRALIA))
                         return 1;
 
-                    if (s1.equalsIgnoreCase(strNEW_ZEALAND))
+                    if (s1.equalsIgnoreCase(NEW_ZEALAND))
                         return -1;
-                    if (s2.equalsIgnoreCase(strNEW_ZEALAND))
+                    if (s2.equalsIgnoreCase(NEW_ZEALAND))
                         return 1;
 
-                    if (s1.equalsIgnoreCase(strUNITED_KINGDOM))
+                    if (s1.equalsIgnoreCase(UNITED_KINGDOM))
                         return -1;
-                    if (s2.equalsIgnoreCase(strUNITED_KINGDOM))
+                    if (s2.equalsIgnoreCase(UNITED_KINGDOM))
                         return 1;
 
-                    if (s1.equalsIgnoreCase(strUNITED_STATES))
+                    if (s1.equalsIgnoreCase(UNITED_STATES))
                         return -1;
-                    if (s2.equalsIgnoreCase(strUNITED_STATES))
+                    if (s2.equalsIgnoreCase(UNITED_STATES))
                         return 1;
 
-                    if (s1.equalsIgnoreCase(strSINGAPORE))
+                    if (s1.equalsIgnoreCase(SINGAPORE))
                         return -1;
-                    if (s2.equalsIgnoreCase(strSINGAPORE))
+                    if (s2.equalsIgnoreCase(SINGAPORE))
                         return 1;
 
-                    if (s1.equalsIgnoreCase(strJAPAN))
+                    if (s1.equalsIgnoreCase(JAPAN))
                         return -1;
-                    if (s2.equalsIgnoreCase(strJAPAN))
+                    if (s2.equalsIgnoreCase(JAPAN))
                         return 1;
 
-                    if (s1.equalsIgnoreCase(strHONG_KONG))
+                    if (s1.equalsIgnoreCase(HONG_KONG))
                         return -1;
-                    if (s2.equalsIgnoreCase(strHONG_KONG))
+                    if (s2.equalsIgnoreCase(HONG_KONG))
                         return 1;
 
-                    if (s1.equalsIgnoreCase(strCHINA))
+                    if (s1.equalsIgnoreCase(CHINA))
                         return -1;
-                    if (s2.equalsIgnoreCase(strCHINA))
+                    if (s2.equalsIgnoreCase(CHINA))
                         return 1;
 
-                    if (s1.equalsIgnoreCase(strCANADA))
+                    if (s1.equalsIgnoreCase(CANADA))
                         return -1;
-                    if (s2.equalsIgnoreCase(strCANADA))
+                    if (s2.equalsIgnoreCase(CANADA))
                         return 1;
 
-                    if (s1.equalsIgnoreCase(strITALY))
+                    if (s1.equalsIgnoreCase(ITALY))
                         return -1;
-                    if (s2.equalsIgnoreCase(strITALY))
+                    if (s2.equalsIgnoreCase(ITALY))
                         return 1;
 
-                    if (s1.equalsIgnoreCase(strGREECE))
+                    if (s1.equalsIgnoreCase(GREECE))
                         return -1;
-                    if (s2.equalsIgnoreCase(strGREECE))
+                    if (s2.equalsIgnoreCase(GREECE))
                         return 1;
 
-                    if (s1.equalsIgnoreCase(strFRANCE))
+                    if (s1.equalsIgnoreCase(FRANCE))
                         return -1;
-                    if (s2.equalsIgnoreCase(strFRANCE))
+                    if (s2.equalsIgnoreCase(FRANCE))
                         return 1;
 
-                    return _compare(s1, s2);
+                    return BeanUtils.compareTo(s1, s2);
                 }
-
-                public boolean equals(Object obj) {
-                    return this.toString().equalsIgnoreCase(obj.toString());
-                }
-
-                private int _compare(String s1, String s2) {
-                    if (s1 == null && s2 == null)
-                        return 0;
-                    if (s1 == null)
-                        return -1;
-                    if (s2 == null)
-                        return 1;
-
-                    int result = s1.compareTo(s2);
-                    if (result < 0)
-                        return -1;
-                    if (result > 0)
-                        return 1;
-                    return 0;
-                }
-
             });
             initCodeMap();
         }
@@ -173,7 +148,7 @@ public class CountryCode extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(EMPTY, VALUE_NONE);
 
         try {
             Map map = com.argus.financials.service.ServiceLocator.getInstance()
@@ -183,7 +158,7 @@ public class CountryCode extends Code {
             codeMap.putAll(map);
         } catch (com.argus.financials.service.ServiceException e) {
             e.printStackTrace(System.err);
-            codeMap.put(strAUSTRALIA, AUSTRALIA);
+            codeMap.put(AUSTRALIA, AUSTRALIA_ID);
         }
     }
 

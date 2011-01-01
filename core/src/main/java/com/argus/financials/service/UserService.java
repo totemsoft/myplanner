@@ -25,7 +25,7 @@ public interface UserService extends PersonService
 {
 
     /**
-     * 
+     * Will set password for the first time (if blank in database)
      * @param login
      * @param password
      * @return
@@ -51,6 +51,8 @@ public interface UserService extends PersonService
      */
     List<Client> findClients(Map<String, Object> criteria, Range range) throws ServiceException;
 
+    
+    
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     PersonService create(Integer ownerPersonID, boolean store) throws ServiceException,
         CreateException;

@@ -36,7 +36,7 @@ public class ResidenceStatusCode extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         codeMap.put("Resident", RESIDENT);
         codeMap.put("Non Resident", NON_RESIDENT);

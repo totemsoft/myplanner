@@ -45,8 +45,8 @@ public class FundType extends Code {
              * 
              * if ( s1.equalsIgnoreCase( s2 ) ) return 0;
              * 
-             * if ( s1.equalsIgnoreCase( KEY_NONE ) ) return -1; if (
-             * s2.equalsIgnoreCase( KEY_NONE ) ) return 1;
+             * if ( s1.equalsIgnoreCase( EMPTY ) ) return -1; if (
+             * s2.equalsIgnoreCase( EMPTY ) ) return 1;
              * 
              * if ( s1.equalsIgnoreCase( rcANNUITY.getCodeDesc() ) ) return -1;
              * if ( s2.equalsIgnoreCase( rcANNUITY.getCodeDesc() ) ) return 1;
@@ -82,7 +82,7 @@ public class FundType extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         try {
             Map map = ServiceLocator.getInstance().getUtilityService().getCodes(

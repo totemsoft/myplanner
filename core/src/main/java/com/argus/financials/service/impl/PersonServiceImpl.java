@@ -6,13 +6,6 @@
 
 package com.argus.financials.service.impl;
 
-/**
- * 
- * @author valeri chibaev
- * @author shibaevv
- * @version
- */
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

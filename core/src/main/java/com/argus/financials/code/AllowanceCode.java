@@ -36,7 +36,7 @@ public class AllowanceCode extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         codeMap.put("Job Search", JOB_SEARCH);
         codeMap.put("Child Support", CHILD_SUPPORT);

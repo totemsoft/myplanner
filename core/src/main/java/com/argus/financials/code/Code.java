@@ -33,13 +33,11 @@ import java.util.Set;
 
 public abstract class Code implements java.io.Serializable {
 
-    public final static String KEY_NONE = "";
+    public final static String NONE = "";
 
     public final static Integer VALUE_NONE = null;
 
-    // protected final static Object VALUE_NONE = null;
-
-    public final static String[] EMPTY_KEYS = new String[] { Code.KEY_NONE };
+    public final static String[] EMPTY_KEYS = new String[] { Code.NONE };
 
     protected boolean equals(Object value1, Object value2) {
         return (value1 == null && value2 == null)
@@ -94,7 +92,7 @@ public abstract class Code implements java.io.Serializable {
     public String getCodeDescription(Integer codeID) {
         // if ( ( codeID == null ) || ( codeID.equals( new Integer(0) ) ) )
         if (codeID == null)
-            return KEY_NONE;
+            return NONE;
 
         Iterator iter = getCodeMap().entrySet().iterator();
 
@@ -110,7 +108,7 @@ public abstract class Code implements java.io.Serializable {
                 return (String) e.getKey();
         }
 
-        return KEY_NONE;
+        return NONE;
     }
 
     public Object[] getCodeIDs() {
@@ -119,19 +117,8 @@ public abstract class Code implements java.io.Serializable {
     }
 
     public String[] getCodeDescriptions() {
-
-        Set set = getCodeMap().keySet();
+        Set<String> set = getCodeMap().keySet();
         return (String[]) set.toArray(new String[0]);
-
-        /*
-         * int i = getCodeMap().size(); String[] sa = new String[i];
-         * 
-         * Iterator iter = getCodeMap().keySet().iterator();
-         * 
-         * while ( iter.hasNext() ) sa[--i] = (String) iter.next();
-         * 
-         * return sa;
-         */
     }
 
 }

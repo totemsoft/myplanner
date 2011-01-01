@@ -160,11 +160,11 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
                     postCode = _postCode;
 
                     postCode2Suburbs = new java.util.TreeMap();
-                    postCode2Suburbs.put(Code.KEY_NONE, null);
+                    postCode2Suburbs.put(Code.NONE, null);
 
                     suburbs = new java.util.ArrayList();
                     postCode2Suburbs.put(postCode, suburbs);
-                    suburbs.add(Code.KEY_NONE);
+                    suburbs.add(Code.NONE);
 
                     map.put(new Integer(_stateCodeID), new Object[] {
                             postCode2Suburbs, new java.util.TreeMap() });
@@ -178,7 +178,7 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
 
                         suburbs = new java.util.ArrayList();
                         postCode2Suburbs.put(postCode, suburbs);
-                        suburbs.add(Code.KEY_NONE);
+                        suburbs.add(Code.NONE);
                     }
 
                 }
@@ -213,11 +213,11 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
 
                     suburb2PostCodes = (java.util.TreeMap) ((Object[]) map
                             .get(new Integer(stateCodeID)))[1];
-                    suburb2PostCodes.put(Code.KEY_NONE, null);
+                    suburb2PostCodes.put(Code.NONE, null);
 
                     postCodes = new java.util.ArrayList();
                     suburb2PostCodes.put(_suburb, postCodes);
-                    postCodes.add(Code.KEY_NONE);
+                    postCodes.add(Code.NONE);
 
                 } else {
 
@@ -228,7 +228,7 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
 
                         postCodes = new java.util.ArrayList();
                         suburb2PostCodes.put(_suburb, postCodes);
-                        postCodes.add(Code.KEY_NONE);
+                        postCodes.add(Code.NONE);
                     }
 
                 }

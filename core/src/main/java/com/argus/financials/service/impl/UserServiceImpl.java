@@ -76,8 +76,8 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
                     userDao.save(user);
                 }
             }
-            System.out.println("New user logged in: " + user);
             getUserPreferences().setUser(user);
+            System.out.println("New user logged in: " + getUserPreferences().getUser());
             return user;
         }
         catch (ObjectNotFoundException e)
@@ -95,6 +95,7 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
      */
     public void logout() throws ServiceException
     {
+        System.out.println("User logged out: " + getUserPreferences().getUser());
         getUserPreferences().setUser(null);
     }
 

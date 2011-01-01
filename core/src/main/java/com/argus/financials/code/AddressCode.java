@@ -39,7 +39,7 @@ public class AddressCode extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        // codeMap.put( KEY_NONE, VALUE_NONE );
+        // codeMap.put( EMPTY, VALUE_NONE );
 
         codeMap.put("Residential Address", RESIDENTIAL);
         codeMap.put("Postal Address", POSTAL);

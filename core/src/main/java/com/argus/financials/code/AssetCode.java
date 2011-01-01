@@ -48,7 +48,7 @@ public class AssetCode extends Code implements FinancialClassID {
 
     private static void initCodeMap() {
         codeMap.clear();
-        // codeMap.put( KEY_NONE, VALUE_NONE );
+        // codeMap.put( EMPTY, VALUE_NONE );
 
         codeMap.put("Cash", ASSET_CASH);
         codeMap.put("Super", ASSET_SUPERANNUATION);

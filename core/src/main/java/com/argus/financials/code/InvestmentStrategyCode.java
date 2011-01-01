@@ -78,7 +78,7 @@ public class InvestmentStrategyCode extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         codeMap.put("Ultra Conservative", ULTRA_CONSERVATIVE);
         codeMap.put("Conservative", CONSERVATIVE);

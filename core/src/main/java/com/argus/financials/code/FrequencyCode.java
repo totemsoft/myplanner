@@ -74,7 +74,7 @@ public class FrequencyCode extends Code implements IFrequencyCode {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         try {
             Map map = ServiceLocator.getInstance().getUtilityService().getCodes(

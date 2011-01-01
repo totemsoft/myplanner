@@ -13,24 +13,71 @@
 
 package com.argus.util;
 
-/**
- * <p>Title: UtilityService class for JavaBeans manipulation.</p>
- * <p>Description: UtilityService class for JavaBeans manipulation.</p>
- * <p>Copyright: Copyright (c) 2005</p>
- * <p>Company: Argus Software Pty Ltd</p>
- * @author Valeri SHIBAEV
- * @author Last Updated By:   $Author: Valera $
- * @version                   $Revision: 1.1 $
- */
-
 import java.io.File;
 import java.io.FilenameFilter;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeansException;
+
 public class BeanUtils
 {
+
+    /** hide ctor. */
+    private BeanUtils()
+    {
+    }
+
+    /**
+     * 
+     * @param source
+     * @param target
+     * @param ignoreProperties
+     * @throws DomainException
+     */
+    public static void copyProperties(Object source, Object target, String[] ignoreProperties)
+        throws BeansException
+    {
+        org.springframework.beans.BeanUtils.copyProperties(source, target, ignoreProperties);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static int compareTo(Comparable o1, Comparable o2)
+    {
+        return compareTo(o1, o2, true, true);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static int compareTo(Comparable o1, Comparable o2, boolean ignoreCase, boolean asc)
+    {
+        if (o1 == null && o2 == null)
+        {
+            return 0;
+        }
+        int result;
+        if (o1 == null)
+        {
+            result = 1;
+        }
+        else if (o2 == null)
+        {
+            result = -1;
+        }
+        else
+        {
+            if (ignoreCase && o1 instanceof String && o2 instanceof String)
+            {
+                result = o1.toString().compareToIgnoreCase(o2.toString());
+            }
+            else
+            {
+                result = o1.compareTo(o2);
+            }
+        }
+        return asc ? result : -result;
+    }
+
     /**
      * Get list of public static fields from class.
      * @param clazz Class.

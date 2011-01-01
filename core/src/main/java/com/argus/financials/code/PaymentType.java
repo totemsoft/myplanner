@@ -40,7 +40,7 @@ public class PaymentType extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         codeMap.put("Net", NET);
         codeMap.put("Gross", GROSS);

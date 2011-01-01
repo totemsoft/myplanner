@@ -39,7 +39,7 @@ public class WillStatusCode extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         codeMap.put("In Place", IN_PLACE);
         codeMap.put("Being Drafted", BEING_DRAFTED);

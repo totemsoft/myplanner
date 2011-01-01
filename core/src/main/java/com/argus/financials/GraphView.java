@@ -78,7 +78,7 @@ public class GraphView extends javax.swing.JPanel implements IGraphView {
     public static final Color darkBlue = Color.blue.darker();
 
     // JCLineStyle.*
-    // NONE, SOLID, LONG_DASH, SHORT_DASH, LSL_DASH or DASH_DOT
+    // EMPTY, SOLID, LONG_DASH, SHORT_DASH, LSL_DASH or DASH_DOT
     public static final int lsNONE = JCLineStyle.NONE;
 
     public static final int lsSOLID = JCLineStyle.SOLID;

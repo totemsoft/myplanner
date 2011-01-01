@@ -38,7 +38,7 @@ public class ReversionaryCode extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         codeMap.put("Non-Reversionary", NO);
         codeMap.put("Reversionary", YES);

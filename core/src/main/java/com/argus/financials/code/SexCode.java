@@ -36,7 +36,7 @@ public final class SexCode extends Code {
 
     private static void initCodeMap() {
         codeMap.clear();
-        codeMap.put(KEY_NONE, VALUE_NONE);
+        codeMap.put(NONE, VALUE_NONE);
 
         codeMap.put("Female", FEMALE);
         codeMap.put("Male", MALE);

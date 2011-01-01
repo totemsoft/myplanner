@@ -389,14 +389,14 @@ public class AddressView extends javax.swing.JPanel implements
 
         updating = true;
         try {
-            if (Code.KEY_NONE.equals(postCode)) {
+            if (Code.NONE.equals(postCode)) {
                 // set models to ALL distinct postcodes/suburbs
                 setPostcodes(currentStateCodeID);
                 setSuburbs(currentStateCodeID);
             } else {
                 // load ALL suburbs for this state-postcode
                 setSuburbs(currentStateCodeID, postCode);
-                if (!Code.KEY_NONE.equals(suburb))
+                if (!Code.NONE.equals(suburb))
                     jComboBoxSuburb.setSelectedItem(suburb);
             }
         } finally {
@@ -416,14 +416,14 @@ public class AddressView extends javax.swing.JPanel implements
 
         updating = true;
         try {
-            if (Code.KEY_NONE.equals(suburb)) {
+            if (Code.NONE.equals(suburb)) {
                 // set models to ALL distinct postcodes/suburbs
                 setSuburbs(currentStateCodeID);
                 setPostcodes(currentStateCodeID);
             } else {
                 // load ALL postcodes for this state-suburb
                 setPostcodes(currentStateCodeID, suburb);
-                if (!Code.KEY_NONE.equals(postCode))
+                if (!Code.NONE.equals(postCode))
                     jComboBoxPostcode.setSelectedItem(postCode);
             }
 
@@ -680,13 +680,13 @@ public class AddressView extends javax.swing.JPanel implements
         // client.util.SwingUtils.clear(this);
         jTextFieldAddress.setText(null);
         jTextFieldAddress2.setText(null);
-        jComboBoxSuburb.setSelectedItem(Code.KEY_NONE);
-        jComboBoxPostcode.setSelectedItem(Code.KEY_NONE);
+        jComboBoxSuburb.setSelectedItem(Code.NONE);
+        jComboBoxPostcode.setSelectedItem(Code.NONE);
 
         String s = (String) jComboBoxState.getSelectedItem();
-        if (s != null && !Code.KEY_NONE.equals(s))
-            jComboBoxState.setSelectedItem(Code.KEY_NONE);
-        jComboBoxCountry.setSelectedItem(Code.KEY_NONE);
+        if (s != null && !Code.NONE.equals(s))
+            jComboBoxState.setSelectedItem(Code.NONE);
+        jComboBoxCountry.setSelectedItem(Code.NONE);
 
         if (!isPostalAddress()) {
             currentCountryCodeID = new com.argus.financials.code.CountryCode()

@@ -1061,7 +1061,7 @@ public class AssumptionView extends javax.swing.JPanel implements
         setLumpSumRequired(d == null ? 0. : d.doubleValue());
 
         jComboBoxStrategyAfter
-                .setSelectedItem(fg == null ? InvestmentStrategyCode.KEY_NONE
+                .setSelectedItem(fg == null ? InvestmentStrategyCode.NONE
                         : new InvestmentStrategyCode().getCodeDescription(fg
                                 .getTargetStrategyID()));
 

@@ -249,7 +249,7 @@ public class WealthData extends com.argus.financials.bean.AbstractBase implement
             totals = new double[][] { footer.getGroupTotals(),
                     footer2.getGroupTotals() };
 
-            // JCSymbolStyle.* NONE, DOT, BOX, TRIANGLE, DIAMOND, STAR,
+            // JCSymbolStyle.* EMPTY, DOT, BOX, TRIANGLE, DIAMOND, STAR,
             // VERT_LINE, HORIZ_LINE, CROSS, CIRCLE, SQUARE
             cdw = graphView
                     .customizeChart(totals, (String[]) wtm.getColumnNames()

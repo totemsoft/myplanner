@@ -757,7 +757,7 @@ public final class ClientSearch extends javax.swing.JPanel {
         s = (String) jComboBoxCountry.getSelectedItem();
         Integer countryCodeID = new CountryCode().getCodeID(s);
         if (countryCodeID != null
-                && !countryCodeID.equals(CountryCode.AUSTRALIA))
+                && !countryCodeID.equals(CountryCode.AUSTRALIA_ID))
             criteria.put(Address.COUNTRY, countryCodeID);
 
         s = (String) jTextFieldPostCode.getText();

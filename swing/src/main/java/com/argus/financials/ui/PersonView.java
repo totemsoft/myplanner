@@ -868,7 +868,7 @@ public abstract class PersonView extends BaseView {
         CountryCode cc = new CountryCode();
         jComboBoxResidenceCountry.setSelectedItem(ResidenceStatusCode.RESIDENT
                 .equals(residenceStatusCode) ? cc
-                .getCodeDescription(cc.AUSTRALIA) : cc.KEY_NONE);
+                .getCodeDescription(cc.AUSTRALIA_ID) : cc.NONE);
 
     }// GEN-LAST:event_jComboBoxResidenceStatusActionPerformed
 

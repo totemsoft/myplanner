@@ -379,9 +379,9 @@ public final class UserLogin extends javax.swing.JPanel implements
                 + new java.util.Date();
             System.out.println(msg);
             System.err.println(msg);
-            // pre-load ALL referewnce codes
-            Thread t = new Thread(new ReferenceDataLoader(), "ReferenceDataLoader");
-            t.start();
+            // pre-load ALL reference codes
+            new Thread(new ReferenceDataLoader(), "ReferenceDataLoader").start();
+            //new ReferenceDataLoader().run();
             return true;
         }
         catch (Exception e)

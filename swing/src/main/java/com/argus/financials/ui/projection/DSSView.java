@@ -4402,7 +4402,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
 
     /**
      * The methode maps all existing marital codes to single, partnered,
-     * seperated-health and <NONE>. <BR>
+     * seperated-health and <EMPTY>. <BR>
      * </BR>
      * 
      * <PRE>

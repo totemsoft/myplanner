@@ -1,6 +1,7 @@
 package com.argus.financials.myplanner.gwt.main.client;
 
 import com.argus.financials.myplanner.gwt.commons.client.AbstractAsyncCallback;
+import com.argus.financials.myplanner.gwt.main.client.view.ClientDetails;
 import com.argus.financials.myplanner.gwt.main.client.view.ClientSearch;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
@@ -15,7 +16,6 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class Main implements EntryPoint, ValueChangeHandler<String> {
@@ -67,7 +67,7 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         
         MenuItem mntmSearch = new MenuItem("Search", false, new Command() {
             public void execute() {
-                showClientSearch();
+                showView(ClientSearch.HISTORY_TOKEN);
             }
         });
         menuBar_2.addItem(mntmSearch);
@@ -75,7 +75,11 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         MenuItem mntmAddNew = new MenuItem("Add New", false, (Command) null);
         menuBar_2.addItem(mntmAddNew);
         
-        MenuItem mntmClientDetails = new MenuItem("Details", false, (Command) null);
+        MenuItem mntmClientDetails = new MenuItem("Details", false, new Command() {
+            public void execute() {
+                showView(ClientDetails.HISTORY_TOKEN);
+            }
+        });
         mntmClientDetails.setEnabled(false);
         menuBar_2.addItem(mntmClientDetails);
         
@@ -130,7 +134,15 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         
         History.addValueChangeHandler(this);
 
-        showClientSearch(); // default
+        showView(ClientSearch.HISTORY_TOKEN); // default
+    }
+
+    private void showView(String historyToken) {
+        if (History.getToken().equals(historyToken)) {
+            History.fireCurrentHistoryState();
+        } else {
+            History.newItem(historyToken);
+        }
     }
 
     /* (non-Javadoc)
@@ -148,16 +160,10 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         // parse url fragment
         if (historyToken.equals(ClientSearch.HISTORY_TOKEN)) {
             centerPanel.setWidget(new ClientSearch());
+        } else if (historyToken.equals(ClientDetails.HISTORY_TOKEN)) {
+            centerPanel.setWidget(new ClientDetails());
         } else {
             Window.alert("Unhandled History Token: " + historyToken);
-        }
-    }
-
-    private void showClientSearch() {
-        if (History.getToken().equals(ClientSearch.HISTORY_TOKEN)) {
-            History.fireCurrentHistoryState();
-        } else {
-            History.newItem(ClientSearch.HISTORY_TOKEN);
         }
     }
 

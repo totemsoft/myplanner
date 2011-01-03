@@ -3,24 +3,33 @@ package com.argus.financials.domain.hibernate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.argus.financials.domain.hibernate.refdata.AddressCode;
+import com.argus.financials.domain.hibernate.refdata.Country;
+import com.argus.financials.domain.hibernate.refdata.State;
 
 @Entity
 @Table(name = "Address")
-public class Address extends AbstractBase<Integer> //implements IAddress
+public class Address extends AbstractAuditable<Integer> //implements IAddress
 {
     /** serialVersionUID */
     private static final long serialVersionUID = -6435531874121406067L;
+//    [AddressCodeID] [int] NULL,
 
     @Id
     @Column(name = "AddressID", nullable = false)
     private Integer id;
 
-    @Column(name = "ParentAddressID")
-    private Integer parentId;
+    @ManyToOne//(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ParentAddressID")
+    private Address parent;
 
-    @Column(name = "addressCodeID")
-    private Integer codeId;
+    @ManyToOne//(fetch = FetchType.LAZY)
+    @JoinColumn(name = "AddressCodeID")
+    private AddressCode addressCode;
 
     @Column(name = "StreetNumber")
     private String streetNumber;
@@ -34,11 +43,16 @@ public class Address extends AbstractBase<Integer> //implements IAddress
     @Column(name = "Postcode")
     private Integer postcode;
 
-    @Column(name = "StateCodeID")
-    private Integer stateCodeId;
+    @ManyToOne//(fetch = FetchType.LAZY)
+    @JoinColumn(name = "StateCodeID")
+    private State state;
 
-    @Column(name = "CountryCodeID")
-    private Integer countryCodeId;
+    @Column(name = "State")
+    private String stateCode;
+
+    @ManyToOne//(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CountryCodeID")
+    private Country country;
 
     /* (non-Javadoc)
      * @see com.argus.financials.domain.IBase#getId()
@@ -57,35 +71,35 @@ public class Address extends AbstractBase<Integer> //implements IAddress
     }
 
     /**
-     * @return parentId
+     * @return parent
      */
-    public Integer getParentId()
+    public Address getParentId()
     {
-        return parentId;
+        return parent;
     }
 
     /**
-     * @param parentId the parentId to set
+     * @param parent the parent to set
      */
-    public void setParentId(Integer ownerId)
+    public void setParent(Address parent)
     {
-        this.parentId = ownerId;
+        this.parent = parent;
     }
 
     /**
-     * @return the codeId
+     * @return the addressCode
      */
-    public Integer getCodeId()
+    public AddressCode getAddressCode()
     {
-        return codeId;
+        return addressCode;
     }
 
     /**
-     * @param codeId the codeId to set
+     * @param addressCode the addressCode to set
      */
-    public void setCodeId(Integer codeId)
+    public void setAddressCode(AddressCode addressCode)
     {
-        this.codeId = codeId;
+        this.addressCode = addressCode;
     }
 
     /**
@@ -153,35 +167,51 @@ public class Address extends AbstractBase<Integer> //implements IAddress
     }
 
     /**
-     * @return the stateCodeId
+     * @return the state
      */
-    public Integer getStateCodeId()
+    public State getState()
     {
-        return stateCodeId;
+        return state;
     }
 
     /**
-     * @param stateCodeId the stateCodeId to set
+     * @param state the state to set
      */
-    public void setStateCodeId(Integer stateCodeId)
+    public void setState(State state)
     {
-        this.stateCodeId = stateCodeId;
+        this.state = state;
     }
 
     /**
-     * @return the countryCodeId
+     * @return the stateCode
      */
-    public Integer getCountryCodeId()
+    public String getStateCode()
     {
-        return countryCodeId;
+        return stateCode;
     }
 
     /**
-     * @param countryCodeId the countryCodeId to set
+     * @param stateCode the stateCode to set
      */
-    public void setCountryCodeId(Integer countryCodeId)
+    public void setStateCode(String stateCode)
     {
-        this.countryCodeId = countryCodeId;
+        this.stateCode = stateCode;
+    }
+
+    /**
+     * @return the country
+     */
+    public Country getCountry()
+    {
+        return country;
+    }
+
+    /**
+     * @param country the country to set
+     */
+    public void setCountry(Country country)
+    {
+        this.country = country;
     }
 
     public String getDetails()
@@ -189,8 +219,10 @@ public class Address extends AbstractBase<Integer> //implements IAddress
         return (streetNumber == null ? "" : streetNumber) + " "
             + (streetNumber2 == null ? "" : streetNumber2) + " "
             + (suburb == null ? "" : suburb) + " "
-            + (stateCodeId == null ? "" : stateCodeId) + " "
-            + (postcode == null ? "" : "" + postcode);
+            + (state == null ? (stateCode == null ? "" : stateCode) : state.getCode()) + " "
+            + (postcode == null ? "" : "" + postcode) + " "
+            + (country == null ? "" : country.getCode())
+            ;
     }
 
 }

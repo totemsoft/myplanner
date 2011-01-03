@@ -25,6 +25,7 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.argus.financials.config.FPSLocale;
@@ -48,6 +49,9 @@ import com.argus.swing.plaf.MetalTheme;
 public class FinancialPlannerApp extends javax.swing.JFrame
     implements FocusListener
 {
+    /** logger. */
+    private static final Logger LOG = Logger.getLogger(FinancialPlannerApp.class);
+
     private static final int USER0_IDX = 0;
     private static final int USER_IDX = 1;
     private static final int CLIENT0_IDX = 2;
@@ -62,8 +66,7 @@ public class FinancialPlannerApp extends javax.swing.JFrame
     private SplashWindow splashWindow;// = new SplashWindow("/image/logo/splash.gif", this, 10000);
     
     /** Creates new form FinancialPlannerApp */
-    public FinancialPlannerApp(String config)
-        throws IOException
+    public FinancialPlannerApp(String config) throws Exception
     {
         // open/read the application context file
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
@@ -81,7 +84,6 @@ public class FinancialPlannerApp extends javax.swing.JFrame
 
         // modal dialog
         displayLogin(!useTaskBar);
-
     }
 
     public static String getViewCaption() {
@@ -143,11 +145,12 @@ public class FinancialPlannerApp extends javax.swing.JFrame
     public static void main(String args[]) {
         final String config = args.length > 0 ? args[0] : "financialPlanner.properties";
         
-        //java.awt.EventQueue.invokeLater(new Runnable() {public void run() {
+        java.awt.EventQueue.invokeLater(new Runnable() {public void run() {
             try {
                 app = new FinancialPlannerApp(config);
                 //app.setVisible(true);
-            } catch (IOException e) {
+            } catch (Exception e) {
+                LOG.fatal(e.getMessage(), e);
                 JOptionPane.showMessageDialog(
                         app,
                         e.getMessage(),
@@ -155,7 +158,7 @@ public class FinancialPlannerApp extends javax.swing.JFrame
                         JOptionPane.ERROR_MESSAGE);
                 System.exit(1);
             }
-        //}});
+        }});
     }
 
     public static FinancialPlannerApp getInstance() {

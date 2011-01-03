@@ -11,22 +11,23 @@
     <class>com.argus.financials.domain.hibernate.Address</class>
     <class>com.argus.financials.domain.hibernate.Person</class>
     <class>com.argus.financials.domain.hibernate.User</class>
+    <class>com.argus.financials.domain.hibernate.refdata.AddressCode</class>
     <class>com.argus.financials.domain.hibernate.refdata.Country</class>
     <class>com.argus.financials.domain.hibernate.refdata.State</class>
     <class>com.argus.financials.domain.hibernate.view.Client</class>
-    <!--properties>
-      <property name="hibernate.ejb.interceptor" value="...AuditableInterceptor"/>
+    <properties>
+      <!--property name="hibernate.ejb.interceptor" value="...AuditableInterceptor"/-->
       <property name="hibernate.cache.provider_class" value="net.sf.ehcache.hibernate.SingletonEhCacheProvider" />
       <property name="hibernate.cache.region.factory_class" value="net.sf.ehcache.hibernate.SingletonEhCacheRegionFactory" />
       <property name="net.sf.ehcache.configurationResourceName" value="/ehcache.xml" />
-      <property name="hibernate.cache.use_query_cache" value="true" />
+      <property name="hibernate.cache.use_query_cache" value="false" />
       <property name="hibernate.cache.use_second_level_cache" value="true" />
       <property name="hibernate.flush" value="never" />
       <property name="hibernate.show_sql" value="false" />
       <property name="hibernate.generate_statistics" value="false" />
       <property name="hibernate.bytecode.use_reflection_optimizer" value="true" />
-      <property name="hibernate.current_session_context_class" value="jta" />
-    </properties-->
+      <property name="hibernate.current_session_context_class" value="thread" />
+    </properties>
   </persistence-unit>
 
 </persistence>

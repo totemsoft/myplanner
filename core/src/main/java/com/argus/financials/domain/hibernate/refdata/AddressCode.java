@@ -8,25 +8,25 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import com.argus.financials.domain.refdata.IState;
+import com.argus.financials.domain.refdata.IAddressCode;
 
 @Entity
-@Table(name = IState.TABLE_NAME)
+@Table(name = IAddressCode.TABLE_NAME)
 @Cache(region = "refdata", usage = CacheConcurrencyStrategy.READ_ONLY)
-public class State extends AbstractCode implements IState
+public class AddressCode extends AbstractCode implements IAddressCode
 {
 
     /** serialVersionUID */
-    private static final long serialVersionUID = 211575394547398989L;
+    private static final long serialVersionUID = 4710325054260470545L;
 
     @Id
-    @Column(name = "StateCodeID", nullable = false)
+    @Column(name = "AddressCodeID", nullable = false)
     private Integer id;
 
-    @Column(name = "StateCode", nullable = false)
-    private String code;
+    //@Column(name = "AddressCode", nullable = false)
+    //private String code;
 
-    @Column(name = "StateCodeDesc", nullable = false)
+    @Column(name = "AddressCodeDesc", nullable = false)
     private String description;
 
     /* (non-Javadoc)
@@ -42,7 +42,7 @@ public class State extends AbstractCode implements IState
      */
     public String getCode()
     {
-        return code;
+        return description;
     }
 
     /* (non-Javadoc)

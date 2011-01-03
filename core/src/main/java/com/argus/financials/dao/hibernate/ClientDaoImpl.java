@@ -65,8 +65,8 @@ public class ClientDaoImpl extends BaseDAOImpl implements ClientDao
                 String countryCode = criteria.get(fn).toString();
                 if (StringUtils.isNotBlank(countryCode))
                 {
-                    sql += " AND address.countryCodeId = :countryCode";
-                    parameters.put("countryCode", NumberUtils.createInteger(countryCode));
+                    sql += " AND address.country.id = :countryId";
+                    parameters.put("countryId", NumberUtils.createInteger(countryCode));
                 }
             }
             fn = Address.STATE;
@@ -75,8 +75,8 @@ public class ClientDaoImpl extends BaseDAOImpl implements ClientDao
                 String stateCode = criteria.get(fn).toString();
                 if (StringUtils.isNotBlank(stateCode))
                 {
-                    sql += " AND address.stateCodeId = :stateCode";
-                    parameters.put("stateCode", NumberUtils.createInteger(stateCode));
+                    sql += " AND address.state.id = :stateId";
+                    parameters.put("stateId", NumberUtils.createInteger(stateCode));
                 }
             }
             fn = Address.POSTCODE;

@@ -7,11 +7,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
 import com.argus.financials.domain.refdata.ICountry;
 import com.argus.util.BeanUtils;
 
 @Entity
 @Table(name = ICountry.TABLE_NAME)
+@Cache(region = "refdata", usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Country extends AbstractCode implements ICountry
 {
     /** serialVersionUID */

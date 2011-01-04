@@ -44,13 +44,20 @@ public interface UserService extends PersonService
 
     /**
      * 
+     * @param clientId
+     * @return
+     * @throws ServiceException
+     */
+    Client findClient(Integer clientId) throws ServiceException;
+
+    /**
+     * 
      * @param criteria
      * @param range - optional
      * @return
      * @throws ServiceException
      */
     List<Client> findClients(Map<String, Object> criteria, Range range) throws ServiceException;
-
     
     
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)

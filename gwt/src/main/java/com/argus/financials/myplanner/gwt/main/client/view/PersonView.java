@@ -14,6 +14,7 @@ public class PersonView extends Composite
     public PersonView()
     {
         Grid grid = new Grid(6, 2);
+        grid.setStyleName("border");
         initWidget(grid);
         
         Label label = new Label("Title");

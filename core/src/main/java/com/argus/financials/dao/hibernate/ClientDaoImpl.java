@@ -26,6 +26,14 @@ public class ClientDaoImpl extends BaseDAOImpl implements ClientDao
 {
 
     /* (non-Javadoc)
+     * @see com.argus.financials.dao.ClientDao#findById(java.lang.Integer)
+     */
+    public Client findById(Integer clientId)
+    {
+        return findById(Client.class, clientId);
+    }
+
+    /* (non-Javadoc)
      * @see com.argus.financials.dao.ClientDao#findClients(java.util.Map, com.argus.util.Range)
      */
     @SuppressWarnings("unchecked")

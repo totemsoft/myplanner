@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.argus.financials.myplanner.gwt.commons.client.AbstractAsyncCallback;
+import com.argus.financials.myplanner.gwt.commons.client.AddListBoxItemsCallback;
 import com.argus.financials.myplanner.gwt.commons.client.BasePair;
 import com.argus.financials.myplanner.gwt.commons.client.StringPair;
 import com.argus.financials.myplanner.gwt.main.client.Main;
@@ -22,10 +23,12 @@ import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
@@ -43,22 +46,28 @@ public class ClientSearch extends Composite
 
     public static final String HISTORY_TOKEN = "clientSearch";
 
+    private final Main parent;
+
     private CellTable<BasePair> table;
 
     private ListBox state;
 
     private ListBox country;
 
-    private TextBox surnameTextBox;
+    private TextBox surname;
 
-    private TextBox firstnameTextBox;
+    private TextBox firstname;
 
     private DateBox dateOfBirth;
 
     private TextBox postcode;
+    
+    private Button buttonOpen;
 
-    public ClientSearch()
+    public ClientSearch(Main parent)
     {
+        this.parent = parent;
+
         VerticalPanel verticalPanel = new VerticalPanel();
         initWidget(verticalPanel);
         verticalPanel.setStyleName("mp-Panel-center");
@@ -75,9 +84,9 @@ public class ClientSearch extends Composite
         Label label = new Label("Surname");
         grid.setWidget(0, 0, label);
 
-        surnameTextBox = new TextBox();
-        surnameTextBox.setFocus(true);
-        grid.setWidget(0, 1, surnameTextBox);
+        surname = new TextBox();
+        surname.setFocus(true);
+        grid.setWidget(0, 1, surname);
 
         Label label_1 = new Label("DOB");
         grid.setWidget(0, 2, label_1);
@@ -99,8 +108,8 @@ public class ClientSearch extends Composite
         Label label_2 = new Label("Firstname");
         grid.setWidget(1, 0, label_2);
 
-        firstnameTextBox = new TextBox();
-        grid.setWidget(1, 1, firstnameTextBox);
+        firstname = new TextBox();
+        grid.setWidget(1, 1, firstname);
 
         Label label_3 = new Label("State");
         grid.setWidget(1, 2, label_3);
@@ -118,7 +127,7 @@ public class ClientSearch extends Composite
             }
         });
         grid.setWidget(2, 1, country);
-        addCountries();
+        addCountries(country);
 
         Label label_5 = new Label("Postcode");
         grid.setWidget(2, 2, label_5);
@@ -159,14 +168,32 @@ public class ClientSearch extends Composite
         };
         table.addColumn(columnDetails, "Client Details");
         table.setSelectionModel(new ClientSelectionModel());
+        table.setRowCount(0, true);
 
         SimplePager pager = new SimplePager();
         pager.setDisplay(table);
         verticalPanel.add(pager);
-        //table.setRowData(0, Collections.EMPTY_LIST);
-        table.setRowCount(0, true);
+        
+        FlowPanel flowPanel = new FlowPanel();
+        verticalPanel.add(flowPanel);
+        
+        buttonOpen = new Button("Open Client");
+        buttonOpen.addClickHandler(new ClickHandler() {
+            public void onClick(ClickEvent event) {
+                setClient();
+            }
+        });
+        buttonOpen.setEnabled(false);
+        flowPanel.add(buttonOpen);
 
         Window.setTitle(Main.TITLE + TITLE);
+    }
+
+    @SuppressWarnings("unchecked")
+    private BasePair getSelectedClient()
+    {
+        SingleSelectionModel<BasePair> model = (SingleSelectionModel<BasePair>) table.getSelectionModel();
+        return model.getSelectedObject();
     }
 
     // Add a selection model to handle user selection.
@@ -178,55 +205,34 @@ public class ClientSearch extends Composite
             {
                 public void onSelectionChange(SelectionChangeEvent event)
                 {
-                    BasePair selected = ClientSelectionModel.this.getSelectedObject();
-                    if (selected != null)
-                    {
-                        //Window.alert("You selected: " + selected.toString());
-                        // TODO: implement
-                    }
+                    buttonOpen.setEnabled(ClientSelectionModel.this.getSelectedObject() != null);
                 }
             });
         }
     }
 
-    private void addCountries()
+    private void addCountries(ListBox country)
     {
-        RefDataServiceAsync.Util.getInstance().findCountries(new AddCountriesCallback());
-    }
-
-    private class AddCountriesCallback extends AbstractAsyncCallback<BasePair[]>
-    {
-        public void onSuccess(BasePair[] result)
-        {
-            addItems(country, result);
-        }
+        RefDataServiceAsync.Util.getInstance().findCountries(new AddListBoxItemsCallback(country));
     }
 
     private void addStates(String countryId)
     {
-        RefDataServiceAsync.Util.getInstance().findStates(countryId, new AddStatesCallback());
-    }
-
-    private class AddStatesCallback extends AbstractAsyncCallback<BasePair[]>
-    {
-        public void onSuccess(BasePair[] result)
-        {
-            addItems(state, result);
-        }
+        RefDataServiceAsync.Util.getInstance().findStates(countryId, new AddListBoxItemsCallback(state));
     }
 
     private void onSearch(Range range)
     {
         List<StringPair> criteria = new ArrayList<StringPair>();
-        String surname = surnameTextBox.getText();
-        if (surname.trim().length() > 0)
+        String value = surname.getText();
+        if (value.trim().length() > 0)
         {
-            criteria.add(new StringPair("FamilyName", surname));
+            criteria.add(new StringPair("FamilyName", value));
         }
-        String firstname = firstnameTextBox.getText();
-        if (firstname.trim().length() > 0)
+        value = firstname.getText();
+        if (value.trim().length() > 0)
         {
-            criteria.add(new StringPair("FirstName", firstname));
+            criteria.add(new StringPair("FirstName", value));
         }
         if (dateOfBirth.getValue() != null)
         {
@@ -257,6 +263,19 @@ public class ClientSearch extends Composite
             // Set the total row count. This isn't strictly necessary, but it affects
             // paging calculations, so its good habit to keep the row count up to date.
             table.setRowCount(result.length, true);
+        }
+    }
+
+    private void setClient()
+    {
+        MainServiceAsync.Util.getInstance().setClient(getSelectedClient(), new SetClientCallback());
+    }
+
+    private class SetClientCallback extends AbstractAsyncCallback<Void>
+    {
+        public void onSuccess(Void result)
+        {
+            parent.setClient(getSelectedClient());
         }
     }
 

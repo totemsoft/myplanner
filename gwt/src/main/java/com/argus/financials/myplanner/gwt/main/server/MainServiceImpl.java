@@ -18,6 +18,14 @@ public class MainServiceImpl extends AbstractGwtController implements MainServic
     private static final long serialVersionUID = 955889773407212757L;
 
     /* (non-Javadoc)
+     * @see com.argus.financials.myplanner.gwt.main.client.MainService#setClient(com.argus.financials.myplanner.gwt.commons.client.BasePair)
+     */
+    public void setClient(BasePair selected)
+    {
+        getUserPreferences().setClient(getUserService().findClient(selected.getFirst()));
+    }
+
+    /* (non-Javadoc)
      * @see com.argus.financials.myplanner.gwt.main.client.MainService#getClients()
      */
     public BasePair[] findClients(StringPair[] criteria, Range range)

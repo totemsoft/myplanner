@@ -1,6 +1,7 @@
 package com.argus.financials.myplanner.gwt.main.client;
 
 import com.argus.financials.myplanner.gwt.commons.client.AbstractAsyncCallback;
+import com.argus.financials.myplanner.gwt.commons.client.BasePair;
 import com.argus.financials.myplanner.gwt.main.client.view.ClientDetails;
 import com.argus.financials.myplanner.gwt.main.client.view.ClientSearch;
 import com.google.gwt.core.client.EntryPoint;
@@ -12,6 +13,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.MenuItemSeparator;
@@ -24,6 +26,19 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
 
     private ScrollPanel centerPanel;
 
+    private HorizontalPanel footerPanel;
+
+    private MenuItem mntmExport;
+    private MenuItem mntmImport;
+    private MenuItem mntmClientDetails;
+    private MenuItem mntmClientRisk;
+    private MenuItem mntmFinancials;
+    private MenuItem mntmPartnerDetails;
+    private MenuItem mntmPartnerRisk;
+    private MenuItem mntmStrategy;
+    private MenuItem mntmAnalysis;
+    private MenuItem mntmPlan;
+    
     /* (non-Javadoc)
      * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
      */
@@ -42,11 +57,11 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         
         MenuItem mntmFileMenu = new MenuItem("File", false, menuBar_1);
         
-        MenuItem mntmExport = new MenuItem("Export", false, (Command) null);
+        mntmExport = new MenuItem("Export", false, (Command) null);
         mntmExport.setEnabled(false);
         menuBar_1.addItem(mntmExport);
         
-        MenuItem mntmImport = new MenuItem("Import", false, (Command) null);
+        mntmImport = new MenuItem("Import", false, (Command) null);
         mntmImport.setEnabled(false);
         mntmImport.setHTML("Import");
         menuBar_1.addItem(mntmImport);
@@ -75,7 +90,7 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         MenuItem mntmAddNew = new MenuItem("Add New", false, (Command) null);
         menuBar_2.addItem(mntmAddNew);
         
-        MenuItem mntmClientDetails = new MenuItem("Details", false, new Command() {
+        mntmClientDetails = new MenuItem("Details", false, new Command() {
             public void execute() {
                 showView(ClientDetails.HISTORY_TOKEN);
             }
@@ -83,11 +98,11 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         mntmClientDetails.setEnabled(false);
         menuBar_2.addItem(mntmClientDetails);
         
-        MenuItem mntmClientRisk = new MenuItem("Risk", false, (Command) null);
+        mntmClientRisk = new MenuItem("Risk", false, (Command) null);
         mntmClientRisk.setEnabled(false);
         menuBar_2.addItem(mntmClientRisk);
         
-        MenuItem mntmFinancials = new MenuItem("Financials", false, (Command) null);
+        mntmFinancials = new MenuItem("Financials", false, (Command) null);
         mntmFinancials.setEnabled(false);
         menuBar_2.addItem(mntmFinancials);
         menuBar.addItem(mntmClient);
@@ -95,25 +110,27 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         
         MenuItem mntmPartner = new MenuItem("Partner", false, menuBar_3);
         
-        MenuItem mntmPartnerDetails = new MenuItem("Details", false, (Command) null);
+        mntmPartnerDetails = new MenuItem("Details", false, (Command) null);
         mntmPartnerDetails.setEnabled(false);
         menuBar_3.addItem(mntmPartnerDetails);
         
-        MenuItem mntmPartnerRisk = new MenuItem("Risk", false, (Command) null);
+        mntmPartnerRisk = new MenuItem("Risk", false, (Command) null);
         mntmPartnerRisk.setEnabled(false);
         menuBar_3.addItem(mntmPartnerRisk);
         menuBar.addItem(mntmPartner);
         MenuBar menuBar_4 = new MenuBar(true);
         
-        MenuItem mntmStrategy = new MenuItem("Strategy", false, menuBar_4);
+        mntmStrategy = new MenuItem("Strategy", false, menuBar_4);
+        mntmStrategy.setEnabled(false);
         menuBar.addItem(mntmStrategy);
         MenuBar menuBar_5 = new MenuBar(true);
         
-        MenuItem mntmAnalysis = new MenuItem("Analysis", false, menuBar_5);
+        mntmAnalysis = new MenuItem("Analysis", false, menuBar_5);
+        mntmAnalysis.setEnabled(false);
         menuBar.addItem(mntmAnalysis);
         MenuBar menuBar_6 = new MenuBar(true);
         
-        MenuItem mntmPlan = new MenuItem("Plan", false, menuBar_6);
+        mntmPlan = new MenuItem("Plan", false, menuBar_6);
         menuBar.addItem(mntmPlan);
         MenuBar menuBar_7 = new MenuBar(true);
         
@@ -124,10 +141,10 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         MenuItem mntmHelp = new MenuItem("Help", false, menuBar_8);
         menuBar.addItem(mntmHelp);
         
-        HorizontalPanel horizontalPanel = new HorizontalPanel();
-        horizontalPanel.setStyleName("border");
-        dockLayoutPanel.addSouth(horizontalPanel, 1.2);
-        horizontalPanel.setSize("100%", "100%");
+        footerPanel = new HorizontalPanel();
+        footerPanel.setStyleName("border");
+        dockLayoutPanel.addSouth(footerPanel, 1.2);
+        footerPanel.setSize("100%", "100%");
         
         centerPanel = new ScrollPanel();
         dockLayoutPanel.add(centerPanel);
@@ -159,7 +176,7 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         //Window.alert("History Token changed: " + historyToken);
         // parse url fragment
         if (historyToken.equals(ClientSearch.HISTORY_TOKEN)) {
-            centerPanel.setWidget(new ClientSearch());
+            centerPanel.setWidget(new ClientSearch(this));
         } else if (historyToken.equals(ClientDetails.HISTORY_TOKEN)) {
             centerPanel.setWidget(new ClientDetails());
         } else {
@@ -174,6 +191,28 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
     private class LogoutCallback extends AbstractAsyncCallback<Void> {
         public void onSuccess(Void result) {
             Window.Location.replace("Login.html");
+        }
+    }
+
+    public void setClient(BasePair client)
+    {
+        footerPanel.clear();
+        if (client != null)
+        {
+            // menu
+            mntmExport.setEnabled(true);
+            mntmImport.setEnabled(true);
+            mntmClientDetails.setEnabled(true);
+            mntmClientRisk.setEnabled(true);
+            mntmFinancials.setEnabled(true);
+            boolean isSingle = true; // MaritalCode.isSingle(client.getPersonName().getMaritalCodeID())
+            mntmPartnerDetails.setEnabled(!isSingle);
+            mntmPartnerRisk.setEnabled(!isSingle);
+            mntmStrategy.setEnabled(true);
+            mntmAnalysis.setEnabled(true);
+            mntmPlan.setEnabled(true);
+            // footer
+            footerPanel.add(new Label("Client: " + client.getSecond()));
         }
     }
 

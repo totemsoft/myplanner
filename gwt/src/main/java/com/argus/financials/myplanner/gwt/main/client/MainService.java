@@ -9,6 +9,12 @@ import com.google.gwt.view.client.Range;
 @RemoteServiceRelativePath("MainService")
 public interface MainService extends RemoteService {
 
+    /**
+     * 
+     * @param selected
+     */
+    void setClient(BasePair selected);
+
     BasePair[] findClients(StringPair[] criteria, Range range);
 
     void logout();

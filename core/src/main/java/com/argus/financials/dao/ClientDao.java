@@ -11,6 +11,14 @@ import com.argus.util.Range;
  */
 public interface ClientDao extends BaseDAO
 {
+
+    /**
+     * 
+     * @param clientId
+     * @return
+     */
+    Client findById(Integer clientId);
+
     /**
      * 
      * @param criteria

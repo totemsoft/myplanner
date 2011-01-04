@@ -121,6 +121,14 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
         return clientDao.findClients(criteria, range);
     }
 
+    /* (non-Javadoc)
+     * @see com.argus.financials.service.UserService#findClient(java.lang.Integer)
+     */
+    public Client findClient(Integer clientId) throws ServiceException
+    {
+        return clientDao.findById(clientId);
+    }
+
     public Integer create() throws ServiceException, CreateException {
         PreparedStatement sql = null;
         try {

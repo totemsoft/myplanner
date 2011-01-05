@@ -169,7 +169,7 @@ public final class PlanTracker extends javax.swing.JPanel {
         gridBagConstraints1.insets = new java.awt.Insets(5, 0, 5, 0);
         jPanelMain.add(jCheckBoxClientDetails, gridBagConstraints1);
 
-        jLabelClientDetails.setText("Client Details");
+        jLabelClientDetails.setText("ClientView Details");
         jLabelClientDetails.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabelClientDetailsMouseClicked(evt);
@@ -398,7 +398,7 @@ public final class PlanTracker extends javax.swing.JPanel {
         gridBagConstraints1.insets = new java.awt.Insets(5, 0, 5, 0);
         jPanelMain.add(jCheckBox8, gridBagConstraints1);
 
-        jLabel8.setText("Client Plan Complete!");
+        jLabel8.setText("ClientView Plan Complete!");
         jLabel8.setEnabled(false);
         gridBagConstraints1 = new java.awt.GridBagConstraints();
         gridBagConstraints1.gridx = 1;

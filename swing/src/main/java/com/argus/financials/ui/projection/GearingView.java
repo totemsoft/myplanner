@@ -482,7 +482,7 @@ public class GearingView extends javax.swing.JPanel implements ActionEventID,
         gridBagConstraints1.anchor = java.awt.GridBagConstraints.WEST;
         jPanelLeft.add(jLabel15, gridBagConstraints1);
 
-        jLabel17.setText("Client Start LSR %");
+        jLabel17.setText("ClientView Start LSR %");
         gridBagConstraints1 = new java.awt.GridBagConstraints();
         gridBagConstraints1.gridx = 0;
         gridBagConstraints1.gridy = 1;
@@ -668,7 +668,7 @@ public class GearingView extends javax.swing.JPanel implements ActionEventID,
         gridBagConstraints1.anchor = java.awt.GridBagConstraints.WEST;
         jPanelLeft.add(jTextFieldClientTaxRate, gridBagConstraints1);
 
-        jLabel40.setText("Client Tax Rate %");
+        jLabel40.setText("ClientView Tax Rate %");
         gridBagConstraints1 = new java.awt.GridBagConstraints();
         gridBagConstraints1.gridx = 0;
         gridBagConstraints1.gridy = 10;
@@ -697,7 +697,7 @@ public class GearingView extends javax.swing.JPanel implements ActionEventID,
 
         jPanelRight.setBorder(new javax.swing.border.TitledBorder(
                 "Investment Details"));
-        jLabel13.setText("Client Initial Contribution");
+        jLabel13.setText("ClientView Initial Contribution");
         gridBagConstraints2 = new java.awt.GridBagConstraints();
         gridBagConstraints2.gridx = 0;
         gridBagConstraints2.gridy = 0;
@@ -715,7 +715,7 @@ public class GearingView extends javax.swing.JPanel implements ActionEventID,
         gridBagConstraints2.anchor = java.awt.GridBagConstraints.WEST;
         jPanelRight.add(jLabel22, gridBagConstraints2);
 
-        jLabel10.setText("Client Monthly Contribution");
+        jLabel10.setText("ClientView Monthly Contribution");
         gridBagConstraints2 = new java.awt.GridBagConstraints();
         gridBagConstraints2.gridx = 0;
         gridBagConstraints2.gridy = 2;

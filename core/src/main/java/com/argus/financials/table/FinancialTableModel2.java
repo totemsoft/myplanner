@@ -94,13 +94,13 @@ public class FinancialTableModel2 extends javax.swing.table.AbstractTableModel
         columnNames.add(FinancialColumnID.INTEREST, "Interest Rate");
 
         // two extra columns to show client/partner amount
-        columnNames.add(FinancialColumnID.AMOUNT_CLIENT, "Client's Amount");
+        columnNames.add(FinancialColumnID.AMOUNT_CLIENT, "ClientView's Amount");
         columnNames.add(FinancialColumnID.AMOUNT_PARTNER, "Partner's Amount");
 
         // three extra columns to show client/partner financial year amount
         columnNames.add(FinancialColumnID.REAL_AMOUNT, "Financial Year Amount");
         columnNames.add(FinancialColumnID.REAL_AMOUNT_CLIENT,
-                "Client's Financial Year Amount");
+                "ClientView's Financial Year Amount");
         columnNames.add(FinancialColumnID.REAL_AMOUNT_PARTNER,
                 "Partner's Financial Year Amount");
 
@@ -123,7 +123,7 @@ public class FinancialTableModel2 extends javax.swing.table.AbstractTableModel
         columnNames.add(FinancialColumnID.FINANCIAL_SERVICE, "Service");
 
         columnNames.add(FinancialColumnID.GROSS_INCOME_CLIENT,
-                "Client Gross Income");
+                "ClientView Gross Income");
         columnNames.add(FinancialColumnID.GROSS_INCOME_PARTNER,
                 "Partner Gross Income");
 
@@ -131,7 +131,7 @@ public class FinancialTableModel2 extends javax.swing.table.AbstractTableModel
                 IRegularType.sUNFRANKED_INCOME);
 
         columnNames.add(FinancialColumnID.UNFRANKED_INCOME_CLIENT,
-                "Client Unfranked Income");
+                "ClientView Unfranked Income");
         columnNames.add(FinancialColumnID.UNFRANKED_INCOME_PARTNER,
                 "Partner Unfranked Income");
 

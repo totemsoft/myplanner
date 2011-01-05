@@ -38,8 +38,8 @@ public class SupporterCode extends Code {
         codeMap.clear();
         codeMap.put(NONE, VALUE_NONE);
 
-        codeMap.put("Client", CLIENT);
-        codeMap.put("Not Client", NOT_CLIENT);
+        codeMap.put("ClientView", CLIENT);
+        codeMap.put("Not ClientView", NOT_CLIENT);
     }
 
 }

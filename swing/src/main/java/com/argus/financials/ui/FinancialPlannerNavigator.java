@@ -56,7 +56,7 @@ class FinancialPlannerNavigator extends com.l2fprod.common.swing.JTaskPane
             jTaskPaneGroupFile.add(getActionMap().get(IMenuCommand.IMPORT));
         jTaskPaneGroupFile.add(getActionMap().get(IMenuCommand.EXIT));
 
-        jTaskPaneGroupClientDetails = createTaskGroup(this, "Client Focus");
+        jTaskPaneGroupClientDetails = createTaskGroup(this, "ClientView Focus");
         jTaskPaneGroupClientDetails.add(getActionMap().get(IMenuCommand.SEARCH_CLIENT));
         if (fpp.checkPermissions(IMenuCommand.ADD_CLIENT))
             jTaskPaneGroupClientDetails.add(getActionMap().get(IMenuCommand.ADD_CLIENT));

@@ -39,7 +39,7 @@ public class StrategyData implements java.io.Serializable {
 
         public class Person implements java.io.Serializable {
 
-            public String FullName; // Client.Person.FullName
+            public String FullName; // ClientView.Person.FullName
 
         }
 
@@ -149,10 +149,10 @@ public class StrategyData implements java.io.Serializable {
         }
 
         /*
-         * STRATEGY [Client.Strategy.AssetCash.Items.ItemName]
-         * [Client.Strategy.AssetCash.Items.Projection]
-         * [Client.Strategy.AssetCash.Items.FinancialDesc]
-         * [Client.Strategy.AssetCash.Items.Amount]
+         * STRATEGY [ClientView.Strategy.AssetCash.Items.ItemName]
+         * [ClientView.Strategy.AssetCash.Items.Projection]
+         * [ClientView.Strategy.AssetCash.Items.FinancialDesc]
+         * [ClientView.Strategy.AssetCash.Items.Amount]
          */
         public class Strategy implements java.io.Serializable {
 
@@ -265,10 +265,10 @@ public class StrategyData implements java.io.Serializable {
                 }
 
             }
-            // [Client.Strategy.AssetSuperannuation.Items.ItemName]
-            // [Client.Strategy.AssetSuperannuation.Items.Financials]
-            // [Client.Strategy.AssetSuperannuation.Items.TotalAmount]
-            // [Client.Strategy.AssetSuperannuation.TotalAmount]
+            // [ClientView.Strategy.AssetSuperannuation.Items.ItemName]
+            // [ClientView.Strategy.AssetSuperannuation.Items.Financials]
+            // [ClientView.Strategy.AssetSuperannuation.Items.TotalAmount]
+            // [ClientView.Strategy.AssetSuperannuation.TotalAmount]
 
         }
 

@@ -536,13 +536,13 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
                 jPanelClientDetails, javax.swing.BoxLayout.Y_AXIS));
 
         jPanelClientDetails.setBorder(new javax.swing.border.TitledBorder(
-                "Client Details"));
+                "ClientView Details"));
         jPanel41.setLayout(new javax.swing.BoxLayout(jPanel41,
                 javax.swing.BoxLayout.X_AXIS));
 
         jPanel19.setLayout(new java.awt.GridBagLayout());
 
-        jRadioButtonIsClient.setText("For Client");
+        jRadioButtonIsClient.setText("For ClientView");
         buttonGroup2.add(jRadioButtonIsClient);
         jRadioButtonIsClient.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -1651,7 +1651,7 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
                 && age < ETPConstants.TAX_EFFECTIVE_AGE
                 && JOptionPane.showConfirmDialog(
                         null,
-                        "Client's age is less than " + ETPConstants.TAX_EFFECTIVE_AGE + ", would you like to proceed?",
+                        "ClientView's age is less than " + ETPConstants.TAX_EFFECTIVE_AGE + ", would you like to proceed?",
                         "Warning Message",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE) != JOptionPane.YES_OPTION)

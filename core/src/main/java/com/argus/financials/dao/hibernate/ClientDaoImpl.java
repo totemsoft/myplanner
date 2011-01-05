@@ -12,7 +12,8 @@ import org.springframework.stereotype.Repository;
 
 import com.argus.financials.bean.DbConstant;
 import com.argus.financials.dao.ClientDao;
-import com.argus.financials.domain.hibernate.view.Client;
+import com.argus.financials.domain.hibernate.Client;
+import com.argus.financials.domain.hibernate.view.ClientView;
 import com.argus.financials.etc.Address;
 import com.argus.financials.etc.PersonName;
 import com.argus.util.DateTimeUtils;
@@ -37,10 +38,10 @@ public class ClientDaoImpl extends BaseDAOImpl implements ClientDao
      * @see com.argus.financials.dao.ClientDao#findClients(java.util.Map, com.argus.util.Range)
      */
     @SuppressWarnings("unchecked")
-    public List<Client> findClients(Map<String, Object> criteria, Range range)
+    public List<ClientView> findClients(Map<String, Object> criteria, Range range)
     {
         Map<String, Object> parameters = new HashMap<String, Object>();
-        String sql = "FROM Client WHERE 1=1";
+        String sql = "FROM ClientView WHERE 1=1";
         if (criteria != null)
         {
             String fn = PersonName.SURNAME;

@@ -79,4 +79,13 @@ public class User extends Person
         this.password = password;
     }
 
+    /* (non-Javadoc)
+     * @see com.argus.financials.domain.hibernate.AbstractBase#toString()
+     */
+    @Override
+    public String toString()
+    {
+        return getLogin();
+    }
+
 }

@@ -31,8 +31,9 @@ import com.argus.financials.bean.db.FPSLinkObject;
 import com.argus.financials.code.AdviserTypeCode;
 import com.argus.financials.dao.ClientDao;
 import com.argus.financials.dao.UserDao;
+import com.argus.financials.domain.hibernate.Client;
 import com.argus.financials.domain.hibernate.User;
-import com.argus.financials.domain.hibernate.view.Client;
+import com.argus.financials.domain.hibernate.view.ClientView;
 import com.argus.financials.etc.Contact;
 import com.argus.financials.etc.db.ContactBean;
 import com.argus.financials.etc.db.PersonNameAddressBean;
@@ -102,7 +103,7 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
     /* (non-Javadoc)
      * @see com.argus.financials.service.UserService#findClients(java.util.Map, com.argus.util.Range)
      */
-    public List<Client> findClients(Map<String, Object> criteria, Range range)
+    public List<ClientView> findClients(Map<String, Object> criteria, Range range)
         throws ServiceException
     {
         // add user

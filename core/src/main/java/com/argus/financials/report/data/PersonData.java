@@ -16,7 +16,7 @@ import com.argus.financials.code.ResidenceStatusCode;
 import com.argus.financials.projection.DSSCalc2;
 
 // we have to extend this class to use,
-// e.g. public class Client extends PersonData {}
+// e.g. public class ClientView extends PersonData {}
 public abstract class PersonData extends BaseData {
 
     public String Sex = STRING_EMPTY;

@@ -14,12 +14,14 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
+import com.argus.financials.domain.IPerson;
 import com.argus.financials.domain.hibernate.refdata.Country;
+import com.argus.financials.domain.refdata.ICountry;
 
 @Entity
 @Table(name = "Person")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Person extends AbstractAuditable<Integer> // implements IPerson
+public class Person extends AbstractAuditable<Integer> implements IPerson
 {
     /** serialVersionUID */
     private static final long serialVersionUID = -8960024744697095377L;
@@ -43,13 +45,13 @@ public class Person extends AbstractAuditable<Integer> // implements IPerson
     @Column(name = "DateOfBirth")
     private Date dateOfBirth;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Country.class)
     @JoinColumn(name = "DOBCountryID")
-    private Country dobCountry;
+    private ICountry dobCountry;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Country.class)
     @JoinColumn(name = "ResidenceCountryCodeID")
-    private Country residenceCountry;
+    private ICountry residenceCountry;
 
 //  [SexCodeID] [int] NULL,
 //  [TitleCodeID] [int] NULL,
@@ -178,7 +180,7 @@ public class Person extends AbstractAuditable<Integer> // implements IPerson
     /**
      * @return the dobCountry
      */
-    public Country getDobCountry()
+    public ICountry getDobCountry()
     {
         return dobCountry;
     }
@@ -186,7 +188,7 @@ public class Person extends AbstractAuditable<Integer> // implements IPerson
     /**
      * @param dobCountry the dobCountry to set
      */
-    public void setDobCountry(Country dobCountry)
+    public void setDobCountry(ICountry dobCountry)
     {
         this.dobCountry = dobCountry;
     }
@@ -194,7 +196,7 @@ public class Person extends AbstractAuditable<Integer> // implements IPerson
     /**
      * @return the residenceCountry
      */
-    public Country getResidenceCountry()
+    public ICountry getResidenceCountry()
     {
         return residenceCountry;
     }
@@ -202,7 +204,7 @@ public class Person extends AbstractAuditable<Integer> // implements IPerson
     /**
      * @param residenceCountry the residenceCountry to set
      */
-    public void setResidenceCountry(Country residenceCountry)
+    public void setResidenceCountry(ICountry residenceCountry)
     {
         this.residenceCountry = residenceCountry;
     }

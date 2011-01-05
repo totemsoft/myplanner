@@ -105,16 +105,16 @@ public interface LinkObjectTypeConstant {
     // (1032, 1, 32, 'Link Person to StrategyGroup');
     public static final int PERSON_2_STRATEGYGROUP = 1032;
 
-    // (2003, 2, 3, 'Link User to Client')
+    // (2003, 2, 3, 'Link User to ClientView')
     public static final int USER_2_CLIENT = 2003;
 
-    // (3001, 3, 1, 'Link Client to Person')
+    // (3001, 3, 1, 'Link ClientView to Person')
     public static final int CLIENT_2_PERSON = 3001;
 
-    // (3003, 3, 3, 'Link Client to Client')
+    // (3003, 3, 3, 'Link ClientView to ClientView')
     public static final int CLIENT_2_CLIENT = 3003;
 
-    // (3028, 3, 28, 'Link Client to Estate')
+    // (3028, 3, 28, 'Link ClientView to Estate')
     public static final int CLIENT_2_ESTATE = 3028;
 
     // (3001007, 3001, 7, 'Link ClientService-Person to Relationship')

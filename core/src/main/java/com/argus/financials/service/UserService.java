@@ -12,8 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.argus.financials.domain.hibernate.Client;
 import com.argus.financials.domain.hibernate.User;
-import com.argus.financials.domain.hibernate.view.Client;
+import com.argus.financials.domain.hibernate.view.ClientView;
 import com.argus.util.Range;
 
 /**
@@ -57,7 +58,7 @@ public interface UserService extends PersonService
      * @return
      * @throws ServiceException
      */
-    List<Client> findClients(Map<String, Object> criteria, Range range) throws ServiceException;
+    List<ClientView> findClients(Map<String, Object> criteria, Range range) throws ServiceException;
     
     
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)

@@ -393,7 +393,7 @@ public class InvPropertyView extends javax.swing.JPanel implements
         gridBagConstraints2.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanelIncomeDetails.add(jComboBox2, gridBagConstraints2);
 
-        jLabel32.setText("Client Tax Rate");
+        jLabel32.setText("ClientView Tax Rate");
         gridBagConstraints2 = new java.awt.GridBagConstraints();
         gridBagConstraints2.gridx = 0;
         gridBagConstraints2.gridy = 5;

@@ -206,7 +206,7 @@ public class PersonDependentsView extends TableEditView {
         gridBagConstraints1.insets = new java.awt.Insets(0, 0, 0, 10);
         jPanelPersonDetails.add(jComboBoxDobCountry, gridBagConstraints1);
 
-        jLabelRelationship.setText("Relationship to Client");
+        jLabelRelationship.setText("Relationship to ClientView");
         jLabelRelationship.setPreferredSize(new java.awt.Dimension(100, 16));
         gridBagConstraints1 = new java.awt.GridBagConstraints();
         gridBagConstraints1.gridx = 0;

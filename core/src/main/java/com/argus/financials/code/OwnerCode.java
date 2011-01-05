@@ -15,10 +15,10 @@ package com.argus.financials.code;
 import java.util.Map;
 import java.util.TreeMap;
 
-// (1, 'Client')
+// (1, 'ClientView')
 // (2, 'Partner')
 // (3, 'Joint')
-// (4, 'Client's Company')
+// (4, 'ClientView's Company')
 // (5, 'Partner's Company')
 // (6, 'Joint Company')
 // (7, 'Family Trust')
@@ -58,10 +58,10 @@ public class OwnerCode extends Code {
         codeMap.clear();
         codeMap.put(NONE, VALUE_NONE);
 
-        codeMap.put("Client", CLIENT);
+        codeMap.put("ClientView", CLIENT);
         codeMap.put("Partner", PARTNER);
         codeMap.put("Joint", JOINT);
-        codeMap.put("Client's Company", CLIENT_COMPANY);
+        codeMap.put("ClientView's Company", CLIENT_COMPANY);
         codeMap.put("Partner's Company", PARTNER_COMPANY);
         codeMap.put("Joint Company", JOINT_COMPANY);
         codeMap.put("Family Trust", FAMILY_TRUST);

@@ -211,7 +211,7 @@ public class TaxResidualView extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints3;
 
         jPanel34.setBorder(new javax.swing.border.TitledBorder("Tax"));
-        jLabel68.setText("Client");
+        jLabel68.setText("ClientView");
         gridBagConstraints3 = new java.awt.GridBagConstraints();
         gridBagConstraints3.gridx = 1;
         gridBagConstraints3.gridy = 0;

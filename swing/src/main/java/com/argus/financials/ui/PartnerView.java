@@ -46,7 +46,7 @@ public final class PartnerView extends PersonView2 {
     }
 
     public String getViewCaption() {
-        return "Client Partner Details";
+        return "ClientView Partner Details";
     }
 
     /**

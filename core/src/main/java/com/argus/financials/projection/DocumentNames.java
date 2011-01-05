@@ -151,7 +151,7 @@ public interface DocumentNames {
 
     public static final String RBL_AMOUNT = "RBL Amounts already counted";
 
-    public static final String IS_CLIENT = "Is Client";
+    public static final String IS_CLIENT = "Is ClientView";
 
     public static final String IS_PARTNER = "Is Partner";
 
@@ -260,7 +260,7 @@ public interface DocumentNames {
     // GearingView
     public static final String GEARING_TYPE = "Gearing Type";
 
-    public static final String CLIENT_START_LSR_RATE = "Client Start LSR %";
+    public static final String CLIENT_START_LSR_RATE = "ClientView Start LSR %";
 
     public static final String MAXIMUM_START_LSR_RATE = "Maximum Start LSR %";
 
@@ -320,7 +320,7 @@ public interface DocumentNames {
     public static final String MONTHLY_CASHFLOW = "Monthly Cashflow";
 
     // DSSView
-    public static final String CLIENT_NAME = " Client Name";
+    public static final String CLIENT_NAME = " ClientView Name";
 
     public static final String MARITAL_STATUS = "Marital Status";
 
@@ -424,7 +424,7 @@ public interface DocumentNames {
      * DSSView: END: partner details fields
      */
 
-    public static final String CLIENT_SALARY_I = "Client Salary Income";
+    public static final String CLIENT_SALARY_I = "ClientView Salary Income";
 
     public static final String PARTNER_SALARY_I = "Partner Salary Income";
 
@@ -469,15 +469,15 @@ public interface DocumentNames {
 
     public static final String CASH_ASSET_TA = "Cash Asset TA";
 
-    public static final String CASH_ASSET_TA_C = "Cash Asset TA Client";
+    public static final String CASH_ASSET_TA_C = "Cash Asset TA ClientView";
 
-    public static final String CASH_ASSET_AA_C = "Cash Asset AA Client";
+    public static final String CASH_ASSET_AA_C = "Cash Asset AA ClientView";
 
     public static final String CASH_ASSET_AA_P = "Cash Asset AA Partner";
 
     public static final String CASH_ASSET_AI = "Cash Asset AI";
 
-    public static final String CASH_ASSET_AI_C = "Cash Asset AI Client";
+    public static final String CASH_ASSET_AI_C = "Cash Asset AI ClientView";
 
     public static final String CASH_ASSET_AI_P = "Cash Asset AI Partner";
 
@@ -485,15 +485,15 @@ public interface DocumentNames {
 
     public static final String MAN_FUNDS_TA = "Managed Funds TA";
 
-    public static final String MAN_FUNDS_TA_C = "Managed Funds TA Client";
+    public static final String MAN_FUNDS_TA_C = "Managed Funds TA ClientView";
 
-    public static final String MAN_FUNDS_AA_C = "Managed Funds AA Client";
+    public static final String MAN_FUNDS_AA_C = "Managed Funds AA ClientView";
 
     public static final String MAN_FUNDS_AA_P = "Managed Funds AA Partner";
 
     public static final String MAN_FUNDS_AI = "Managed Funds AI";
 
-    public static final String MAN_FUNDS_AI_C = "Managed Funds AI Client";
+    public static final String MAN_FUNDS_AI_C = "Managed Funds AI ClientView";
 
     public static final String MAN_FUNDS_AI_P = "Managed Funds AI Partner";
 
@@ -501,15 +501,15 @@ public interface DocumentNames {
 
     public static final String SHARES_TA = "Shares TA";
 
-    public static final String SHARES_TA_C = "Shares TA Client";
+    public static final String SHARES_TA_C = "Shares TA ClientView";
 
-    public static final String SHARES_AA_C = "Shares AA Client";
+    public static final String SHARES_AA_C = "Shares AA ClientView";
 
     public static final String SHARES_AA_P = "Shares AA Partner";
 
     public static final String SHARES_AI = "Shares AI";
 
-    public static final String SHARES_AI_C = "Shares AI Client";
+    public static final String SHARES_AI_C = "Shares AI ClientView";
 
     public static final String SHARES_AI_P = "Shares AI Partner";
 
@@ -517,73 +517,73 @@ public interface DocumentNames {
 
     public static final String OTHER_INV_TA = "Other Inv TA";
 
-    public static final String OTHER_INV_TA_C = "Other Inv TA Client";
+    public static final String OTHER_INV_TA_C = "Other Inv TA ClientView";
 
-    public static final String OTHER_INV_AA_C = "Other Inv AA Client";
+    public static final String OTHER_INV_AA_C = "Other Inv AA ClientView";
 
     public static final String OTHER_INV_AA_P = "Other Inv AA Partner";
 
     public static final String OTHER_INV_AI = "Other Inv AI";
 
-    public static final String OTHER_INV_AI_C = "Other Inv AI Client";
+    public static final String OTHER_INV_AI_C = "Other Inv AI ClientView";
 
     public static final String OTHER_INV_AI_P = "Other Inv AI Partner";
 
     public static final String DEEMED_SUP_AA = "Deemed Super AA";
 
-    public static final String DEEMED_SUP_AA_C = "Deemed Super AA Client";
+    public static final String DEEMED_SUP_AA_C = "Deemed Super AA ClientView";
 
     public static final String DEEMED_SUP_AA_P = "Deemed Super AA Partner";
 
     public static final String DEEMED_SUP_TA = "Deemed Super TA";
 
-    public static final String DEEMED_SUP_TA_C = "Deemed Super TA Client";
+    public static final String DEEMED_SUP_TA_C = "Deemed Super TA ClientView";
 
     public static final String DEEMED_SUP_AI = "Deemed Super AI";
 
-    public static final String DEEMED_SUP_AI_C = "Deemed Super AI Client";
+    public static final String DEEMED_SUP_AI_C = "Deemed Super AI ClientView";
 
     public static final String DEEMED_SUP_AI_P = "Deemed Super AI Partner";
 
     public static final String STA_AA = "STA AA";
 
-    public static final String STA_AA_C = "STA AA Client";
+    public static final String STA_AA_C = "STA AA ClientView";
 
     public static final String STA_AA_P = "STA AA Partner";
 
     public static final String STA_TA = "STA TA";
 
-    public static final String STA_TA_C = "STA TA Client";
+    public static final String STA_TA_C = "STA TA ClientView";
 
     public static final String STA_AI = "STA AI";
 
-    public static final String STA_AI_C = "STA AI Client";
+    public static final String STA_AI_C = "STA AI ClientView";
 
     public static final String STA_AI_P = "STA AI Partner";
 
     public static final String TDI = "TDI";
 
-    public static final String TDI_C = "TDI Client";
+    public static final String TDI_C = "TDI ClientView";
 
     public static final String TDI_P = "TDI Partner";
 
     public static final String AP_AA = "AP AA";
 
-    public static final String AP_AA_C = "AP AA Client";
+    public static final String AP_AA_C = "AP AA ClientView";
 
     public static final String AP_AA_P = "AP AA Partner";
 
     public static final String AP_TA = "AP TA";
 
-    public static final String AP_TA_C = "AP TA Client";
+    public static final String AP_TA_C = "AP TA ClientView";
 
     public static final String AP_AI = "AP AI";
 
     public static final String AP_TI = "AP TI";
 
-    public static final String AP_AI_C = "AP AI Client";
+    public static final String AP_AI_C = "AP AI ClientView";
 
-    public static final String AP_TI_C = "AP TI Client";
+    public static final String AP_TI_C = "AP TI ClientView";
 
     public static final String AP_AI_P = "AP AI Partner";
 
@@ -591,21 +591,21 @@ public interface DocumentNames {
 
     public static final String ANN_AA = "Annuities AA";
 
-    public static final String ANN_AA_C = "Annuities AA Client";
+    public static final String ANN_AA_C = "Annuities AA ClientView";
 
     public static final String ANN_AA_P = "Annuities AA Partner";
 
     public static final String ANN_TA = "Annuities TA";
 
-    public static final String ANN_TA_C = "Annuities TA Client";
+    public static final String ANN_TA_C = "Annuities TA ClientView";
 
     public static final String ANN_AI = "Annuities AI";
 
     public static final String ANN_TI = "Annuities TI";
 
-    public static final String ANN_AI_C = "Annuities AI Client";
+    public static final String ANN_AI_C = "Annuities AI ClientView";
 
-    public static final String ANN_TI_C = "Annuities TI Client";
+    public static final String ANN_TI_C = "Annuities TI ClientView";
 
     public static final String ANN_AI_P = "Annuities AI Partner";
 
@@ -613,21 +613,21 @@ public interface DocumentNames {
 
     public static final String COM_ANN_AA = "Com Ann AA";
 
-    public static final String COM_ANN_AA_C = "Com Ann AA Client";
+    public static final String COM_ANN_AA_C = "Com Ann AA ClientView";
 
     public static final String COM_ANN_AA_P = "Com Ann AA Partner";
 
     public static final String COM_ANN_TA = "Com Ann TA";
 
-    public static final String COM_ANN_TA_C = "Com Ann TA Client";
+    public static final String COM_ANN_TA_C = "Com Ann TA ClientView";
 
     public static final String COM_ANN_AI = "Com Ann AI";
 
     public static final String COM_ANN_TI = "Com Ann TI";
 
-    public static final String COM_ANN_AI_C = "Com Ann AI Client";
+    public static final String COM_ANN_AI_C = "Com Ann AI ClientView";
 
-    public static final String COM_ANN_TI_C = "Com Ann TI Client";
+    public static final String COM_ANN_TI_C = "Com Ann TI ClientView";
 
     public static final String COM_ANN_AI_P = "Com Ann AI Partner";
 
@@ -635,21 +635,21 @@ public interface DocumentNames {
 
     public static final String INV_PRO_AA = "Inv Pro AA";
 
-    public static final String INV_PRO_AA_C = "Inv Pro AA Client";
+    public static final String INV_PRO_AA_C = "Inv Pro AA ClientView";
 
     public static final String INV_PRO_AA_P = "Inv Pro AA Partner";
 
     public static final String INV_PRO_TA = "Inv Pro TA";
 
-    public static final String INV_PRO_TA_C = "Inv Pro TA Client";
+    public static final String INV_PRO_TA_C = "Inv Pro TA ClientView";
 
     public static final String INV_PRO_AI = "Inv Pro AI";
 
     public static final String INV_PRO_TI = "Inv Pro TI";
 
-    public static final String INV_PRO_AI_C = "Inv Pro AI Client";
+    public static final String INV_PRO_AI_C = "Inv Pro AI ClientView";
 
-    public static final String INV_PRO_TI_C = "Inv Pro TI Client";
+    public static final String INV_PRO_TI_C = "Inv Pro TI ClientView";
 
     public static final String INV_PRO_AI_P = "Inv Pro AI Partner";
 
@@ -657,71 +657,71 @@ public interface DocumentNames {
 
     public static final String HC_AA = "HC AA";
 
-    public static final String HC_AA_C = "HC AA Client";
+    public static final String HC_AA_C = "HC AA ClientView";
 
     public static final String HC_AA_P = "HC AA Partner";
 
     public static final String HC_TA = "HC TA";
 
-    public static final String HC_TA_C = "HC TA Client";
+    public static final String HC_TA_C = "HC TA ClientView";
 
     public static final String VBC_AA = "VBC AA";
 
-    public static final String VBC_AA_C = "VBC AA Client";
+    public static final String VBC_AA_C = "VBC AA ClientView";
 
     public static final String VBC_AA_P = "VBC AA Partner";
 
     public static final String VBC_TA = "VBC TA";
 
-    public static final String VBC_TA_C = "VBC TA Client";
+    public static final String VBC_TA_C = "VBC TA ClientView";
 
     public static final String HH_AA = "HH AA";
 
-    public static final String HH_AA_C = "HH AA Client";
+    public static final String HH_AA_C = "HH AA ClientView";
 
     public static final String HH_AA_P = "HH AA Partner";
 
     public static final String HH_TA = "HH TA";
 
-    public static final String HH_TA_C = "HH TA Client";
+    public static final String HH_TA_C = "HH TA ClientView";
 
     public static final String OTHER_PER_AA = "Other Per AA";
 
-    public static final String OTHER_PER_AA_C = "Other Per AA Client";
+    public static final String OTHER_PER_AA_C = "Other Per AA ClientView";
 
     public static final String OTHER_PER_AA_P = "Other Per AA Partner";
 
     public static final String OTHER_PER_TA = "Other Per TA";
 
-    public static final String OTHER_PER_TA_C = "Other Per TA Client";
+    public static final String OTHER_PER_TA_C = "Other Per TA ClientView";
 
     public static final String GA_AA = "GA AA";
 
-    public static final String GA_AA_C = "GA AA Client";
+    public static final String GA_AA_C = "GA AA ClientView";
 
     public static final String GA_AA_P = "GA AA Partner";
 
     public static final String GA_TA = "GA TA";
 
-    public static final String GA_TA_C = "GA TA Client";
+    public static final String GA_TA_C = "GA TA ClientView";
 
     public static final String LOANS_AA = "Loans AA";
 
-    public static final String LOANS_AA_C = "Loans AA Client";
+    public static final String LOANS_AA_C = "Loans AA ClientView";
 
     public static final String LOANS_AA_P = "Loans AA Partner";
 
     public static final String LOANS_TA = "Loans TA";
 
-    public static final String LOANS_TA_C = "Loans TA Client";
+    public static final String LOANS_TA_C = "Loans TA ClientView";
 
     public static final String SAL_AI = "Salary AI";
 
     public static final String SAL_TI = "Salary TI";
 
-    public static final String SAL_AI_C = "Salary AI Client";
+    public static final String SAL_AI_C = "Salary AI ClientView";
 
-    public static final String SAL_TI_C = "Salary TI Client";
+    public static final String SAL_TI_C = "Salary TI ClientView";
 
     public static final String SAL_AI_P = "Salary AI Partner";
 
@@ -731,9 +731,9 @@ public interface DocumentNames {
 
     public static final String OTHER_TI = "Other TI";
 
-    public static final String OTHER_AI_C = "Other AI Client";
+    public static final String OTHER_AI_C = "Other AI ClientView";
 
-    public static final String OTHER_TI_C = "Other TI Client";
+    public static final String OTHER_TI_C = "Other TI ClientView";
 
     public static final String OTHER_AI_P = "Other AI Partner";
 
@@ -741,23 +741,23 @@ public interface DocumentNames {
 
     public static final String TOTAL_AA = "Total AA";
 
-    public static final String TOTAL_AA_C = "Total AA Client";
+    public static final String TOTAL_AA_C = "Total AA ClientView";
 
     public static final String TOTAL_AA_P = "Total AA Partner";
 
     public static final String TOTAL_TA = "Total TA";
 
-    public static final String TOTAL_TA_C = "Total TA Client";
+    public static final String TOTAL_TA_C = "Total TA ClientView";
 
     public static final String TOTAL_AI = "Total AI";
 
-    public static final String TOTAL_AI_C = "Total AI Client";
+    public static final String TOTAL_AI_C = "Total AI ClientView";
 
     public static final String TOTAL_AI_P = "Total AI Partner";
 
     public static final String TOTAL_TI = "Total TI";
 
-    public static final String TOTAL_TI_C = "Total TI Client";
+    public static final String TOTAL_TI_C = "Total TI ClientView";
 
     public static final String TOTAL_TI_P = "Total TI Partner";
 
@@ -765,9 +765,9 @@ public interface DocumentNames {
 
     public static final String TEST_ASSET = "Test Asset";
 
-    public static final String ACTUAL_ASSET_C = "Actual Asset Client";
+    public static final String ACTUAL_ASSET_C = "Actual Asset ClientView";
 
-    public static final String TEST_ASSET_C = "Test Asset Client";
+    public static final String TEST_ASSET_C = "Test Asset ClientView";
 
     public static final String ACTUAL_ASSET_P = "Actual Asset Partner";
 
@@ -777,9 +777,9 @@ public interface DocumentNames {
 
     public static final String TEST_INCOME = "Test Income";
 
-    public static final String ACTUAL_INCOME_C = "Actual Income Client";
+    public static final String ACTUAL_INCOME_C = "Actual Income ClientView";
 
-    public static final String TEST_INCOME_C = "Test Income Client";
+    public static final String TEST_INCOME_C = "Test Income ClientView";
 
     public static final String ACTUAL_INCOME_P = "Actual Income Partner";
 
@@ -789,7 +789,7 @@ public interface DocumentNames {
 
     public static final String NON_DEEMED_ASSET = "Non Deemed Asset";
 
-    public static final String NON_DEEMED_ASSETS_C = "Non Deemed Asset Client";
+    public static final String NON_DEEMED_ASSETS_C = "Non Deemed Asset ClientView";
 
     public static final String NON_DEEMED_ASSETS_P = "Non Deemed Asset Partner";
 
@@ -893,47 +893,47 @@ public interface DocumentNames {
 
     public static final String NEW_START_ALLOWANCE_PARTNER = "New Start Allowance Partner";
 
-    public static final String CLIENT_AGE_PENSION_EXCEPTION = " Client's Age is still under Age Pension Age.";
+    public static final String CLIENT_AGE_PENSION_EXCEPTION = " ClientView's Age is still under Age Pension Age.";
 
     public static final String PARTNER_AGE_PENSION_EXCEPTION = " Partner's Age is still under Age Pension Age.";
 
-    public static final String CLIENT_AGE_PENSION_VALID = " Client's Valid.";
+    public static final String CLIENT_AGE_PENSION_VALID = " ClientView's Valid.";
 
     public static final String PARTNER_AGE_PENSION_VALID = " Partner's Valid.";
 
-    public static final String CLIENT_NSA_EXCEPTION = " Client's not eligible for NSA.";
+    public static final String CLIENT_NSA_EXCEPTION = " ClientView's not eligible for NSA.";
 
     public static final String PARTNER_NSA_EXCEPTION = " Partner's not eligible for NSA.";
 
-    public static final String CLIENT_NSA_VALID = " Client's NSA Valid.";
+    public static final String CLIENT_NSA_VALID = " ClientView's NSA Valid.";
 
     public static final String PARTNER_NSA_VALID = " Partner's NSA Valid.";
 
-    public static final String CLIENT_PA_VALID = " Client's PA Valid.";
+    public static final String CLIENT_PA_VALID = " ClientView's PA Valid.";
 
     public static final String PARTNER_PA_VALID = " Partner's PA Valid.";
 
-    public static final String CLIENT_DSP_EXCEPTION = " Client's not eligible for DSP.";
+    public static final String CLIENT_DSP_EXCEPTION = " ClientView's not eligible for DSP.";
 
-    public static final String CLIENT_PA_EXCEPTION = " Client's not eligible for PA.";
+    public static final String CLIENT_PA_EXCEPTION = " ClientView's not eligible for PA.";
 
     public static final String PARTNER_PA_EXCEPTION = " Partner's not eligible for PA.";
 
-    public static final String CLIENT_WA_EXCEPTION = " Client's not eligible for WA.";
+    public static final String CLIENT_WA_EXCEPTION = " ClientView's not eligible for WA.";
 
-    public static final String CLIENT_SA_EXCEPTION = " Client's not eligible for SA.";
+    public static final String CLIENT_SA_EXCEPTION = " ClientView's not eligible for SA.";
 
     public static final String PARTNER_SA_EXCEPTION = " Partner's not eligible for SA.";
 
     public static final String PARTNER_DSP_EXCEPTION = " Partner's not eligible for DSP.";
 
-    public static final String CLIENT_DSP_VALID = " Client's DSP Valid.";
+    public static final String CLIENT_DSP_VALID = " ClientView's DSP Valid.";
 
     public static final String PARTNER_DSP_VALID = " Partner's DSP Valid.";
 
-    public static final String CLIENT_WA_VALID = " Client's WA Valid.";
+    public static final String CLIENT_WA_VALID = " ClientView's WA Valid.";
 
-    public static final String CLIENT_SA_VALID = " Client's SA Valid.";
+    public static final String CLIENT_SA_VALID = " ClientView's SA Valid.";
 
     public static final String PARTNER_SA_VALID = " Partner's SA Valid.";
 

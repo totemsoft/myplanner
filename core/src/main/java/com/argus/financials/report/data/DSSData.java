@@ -77,7 +77,7 @@ public class DSSData extends com.argus.financials.bean.AbstractBase implements
     }
 
     /*
-     * ============================ BEGIN: Client's Results
+     * ============================ BEGIN: ClientView's Results
      * ============================
      */
     public class ClientResults implements java.io.Serializable {
@@ -106,7 +106,7 @@ public class DSSData extends com.argus.financials.bean.AbstractBase implements
     }
 
     /*
-     * ============================ END: Client's Results
+     * ============================ END: ClientView's Results
      * ============================
      */
 
@@ -649,7 +649,7 @@ public class DSSData extends com.argus.financials.bean.AbstractBase implements
             public String assessable = STRING_EMPTY;
         }
 
-        // Client Salary/Wages
+        // ClientView Salary/Wages
         public class ClientSalary implements java.io.Serializable {
             public String joint = STRING_EMPTY;
 
@@ -1404,7 +1404,7 @@ public class DSSData extends com.argus.financials.bean.AbstractBase implements
         // all columns are empty
 
         //
-        // Client Results
+        // ClientView Results
         //
         clientResults.maximumBenefit = dssCalc2.getMaxBenefitC() == null ? STRING_ZERO_DOLLAR
                 : _money.toString(dssCalc2.getMaxBenefitC());
@@ -1565,7 +1565,7 @@ public class DSSData extends com.argus.financials.bean.AbstractBase implements
             columnClasses.add(java.lang.String.class);
             columnNames.add("Joint ($)");
             columnClasses.add(java.math.BigDecimal.class);
-            columnNames.add("Client ($)");
+            columnNames.add("ClientView ($)");
             columnClasses.add(java.math.BigDecimal.class);
             columnNames.add("Partner ($)");
             columnClasses.add(java.math.BigDecimal.class);
@@ -1885,7 +1885,7 @@ public class DSSData extends com.argus.financials.bean.AbstractBase implements
             columnClasses.add(java.lang.String.class);
             columnNames.add("Joint ($)");
             columnClasses.add(java.math.BigDecimal.class);
-            columnNames.add("Client ($)");
+            columnNames.add("ClientView ($)");
             columnClasses.add(java.math.BigDecimal.class);
             columnNames.add("Partner ($)");
             columnClasses.add(java.math.BigDecimal.class);
@@ -2013,7 +2013,7 @@ public class DSSData extends com.argus.financials.bean.AbstractBase implements
                     this.COLUMN_ASSESSABLE);
 
             investment_income.setValueAt("Joint ($)", this.COLUMN_JOINT);
-            investment_income.setValueAt("Client ($)", this.COLUMN_CLIENT);
+            investment_income.setValueAt("ClientView ($)", this.COLUMN_CLIENT);
             investment_income.setValueAt("Partner ($)", this.COLUMN_PARTNER);
             investment_income.setValueAt("Assessable ($)",
                     this.COLUMN_ASSESSABLE);

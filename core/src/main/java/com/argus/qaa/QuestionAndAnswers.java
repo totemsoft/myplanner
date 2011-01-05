@@ -482,7 +482,7 @@ public class QuestionAndAnswers
 
         SurveyTableModel() {
             super(new Object[][] {}, new String[] { "Question Number",
-                    "Client Answer" });
+                    "ClientView Answer" });
         }
 
         SurveyTableModel(Object[][] data, Object[] columnNames) {

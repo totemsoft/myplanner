@@ -126,7 +126,7 @@ public class FinancialPlannerApp extends javax.swing.JFrame
         JPanel jp = new JPanel(); jp.add(new JLabel("User: "));
         statusBarPanel.addJComponent(jp, USER0_IDX);
         statusBarPanel.addJComponent(new JLabel(), USER_IDX);
-        jp = new JPanel(); jp.add(new JLabel("Client: "));
+        jp = new JPanel(); jp.add(new JLabel("ClientView: "));
         statusBarPanel.addJComponent(jp, CLIENT0_IDX);
         statusBarPanel.addJComponent(new JLabel(), CLIENT_IDX);
         getContentPane().add(statusBarPanel, java.awt.BorderLayout.SOUTH);

@@ -646,7 +646,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
         jPanelClient.setLayout(new java.awt.GridLayout(1, 2));
 
         jPanelClient.setBorder(new javax.swing.border.TitledBorder(
-                "Client Details"));
+                "ClientView Details"));
         jPanelClient.setPreferredSize(new java.awt.Dimension(700, 200));
         jPanelClient.setMinimumSize(new java.awt.Dimension(510, 200));
         jPanelClientDetails.setLayout(new java.awt.GridBagLayout());
@@ -1050,7 +1050,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
         jPanelNewClientDetails.setLayout(new java.awt.GridBagLayout());
 
         jPanelNewClientDetails.setBorder(new javax.swing.border.TitledBorder(
-                "Client Test"));
+                "ClientView Test"));
         jLabelSavings.setText("Savings");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1199,7 +1199,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanelNewClientDetails.add(jLabelIncome, gridBagConstraints);
 
-        jLabelSalaryWages.setText("Client Salary/Wages");
+        jLabelSalaryWages.setText("ClientView Salary/Wages");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 17;
@@ -1499,7 +1499,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
                 gridBagConstraints);
 
         jLabelTotalAssetsSubjectToDeeming
-                .setText("Client Assets Subject to Deeming");
+                .setText("ClientView Assets Subject to Deeming");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 9;
@@ -2150,7 +2150,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
         jPanelClientResults.setLayout(new java.awt.GridBagLayout());
 
         jPanelClientResults.setBorder(new javax.swing.border.TitledBorder(
-                "Client Results"));
+                "ClientView Results"));
         jLabel31.setText("Maximum Benefit");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;

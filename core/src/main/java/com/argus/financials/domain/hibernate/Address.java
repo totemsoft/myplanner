@@ -10,26 +10,28 @@ import javax.persistence.Table;
 import com.argus.financials.domain.hibernate.refdata.AddressCode;
 import com.argus.financials.domain.hibernate.refdata.Country;
 import com.argus.financials.domain.hibernate.refdata.State;
+import com.argus.financials.domain.refdata.IAddressCode;
+import com.argus.financials.domain.refdata.ICountry;
+import com.argus.financials.domain.refdata.IState;
 
 @Entity
 @Table(name = "Address")
-public class Address extends AbstractAuditable<Integer> //implements IAddress
+public class Address extends AbstractAuditable<Integer> implements IAddress
 {
     /** serialVersionUID */
     private static final long serialVersionUID = -6435531874121406067L;
-//    [AddressCodeID] [int] NULL,
 
     @Id
     @Column(name = "AddressID", nullable = false)
     private Integer id;
 
-    @ManyToOne//(fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Address.class)//(fetch = FetchType.LAZY)
     @JoinColumn(name = "ParentAddressID")
-    private Address parent;
+    private IAddress parent;
 
-    @ManyToOne//(fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = AddressCode.class)//(fetch = FetchType.LAZY)
     @JoinColumn(name = "AddressCodeID")
-    private AddressCode addressCode;
+    private IAddressCode addressCode;
 
     @Column(name = "StreetNumber")
     private String streetNumber;
@@ -43,16 +45,16 @@ public class Address extends AbstractAuditable<Integer> //implements IAddress
     @Column(name = "Postcode")
     private Integer postcode;
 
-    @ManyToOne//(fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = State.class)//(fetch = FetchType.LAZY)
     @JoinColumn(name = "StateCodeID")
-    private State state;
+    private IState state;
 
     @Column(name = "State")
     private String stateCode;
 
-    @ManyToOne//(fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Country.class)//(fetch = FetchType.LAZY)
     @JoinColumn(name = "CountryCodeID")
-    private Country country;
+    private ICountry country;
 
     /* (non-Javadoc)
      * @see com.argus.financials.domain.IBase#getId()
@@ -73,7 +75,7 @@ public class Address extends AbstractAuditable<Integer> //implements IAddress
     /**
      * @return parent
      */
-    public Address getParentId()
+    public IAddress getParentId()
     {
         return parent;
     }
@@ -81,7 +83,7 @@ public class Address extends AbstractAuditable<Integer> //implements IAddress
     /**
      * @param parent the parent to set
      */
-    public void setParent(Address parent)
+    public void setParent(IAddress parent)
     {
         this.parent = parent;
     }
@@ -89,7 +91,7 @@ public class Address extends AbstractAuditable<Integer> //implements IAddress
     /**
      * @return the addressCode
      */
-    public AddressCode getAddressCode()
+    public IAddressCode getAddressCode()
     {
         return addressCode;
     }
@@ -97,7 +99,7 @@ public class Address extends AbstractAuditable<Integer> //implements IAddress
     /**
      * @param addressCode the addressCode to set
      */
-    public void setAddressCode(AddressCode addressCode)
+    public void setAddressCode(IAddressCode addressCode)
     {
         this.addressCode = addressCode;
     }
@@ -169,7 +171,7 @@ public class Address extends AbstractAuditable<Integer> //implements IAddress
     /**
      * @return the state
      */
-    public State getState()
+    public IState getState()
     {
         return state;
     }
@@ -177,7 +179,7 @@ public class Address extends AbstractAuditable<Integer> //implements IAddress
     /**
      * @param state the state to set
      */
-    public void setState(State state)
+    public void setState(IState state)
     {
         this.state = state;
     }
@@ -201,7 +203,7 @@ public class Address extends AbstractAuditable<Integer> //implements IAddress
     /**
      * @return the country
      */
-    public Country getCountry()
+    public ICountry getCountry()
     {
         return country;
     }
@@ -209,7 +211,7 @@ public class Address extends AbstractAuditable<Integer> //implements IAddress
     /**
      * @param country the country to set
      */
-    public void setCountry(Country country)
+    public void setCountry(ICountry country)
     {
         this.country = country;
     }

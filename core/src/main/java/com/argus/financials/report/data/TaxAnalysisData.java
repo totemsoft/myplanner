@@ -73,7 +73,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
     static {
         columnNames = new java.util.Vector();
         columnNames.add(NAME, "");
-        columnNames.add(CLIENT, "Client");
+        columnNames.add(CLIENT, "ClientView");
         columnNames.add(PARTNER, "Partner");
         columnNames.add(TOTAL, "Total");
 

@@ -463,7 +463,7 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
         jPanelClientDetails.setLayout(new java.awt.GridBagLayout());
 
         jPanelClientDetails.setBorder(new javax.swing.border.TitledBorder(null,
-                "Client Details",
+                "ClientView Details",
                 javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION,
                 javax.swing.border.TitledBorder.DEFAULT_POSITION,
                 new java.awt.Font("Arial", 0, 11)));
@@ -502,16 +502,16 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
 
         jPanelClient.setBorder(new javax.swing.border.EmptyBorder(
                 new java.awt.Insets(1, 10, 1, 10)));
-        jPanelClient.setToolTipText("Client's");
+        jPanelClient.setToolTipText("ClientView's");
         jLabelClientDOB.setText("DOB");
-        jLabelClientDOB.setToolTipText("Client's DOB");
+        jLabelClientDOB.setToolTipText("ClientView's DOB");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         jPanelClient.add(jLabelClientDOB, gridBagConstraints);
 
-        jTextFieldClientDOB.setToolTipText("Client's DOB");
+        jTextFieldClientDOB.setToolTipText("ClientView's DOB");
         jTextFieldClientDOB.setInputVerifier(DateInputVerifier.getInstance());
         jTextFieldClientDOB.setPreferredSize(new java.awt.Dimension(70, 21));
         jTextFieldClientDOB.setMinimumSize(new java.awt.Dimension(70, 21));

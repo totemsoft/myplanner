@@ -101,9 +101,9 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
         jPanelCards.setLayout(wch);
 
-        wch.addItem(new KeyValue("Client Info", "card1"));
+        wch.addItem(new KeyValue("ClientView Info", "card1"));
         wch.addItem(new KeyValue("Benefit Options", "card2"));
-        wch.addItem(new KeyValue("Client's Asset & Income", "card3"));
+        wch.addItem(new KeyValue("ClientView's Asset & Income", "card3"));
         wch.addItem(new KeyValue("Test Result", "card4"));
 
         wch.addLayoutComponent(jPanel3, "card1");
@@ -933,7 +933,7 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
         jPanelClient.setPreferredSize(new java.awt.Dimension(200, 100));
         jPanelClient.setMinimumSize(new java.awt.Dimension(130, 100));
         jPanelClient.setMaximumSize(new java.awt.Dimension(200, 32767));
-        jLabel1.setText("Client");
+        jLabel1.setText("ClientView");
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanelClient.add(jLabel1);
 
@@ -1059,7 +1059,7 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
         jPanel10.setBorder(new javax.swing.border.TitledBorder(
                 new javax.swing.border.EmptyBorder(new java.awt.Insets(10, 10,
-                        10, 10)), "Client "));
+                        10, 10)), "ClientView "));
         fCheckBox2.setText("Age Pension");
         buttonGroup1.add(fCheckBox2);
         jPanel10.add(fCheckBox2);
@@ -1207,7 +1207,7 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
         jPanelClient1.setBorder(new javax.swing.border.EmptyBorder(
                 new java.awt.Insets(0, 0, 0, 0)));
-        jLabel110.setText("Client");
+        jLabel110.setText("ClientView");
         jLabel110.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanelClient1.add(jLabel110);
 
@@ -1502,7 +1502,7 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
         jPanelClientAsset.setLayout(new java.awt.GridLayout(19, 0));
 
         jPanelClientAsset.setPreferredSize(new java.awt.Dimension(70, 300));
-        jLabel121.setText("Client Actual");
+        jLabel121.setText("ClientView Actual");
         jLabel121.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanelClientAsset.add(jLabel121);
 
@@ -1642,7 +1642,7 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
         jPanelClientAssetTest.setLayout(new java.awt.GridLayout(19, 0));
 
         jPanelClientAssetTest.setPreferredSize(new java.awt.Dimension(70, 340));
-        jLabel132.setText("Client Test");
+        jLabel132.setText("ClientView Test");
         jLabel132.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel132.setMinimumSize(new java.awt.Dimension(132, 17));
         jPanelClientAssetTest.add(jLabel132);
@@ -2330,7 +2330,7 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
         jPanelClientIncome.setPreferredSize(new java.awt.Dimension(100, 300));
         jPanelClientIncome.setMinimumSize(new java.awt.Dimension(73, 300));
-        jLabel461.setText("Client");
+        jLabel461.setText("ClientView");
         jLabel461.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         jPanelClientIncome.add(jLabel461);
 

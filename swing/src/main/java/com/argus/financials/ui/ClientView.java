@@ -42,7 +42,7 @@ public final class ClientView extends PersonView2 {
     }
 
     public String getViewCaption() {
-        return "Client Details";
+        return "ClientView Details";
     }
 
     /**

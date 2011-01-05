@@ -210,7 +210,7 @@ public class FinancialPlannerApplet extends javax.swing.JApplet implements
                 javax.swing.border.BevelBorder.LOWERED));
         jPanelInfo.add(jLabelUser);
 
-        jLabel5.setText("Client");
+        jLabel5.setText("ClientView");
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jPanelInfo.add(jLabel5);
 

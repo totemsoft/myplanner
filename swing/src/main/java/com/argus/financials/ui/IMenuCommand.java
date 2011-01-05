@@ -54,7 +54,7 @@ public interface IMenuCommand {
 
     public static final Pair PLAN_TRACKER = new Pair("PLAN_TRACKER", "Plan Tracker");
 
-    public static final Pair CLIENT_DETAILS = new Pair("CLIENT_DETAILS", "Client Details");
+    public static final Pair CLIENT_DETAILS = new Pair("CLIENT_DETAILS", "ClientView Details");
 
     public static final Pair PARTNER_DETAILS = new Pair("PARTNER_DETAILS", "Partner Details");
 
@@ -82,11 +82,11 @@ public interface IMenuCommand {
 
     public static final Pair PLAN_TEMPLATE_WIZARD = new Pair("PLAN_TEMPLATE_WIZARD", "Plan Template Wizard");
 
-    public static final Pair SEARCH_CLIENT = new Pair("SEARCH_CLIENT", "Client Search");
+    public static final Pair SEARCH_CLIENT = new Pair("SEARCH_CLIENT", "ClientView Search");
 
-    public static final Pair ADD_CLIENT = new Pair("ADD_CLIENT", "Add New Client");
+    public static final Pair ADD_CLIENT = new Pair("ADD_CLIENT", "Add New ClientView");
 
-    public static final Pair CRM = new Pair("CRM", "Client Relationship Mgmt (CRM)");
+    public static final Pair CRM = new Pair("CRM", "ClientView Relationship Mgmt (CRM)");
 
     public static final Pair NEW = new Pair("NEW", "[New]");
 

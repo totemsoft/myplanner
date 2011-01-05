@@ -995,7 +995,7 @@ public class DSSCalcNew extends AbstractComponentModel implements
 
         values.add("Benefit Payable - Assets Test");
         values.add("");
-        values.add("Client");
+        values.add("ClientView");
         if (dssc.getPartnerInfo() == null)
             values.add("");
         else
@@ -1034,7 +1034,7 @@ public class DSSCalcNew extends AbstractComponentModel implements
             values.add("");
             values.add("Combined Test");
         } else {
-            values.add("Client Test");
+            values.add("ClientView Test");
             if (dssc.getPartnerInfo() == null)
                 values.add("");
             else
@@ -1317,7 +1317,7 @@ public class DSSCalcNew extends AbstractComponentModel implements
 
         values.add("");
         values.add("");
-        values.add("Client");
+        values.add("ClientView");
         if (dssc.getPartnerInfo() == null)
             values.add("");
         else

@@ -237,7 +237,7 @@ public class CashflowTableModel extends FinancialTableModel {
         data.add(taxGroupHeader);
         ClientService client = ServiceLocator.getInstance().getClientPerson();
         try {
-            taxClient = new TaxRow(new ReferenceCode(CLIENT, "Client's tax"),
+            taxClient = new TaxRow(new ReferenceCode(CLIENT, "ClientView's tax"),
                     client, taxRegulars);
             data.add(taxClient);
 

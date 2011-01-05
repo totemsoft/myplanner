@@ -161,7 +161,7 @@ public class AssumptionView extends javax.swing.JPanel implements
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         add(jTextFieldYears2Project, gridBagConstraints);
 
-        jLabelClient.setText("Client");
+        jLabelClient.setText("ClientView");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;

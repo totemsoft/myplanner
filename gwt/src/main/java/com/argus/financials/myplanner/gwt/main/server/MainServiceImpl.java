@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.argus.financials.domain.hibernate.view.Client;
+import com.argus.financials.domain.hibernate.view.ClientView;
 import com.argus.financials.myplanner.gwt.AbstractGwtController;
 import com.argus.financials.myplanner.gwt.commons.client.BasePair;
 import com.argus.financials.myplanner.gwt.commons.client.StringPair;
@@ -36,11 +36,11 @@ public class MainServiceImpl extends AbstractGwtController implements MainServic
                 criteriaMap.put(p.getFirst(), p.getSecond());
             }
         }
-        List<Client> clients = getUserService().findClients(criteriaMap, range == null ? null :
+        List<ClientView> clients = getUserService().findClients(criteriaMap, range == null ? null :
             new com.argus.util.Range(range.getStart(), range.getLength()));
         // convert to dto
         List<BasePair> result = new ArrayList<BasePair>();
-        for (Client c : clients) {
+        for (ClientView c : clients) {
             result.add(new BasePair(c.getId(), c.getShortName()));
         }
         return (BasePair[]) result.toArray(new BasePair[0]);
@@ -51,8 +51,8 @@ public class MainServiceImpl extends AbstractGwtController implements MainServic
      */
     public void logout()
     {
-        // TODO Auto-generated method stub
-        
+        // cleanup
+        getUserPreferences().clear();
     }
 
 }

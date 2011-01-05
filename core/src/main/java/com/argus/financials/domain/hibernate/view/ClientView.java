@@ -14,7 +14,7 @@ import com.argus.financials.domain.hibernate.Person;
 @Entity
 @Table(name = "vUserPersonClients")
 @PrimaryKeyJoinColumn(name = "PersonId")
-public class Client extends Person
+public class ClientView extends Person
 {
 
     /** serialVersionUID */

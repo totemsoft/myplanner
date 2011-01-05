@@ -270,7 +270,7 @@ public abstract class PersonView extends BaseView {
         jPanelClientHistory.setLayout(new java.awt.GridBagLayout());
 
         jPanelClientHistory.setBorder(new javax.swing.border.CompoundBorder(
-                new javax.swing.border.TitledBorder("Client History"),
+                new javax.swing.border.TitledBorder("ClientView History"),
                 new javax.swing.border.EmptyBorder(new java.awt.Insets(1, 10,
                         1, 10))));
         jLabelDateOfBirth.setText("DOB ");
@@ -591,7 +591,7 @@ public abstract class PersonView extends BaseView {
 
         jPanelAdvisor.setBorder(new javax.swing.border.TitledBorder(
                 "Adviser/Services"));
-        jLabelClientActive.setText("Client Active");
+        jLabelClientActive.setText("ClientView Active");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -824,7 +824,7 @@ public abstract class PersonView extends BaseView {
 
         jPanelClientDetails.add(jPanel3);
 
-        jTabbedPane.addTab("Client Details", null, jPanelClientDetails, "");
+        jTabbedPane.addTab("ClientView Details", null, jPanelClientDetails, "");
 
         jPanelContactDetails.setLayout(new javax.swing.BoxLayout(
                 jPanelContactDetails, javax.swing.BoxLayout.X_AXIS));

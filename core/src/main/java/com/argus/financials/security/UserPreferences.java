@@ -2,8 +2,8 @@ package com.argus.financials.security;
 
 import java.io.Serializable;
 
+import com.argus.financials.domain.hibernate.Client;
 import com.argus.financials.domain.hibernate.User;
-import com.argus.financials.domain.hibernate.view.Client;
 
 /**
  * 
@@ -18,6 +18,15 @@ public class UserPreferences implements Serializable {
     private User user;
 
     private Client client;
+
+    /**
+     * 
+     */
+    public void clear()
+    {
+        this.client = null;
+        this.user = null;
+    }
 
     /**
      * @return the user

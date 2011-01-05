@@ -35,7 +35,7 @@ public class FinancialTreeFilter {
 
     private Object group; // e.g. OwnerCode
 
-    private Vector groupItems; // e.g. Client, Partner
+    private Vector groupItems; // e.g. ClientView, Partner
 
     /** Creates a new instance of FinancialTreeFilter */
     public FinancialTreeFilter() {

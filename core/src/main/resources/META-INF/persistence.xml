@@ -9,12 +9,15 @@
     <jta-data-source>java:jdbc/DataSource_myplanner</jta-data-source>
     <non-jta-data-source>java:jdbc/DataSource_myplanner</non-jta-data-source>
     <class>com.argus.financials.domain.hibernate.Address</class>
+    <class>com.argus.financials.domain.hibernate.Client</class>
+    <class>com.argus.financials.domain.hibernate.Contact</class>
     <class>com.argus.financials.domain.hibernate.Person</class>
     <class>com.argus.financials.domain.hibernate.User</class>
     <class>com.argus.financials.domain.hibernate.refdata.AddressCode</class>
+    <class>com.argus.financials.domain.hibernate.refdata.ContactCode</class>
     <class>com.argus.financials.domain.hibernate.refdata.Country</class>
     <class>com.argus.financials.domain.hibernate.refdata.State</class>
-    <class>com.argus.financials.domain.hibernate.view.Client</class>
+    <class>com.argus.financials.domain.hibernate.view.ClientView</class>
     <properties>
       <!--property name="hibernate.ejb.interceptor" value="...AuditableInterceptor"/-->
       <property name="hibernate.cache.provider_class" value="net.sf.ehcache.hibernate.SingletonEhCacheProvider" />

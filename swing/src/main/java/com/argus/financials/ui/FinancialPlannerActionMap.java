@@ -577,7 +577,7 @@ class FinancialPlannerActionMap
                 .showConfirmDialog(
                         null,
                         "You are about to create a new client in your database, do you want to proceed ?",
-                        "Add Client", JOptionPane.OK_CANCEL_OPTION,
+                        "Add ClientView", JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.QUESTION_MESSAGE) != JOptionPane.OK_OPTION)
             return;
 

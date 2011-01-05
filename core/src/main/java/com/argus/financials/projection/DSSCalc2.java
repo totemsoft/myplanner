@@ -3681,7 +3681,7 @@ public class DSSCalc2 extends DSSCalc {
      * 
      * <PRE>
      * 
-     * A = Client.Total Assets Subject to Deeming B = Partner.Total Assets
+     * A = ClientView.Total Assets Subject to Deeming B = Partner.Total Assets
      * Subject to Deeming
      * 
      * A + P = Z
@@ -3743,10 +3743,10 @@ public class DSSCalc2 extends DSSCalc {
     }
 
     /**
-     * D = Client.Assessable Income on Property
+     * D = ClientView.Assessable Income on Property
      * 
-     * C = Client.Property Income (Administrator will enter this amount) D =
-     * Client.Assessable Income on Property = C*(2/3)
+     * C = ClientView.Property Income (Administrator will enter this amount) D =
+     * ClientView.Assessable Income on Property = C*(2/3)
      * 
      * @return client assessable income on property
      */
@@ -3928,7 +3928,7 @@ public class DSSCalc2 extends DSSCalc {
      * 
      * <PRE>
      * 
-     * A = Client.Total Assets Subject to Deeming B = Partner.Total Assets
+     * A = ClientView.Total Assets Subject to Deeming B = Partner.Total Assets
      * Subject to Deeming
      * 
      * A + P = Z
@@ -3990,7 +3990,7 @@ public class DSSCalc2 extends DSSCalc {
     }
 
     /**
-     * Total Client Assets
+     * Total ClientView Assets
      * 
      * @return sum all of partner's assets
      */
@@ -4380,12 +4380,12 @@ public class DSSCalc2 extends DSSCalc {
     }
 
     /**
-     * Total Client Income <BR>
+     * Total ClientView Income <BR>
      * </BR>
      * 
      * <PRE>
      * 
-     * F = Total Client Income B = Total Deemed Income D = Client.Assessable
+     * F = Total ClientView Income B = Total Deemed Income D = ClientView.Assessable
      * Income on Property
      * 
      * F = B + D + Superannuation + Allocated Pension + Complying Pension +
@@ -4479,7 +4479,7 @@ public class DSSCalc2 extends DSSCalc {
      * 
      * <PRE>
      * 
-     * X = Total Joint Income Amount E = Total Client Income S = Total Partner
+     * X = Total Joint Income Amount E = Total ClientView Income S = Total Partner
      * Income
      * 
      * X = E + S
@@ -4537,7 +4537,7 @@ public class DSSCalc2 extends DSSCalc {
      * 
      * <PRE>
      * 
-     * X = Total Joint Income Amount E = Total Client Income S = Total Partner
+     * X = Total Joint Income Amount E = Total ClientView Income S = Total Partner
      * Income
      * 
      * X = E + S

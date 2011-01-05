@@ -251,8 +251,8 @@ public class ETPRolloverView extends javax.swing.JPanel implements
         java.awt.GridBagConstraints gridBagConstraints1;
 
         jPanel7
-                .setBorder(new javax.swing.border.TitledBorder("Client Details"));
-        jLabelDOB.setText("Client DOB");
+                .setBorder(new javax.swing.border.TitledBorder("ClientView Details"));
+        jLabelDOB.setText("ClientView DOB");
         gridBagConstraints1 = new java.awt.GridBagConstraints();
         gridBagConstraints1.gridx = 0;
         gridBagConstraints1.gridy = 1;
@@ -269,7 +269,7 @@ public class ETPRolloverView extends javax.swing.JPanel implements
         gridBagConstraints1.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel7.add(jTextFieldDOB, gridBagConstraints1);
 
-        jLabelAge.setText("Client Age");
+        jLabelAge.setText("ClientView Age");
         gridBagConstraints1 = new java.awt.GridBagConstraints();
         gridBagConstraints1.gridx = 0;
         gridBagConstraints1.gridy = 2;
@@ -402,7 +402,7 @@ public class ETPRolloverView extends javax.swing.JPanel implements
         gridBagConstraints1.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel7.add(jTextFieldTotalETPAmount, gridBagConstraints1);
 
-        jLabel10.setText("Client Tax Rate");
+        jLabel10.setText("ClientView Tax Rate");
         gridBagConstraints1 = new java.awt.GridBagConstraints();
         gridBagConstraints1.gridx = 0;
         gridBagConstraints1.gridy = 9;

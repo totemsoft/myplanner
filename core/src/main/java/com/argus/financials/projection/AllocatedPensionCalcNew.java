@@ -1675,7 +1675,7 @@ public final class AllocatedPensionCalcNew extends ETPCalcNew implements
              * reportFields.setValue( IReportFields.Adviser_FullName, "");
              */
         } else if (getIsClient() != null && getIsClient().booleanValue()) {
-            reportFields.setValue(IReportFields.AP_IsClient, "Client");
+            reportFields.setValue(IReportFields.AP_IsClient, "ClientView");
 
         } else {
             reportFields.setValue(IReportFields.AP_IsClient, "Partner");

@@ -20,12 +20,11 @@ public class ClientDetails extends Composite
     public ClientDetails()
     {
         TabLayoutPanel tabLayoutPanel = new TabLayoutPanel(1.5, Unit.EM);
-        tabLayoutPanel.setHeight("40.5em");
         initWidget(tabLayoutPanel);
+        tabLayoutPanel.setHeight("42em");
         
         HorizontalPanel details = new HorizontalPanel();
         tabLayoutPanel.add(details, "Client Details", false);
-        details.setSize("100%", "100%");
         
         VerticalPanel leftPanel = new VerticalPanel();
         details.add(leftPanel);
@@ -53,12 +52,10 @@ public class ClientDetails extends Composite
         
         Grid grid_5 = new Grid(3, 2);
         rightPanel.add(grid_5);
-        
+
         HorizontalPanel contacts = new HorizontalPanel();
         tabLayoutPanel.add(contacts, "Contact Details", false);
-        contacts.setSize("100%", "100%");
-
-
+        
         Window.setTitle(Main.TITLE + TITLE);
     }
 

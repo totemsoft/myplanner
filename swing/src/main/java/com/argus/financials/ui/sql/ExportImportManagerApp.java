@@ -26,7 +26,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 
 import com.argus.financials.config.PropertySourceManager;
 import com.argus.financials.config.ViewSettings;
-import com.argus.financials.domain.hibernate.view.Client;
+import com.argus.financials.domain.hibernate.view.ClientView;
 import com.argus.financials.exchange.ExportData;
 import com.argus.financials.service.ServiceException;
 import com.argus.financials.service.ServiceLocator;
@@ -185,7 +185,7 @@ public class ExportImportManagerApp extends javax.swing.JPanel {
 
         jPanelControls.add(jToolBarFile);
 
-        jButtonExport.setToolTipText("Export Client");
+        jButtonExport.setToolTipText("Export ClientView");
         jButtonExport.setText("Export");
         jButtonExport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -485,7 +485,7 @@ public class ExportImportManagerApp extends javax.swing.JPanel {
         // com.argus.server.RmiParams.getInstance().getUserPersonID();
         Integer clientPersonID =
         // new Integer(32811); // Jim Ediot
-        new Integer(68767); // Export Client
+        new Integer(68767); // Export ClientView
         // com.argus.server.RmiParams.getInstance().getClientPersonID();
 
         exportData = new ExportData(userPersonID, clientPersonID);
@@ -641,11 +641,11 @@ public class ExportImportManagerApp extends javax.swing.JPanel {
         private void init() throws ServiceException {
             Map<String, Object> criteria = new HashMap<String, Object>();
             UserService userService = ServiceLocator.getInstance().getUserService();
-            List<Client> clients = userService.findClients(criteria, null);
+            List<ClientView> clients = userService.findClients(criteria, null);
             int size = clients == null ? 0 : clients.size();
             Map users = new TreeMap();
             for (int i = 0; i < size; i++) {
-                Client c = clients.get(i);
+                ClientView c = clients.get(i);
                 DefaultMutableTreeNode u = (DefaultMutableTreeNode) users.get(c.getOwnerShortName());
                 if (u == null) {
                     u = new CheckBoxTreeNode(c.getOwnerShortName());

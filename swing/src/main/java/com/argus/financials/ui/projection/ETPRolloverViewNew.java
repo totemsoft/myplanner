@@ -684,7 +684,7 @@ public class ETPRolloverViewNew extends javax.swing.JPanel implements
 
         jPanel19.setLayout(new java.awt.GridBagLayout());
 
-        jRadioButtonIsClient.setText("For Client");
+        jRadioButtonIsClient.setText("For ClientView");
         buttonGroup2.add(jRadioButtonIsClient);
         jRadioButtonIsClient.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {

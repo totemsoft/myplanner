@@ -1921,7 +1921,7 @@ public class ETPCalcNew extends MoneyCalc implements
         if (person == null) {
             reportFields.setValue(reportFields.ETP_IsClient, "None");
         } else if (this.getIsClient().equals(Boolean.TRUE)) {
-            reportFields.setValue(reportFields.ETP_IsClient, "Client");
+            reportFields.setValue(reportFields.ETP_IsClient, "ClientView");
         } else {
             reportFields.setValue(reportFields.ETP_IsClient, "Partner");
         }

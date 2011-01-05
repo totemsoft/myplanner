@@ -571,7 +571,7 @@ public class CurrentAssetAllocationView extends AssetAllocationView implements
      */
     private void createTotalViews() {
         this._taav_recommended = new TotalAssetAllocationView(
-                "Result of Client ISO Profile (%)");
+                "Result of ClientView ISO Profile (%)");
         // this._taav_recommended = new TotalAssetAllocationView( "Recommended
         // Asset Allocation" );
         this._taav_current = new TotalAssetAllocationView(

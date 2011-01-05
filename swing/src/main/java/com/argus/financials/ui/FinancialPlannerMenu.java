@@ -103,7 +103,7 @@ class FinancialPlannerMenu extends JMenuBar
             jMenuFile.add(getActionMap().get(IMenuCommand.IMPORT));
         jMenuFile.add(getActionMap().get(IMenuCommand.EXIT));
 
-        jMenuClientDetails = createTaskGroup(this, "Client Focus");
+        jMenuClientDetails = createTaskGroup(this, "ClientView Focus");
         jMenuClientDetails.add(getActionMap().get(IMenuCommand.SEARCH_CLIENT));
         if (fpp.checkPermissions(IMenuCommand.ADD_CLIENT))
             jMenuClientDetails.add(getActionMap().get(IMenuCommand.ADD_CLIENT));

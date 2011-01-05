@@ -28,13 +28,13 @@ public class CurrentPositionComment {
             new MessageFormat("This capital will last till age {0}."),
             // compalsory message
             new MessageFormat("Life expectancy is age {0}."),
-            // Client Actual Income = Reqired Income
+            // ClientView Actual Income = Reqired Income
             new MessageFormat(
                     "The clients are able to meet their retirement objective based on the information entered."),
-            // Client Actual Income > Reqired Income
+            // ClientView Actual Income > Reqired Income
             new MessageFormat(
                     "The clients are able to meet their retirement objective and have excess assets of {0} (Residual Assets) based on the information entered."),
-            // Client Actual Income < Reqired Income
+            // ClientView Actual Income < Reqired Income
             new MessageFormat(
                     "The clients are not able to meet their retirement objective based on the information entered. Clients need more savings/capital"
                             +

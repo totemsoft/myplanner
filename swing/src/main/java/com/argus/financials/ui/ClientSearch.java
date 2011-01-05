@@ -32,7 +32,7 @@ import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.StateCode;
 import com.argus.financials.config.FPSLocale;
 import com.argus.financials.domain.hibernate.User;
-import com.argus.financials.domain.hibernate.view.Client;
+import com.argus.financials.domain.hibernate.view.ClientView;
 import com.argus.financials.etc.Address;
 import com.argus.financials.etc.Contact;
 import com.argus.financials.etc.PersonName;
@@ -87,7 +87,7 @@ public final class ClientSearch extends javax.swing.JPanel {
                 {
                     if (!e.getValueIsAdjusting())
                     {
-                        Client c = getSelectedPerson();
+                        ClientView c = getSelectedPerson();
                         jTextPaneClientDetails.setText(c == null ? "" : c.getDetails());
                     }
                     else
@@ -111,7 +111,7 @@ public final class ClientSearch extends javax.swing.JPanel {
     }
 
     public String getViewCaption() {
-        return "Client Search";
+        return "ClientView Search";
     }
 
     /**
@@ -462,7 +462,7 @@ public final class ClientSearch extends javax.swing.JPanel {
                 "You are about to remove the client " + getClientName()
                         + ", do you want to proceed ?"
                         + "\nNote: You can remove ONLY Your Own Clients!",
-                "Remove Client", JOptionPane.YES_NO_OPTION,
+                "Remove ClientView", JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE) != JOptionPane.YES_OPTION)
             return;
 
@@ -633,7 +633,7 @@ public final class ClientSearch extends javax.swing.JPanel {
 
     private static final int COLUMN_COUNT = 2;
 
-    private Object[] columnNames = new String[] { "Client", "Adviser" };
+    private Object[] columnNames = new String[] { "ClientView", "Adviser" };
 
     private DefaultTableModel getModel() {
 
@@ -778,13 +778,13 @@ public final class ClientSearch extends javax.swing.JPanel {
     private Object[][] getRowData() {
         try {
             UserService userService = ServiceLocator.getInstance().getUserService();
-            List<Client> data = userService.findClients(getSelectionCriteria(), null);
+            List<ClientView> data = userService.findClients(getSelectionCriteria(), null);
             if (data == null)
                 return new Object[0][COLUMN_COUNT];
             Object[][] rowData = new Object[data.size()][COLUMN_COUNT];
             // "Name", "Adviser"
             for (int i = 0; i < data.size(); i++) {
-                Client c = data.get(i);
+                ClientView c = data.get(i);
                 rowData[i][COLUMN_CLIENT] = c;
                 rowData[i][COLUMN_ADVISER] = c.getOwnerShortName();
             }
@@ -795,21 +795,21 @@ public final class ClientSearch extends javax.swing.JPanel {
         }
     }
 
-    private Client getSelectedPerson() {
+    private ClientView getSelectedPerson() {
         // no selection
         if (jTable.getSelectedRow() < 0)
             return null;
-        return (Client) jTable.getModel().getValueAt(jTable.getSelectedRow(),
+        return (ClientView) jTable.getModel().getValueAt(jTable.getSelectedRow(),
                 COLUMN_CLIENT);
     }
 
     public Integer getSelectedPersonID() {
-        Client c = getSelectedPerson();
+        ClientView c = getSelectedPerson();
         return c == null ? null : c.getId();
     }
 
     public String getClientName() {
-        Client c = getSelectedPerson();
+        ClientView c = getSelectedPerson();
         return c == null ? null : c.getShortName();
     }
 

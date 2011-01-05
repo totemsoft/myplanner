@@ -3,7 +3,8 @@ package com.argus.financials.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.argus.financials.domain.hibernate.view.Client;
+import com.argus.financials.domain.hibernate.Client;
+import com.argus.financials.domain.hibernate.view.ClientView;
 import com.argus.util.Range;
 
 /**
@@ -25,6 +26,6 @@ public interface ClientDao extends BaseDAO
      * @param range
      * @return
      */
-    List<Client> findClients(Map<String, Object> criteria, Range range);
+    List<ClientView> findClients(Map<String, Object> criteria, Range range);
 
 }

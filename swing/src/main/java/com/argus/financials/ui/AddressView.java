@@ -467,7 +467,7 @@ public class AddressView extends javax.swing.JPanel implements
     }
 
     private void setPostalAddress(boolean value) {
-        jCheckBoxSameAs.setText(value ? "Same As Above" : "Same As Client");
+        jCheckBoxSameAs.setText(value ? "Same As Above" : "Same As ClientView");
     }
 
     public void setSameAsVisible(boolean value) {

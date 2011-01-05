@@ -78,7 +78,7 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         menuBar.addItem(mntmFileMenu);
         MenuBar menuBar_2 = new MenuBar(true);
         
-        MenuItem mntmClient = new MenuItem("Client", false, menuBar_2);
+        MenuItem mntmClient = new MenuItem("ClientView", false, menuBar_2);
         
         MenuItem mntmSearch = new MenuItem("Search", false, new Command() {
             public void execute() {

@@ -80,7 +80,7 @@ public abstract class AddFinancialView extends javax.swing.JPanel implements
     }
 
     protected static final Object[] OWNERS = new Object[] { OwnerCode.NONE,
-            "Client", "Partner", "Joint"
+            "ClientView", "Partner", "Joint"
     // OwnerCode.CODE_NONE, OwnerCode.rcCLIENT, OwnerCode.rcPARTNER,
     // OwnerCode.rcJOINT
     };

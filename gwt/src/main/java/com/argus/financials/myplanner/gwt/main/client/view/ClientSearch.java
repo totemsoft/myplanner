@@ -42,7 +42,7 @@ import com.google.gwt.view.client.RangeChangeEvent.Handler;
 public class ClientSearch extends Composite
 {
 
-    public static final String TITLE = "Search Client";
+    public static final String TITLE = "Search ClientView";
 
     public static final String HISTORY_TOKEN = "clientSearch";
 
@@ -156,7 +156,7 @@ public class ClientSearch extends Composite
                 return "" + object.getFirst();
             }
         };
-        table.addColumn(columnId, "Client ID");
+        table.addColumn(columnId, "ClientView ID");
 
         Column<BasePair, String> columnDetails = new Column<BasePair, String>(new TextCell())
         {
@@ -166,7 +166,7 @@ public class ClientSearch extends Composite
                 return object.getSecond();
             }
         };
-        table.addColumn(columnDetails, "Client Details");
+        table.addColumn(columnDetails, "ClientView Details");
         table.setSelectionModel(new ClientSelectionModel());
         table.setRowCount(0, true);
 
@@ -177,7 +177,7 @@ public class ClientSearch extends Composite
         FlowPanel flowPanel = new FlowPanel();
         verticalPanel.add(flowPanel);
         
-        buttonOpen = new Button("Open Client");
+        buttonOpen = new Button("Open ClientView");
         buttonOpen.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 setClient();

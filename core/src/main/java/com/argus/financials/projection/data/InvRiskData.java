@@ -36,7 +36,7 @@ public class InvRiskData {
     }
 
     /*
-     * ============================ BEGIN: Client data
+     * ============================ BEGIN: ClientView data
      * ============================
      */
     public class Client implements java.io.Serializable {
@@ -44,12 +44,12 @@ public class InvRiskData {
         public Person person = new Person();
 
         public class Person implements java.io.Serializable {
-            public String fullName; // Client.Person.FullName
+            public String fullName; // ClientView.Person.FullName
         }
     }
 
     /*
-     * ============================ END: Client data
+     * ============================ END: ClientView data
      * ============================
      */
 

@@ -180,7 +180,7 @@ public abstract class BaseDocument {
 
     }
 
-    // remove all packages and class name, (e.g. Client.Person.Title)
+    // remove all packages and class name, (e.g. ClientView.Person.Title)
     // replace $ char with . (for inner classes)
     static java.lang.String getName(String className) {
         // return className.substring( className.indexOf('$') + 1,
@@ -326,7 +326,7 @@ public abstract class BaseDocument {
     }
 
     // remove all entry(s) where:
-    // key = *.Client.* ( because there has to be key = Client.* )
+    // key = *.Client.* ( because there has to be key = ClientView.* )
     // key = *.Partner.* ( because there has to be key = Partner.* )
     // key = *.Adviser.* ( because there has to be key = Adviser.* )
     public static java.util.Map filter(final java.util.Map data,

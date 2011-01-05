@@ -631,7 +631,7 @@ public class AllocatedPensionView extends ETPRolloverView {
         gridBagConstraints1.anchor = java.awt.GridBagConstraints.WEST;
         jPanel1.add(jLabel3, gridBagConstraints1);
 
-        jLabel9.setText("Client Sex");
+        jLabel9.setText("ClientView Sex");
         gridBagConstraints1 = new java.awt.GridBagConstraints();
         gridBagConstraints1.gridx = 0;
         gridBagConstraints1.gridy = 0;
@@ -1326,7 +1326,7 @@ public class AllocatedPensionView extends ETPRolloverView {
                                 + TaxUtils.TAX_EFFECTIVE_AGE
                                 + "\nwhere the pension is a disability pension"
                                 + "\nor payable because of the death of another pension.",
-                        "Client is under " + TaxUtils.TAX_EFFECTIVE_AGE,
+                        "ClientView is under " + TaxUtils.TAX_EFFECTIVE_AGE,
                         JOptionPane.WARNING_MESSAGE);
 
         jTextFieldEntryFeeRate.requestFocus();

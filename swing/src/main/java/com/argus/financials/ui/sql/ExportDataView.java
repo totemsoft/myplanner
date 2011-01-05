@@ -32,7 +32,7 @@ import com.argus.beans.FTextField;
 import com.argus.beans.MessageSent;
 import com.argus.beans.MessageSentEvent;
 import com.argus.beans.WizardContentHandler;
-import com.argus.financials.domain.hibernate.view.Client;
+import com.argus.financials.domain.hibernate.view.ClientView;
 import com.argus.financials.exchange.ExportData;
 import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.service.UserService;
@@ -500,14 +500,14 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
         try {
             Map<String, Object> criteria = new HashMap<String, Object>();
             UserService userService = ServiceLocator.getInstance().getUserService();
-            List<Client> clients = userService.findClients(criteria, null);
+            List<ClientView> clients = userService.findClients(criteria, null);
             int size = clients == null ? 0 : clients.size();
             Vector data = new Vector(size);
             for (int i = 0; i < size; i++) {
-                Client c = clients.get(i);
+                ClientView c = clients.get(i);
                 java.util.Vector row = new java.util.Vector();
                 row.add(Boolean.FALSE); // Selected
-                row.add(c); // Client
+                row.add(c); // ClientView
                 row.add(c.getOwnerShortName()); // Adviser
                 if (STRATEGY < COLUMNS)
                     row.add(Boolean.FALSE); // Strategy
@@ -535,7 +535,7 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
         private static Vector columns = new Vector();
         static {
             columns.add("Selected");
-            columns.add("Client");
+            columns.add("ClientView");
             columns.add("Adviser");
             if (STRATEGY < COLUMNS)
                 columns.add("Strategy");
@@ -653,7 +653,7 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
                         int i = 0;
                         Iterator iter = tableModelStep1.getSelected().iterator();
                         while (iter.hasNext()) {
-                            Client c = (Client) iter.next();
+                            ClientView c = (ClientView) iter.next();
                             String fileName = c.getSurname() + c.getFirstname() + ".xml";
                             String msg = "" + ++i + "). Exporting "
                                     + c.getShortName() + " into " + "'"
@@ -766,7 +766,7 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
                 summary.append("--------------------------------------------------------------\n");
                 Iterator iter = tableModelStep1.getSelected().iterator();
                 while (iter.hasNext()) {
-                    Client c = (Client) iter.next();
+                    ClientView c = (ClientView) iter.next();
                     summary.append(++count + "). ");
                     summary.append(c.getShortName());
                     summary.append("\t");

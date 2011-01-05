@@ -75,7 +75,7 @@ public class ImportDataView extends com.argus.beans.BasePanel implements
 
         steps = new Object[][] {
                 { STEP_1, "Select Source Directory", jPanelStep1 },
-                { STEP_2, "Select Client Data Files", jPanelStep2 },
+                { STEP_2, "Select ClientView Data Files", jPanelStep2 },
                 { STEP_3, "Summary of Selection", jPanelStep3 },
                 { STEP_4, "Summary of Import", jPanelStep4 }, };
 

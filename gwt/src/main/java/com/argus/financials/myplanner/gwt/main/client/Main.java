@@ -1,13 +1,21 @@
 package com.argus.financials.myplanner.gwt.main.client;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.argus.financials.myplanner.gwt.commons.client.AbstractAsyncCallback;
 import com.argus.financials.myplanner.gwt.commons.client.BasePair;
+import com.argus.financials.myplanner.gwt.commons.shared.ClientRequestFactory;
 import com.argus.financials.myplanner.gwt.main.client.view.ClientDetails;
 import com.argus.financials.myplanner.gwt.main.client.view.ClientSearch;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.SimpleEventBus;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
@@ -22,8 +30,14 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 
 public class Main implements EntryPoint, ValueChangeHandler<String> {
 
+    private static final Logger LOG = Logger.getLogger(Main.class.getName());
+
     public static final String TITLE = "MyPlanner :: ";
 
+    private final EventBus eventBus = new SimpleEventBus();
+
+    private final ClientRequestFactory requestFactory = GWT.create(ClientRequestFactory.class);
+    
     private ScrollPanel centerPanel;
 
     private HorizontalPanel footerPanel;
@@ -43,6 +57,16 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
      * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
      */
     public void onModuleLoad() {
+        GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler()
+        {
+            public void onUncaughtException(Throwable e)
+            {
+                LOG.log(Level.SEVERE, e.getMessage(), e);
+            }
+        });
+
+        requestFactory.initialize(eventBus);
+
         RootPanel rootPanel = RootPanel.get();
         rootPanel.setSize("100%", "100%");
         
@@ -152,6 +176,8 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         History.addValueChangeHandler(this);
 
         showView(ClientSearch.HISTORY_TOKEN); // default
+        
+        LOG.log(Level.INFO, "[Main] view succesfully loaded.");
     }
 
     private void showView(String historyToken) {
@@ -168,19 +194,18 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
     public void onValueChange(ValueChangeEvent<String> event) {
         String historyToken = event.getValue();
         if (historyToken.length() == 0) {
-            Window.alert("Empty History Token");
+            LOG.log(Level.WARNING, "Empty History Token");
             return;
         }
 
-        // for DEBUG only
-        //Window.alert("History Token changed: " + historyToken);
+        LOG.log(Level.INFO, "History Token changed: " + historyToken);
         // parse url fragment
         if (historyToken.equals(ClientSearch.HISTORY_TOKEN)) {
             centerPanel.setWidget(new ClientSearch(this));
         } else if (historyToken.equals(ClientDetails.HISTORY_TOKEN)) {
-            centerPanel.setWidget(new ClientDetails());
+            centerPanel.setWidget(new ClientDetails(eventBus, requestFactory));
         } else {
-            Window.alert("Unhandled History Token: " + historyToken);
+            LOG.log(Level.WARNING, "Unhandled History Token: " + historyToken);
         }
     }
 

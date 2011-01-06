@@ -1,8 +1,10 @@
 package com.argus.financials.myplanner.gwt.main.client.view;
 
 import com.argus.financials.myplanner.gwt.commons.client.ClientProxy;
+import com.argus.financials.myplanner.gwt.commons.shared.ClientRequestFactory;
 import com.argus.financials.myplanner.gwt.main.client.Main;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
@@ -18,6 +20,10 @@ public class ClientDetails extends Composite
 
     public static final String HISTORY_TOKEN = "clientDetails";
 
+    private final EventBus eventBus;
+
+    private final ClientRequestFactory requestFactory;
+
     private final PersonView personView;
 
     private final AddressView addressView;
@@ -26,8 +32,11 @@ public class ClientDetails extends Composite
 
     private final AddressView postalAddressView;
     
-    public ClientDetails()
+    public ClientDetails(EventBus eventBus, ClientRequestFactory requestFactory)
     {
+        this.eventBus = eventBus;
+        this.requestFactory = requestFactory;
+
         TabLayoutPanel tabLayoutPanel = new TabLayoutPanel(1.5, Unit.EM);
         initWidget(tabLayoutPanel);
         tabLayoutPanel.setHeight("42em");
@@ -70,7 +79,10 @@ public class ClientDetails extends Composite
 
     public void setClient(ClientProxy client)
     {
-
+        personView.setPerson(client);
+        //addressView.setAddress(address);
+        //postalAddressView.setAddress(postalAddress);
+        //sameAsAbove.setValue(address.equals(postalAddress));
     }
 
 }

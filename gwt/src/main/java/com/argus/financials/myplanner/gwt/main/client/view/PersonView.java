@@ -1,5 +1,7 @@
 package com.argus.financials.myplanner.gwt.main.client.view;
 
+import com.argus.financials.myplanner.gwt.commons.client.PersonProxy;
+import com.google.gwt.editor.client.Editor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -8,7 +10,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 
-public class PersonView extends Composite
+public class PersonView extends Composite implements Editor<PersonProxy>
 {
 
     public PersonView()
@@ -58,6 +60,11 @@ public class PersonView extends Composite
         
         ListBox maritalStatus = new ListBox();
         grid.setWidget(5, 1, maritalStatus);
+    }
+
+    public void setPerson(PersonProxy person)
+    {
+
     }
 
 }

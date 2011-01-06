@@ -14,9 +14,9 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
-import com.argus.financials.domain.IPerson;
+import com.argus.financials.domain.client.IPerson;
+import com.argus.financials.domain.client.refdata.ICountry;
 import com.argus.financials.domain.hibernate.refdata.Country;
-import com.argus.financials.domain.refdata.ICountry;
 
 @Entity
 @Table(name = "Person")

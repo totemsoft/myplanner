@@ -2,8 +2,8 @@ package com.argus.financials.domain.hibernate.refdata;
 
 import javax.persistence.MappedSuperclass;
 
+import com.argus.financials.domain.client.refdata.ICode;
 import com.argus.financials.domain.hibernate.AbstractBase;
-import com.argus.financials.domain.refdata.ICode;
 
 /**
  * Base class for all codes.

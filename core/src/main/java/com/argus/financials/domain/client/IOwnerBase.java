@@ -1,4 +1,4 @@
-package com.argus.financials.domain;
+package com.argus.financials.domain.client;
 
 /**
  *

@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 
-import com.argus.financials.domain.refdata.ICode;
+import com.argus.financials.domain.client.refdata.ICode;
 import com.argus.financials.myplanner.gwt.AbstractGwtController;
 import com.argus.financials.myplanner.gwt.commons.client.BasePair;
 import com.argus.financials.myplanner.gwt.main.client.RefDataService;

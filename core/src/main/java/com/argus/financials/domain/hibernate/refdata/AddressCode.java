@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import com.argus.financials.domain.refdata.IAddressCode;
+import com.argus.financials.domain.client.refdata.IAddressCode;
 
 @Entity
 @Table(name = IAddressCode.TABLE_NAME)
@@ -38,7 +38,7 @@ public class AddressCode extends AbstractCode implements IAddressCode
     }
 
     /* (non-Javadoc)
-     * @see com.argus.financials.domain.refdata.ICode#getCode()
+     * @see com.argus.financials.domain.client.refdata.ICode#getCode()
      */
     public String getCode()
     {
@@ -46,7 +46,7 @@ public class AddressCode extends AbstractCode implements IAddressCode
     }
 
     /* (non-Javadoc)
-     * @see com.argus.financials.domain.refdata.ICode#getDescription()
+     * @see com.argus.financials.domain.client.refdata.ICode#getDescription()
      */
     public String getDescription()
     {

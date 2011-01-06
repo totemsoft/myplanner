@@ -2,17 +2,18 @@
  * PersonService.java Created on 24 July 2000, 10:32
  */
 
-package com.argus.financials.domain;
+package com.argus.financials.domain.client;
 
 import java.util.Date;
 
-import com.argus.financials.domain.refdata.ICountry;
+import com.argus.financials.domain.client.refdata.ICountry;
 
 /**
  * @author vchibaev (Valeri SHIBAEV)
  */
-public interface IPerson
+public interface IPerson extends IBase<Integer>
 {
+// TODO: add these...
 //  [SexCodeID] [int] NULL,
 //  [TitleCodeID] [int] NULL,
 //  [MaritalCodeID] [int] NULL,

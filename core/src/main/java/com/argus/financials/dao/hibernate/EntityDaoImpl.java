@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.argus.financials.dao.EntityDao;
+import com.argus.financials.domain.client.refdata.ICountry;
 import com.argus.financials.domain.hibernate.refdata.Country;
 import com.argus.financials.domain.hibernate.refdata.State;
-import com.argus.financials.domain.refdata.ICountry;
 
 /**
  * @author vchibaev (Valeri SHIBAEV)

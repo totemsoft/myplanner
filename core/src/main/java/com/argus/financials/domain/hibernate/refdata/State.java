@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
-import com.argus.financials.domain.refdata.IState;
+import com.argus.financials.domain.client.refdata.IState;
 
 @Entity
 @Table(name = IState.TABLE_NAME)
@@ -38,7 +38,7 @@ public class State extends AbstractCode implements IState
     }
 
     /* (non-Javadoc)
-     * @see com.argus.financials.domain.refdata.ICode#getCode()
+     * @see com.argus.financials.domain.client.refdata.ICode#getCode()
      */
     public String getCode()
     {
@@ -46,7 +46,7 @@ public class State extends AbstractCode implements IState
     }
 
     /* (non-Javadoc)
-     * @see com.argus.financials.domain.refdata.ICode#getDescription()
+     * @see com.argus.financials.domain.client.refdata.ICode#getDescription()
      */
     public String getDescription()
     {

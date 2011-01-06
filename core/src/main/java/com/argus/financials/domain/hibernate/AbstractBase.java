@@ -6,7 +6,7 @@ import javax.persistence.MappedSuperclass;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import com.argus.financials.domain.IBase;
+import com.argus.financials.domain.client.IBase;
 
 /**
  * Base class for all objects.

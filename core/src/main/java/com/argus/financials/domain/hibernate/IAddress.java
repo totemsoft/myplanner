@@ -1,9 +1,9 @@
 package com.argus.financials.domain.hibernate;
 
-import com.argus.financials.domain.IBase;
-import com.argus.financials.domain.refdata.IAddressCode;
-import com.argus.financials.domain.refdata.ICountry;
-import com.argus.financials.domain.refdata.IState;
+import com.argus.financials.domain.client.IBase;
+import com.argus.financials.domain.client.refdata.IAddressCode;
+import com.argus.financials.domain.client.refdata.ICountry;
+import com.argus.financials.domain.client.refdata.IState;
 
 public interface IAddress extends IBase<Integer>
 {

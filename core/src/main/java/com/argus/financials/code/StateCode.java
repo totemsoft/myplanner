@@ -14,12 +14,12 @@ package com.argus.financials.code;
 
 import java.util.Map;
 
-import com.argus.financials.domain.refdata.IState;
+import com.argus.financials.domain.client.refdata.IState;
 
 public class StateCode extends Code implements IState {
 
     /* (non-Javadoc)
-     * @see com.argus.financials.domain.refdata.ICode#getCode()
+     * @see com.argus.financials.domain.client.refdata.ICode#getCode()
      */
     public String getCode()
     {
@@ -27,7 +27,7 @@ public class StateCode extends Code implements IState {
     }
 
     /* (non-Javadoc)
-     * @see com.argus.financials.domain.refdata.ICode#getDescription()
+     * @see com.argus.financials.domain.client.refdata.ICode#getDescription()
      */
     public String getDescription()
     {

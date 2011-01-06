@@ -13,10 +13,6 @@
     <name>MyPlanner J2EE 1.4 GWT Webapp</name>
     <url>http://maven.apache.org</url>
 
-    <properties>
-        <gwt.version>2.1.0</gwt.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.argus.financials.myplanner</groupId>

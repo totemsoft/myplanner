@@ -1,6 +1,7 @@
 package com.argus.financials.myplanner.gwt.main.client.view;
 
 import com.argus.financials.myplanner.gwt.commons.client.AddListBoxItemsCallback;
+import com.argus.financials.myplanner.gwt.commons.client.AddressProxy;
 import com.argus.financials.myplanner.gwt.main.client.RefDataServiceAsync;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -69,6 +70,11 @@ public class AddressView extends Composite
         
         postcode = new TextBox();
         grid.setWidget(5, 1, postcode);
+    }
+
+    public void setAddress(AddressProxy address)
+    {
+
     }
 
     private void addCountries(ListBox country)

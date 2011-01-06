@@ -9,12 +9,14 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Where;
 
+import com.argus.financials.domain.client.IClient;
+
 
 @Entity
 @Table(name = "ClientPerson")
 @PrimaryKeyJoinColumn(name = "ClientPersonID")
 @Where(clause = "Active = 'Y'")
-public class Client extends Person
+public class Client extends Person implements IClient
 {
 
     /** serialVersionUID */

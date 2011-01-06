@@ -17,13 +17,13 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.argus.financials.config.FPSLocale;
-import com.argus.financials.domain.refdata.ICountry;
+import com.argus.financials.domain.client.refdata.ICountry;
 import com.argus.util.BeanUtils;
 
 public class CountryCode extends Code implements ICountry {
 
     /* (non-Javadoc)
-     * @see com.argus.financials.domain.refdata.ICode#getCode()
+     * @see com.argus.financials.domain.client.refdata.ICode#getCode()
      */
     public String getCode()
     {
@@ -31,7 +31,7 @@ public class CountryCode extends Code implements ICountry {
     }
 
     /* (non-Javadoc)
-     * @see com.argus.financials.domain.refdata.ICode#getDescription()
+     * @see com.argus.financials.domain.client.refdata.ICode#getDescription()
      */
     public String getDescription()
     {

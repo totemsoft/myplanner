@@ -1,5 +1,6 @@
 package com.argus.financials.myplanner.gwt.main.client.view;
 
+import com.argus.financials.myplanner.gwt.commons.client.ClientProxy;
 import com.argus.financials.myplanner.gwt.main.client.Main;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Window;
@@ -17,6 +18,14 @@ public class ClientDetails extends Composite
 
     public static final String HISTORY_TOKEN = "clientDetails";
 
+    private final PersonView personView;
+
+    private final AddressView addressView;
+
+    private final CheckBox sameAsAbove;
+
+    private final AddressView postalAddressView;
+    
     public ClientDetails()
     {
         TabLayoutPanel tabLayoutPanel = new TabLayoutPanel(1.5, Unit.EM);
@@ -29,16 +38,16 @@ public class ClientDetails extends Composite
         VerticalPanel leftPanel = new VerticalPanel();
         details.add(leftPanel);
         
-        PersonView personView = new PersonView();
+        personView = new PersonView();
         leftPanel.add(personView);
         
-        AddressView addressView = new AddressView();
+        addressView = new AddressView();
         leftPanel.add(addressView);
         
-        CheckBox sameAsAbove = new CheckBox("Same As Above");
+        sameAsAbove = new CheckBox("Same As Above");
         leftPanel.add(sameAsAbove);
         
-        AddressView postalAddressView = new AddressView();
+        postalAddressView = new AddressView();
         leftPanel.add(postalAddressView);
         
         VerticalPanel rightPanel = new VerticalPanel();
@@ -57,6 +66,11 @@ public class ClientDetails extends Composite
         tabLayoutPanel.add(contacts, "Contact Details", false);
         
         Window.setTitle(Main.TITLE + TITLE);
+    }
+
+    public void setClient(ClientProxy client)
+    {
+
     }
 
 }

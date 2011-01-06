@@ -7,12 +7,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.argus.financials.domain.client.refdata.IAddressCode;
+import com.argus.financials.domain.client.refdata.ICountry;
+import com.argus.financials.domain.client.refdata.IState;
 import com.argus.financials.domain.hibernate.refdata.AddressCode;
 import com.argus.financials.domain.hibernate.refdata.Country;
 import com.argus.financials.domain.hibernate.refdata.State;
-import com.argus.financials.domain.refdata.IAddressCode;
-import com.argus.financials.domain.refdata.ICountry;
-import com.argus.financials.domain.refdata.IState;
 
 @Entity
 @Table(name = "Address")

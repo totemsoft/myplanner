@@ -32,7 +32,7 @@ public class EntityServiceImpl implements EntityService
     /* (non-Javadoc)
      * @see com.argus.financials.service.EntityService#findStates(java.lang.Integer)
      */
-    public List<State> findStates(Long countryId)
+    public List<State> findStates(Integer countryId)
     {
         List<State> result = entityDao.findStates(countryId);
         return result;

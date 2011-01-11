@@ -246,7 +246,7 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
             // footer
             footerPanel.add(new Label("Client: " + client.getSecond()));
         }
-        showView(ClientSearch.HISTORY_TOKEN); // default
+        showView(ClientDetails.HISTORY_TOKEN);
     }
 
 }

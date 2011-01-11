@@ -20,6 +20,6 @@ public interface EntityDao extends BaseDAO
      * @param countryId
      * @return
      */
-    List<State> findStates(Long countryId);
+    List<State> findStates(Integer countryId);
 
 }

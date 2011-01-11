@@ -30,7 +30,7 @@ public class RefDataServiceImpl extends AbstractGwtController implements RefData
     public BasePair[] findStates(String countryId)
     {
         return convert(getEntityService().findStates(
-            StringUtils.isNotBlank(countryId) ? NumberUtils.createLong(countryId) : null));
+            StringUtils.isNotBlank(countryId) ? NumberUtils.createInteger(countryId) : null));
     }
 
     /**

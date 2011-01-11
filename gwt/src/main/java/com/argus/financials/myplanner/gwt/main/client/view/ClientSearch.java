@@ -155,7 +155,7 @@ public class ClientSearch extends Composite
                 return "" + object.getFirst();
             }
         };
-        table.addColumn(columnId, "ClientView ID");
+        table.addColumn(columnId, "Client ID");
 
         Column<BasePair, String> columnDetails = new Column<BasePair, String>(new TextCell())
         {
@@ -165,7 +165,7 @@ public class ClientSearch extends Composite
                 return object.getSecond();
             }
         };
-        table.addColumn(columnDetails, "ClientView Details");
+        table.addColumn(columnDetails, "Client Details");
         table.setSelectionModel(new ClientSelectionModel());
         table.setRowCount(0, true);
 

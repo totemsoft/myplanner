@@ -9,7 +9,7 @@ import com.argus.financials.config.FPSLocale;
 import com.argus.financials.dao.EntityDao;
 import com.argus.financials.domain.hibernate.refdata.Country;
 import com.argus.financials.domain.hibernate.refdata.State;
-import com.argus.financials.domain.hibernate.refdata.Country.CountryComparator;
+import com.argus.financials.domain.util.CountryComparator;
 import com.argus.financials.service.EntityService;
 
 public class EntityServiceImpl implements EntityService
@@ -32,7 +32,7 @@ public class EntityServiceImpl implements EntityService
     /* (non-Javadoc)
      * @see com.argus.financials.service.EntityService#findStates(java.lang.Integer)
      */
-    public List<State> findStates(Integer countryId)
+    public List<State> findStates(Long countryId)
     {
         List<State> result = entityDao.findStates(countryId);
         return result;

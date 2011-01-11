@@ -7,7 +7,7 @@
         <version>1.0.0</version>
     </parent>
     <groupId>com.argus.financials.myplanner</groupId>
-    <artifactId>myplanner-gwt</artifactId>
+    <artifactId>gwt</artifactId>
     <packaging>war</packaging>
     <version>1.0.0</version>
     <name>MyPlanner J2EE 1.4 GWT Webapp</name>
@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>com.argus.financials.myplanner</groupId>
-            <artifactId>myplanner-core</artifactId>
+            <artifactId>core</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -41,7 +41,16 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
+
         <!--  GWT deps (from central repo) -->
+        <dependency>
+    	    <groupId>org.json</groupId>
+	        <artifactId>json</artifactId>
+        </dependency>
+        <dependency>
+    	    <groupId>javax.validation</groupId>
+	        <artifactId>validation-api</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-servlet</artifactId>
@@ -96,11 +105,17 @@
                             <generateDirectory>${basedir}/src/main/java</generateDirectory>
                         </configuration>
                         <goals>
+                            <goal>resources</goal>
                             <goal>compile</goal>
                             <goal>generateAsync</goal>
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+			        <compileSourcesArtifacts>
+			          <artifact>com.argus.financials.myplanner:core</artifact>
+			        </compileSourcesArtifacts>
+                </configuration>
             </plugin>
         </plugins>
         <finalName>myplanner</finalName>

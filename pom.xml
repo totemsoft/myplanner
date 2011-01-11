@@ -99,6 +99,7 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
         <hibernate-annotations.version>3.4.0.GA</hibernate-annotations.version>
         <hibernate-entitymanager.version>3.4.0.GA</hibernate-entitymanager.version>
         <hibernate-validator.version>3.1.0.GA</hibernate-validator.version>
+        <json.version>20090211</json.version>
         <junit.version>3.8.2</junit.version>
         <jxl.version>2.6.10</jxl.version>
         <log4j.version>1.2.15</log4j.version>
@@ -120,6 +121,7 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
         <slf4j.version>1.5.6</slf4j.version>
         <smsj.version>20051126</smsj.version>
         <spring.version>3.0.5.RELEASE</spring.version>
+        <validation.version>1.0.0.GA</validation.version>
         <velocity.version>1.6.3</velocity.version>
     </properties>
     <repositories>
@@ -138,7 +140,7 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
         <dependencies>
             <dependency>
                 <groupId>com.argus.financials.myplanner</groupId>
-                <artifactId>myplanner-core</artifactId>
+                <artifactId>core</artifactId>
                 <version>${application.version}</version>
             </dependency>
 
@@ -392,6 +394,18 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
             <artifactId>jmxtools</artifactId>
           </exclusion>
         </exclusions>
+      </dependency>
+
+
+      <dependency>
+        <groupId>org.json</groupId>
+        <artifactId>json</artifactId>
+        <version>${json.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>${validation.version}</version>
       </dependency>
 
             <dependency>

@@ -1,10 +1,13 @@
 package com.argus.financials.myplanner.gwt.main.client.view;
 
+import com.argus.financials.myplanner.gwt.commons.client.AbstractReceiver;
 import com.argus.financials.myplanner.gwt.commons.client.ClientProxy;
+import com.argus.financials.myplanner.gwt.commons.shared.ClientRequest;
 import com.argus.financials.myplanner.gwt.commons.shared.ClientRequestFactory;
 import com.argus.financials.myplanner.gwt.main.client.Main;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.requestfactory.shared.Request;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
@@ -20,6 +23,8 @@ public class ClientDetails extends Composite
 
     public static final String HISTORY_TOKEN = "clientDetails";
 
+    private final Integer clientId;
+
     private final EventBus eventBus;
 
     private final ClientRequestFactory requestFactory;
@@ -32,8 +37,9 @@ public class ClientDetails extends Composite
 
     private final AddressView postalAddressView;
     
-    public ClientDetails(EventBus eventBus, ClientRequestFactory requestFactory)
+    public ClientDetails(Integer clientId, EventBus eventBus, ClientRequestFactory requestFactory)
     {
+        this.clientId = clientId;
         this.eventBus = eventBus;
         this.requestFactory = requestFactory;
 
@@ -75,14 +81,50 @@ public class ClientDetails extends Composite
         tabLayoutPanel.add(contacts, "Contact Details", false);
         
         Window.setTitle(Main.TITLE + TITLE);
-    }
 
-    public void setClient(ClientProxy client)
+        // TODO: use events
+        onView();
+    }
+/*
+    private void onSave()
     {
-        personView.setPerson(client);
-        //addressView.setAddress(address);
-        //postalAddressView.setAddress(postalAddress);
+        ClientRequest request = requestFactory.clientRequest();
+        ClientProxy client = request.create(ClientProxy.class);
+//      client.setFeeDate(feeDate);
+//      client.setReviewDate(reviewDate);
+        personView.onSave(client);
+        //addressView.onSave(address);
+        //postalAddressView.onSave(postalAddress);
         //sameAsAbove.setValue(address.equals(postalAddress));
+        Request<Void> saveRequest = request.persist().using(client);
+        saveRequest.fire(new AbstractReceiver<Void>()
+        {
+            @Override
+            public void onSuccess(Void response)
+            {
+                // Update display
+            }
+        });
+    }
+*/
+    private void onView()
+    {
+        // When querying the server, RequestFactory does not automatically populate relations in the object graph.
+        // To do this, use the with() method on a request and specify the related property name as a String
+        Request<ClientProxy> request = requestFactory.clientRequest().findClient(clientId);//.with("address");
+        request.fire(new AbstractReceiver<ClientProxy>()
+        {
+            @Override
+            public void onSuccess(ClientProxy client)
+            {
+                Window.alert("onView::onSuccess: " + client);
+                // Update display
+                personView.onView(client);
+                //addressView.onView(address);
+                //postalAddressView.onView(postalAddress);
+                //sameAsAbove.setValue(address.equals(postalAddress));
+            }
+        });
     }
 
 }

@@ -32,7 +32,7 @@ public class EntityDaoImpl extends BaseDAOImpl implements EntityDao
      * @see com.argus.financials.dao.EntityDao#findStates(java.lang.Integer)
      */
     @SuppressWarnings("unchecked")
-    public List<State> findStates(Integer countryId)
+    public List<State> findStates(Long countryId)
     {
         if (ICountry.AUSTRALIA_ID.equals(countryId))
         {

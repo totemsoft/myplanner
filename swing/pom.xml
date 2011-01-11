@@ -8,7 +8,7 @@
         <version>1.0.0</version>
     </parent>
     <groupId>com.argus.financials.myplanner</groupId>
-    <artifactId>myplanner-swing</artifactId>
+    <artifactId>swing</artifactId>
     <packaging>jar</packaging>
     <name>Swing UI</name>
     <version>1.0.0</version>
@@ -16,8 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>com.argus.financials.myplanner</groupId>
-            <artifactId>myplanner-core</artifactId>
-            <version>1.0.0</version>
+            <artifactId>core</artifactId>
         </dependency>
 
         <dependency>

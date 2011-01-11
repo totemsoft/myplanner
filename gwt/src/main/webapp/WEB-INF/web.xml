@@ -76,4 +76,26 @@
     	<url-pattern>/com.argus.financials.myplanner.gwt.main.Main/RefDataService</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+	    <servlet-name>gwtRequestFactoryServlet</servlet-name>
+	    <servlet-class>com.google.gwt.requestfactory.server.RequestFactoryServlet</servlet-class>
+	    <init-param>
+	        <param-name>symbolMapsDirectory</param-name>
+	        <param-value>WEB-INF/classes/symbolMaps/</param-value>
+	    </init-param>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>gwtRequestFactoryServlet</servlet-name>
+	    <url-pattern>/gwtRequest</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>gwtRequestFilter</filter-name>
+        <filter-class>com.argus.financials.myplanner.gwt.commons.server.ClientController</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>gwtRequestFilter</filter-name>
+        <url-pattern>/gwtRequest</url-pattern>
+    </filter-mapping>
+
 </web-app>

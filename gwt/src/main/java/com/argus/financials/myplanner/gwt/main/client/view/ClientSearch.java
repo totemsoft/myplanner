@@ -28,7 +28,6 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.datepicker.client.DateBox;
@@ -177,10 +176,10 @@ public class ClientSearch extends Composite
         FlowPanel flowPanel = new FlowPanel();
         verticalPanel.add(flowPanel);
         
-        buttonOpen = new Button("Open ClientView");
+        buttonOpen = new Button("Open Client");
         buttonOpen.addClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
-                setClient();
+                openClient();
             }
         });
         buttonOpen.setEnabled(false);
@@ -190,7 +189,7 @@ public class ClientSearch extends Composite
     }
 
     @SuppressWarnings("unchecked")
-    private BasePair getSelectedClient()
+    public BasePair getSelectedClient()
     {
         SingleSelectionModel<BasePair> model = (SingleSelectionModel<BasePair>) table.getSelectionModel();
         return model.getSelectedObject();
@@ -205,7 +204,7 @@ public class ClientSearch extends Composite
             {
                 public void onSelectionChange(SelectionChangeEvent event)
                 {
-                    buttonOpen.setEnabled(ClientSelectionModel.this.getSelectedObject() != null);
+                    buttonOpen.setEnabled(getSelectedClient() != null);
                 }
             });
         }
@@ -266,16 +265,16 @@ public class ClientSearch extends Composite
         }
     }
 
-    private void setClient()
+    private void openClient()
     {
-        MainServiceAsync.Util.getInstance().setClient(getSelectedClient(), new SetClientCallback());
+        MainServiceAsync.Util.getInstance().setClient(getSelectedClient(), new OpenClientCallback());
     }
 
-    private class SetClientCallback extends AbstractAsyncCallback<Void>
+    private class OpenClientCallback extends AbstractAsyncCallback<Void>
     {
         public void onSuccess(Void result)
         {
-            parent.setClient(getSelectedClient());
+            parent.openClient(getSelectedClient());
         }
     }
 

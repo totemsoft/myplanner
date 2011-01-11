@@ -12,6 +12,13 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class PersonView extends Composite implements Editor<PersonProxy>
 {
+    private ListBox title;
+    private TextBox surname;
+    private TextBox firstname;
+    private TextBox othernames;
+    private RadioButton genderMale;
+    private RadioButton genderFemale;
+    private ListBox maritalStatus;
 
     public PersonView()
     {
@@ -22,25 +29,25 @@ public class PersonView extends Composite implements Editor<PersonProxy>
         Label label = new Label("Title");
         grid.setWidget(0, 0, label);
         
-        ListBox title = new ListBox();
+        title = new ListBox();
         grid.setWidget(0, 1, title);
 
         Label label_1 = new Label("Surname");
         grid.setWidget(1, 0, label_1);
         
-        TextBox surname = new TextBox();
+        surname = new TextBox();
         grid.setWidget(1, 1, surname);
 
         Label label_2 = new Label("Firstname");
         grid.setWidget(2, 0, label_2);
         
-        TextBox firstname = new TextBox();
+        firstname = new TextBox();
         grid.setWidget(2, 1, firstname);
         
         Label label_3 = new Label("Other names");
         grid.setWidget(3, 0, label_3);
         
-        TextBox othernames = new TextBox();
+        othernames = new TextBox();
         grid.setWidget(3, 1, othernames);
         
         Label label_4 = new Label("Gender");
@@ -49,22 +56,33 @@ public class PersonView extends Composite implements Editor<PersonProxy>
         HorizontalPanel horizontalPanel = new HorizontalPanel();
         grid.setWidget(4, 1, horizontalPanel);
 
-        RadioButton genderMale = new RadioButton("gender", "Male");
+        genderMale = new RadioButton("gender", "Male");
         horizontalPanel.add(genderMale);
         
-        RadioButton genderFemale = new RadioButton("gender", "Female");
+        genderFemale = new RadioButton("gender", "Female");
         horizontalPanel.add(genderFemale);
         
         Label label_5 = new Label("Marital Status");
         grid.setWidget(5, 0, label_5);
         
-        ListBox maritalStatus = new ListBox();
+        maritalStatus = new ListBox();
         grid.setWidget(5, 1, maritalStatus);
     }
 
-    public void setPerson(PersonProxy person)
+    public void onSave(PersonProxy person)
     {
+        person.setFirstname(firstname.getText());
+        person.setSurname(surname.getText());
+        person.setOtherNames(othernames.getText());
+        //person.setDateOfBirth(dateOfBirth.getDate());
+    }
 
+    public void onView(PersonProxy person)
+    {
+        firstname.setText(person.getFirstname());
+        surname.setText(person.getSurname());
+        othernames.setText(person.getOtherNames());
+        //dateOfBirth.setDate(person.get);
     }
 
 }

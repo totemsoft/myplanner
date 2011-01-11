@@ -660,7 +660,7 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
                                     + fileName + "'";
                             sb.append("\t" + msg);
                             splash.setStringPainted(msg);
-                            exportData.exportFile(c.getOwnerId(), c.getId(), dir + fileName);
+                            exportData.exportFile(c.getOwnerId().intValue(), c.getId().intValue(), dir + fileName);
                             sb.append("\tOK\n");
                         }
                         sb.append("SUCCESS");

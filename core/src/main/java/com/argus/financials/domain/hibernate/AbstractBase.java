@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.MappedSuperclass;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 import com.argus.financials.domain.client.IBase;
 
 /**
@@ -54,7 +52,7 @@ public abstract class AbstractBase<T> implements IBase<T>, Serializable
      */
     public String toString()
     {
-        return new ToStringBuilder(this).append(ID, getId()).toString();
+        return ID + ":" + getId();
     }
 
 }

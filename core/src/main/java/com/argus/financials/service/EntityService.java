@@ -24,6 +24,6 @@ public interface EntityService
      * @param countryId
      * @return
      */
-    List<State> findStates(Integer countryId);
+    List<State> findStates(Long countryId);
 
 }

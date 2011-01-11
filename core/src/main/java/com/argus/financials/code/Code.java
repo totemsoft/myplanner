@@ -89,6 +89,9 @@ public abstract class Code implements java.io.Serializable {
         return VALUE_NONE;
     }
 
+    public String getCodeDescription(Long codeID) {
+        return codeID == null ? NONE : getCodeDescription(codeID.intValue());
+    }
     public String getCodeDescription(Integer codeID) {
         // if ( ( codeID == null ) || ( codeID.equals( new Integer(0) ) ) )
         if (codeID == null)

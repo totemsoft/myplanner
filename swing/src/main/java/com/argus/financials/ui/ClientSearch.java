@@ -805,7 +805,7 @@ public final class ClientSearch extends javax.swing.JPanel {
 
     public Integer getSelectedPersonID() {
         ClientView c = getSelectedPerson();
-        return c == null ? null : c.getId();
+        return c == null ? null : c.getId().intValue();
     }
 
     public String getClientName() {

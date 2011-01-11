@@ -53,6 +53,8 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
     private MenuItem mntmAnalysis;
     private MenuItem mntmPlan;
     
+    private ClientSearch clientSearch;
+
     /* (non-Javadoc)
      * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
      */
@@ -201,9 +203,14 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         LOG.log(Level.INFO, "History Token changed: " + historyToken);
         // parse url fragment
         if (historyToken.equals(ClientSearch.HISTORY_TOKEN)) {
-            centerPanel.setWidget(new ClientSearch(this));
+            if (clientSearch == null) {
+                clientSearch = new ClientSearch(this);
+            }
+            centerPanel.setWidget(clientSearch);
         } else if (historyToken.equals(ClientDetails.HISTORY_TOKEN)) {
-            centerPanel.setWidget(new ClientDetails(eventBus, requestFactory));
+            BasePair client = clientSearch.getSelectedClient();
+            centerPanel.setWidget(new ClientDetails(
+                client == null ? null : client.getFirst(), eventBus, requestFactory));
         } else {
             LOG.log(Level.WARNING, "Unhandled History Token: " + historyToken);
         }
@@ -219,7 +226,7 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         }
     }
 
-    public void setClient(BasePair client)
+    public void openClient(BasePair client)
     {
         footerPanel.clear();
         if (client != null)
@@ -239,6 +246,7 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
             // footer
             footerPanel.add(new Label("Client: " + client.getSecond()));
         }
+        showView(ClientSearch.HISTORY_TOKEN); // default
     }
 
 }

@@ -4,6 +4,8 @@
 	<inherits name="com.google.gwt.user.User" />
 	<inherits name="com.google.gwt.user.theme.standard.Standard" />
 	<inherits name="com.argus.financials.myplanner.gwt.commons.Commons" />
+
 	<source path="client" />
+
 	<entry-point class="com.argus.financials.myplanner.gwt.main.client.Main" />
 </module>

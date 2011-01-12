@@ -21,7 +21,7 @@ public class AddressCode extends AbstractCode implements IAddressCode
 
     @Id
     @Column(name = "AddressCodeID", nullable = false)
-    private Integer id;
+    private Long id;
 
     //@Column(name = "AddressCode", nullable = false)
     //private String code;
@@ -32,7 +32,7 @@ public class AddressCode extends AbstractCode implements IAddressCode
     /* (non-Javadoc)
      * @see com.argus.financials.domain.IBase#getId()
      */
-    public Integer getId()
+    public Long getId()
     {
         return id;
     }

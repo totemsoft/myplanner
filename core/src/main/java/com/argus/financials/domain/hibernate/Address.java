@@ -16,14 +16,14 @@ import com.argus.financials.domain.hibernate.refdata.State;
 
 @Entity
 @Table(name = "Address")
-public class Address extends AbstractAuditable<Integer> implements IAddress
+public class Address extends AbstractAuditable<Long> implements IAddress
 {
     /** serialVersionUID */
     private static final long serialVersionUID = -6435531874121406067L;
 
     @Id
     @Column(name = "AddressID", nullable = false)
-    private Integer id;
+    private Long id;
 
     @ManyToOne(targetEntity = Address.class)//(fetch = FetchType.LAZY)
     @JoinColumn(name = "ParentAddressID")
@@ -43,7 +43,7 @@ public class Address extends AbstractAuditable<Integer> implements IAddress
     private String suburb;
 
     @Column(name = "Postcode")
-    private Integer postcode;
+    private Long postcode;
 
     @ManyToOne(targetEntity = State.class)//(fetch = FetchType.LAZY)
     @JoinColumn(name = "StateCodeID")
@@ -59,7 +59,7 @@ public class Address extends AbstractAuditable<Integer> implements IAddress
     /* (non-Javadoc)
      * @see com.argus.financials.domain.IBase#getId()
      */
-    public Integer getId()
+    public Long getId()
     {
         return id;
     }
@@ -67,7 +67,7 @@ public class Address extends AbstractAuditable<Integer> implements IAddress
     /**
      * @param id the id to set
      */
-    public void setId(Integer id)
+    public void setId(Long id)
     {
         this.id = id;
     }
@@ -155,7 +155,7 @@ public class Address extends AbstractAuditable<Integer> implements IAddress
     /**
      * @return the postcode
      */
-    public Integer getPostcode()
+    public Long getPostcode()
     {
         return postcode;
     }
@@ -163,7 +163,7 @@ public class Address extends AbstractAuditable<Integer> implements IAddress
     /**
      * @param postcode the postcode to set
      */
-    public void setPostcode(Integer postcode)
+    public void setPostcode(Long postcode)
     {
         this.postcode = postcode;
     }

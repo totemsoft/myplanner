@@ -11,7 +11,7 @@ public interface MainServiceAsync
      * GWT-RPC service  asynchronous (client-side) interface
      * @see com.argus.financials.myplanner.gwt.main.client.MainService
      */
-    void setClient( com.argus.financials.myplanner.gwt.commons.client.BasePair p0, AsyncCallback<Void> callback );
+    void setClient( java.lang.Long p0, AsyncCallback<Void> callback );
 
 
     /**

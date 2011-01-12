@@ -267,7 +267,9 @@ public class ClientSearch extends Composite
 
     private void openClient()
     {
-        MainServiceAsync.Util.getInstance().setClient(getSelectedClient(), new OpenClientCallback());
+        BasePair client = getSelectedClient();
+        Long clientId = client == null ? null : client.getFirst().longValue();
+        MainServiceAsync.Util.getInstance().setClient(clientId, new OpenClientCallback());
     }
 
     private class OpenClientCallback extends AbstractAsyncCallback<Void>

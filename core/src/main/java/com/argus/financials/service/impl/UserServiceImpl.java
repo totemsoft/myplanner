@@ -123,9 +123,9 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
     }
 
     /* (non-Javadoc)
-     * @see com.argus.financials.service.UserService#findClient(java.lang.Integer)
+     * @see com.argus.financials.service.UserService#findClient(java.lang.Long)
      */
-    public Client findClient(Integer clientId) throws ServiceException
+    public Client findClient(Long clientId) throws ServiceException
     {
         return clientDao.findById(clientId);
     }

@@ -12,7 +12,7 @@ import com.argus.financials.domain.hibernate.refdata.ContactCode;
 
 @Entity
 @Table(name = "ContactMedia")
-public class Contact extends AbstractAuditable<Integer> // implements IContact
+public class Contact extends AbstractAuditable<Long> // implements IContact
 {
 
     /** serialVersionUID */
@@ -20,7 +20,7 @@ public class Contact extends AbstractAuditable<Integer> // implements IContact
 
     @Id
     @Column(name = "ContactMediaID", nullable = false)
-    private Integer id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ContactMediaCodeID")
@@ -38,7 +38,7 @@ public class Contact extends AbstractAuditable<Integer> // implements IContact
     /* (non-Javadoc)
      * @see com.argus.financials.domain.IBase#getId()
      */
-    public Integer getId()
+    public Long getId()
     {
         return id;
     }
@@ -46,7 +46,7 @@ public class Contact extends AbstractAuditable<Integer> // implements IContact
     /**
      * @param id the id to set
      */
-    public void setId(Integer id)
+    public void setId(Long id)
     {
         this.id = id;
     }

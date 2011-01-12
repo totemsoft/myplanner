@@ -18,7 +18,7 @@ public interface ClientDao extends BaseDAO
      * @param clientId
      * @return
      */
-    Client findById(Integer clientId);
+    Client findById(Long clientId);
 
     /**
      * 

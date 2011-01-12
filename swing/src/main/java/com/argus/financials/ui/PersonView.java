@@ -32,6 +32,7 @@ import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.OccupationCode;
 import com.argus.financials.code.ResidenceStatusCode;
 import com.argus.financials.code.StatusCode;
+import com.argus.financials.domain.client.refdata.ICountry;
 import com.argus.financials.etc.Address;
 import com.argus.financials.etc.Contact;
 import com.argus.financials.etc.ContactMedia;
@@ -868,7 +869,7 @@ public abstract class PersonView extends BaseView {
         CountryCode cc = new CountryCode();
         jComboBoxResidenceCountry.setSelectedItem(ResidenceStatusCode.RESIDENT
                 .equals(residenceStatusCode) ? cc
-                .getCodeDescription(cc.AUSTRALIA_ID) : cc.NONE);
+                .getCodeDescription(ICountry.AUSTRALIA_ID) : CountryCode.NONE);
 
     }// GEN-LAST:event_jComboBoxResidenceStatusActionPerformed
 

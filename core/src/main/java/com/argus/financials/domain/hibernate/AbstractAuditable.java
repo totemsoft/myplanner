@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 /**
  * Base class for all auditable objects.
@@ -21,6 +22,9 @@ public abstract class AbstractAuditable<T> extends AbstractBase<T>
 
     @Column(name = "DateModified")
     private Date dateModified;
+
+    @Transient
+    private Long version;
 
     /**
      * @return the dateCreated
@@ -52,6 +56,22 @@ public abstract class AbstractAuditable<T> extends AbstractBase<T>
     public void setDateModified(Date dateModified)
     {
         this.dateModified = dateModified;
+    }
+
+    /**
+     * @return the version
+     */
+    public Long getVersion()
+    {
+        return version;
+    }
+
+    /**
+     * @param version the version to set
+     */
+    public void setVersion(Long version)
+    {
+        this.version = version;
     }
 
 }

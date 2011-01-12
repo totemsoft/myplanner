@@ -52,7 +52,7 @@ public class ClientView extends Person
     private String emailWork;
     
     /* (non-Javadoc)
-     * @see com.argus.financials.domain.IBase#getOwnerId()
+     * @see com.argus.financials.domain.IOwnerBase#getOwnerId()
      */
     public Integer getOwnerId()
     {
@@ -138,7 +138,7 @@ public class ClientView extends Person
 
     public String getDetails()
     {
-        String result = "Address: " + address.getDetails();
+        String result = "Address: " + (address == null ? "" : address.getDetails());
         result += "\n\nPhone: " + phone;
         result += "\nPhone Work: " + phoneWork;
         result += "\nFax: " + fax;

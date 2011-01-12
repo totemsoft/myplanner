@@ -209,8 +209,8 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
             centerPanel.setWidget(clientSearch);
         } else if (historyToken.equals(ClientDetails.HISTORY_TOKEN)) {
             BasePair client = clientSearch.getSelectedClient();
-            centerPanel.setWidget(new ClientDetails(
-                client == null ? null : client.getFirst(), eventBus, requestFactory));
+            Integer clientId = client == null ? null : client.getFirst();
+            centerPanel.setWidget(new ClientDetails(clientId, eventBus, requestFactory));
         } else {
             LOG.log(Level.WARNING, "Unhandled History Token: " + historyToken);
         }

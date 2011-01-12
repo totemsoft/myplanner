@@ -21,7 +21,7 @@ public class State extends AbstractCode implements IState
 
     @Id
     @Column(name = "StateCodeID", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "StateCode", nullable = false)
     private String code;
@@ -32,7 +32,7 @@ public class State extends AbstractCode implements IState
     /* (non-Javadoc)
      * @see com.argus.financials.domain.IBase#getId()
      */
-    public Integer getId()
+    public Long getId()
     {
         return id;
     }

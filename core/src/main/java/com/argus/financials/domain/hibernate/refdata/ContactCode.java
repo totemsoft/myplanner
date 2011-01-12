@@ -21,7 +21,7 @@ public class ContactCode extends AbstractCode implements IContactCode
 
     @Id
     @Column(name = "ContactMediaCodeID", nullable = false)
-    private Integer id;
+    private Long id;
 
     //@Column(name = "ContactMediaCode", nullable = false)
     //private String code;
@@ -32,7 +32,7 @@ public class ContactCode extends AbstractCode implements IContactCode
     /* (non-Javadoc)
      * @see com.argus.financials.domain.IBase#getId()
      */
-    public Integer getId()
+    public Long getId()
     {
         return id;
     }

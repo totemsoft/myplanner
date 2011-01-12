@@ -20,7 +20,7 @@ public class Country extends AbstractCode implements ICountry
 
     @Id
     @Column(name = "CountryCodeID", nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(name = "CountryCode", nullable = false)
     private String code;
@@ -31,7 +31,7 @@ public class Country extends AbstractCode implements ICountry
     /* (non-Javadoc)
      * @see com.argus.financials.domain.IBase#getId()
      */
-    public Integer getId()
+    public Long getId()
     {
         return id;
     }

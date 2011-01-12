@@ -19,4 +19,9 @@ public class BasePair extends Pair<Integer, String>
         super(first, second);
     }
 
+    public BasePair(Long first, String second)
+    {
+        this(first.intValue(), second);
+    }
+
 }

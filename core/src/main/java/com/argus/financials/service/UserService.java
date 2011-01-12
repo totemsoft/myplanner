@@ -49,7 +49,7 @@ public interface UserService extends PersonService
      * @return
      * @throws ServiceException
      */
-    Client findClient(Integer clientId) throws ServiceException;
+    Client findClient(Long clientId) throws ServiceException;
 
     /**
      * 

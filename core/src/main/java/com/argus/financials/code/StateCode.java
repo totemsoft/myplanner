@@ -16,7 +16,7 @@ import java.util.Map;
 
 import com.argus.financials.domain.client.refdata.IState;
 
-public class StateCode extends Code implements IState {
+public class StateCode extends Code {
 
     /* (non-Javadoc)
      * @see com.argus.financials.domain.client.refdata.ICode#getCode()
@@ -67,14 +67,14 @@ public class StateCode extends Code implements IState {
 
         // AUSSIE states
         if (CountryCode.isAustralia(countryID)) {
-            codeMap.put("NSW", NSW);
-            codeMap.put("VIC", VIC);
-            codeMap.put("QLD", QLD);
-            codeMap.put("ACT", ACT);
-            codeMap.put("SA", SA);
-            codeMap.put("WA", WA);
-            codeMap.put("NT", NT);
-            codeMap.put("TAS", TAS);
+            codeMap.put("NSW", IState.NSW);
+            codeMap.put("VIC", IState.VIC);
+            codeMap.put("QLD", IState.QLD);
+            codeMap.put("ACT", IState.ACT);
+            codeMap.put("SA", IState.SA);
+            codeMap.put("WA", IState.WA);
+            codeMap.put("NT", IState.NT);
+            codeMap.put("TAS", IState.TAS);
 
         } else {
             /*

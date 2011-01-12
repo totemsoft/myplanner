@@ -11,7 +11,7 @@ import com.argus.financials.domain.client.refdata.ICountry;
 /**
  * @author vchibaev (Valeri SHIBAEV)
  */
-public interface IPerson extends IBase<Integer>
+public interface IPerson extends IBase<Long>
 {
 // TODO: add these...
 //  [SexCodeID] [int] NULL,

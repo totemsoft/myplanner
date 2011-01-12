@@ -21,14 +21,15 @@ import com.argus.financials.domain.hibernate.refdata.Country;
 @Entity
 @Table(name = "Person")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Person extends AbstractAuditable<Integer> implements IPerson
+public class Person extends AbstractAuditable<Long> implements IPerson
 {
     /** serialVersionUID */
     private static final long serialVersionUID = -8960024744697095377L;
 
     @Id
     @Column(name = "PersonId", nullable = false)
-    private Integer id;
+    @Type(type = "com.argus.financials.domain.hibernate.LongIntegerType")
+    private Long id;
 
     @Column(name = "FirstName")
     private String firstname;
@@ -75,7 +76,7 @@ public class Person extends AbstractAuditable<Integer> implements IPerson
     /* (non-Javadoc)
      * @see com.argus.financials.domain.IBase#getId()
      */
-    public Integer getId()
+    public Long getId()
     {
         return id;
     }
@@ -83,7 +84,7 @@ public class Person extends AbstractAuditable<Integer> implements IPerson
     /**
      * @param id the id to set
      */
-    public void setId(Integer id)
+    public void setId(Long id)
     {
         this.id = id;
     }

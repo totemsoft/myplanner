@@ -31,6 +31,7 @@ import com.argus.financials.code.CountryCode;
 import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.StateCode;
 import com.argus.financials.config.FPSLocale;
+import com.argus.financials.domain.client.refdata.ICountry;
 import com.argus.financials.domain.hibernate.User;
 import com.argus.financials.domain.hibernate.view.ClientView;
 import com.argus.financials.etc.Address;
@@ -757,7 +758,7 @@ public final class ClientSearch extends javax.swing.JPanel {
         s = (String) jComboBoxCountry.getSelectedItem();
         Integer countryCodeID = new CountryCode().getCodeID(s);
         if (countryCodeID != null
-                && !countryCodeID.equals(CountryCode.AUSTRALIA_ID))
+                && !countryCodeID.equals(ICountry.AUSTRALIA_ID))
             criteria.put(Address.COUNTRY, countryCodeID);
 
         s = (String) jTextFieldPostCode.getText();

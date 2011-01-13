@@ -100,6 +100,14 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
     }
 
     /* (non-Javadoc)
+     * @see com.argus.financials.service.UserService#findClient(java.lang.Long)
+     */
+    public Client findClient(Long clientId) throws ServiceException
+    {
+        return clientDao.findById(clientId);
+    }
+
+    /* (non-Javadoc)
      * @see com.argus.financials.service.UserService#findClients(java.util.Map, int, int)
      */
     public List<ClientView> findClients(Map<String, Object> criteria, int start, int length)
@@ -123,11 +131,21 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
     }
 
     /* (non-Javadoc)
-     * @see com.argus.financials.service.UserService#findClient(java.lang.Long)
+     * @see com.argus.financials.service.UserService#persist(com.argus.financials.domain.hibernate.Client)
      */
-    public Client findClient(Long clientId) throws ServiceException
+    public Client persist(Client client) throws ServiceException
     {
-        return clientDao.findById(clientId);
+        // TODO: implement
+        return client;
+    }
+
+    /* (non-Javadoc)
+     * @see com.argus.financials.service.UserService#remove(com.argus.financials.domain.hibernate.Client)
+     */
+    public Client remove(Client client) throws ServiceException
+    {
+        // TODO: implement
+        return client;
     }
 
     public Integer create() throws ServiceException, CreateException {
@@ -255,7 +273,7 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
 
     }
 
-    public List findUsers(java.util.Properties selectionCriteria)
+    public List<Contact> findUsers(java.util.Properties selectionCriteria)
             throws ServiceException {
 
         if (getPrimaryKeyID() == null)
@@ -282,10 +300,10 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
 
             rs = sql.executeQuery();
 
-            Vector data = null;
+            Vector<Contact> data = null;
             while (rs.next()) {
                 if (data == null)
-                    data = new Vector();
+                    data = new Vector<Contact>();
 
                 Contact c = new Contact();
                 c.setPrimaryKeyID((Integer) rs.getObject(1)); // UserPersonID
@@ -300,8 +318,8 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
             if (data == null)
                 return null;
 
-            Iterator iter = data.iterator();
-            ArrayList toRemove = new ArrayList();
+            Iterator<Contact> iter = data.iterator();
+            ArrayList<Contact> toRemove = new ArrayList<Contact>();
             while (iter.hasNext()) {
                 Contact c = (Contact) iter.next();
                 new ContactBean(c).load(con);
@@ -316,7 +334,7 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
 
             iter = toRemove.iterator();
             while (iter.hasNext()) {
-                Contact c = (Contact) iter.next();
+                Contact c = iter.next();
                 data.remove(c);
             }
 

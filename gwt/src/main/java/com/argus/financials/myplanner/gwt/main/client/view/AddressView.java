@@ -26,7 +26,7 @@ public class AddressView extends Composite
     
     private TextBox postcode;
 
-    public AddressView()
+    public AddressView(AddressProxy address)
     {
         Grid grid = new Grid(6, 2);
         grid.setStyleName("border");
@@ -70,11 +70,6 @@ public class AddressView extends Composite
         
         postcode = new TextBox();
         grid.setWidget(5, 1, postcode);
-    }
-
-    public void setAddress(AddressProxy address)
-    {
-
     }
 
     private void addCountries(ListBox country)

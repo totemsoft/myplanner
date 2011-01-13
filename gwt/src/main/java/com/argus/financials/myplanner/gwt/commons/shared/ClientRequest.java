@@ -6,14 +6,20 @@ import com.google.gwt.requestfactory.shared.Request;
 import com.google.gwt.requestfactory.shared.RequestContext;
 import com.google.gwt.requestfactory.shared.Service;
 
+/**
+ * Data-oriented way.
+ * @author valeri chibaev
+ */
 @Service(ClientController.class)
 public interface ClientRequest extends RequestContext
 {
 
     Request<ClientProxy> findClient(Long clientId);
 
-    //InstanceRequest<ClientProxy, Void> persist();
+    Request<ClientProxy> persist(ClientProxy client);
+    //InstanceRequest<ClientProxy, Void> persist(); // implement on Client class
 
-    //InstanceRequest<ClientProxy, Void> remove();
+    Request<ClientProxy> remove(ClientProxy client);
+    //InstanceRequest<ClientProxy, Void> remove(); // implement on Client class
 
 }

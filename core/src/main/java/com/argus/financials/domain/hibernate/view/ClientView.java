@@ -8,20 +8,24 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+
+import com.argus.financials.domain.client.IOwnerBase;
 import com.argus.financials.domain.hibernate.Address;
 import com.argus.financials.domain.hibernate.Person;
 
 @Entity
 @Table(name = "vUserPersonClients")
 @PrimaryKeyJoinColumn(name = "PersonId")
-public class ClientView extends Person
+public class ClientView extends Person implements IOwnerBase<Long>
 {
 
     /** serialVersionUID */
     private static final long serialVersionUID = -136081306255824768L;
 
     @Column(name = "AdviserID", nullable = false)
-    private Integer ownerId;
+    @Type(type = "com.argus.financials.domain.hibernate.LongType")
+    private Long ownerId;
 
     @Column(name = "AdvisorFirstName")
     private String ownerFirstname;
@@ -54,7 +58,7 @@ public class ClientView extends Person
     /* (non-Javadoc)
      * @see com.argus.financials.domain.IOwnerBase#getOwnerId()
      */
-    public Integer getOwnerId()
+    public Long getOwnerId()
     {
         return ownerId;
     }

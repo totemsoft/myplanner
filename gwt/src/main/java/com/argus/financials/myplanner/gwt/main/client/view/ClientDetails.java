@@ -22,7 +22,7 @@ public class ClientDetails extends Composite
 
     public static final String HISTORY_TOKEN = "clientDetails";
 
-    private final Long clientId;
+    private final ClientProxy client;
 
     private final EventBus eventBus;
 
@@ -36,9 +36,9 @@ public class ClientDetails extends Composite
 
     private final AddressView postalAddressView;
     
-    public ClientDetails(Long clientId, EventBus eventBus, ClientRequestFactory requestFactory)
+    public ClientDetails(ClientProxy client, EventBus eventBus, ClientRequestFactory requestFactory)
     {
-        this.clientId = clientId;
+        this.client = client;
         this.eventBus = eventBus;
         this.requestFactory = requestFactory;
 
@@ -52,16 +52,16 @@ public class ClientDetails extends Composite
         VerticalPanel leftPanel = new VerticalPanel();
         details.add(leftPanel);
         
-        personView = new PersonView();
+        personView = new PersonView(client);
         leftPanel.add(personView);
         
-        addressView = new AddressView();
+        addressView = new AddressView(null);
         leftPanel.add(addressView);
         
         sameAsAbove = new CheckBox("Same As Above");
         leftPanel.add(sameAsAbove);
         
-        postalAddressView = new AddressView();
+        postalAddressView = new AddressView(null);
         leftPanel.add(postalAddressView);
         
         VerticalPanel rightPanel = new VerticalPanel();
@@ -80,9 +80,6 @@ public class ClientDetails extends Composite
         tabLayoutPanel.add(contacts, "Contact Details", false);
         
         Window.setTitle(Main.TITLE + TITLE);
-
-        // TODO: use events
-        onView();
     }
 /*
     private void onSave()
@@ -106,23 +103,5 @@ public class ClientDetails extends Composite
         });
     }
 */
-    private void onView()
-    {
-        // When querying the server, RequestFactory does not automatically populate relations in the object graph.
-        // To do this, use the with() method on a request and specify the related property name as a String
-        Request<ClientProxy> request = requestFactory.clientRequest().findClient(clientId);//.with("address");
-        request.fire(new AbstractReceiver<ClientProxy>()
-        {
-            @Override
-            public void onSuccess(ClientProxy client)
-            {
-                // Update display
-                personView.onView(client);
-                //addressView.onView(address);
-                //postalAddressView.onView(postalAddress);
-                //sameAsAbove.setValue(address.equals(postalAddress));
-            }
-        });
-    }
 
 }

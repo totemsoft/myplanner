@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.argus.financials.domain.hibernate.Client;
 import com.argus.financials.domain.hibernate.User;
 import com.argus.financials.domain.hibernate.view.ClientView;
+import com.argus.financials.etc.Contact;
 
 /**
  * @author valeri chibaev
@@ -59,7 +60,24 @@ public interface UserService extends PersonService
      * @throws ServiceException
      */
     List<ClientView> findClients(Map<String, Object> criteria, int start, int length) throws ServiceException;
-    
+
+    /**
+     * 
+     * @param client
+     * @return
+     * @throws ServiceException
+     */
+    Client persist(Client client) throws ServiceException;
+
+    /**
+     * 
+     * @param client
+     * @return
+     * @throws ServiceException
+     */
+    Client remove(Client client) throws ServiceException;
+
+
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     PersonService create(Integer ownerPersonID, boolean store) throws ServiceException,
         CreateException;
@@ -67,6 +85,6 @@ public interface UserService extends PersonService
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public boolean removeClient(Integer clientID) throws ServiceException;
 
-    public List findUsers(Properties criteria) throws ServiceException;
+    public List<Contact> findUsers(Properties criteria) throws ServiceException;
 
 }

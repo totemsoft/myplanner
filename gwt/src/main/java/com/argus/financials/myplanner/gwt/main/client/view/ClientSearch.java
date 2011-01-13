@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.argus.financials.domain.client.IDateTime;
 import com.argus.financials.myplanner.gwt.commons.client.AbstractAsyncCallback;
 import com.argus.financials.myplanner.gwt.commons.client.AddListBoxItemsCallback;
 import com.argus.financials.myplanner.gwt.commons.client.BasePair;
@@ -91,7 +92,7 @@ public class ClientSearch extends Composite
         grid.setWidget(0, 2, label_1);
 
         dateOfBirth = new DateBox();
-        dateOfBirth.setFormat(new DefaultFormat(DateTimeFormat.getFormat("dd/MM/yyyy")));
+        dateOfBirth.setFormat(new DefaultFormat(DateTimeFormat.getFormat(IDateTime.DEFAULT_DATE)));
         grid.setWidget(0, 3, dateOfBirth);
 
         Button button = new Button("Search");

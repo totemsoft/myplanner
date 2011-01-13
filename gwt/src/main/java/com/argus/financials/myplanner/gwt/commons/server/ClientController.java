@@ -56,4 +56,14 @@ public class ClientController implements Filter
         return userService.findClient(clientId);
     }
 
+    public static Client persist(Client client)
+    {
+        return userService.persist(client);
+    }
+
+    public static Client remove(Client client)
+    {
+        return userService.remove(client);
+    }
+
 }

@@ -4,7 +4,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.argus.financials.myplanner.gwt.commons.client.AbstractAsyncCallback;
+import com.argus.financials.myplanner.gwt.commons.client.AbstractReceiver;
 import com.argus.financials.myplanner.gwt.commons.client.BasePair;
+import com.argus.financials.myplanner.gwt.commons.client.ClientProxy;
 import com.argus.financials.myplanner.gwt.commons.shared.ClientRequestFactory;
 import com.argus.financials.myplanner.gwt.main.client.view.ClientDetails;
 import com.argus.financials.myplanner.gwt.main.client.view.ClientSearch;
@@ -16,6 +18,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.event.shared.SimpleEventBus;
+import com.google.gwt.requestfactory.shared.Request;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
@@ -210,7 +213,17 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         } else if (historyToken.equals(ClientDetails.HISTORY_TOKEN)) {
             BasePair client = clientSearch.getSelectedClient();
             Long clientId = client == null ? null : client.getFirst().longValue();
-            centerPanel.setWidget(new ClientDetails(clientId, eventBus, requestFactory));
+            // When querying the server, RequestFactory does not automatically populate relations in the object graph.
+            // To do this, use the with() method on a request and specify the related property name as a String
+            Request<ClientProxy> request = requestFactory.clientRequest().findClient(clientId);//.with("address");
+            request.fire(new AbstractReceiver<ClientProxy>()
+            {
+                @Override
+                public void onSuccess(ClientProxy client)
+                {
+                    centerPanel.setWidget(new ClientDetails(client, eventBus, requestFactory));
+                }
+            });
         } else {
             LOG.log(Level.WARNING, "Unhandled History Token: " + historyToken);
         }

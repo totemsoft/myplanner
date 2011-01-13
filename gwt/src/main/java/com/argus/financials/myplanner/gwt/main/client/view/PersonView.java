@@ -1,7 +1,9 @@
 package com.argus.financials.myplanner.gwt.main.client.view;
 
+import com.argus.financials.domain.client.IDateTime;
 import com.argus.financials.myplanner.gwt.commons.client.PersonProxy;
 import com.google.gwt.editor.client.Editor;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -10,6 +12,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.datepicker.client.DateBox;
+import com.google.gwt.user.datepicker.client.DateBox.DefaultFormat;
 
 public class PersonView extends Composite implements Editor<PersonProxy>
 {
@@ -22,7 +25,7 @@ public class PersonView extends Composite implements Editor<PersonProxy>
     private ListBox maritalStatus;
     private DateBox dateOfBirth;
 
-    public PersonView()
+    public PersonView(PersonProxy person)
     {
         Grid grid = new Grid(7, 2);
         grid.setStyleName("border");
@@ -38,18 +41,21 @@ public class PersonView extends Composite implements Editor<PersonProxy>
         grid.setWidget(1, 0, label_1);
         
         surname = new TextBox();
+        surname.setText(person.getSurname());
         grid.setWidget(1, 1, surname);
 
         Label label_2 = new Label("Firstname");
         grid.setWidget(2, 0, label_2);
         
         firstname = new TextBox();
+        firstname.setText(person.getFirstname());
         grid.setWidget(2, 1, firstname);
         
         Label label_3 = new Label("Other names");
         grid.setWidget(3, 0, label_3);
         
         othernames = new TextBox();
+        othernames.setText(person.getOtherNames());
         grid.setWidget(3, 1, othernames);
         
         Label label_4 = new Label("Gender");
@@ -74,23 +80,9 @@ public class PersonView extends Composite implements Editor<PersonProxy>
         grid.setWidget(6, 0, label_6);
         
         dateOfBirth = new DateBox();
-        grid.setWidget(6, 1, dateOfBirth);
-    }
-
-    public void onView(PersonProxy person)
-    {
-        firstname.setText(person.getFirstname());
-        surname.setText(person.getSurname());
-        othernames.setText(person.getOtherNames());
+        dateOfBirth.setFormat(new DefaultFormat(DateTimeFormat.getFormat(IDateTime.DEFAULT_DATE)));
         dateOfBirth.setValue(person.getDateOfBirth());
-    }
-
-    public void onSave(PersonProxy person)
-    {
-        person.setFirstname(firstname.getText());
-        person.setSurname(surname.getText());
-        person.setOtherNames(othernames.getText());
-        person.setDateOfBirth(dateOfBirth.getValue());
+        grid.setWidget(6, 1, dateOfBirth);
     }
 
 }

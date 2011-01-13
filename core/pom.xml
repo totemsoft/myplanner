@@ -8,7 +8,7 @@
         <version>1.0.0</version>
     </parent>
     <groupId>com.argus.financials.myplanner</groupId>
-    <artifactId>core</artifactId>
+    <artifactId>myplanner-core</artifactId>
     <packaging>jar</packaging>
     <name>Core</name>
     <version>1.0.0</version>

@@ -140,7 +140,7 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
         <dependencies>
             <dependency>
                 <groupId>com.argus.financials.myplanner</groupId>
-                <artifactId>core</artifactId>
+                <artifactId>myplanner-core</artifactId>
                 <version>${application.version}</version>
             </dependency>
 

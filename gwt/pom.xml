@@ -7,7 +7,7 @@
         <version>1.0.0</version>
     </parent>
     <groupId>com.argus.financials.myplanner</groupId>
-    <artifactId>gwt</artifactId>
+    <artifactId>myplanner-gwt</artifactId>
     <packaging>war</packaging>
     <version>1.0.0</version>
     <name>MyPlanner J2EE 1.4 GWT Webapp</name>
@@ -16,8 +16,9 @@
     <dependencies>
         <dependency>
             <groupId>com.argus.financials.myplanner</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>myplanner-core</artifactId>
         </dependency>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>

@@ -114,7 +114,7 @@
                 </executions>
                 <configuration>
 			        <compileSourcesArtifacts>
-			          <artifact>com.argus.financials.myplanner:core</artifact>
+			          <artifact>com.argus.financials.myplanner:myplanner-core</artifact>
 			        </compileSourcesArtifacts>
                 </configuration>
             </plugin>

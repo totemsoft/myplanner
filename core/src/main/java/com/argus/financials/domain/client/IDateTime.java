@@ -6,6 +6,8 @@ package com.argus.financials.domain.client;
  */
 public interface IDateTime
 {
+
+    /** DEFAULT_DATE */
     String DEFAULT_DATE = "dd/MM/yyyy";
 
 }

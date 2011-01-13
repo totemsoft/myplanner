@@ -7,7 +7,7 @@ import com.argus.financials.myplanner.gwt.commons.client.AbstractAsyncCallback;
 import com.argus.financials.myplanner.gwt.commons.client.AbstractReceiver;
 import com.argus.financials.myplanner.gwt.commons.client.BasePair;
 import com.argus.financials.myplanner.gwt.commons.client.ClientProxy;
-import com.argus.financials.myplanner.gwt.commons.shared.ClientRequestFactory;
+import com.argus.financials.myplanner.gwt.commons.shared.GwtRequestFactory;
 import com.argus.financials.myplanner.gwt.main.client.view.ClientDetails;
 import com.argus.financials.myplanner.gwt.main.client.view.ClientSearch;
 import com.google.gwt.core.client.EntryPoint;
@@ -39,7 +39,7 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
 
     private final EventBus eventBus = new SimpleEventBus();
 
-    private final ClientRequestFactory requestFactory = GWT.create(ClientRequestFactory.class);
+    private final GwtRequestFactory requestFactory = GWT.create(GwtRequestFactory.class);
     
     private ScrollPanel centerPanel;
 

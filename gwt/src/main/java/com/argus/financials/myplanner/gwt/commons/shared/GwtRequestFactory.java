@@ -7,7 +7,7 @@ import com.google.gwt.requestfactory.shared.RequestFactory;
  * Data-oriented way.
  * @author valeri chibaev
  */
-public interface ClientRequestFactory extends RequestFactory
+public interface GwtRequestFactory extends RequestFactory
 {
 
     ClientRequest clientRequest();

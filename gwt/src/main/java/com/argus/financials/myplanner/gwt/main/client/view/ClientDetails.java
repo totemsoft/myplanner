@@ -2,7 +2,7 @@ package com.argus.financials.myplanner.gwt.main.client.view;
 
 import com.argus.financials.myplanner.gwt.commons.client.AbstractReceiver;
 import com.argus.financials.myplanner.gwt.commons.client.ClientProxy;
-import com.argus.financials.myplanner.gwt.commons.shared.ClientRequestFactory;
+import com.argus.financials.myplanner.gwt.commons.shared.GwtRequestFactory;
 import com.argus.financials.myplanner.gwt.main.client.Main;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.shared.EventBus;
@@ -26,7 +26,7 @@ public class ClientDetails extends Composite
 
     private final EventBus eventBus;
 
-    private final ClientRequestFactory requestFactory;
+    private final GwtRequestFactory requestFactory;
 
     private final PersonView personView;
 
@@ -36,7 +36,7 @@ public class ClientDetails extends Composite
 
     private final AddressView postalAddressView;
     
-    public ClientDetails(ClientProxy client, EventBus eventBus, ClientRequestFactory requestFactory)
+    public ClientDetails(ClientProxy client, EventBus eventBus, GwtRequestFactory requestFactory)
     {
         this.client = client;
         this.eventBus = eventBus;

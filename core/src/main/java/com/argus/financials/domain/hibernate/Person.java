@@ -28,7 +28,7 @@ public class Person extends AbstractAuditable<Long> implements IPerson
 
     @Id
     @Column(name = "PersonId", nullable = false)
-    @Type(type = "com.argus.financials.domain.hibernate.LongIntegerType")
+    @Type(type = "com.argus.financials.domain.hibernate.LongType")
     private Long id;
 
     @Column(name = "FirstName")

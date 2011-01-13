@@ -779,7 +779,7 @@ public final class ClientSearch extends javax.swing.JPanel {
     private Object[][] getRowData() {
         try {
             UserService userService = ServiceLocator.getInstance().getUserService();
-            List<ClientView> data = userService.findClients(getSelectionCriteria(), null);
+            List<ClientView> data = userService.findClients(getSelectionCriteria(), 0, -1);
             if (data == null)
                 return new Object[0][COLUMN_COUNT];
             Object[][] rowData = new Object[data.size()][COLUMN_COUNT];

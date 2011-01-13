@@ -10,7 +10,7 @@ import com.argus.financials.domain.hibernate.AbstractBase;
  * @author vchibaev (Valeri SHIBAEV)
  */
 @MappedSuperclass
-public abstract class AbstractCode extends AbstractBase<Long> implements ICode
+public abstract class AbstractCode extends AbstractBase<Integer> implements ICode
 {
 
     /** serialVersionUID */

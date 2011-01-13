@@ -32,6 +32,7 @@ import com.argus.beans.FTextField;
 import com.argus.beans.MessageSent;
 import com.argus.beans.MessageSentEvent;
 import com.argus.beans.WizardContentHandler;
+import com.argus.financials.domain.hibernate.Client;
 import com.argus.financials.domain.hibernate.view.ClientView;
 import com.argus.financials.exchange.ExportData;
 import com.argus.financials.service.ServiceLocator;
@@ -500,11 +501,10 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
         try {
             Map<String, Object> criteria = new HashMap<String, Object>();
             UserService userService = ServiceLocator.getInstance().getUserService();
-            List<ClientView> clients = userService.findClients(criteria, null);
+            List<ClientView> clients = userService.findClients(criteria, 0, -1);
             int size = clients == null ? 0 : clients.size();
             Vector data = new Vector(size);
-            for (int i = 0; i < size; i++) {
-                ClientView c = clients.get(i);
+            for (ClientView c : clients) {
                 java.util.Vector row = new java.util.Vector();
                 row.add(Boolean.FALSE); // Selected
                 row.add(c); // ClientView

@@ -53,7 +53,7 @@ public class ClientController implements Filter
 
     public static Client findClient(Long clientId)
     {
-        return new Client();// userService.findClient(clientId);
+        return userService.findClient(clientId);
     }
 
 }

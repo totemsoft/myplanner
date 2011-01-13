@@ -10,9 +10,7 @@ import com.google.gwt.requestfactory.shared.Service;
 public interface ClientRequest extends RequestContext
 {
 
-    //Request<List<ClientProxy>> findClients();
-
-    Request<ClientProxy> findClient(Integer clientId);
+    Request<ClientProxy> findClient(Long clientId);
 
     //InstanceRequest<ClientProxy, Void> persist();
 

@@ -24,7 +24,9 @@ public abstract class AbstractAuditable<T> extends AbstractBase<T>
     private Date dateModified;
 
     @Transient
-    private Long version;
+    //@Version
+    //@Column(name = "")
+    private Integer version;
 
     /**
      * @return the dateCreated
@@ -61,7 +63,7 @@ public abstract class AbstractAuditable<T> extends AbstractBase<T>
     /**
      * @return the version
      */
-    public Long getVersion()
+    public Integer getVersion()
     {
         return version;
     }
@@ -69,7 +71,7 @@ public abstract class AbstractAuditable<T> extends AbstractBase<T>
     /**
      * @param version the version to set
      */
-    public void setVersion(Long version)
+    public void setVersion(Integer version)
     {
         this.version = version;
     }

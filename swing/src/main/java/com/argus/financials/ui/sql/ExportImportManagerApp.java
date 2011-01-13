@@ -641,7 +641,7 @@ public class ExportImportManagerApp extends javax.swing.JPanel {
         private void init() throws ServiceException {
             Map<String, Object> criteria = new HashMap<String, Object>();
             UserService userService = ServiceLocator.getInstance().getUserService();
-            List<ClientView> clients = userService.findClients(criteria, null);
+            List<ClientView> clients = userService.findClients(criteria, 0, -1);
             int size = clients == null ? 0 : clients.size();
             Map users = new TreeMap();
             for (int i = 0; i < size; i++) {

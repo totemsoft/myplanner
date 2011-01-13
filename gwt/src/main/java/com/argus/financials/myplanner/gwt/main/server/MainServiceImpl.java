@@ -36,8 +36,8 @@ public class MainServiceImpl extends AbstractGwtController implements MainServic
                 criteriaMap.put(p.getFirst(), p.getSecond());
             }
         }
-        List<ClientView> clients = getUserService().findClients(criteriaMap, range == null ? null :
-            new com.argus.util.Range(range.getStart(), range.getLength()));
+        List<ClientView> clients = getUserService().findClients(criteriaMap,
+            range.getStart(), range.getLength());
         // convert to dto
         List<BasePair> result = new ArrayList<BasePair>();
         for (ClientView c : clients) {

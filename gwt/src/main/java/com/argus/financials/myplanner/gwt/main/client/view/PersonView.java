@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.datepicker.client.DateBox;
 
 public class PersonView extends Composite implements Editor<PersonProxy>
 {
@@ -19,10 +20,11 @@ public class PersonView extends Composite implements Editor<PersonProxy>
     private RadioButton genderMale;
     private RadioButton genderFemale;
     private ListBox maritalStatus;
+    private DateBox dateOfBirth;
 
     public PersonView()
     {
-        Grid grid = new Grid(6, 2);
+        Grid grid = new Grid(7, 2);
         grid.setStyleName("border");
         initWidget(grid);
         
@@ -67,14 +69,12 @@ public class PersonView extends Composite implements Editor<PersonProxy>
         
         maritalStatus = new ListBox();
         grid.setWidget(5, 1, maritalStatus);
-    }
 
-    public void onSave(PersonProxy person)
-    {
-        person.setFirstname(firstname.getText());
-        person.setSurname(surname.getText());
-        person.setOtherNames(othernames.getText());
-        //person.setDateOfBirth(dateOfBirth.getDate());
+        Label label_6 = new Label("Date of Birth");
+        grid.setWidget(6, 0, label_6);
+        
+        dateOfBirth = new DateBox();
+        grid.setWidget(6, 1, dateOfBirth);
     }
 
     public void onView(PersonProxy person)
@@ -82,7 +82,15 @@ public class PersonView extends Composite implements Editor<PersonProxy>
         firstname.setText(person.getFirstname());
         surname.setText(person.getSurname());
         othernames.setText(person.getOtherNames());
-        //dateOfBirth.setDate(person.get);
+        dateOfBirth.setValue(person.getDateOfBirth());
+    }
+
+    public void onSave(PersonProxy person)
+    {
+        person.setFirstname(firstname.getText());
+        person.setSurname(surname.getText());
+        person.setOtherNames(othernames.getText());
+        person.setDateOfBirth(dateOfBirth.getValue());
     }
 
 }

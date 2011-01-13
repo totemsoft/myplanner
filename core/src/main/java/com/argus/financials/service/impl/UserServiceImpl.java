@@ -42,7 +42,6 @@ import com.argus.financials.service.ObjectNotFoundException;
 import com.argus.financials.service.ServiceException;
 import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.service.UserService;
-import com.argus.util.Range;
 
 public class UserServiceImpl extends PersonServiceImpl implements UserService {
 
@@ -101,9 +100,9 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
     }
 
     /* (non-Javadoc)
-     * @see com.argus.financials.service.UserService#findClients(java.util.Map, com.argus.util.Range)
+     * @see com.argus.financials.service.UserService#findClients(java.util.Map, int, int)
      */
-    public List<ClientView> findClients(Map<String, Object> criteria, Range range)
+    public List<ClientView> findClients(Map<String, Object> criteria, int start, int length)
         throws ServiceException
     {
         // add user
@@ -119,7 +118,8 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
             criteria.put(UserService.ALL_USERS_CLIENTS, Boolean.TRUE);
         }
         //
-        return clientDao.findClients(criteria, range);
+        List<ClientView> clients = clientDao.findClients(criteria, start, length);
+        return clients;
     }
 
     /* (non-Javadoc)

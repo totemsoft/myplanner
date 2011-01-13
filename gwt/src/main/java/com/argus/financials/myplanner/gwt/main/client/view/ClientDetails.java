@@ -2,7 +2,6 @@ package com.argus.financials.myplanner.gwt.main.client.view;
 
 import com.argus.financials.myplanner.gwt.commons.client.AbstractReceiver;
 import com.argus.financials.myplanner.gwt.commons.client.ClientProxy;
-import com.argus.financials.myplanner.gwt.commons.shared.ClientRequest;
 import com.argus.financials.myplanner.gwt.commons.shared.ClientRequestFactory;
 import com.argus.financials.myplanner.gwt.main.client.Main;
 import com.google.gwt.dom.client.Style.Unit;
@@ -23,7 +22,7 @@ public class ClientDetails extends Composite
 
     public static final String HISTORY_TOKEN = "clientDetails";
 
-    private final Integer clientId;
+    private final Long clientId;
 
     private final EventBus eventBus;
 
@@ -37,7 +36,7 @@ public class ClientDetails extends Composite
 
     private final AddressView postalAddressView;
     
-    public ClientDetails(Integer clientId, EventBus eventBus, ClientRequestFactory requestFactory)
+    public ClientDetails(Long clientId, EventBus eventBus, ClientRequestFactory requestFactory)
     {
         this.clientId = clientId;
         this.eventBus = eventBus;
@@ -117,7 +116,6 @@ public class ClientDetails extends Composite
             @Override
             public void onSuccess(ClientProxy client)
             {
-                Window.alert("onView::onSuccess: " + client);
                 // Update display
                 personView.onView(client);
                 //addressView.onView(address);

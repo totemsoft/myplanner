@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.argus.financials.domain.hibernate.Client;
 import com.argus.financials.domain.hibernate.view.ClientView;
-import com.argus.util.Range;
 
 /**
  * @author vchibaev (Valeri SHIBAEV)
@@ -23,9 +22,10 @@ public interface ClientDao extends BaseDAO
     /**
      * 
      * @param criteria
-     * @param range
+     * @param start
+     * @param length
      * @return
      */
-    List<ClientView> findClients(Map<String, Object> criteria, Range range);
+    List<ClientView> findClients(Map<String, Object> criteria, int start, int length);
 
 }

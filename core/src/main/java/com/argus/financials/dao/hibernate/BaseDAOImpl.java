@@ -12,7 +12,6 @@ import javax.persistence.Query;
 import org.apache.log4j.Logger;
 
 import com.argus.financials.dao.BaseDAO;
-import com.argus.util.Range;
 
 /**
  * @author vchibaev (Valeri SHIBAEV)
@@ -64,12 +63,15 @@ public class BaseDAOImpl implements BaseDAO
         }
     }
 
-    protected void updateQuery(Query qry, Range range)
+    protected void updateQuery(Query qry, int start, int length)
     {
-        if (range != null)
+        if (start >= 0)
         {
-            qry.setFirstResult(range.getStart());
-            qry.setMaxResults(range.getLength());
+            qry.setFirstResult(start);
+        }
+        if (length >= 0)
+        {
+            qry.setMaxResults(length);
         }
     }
 

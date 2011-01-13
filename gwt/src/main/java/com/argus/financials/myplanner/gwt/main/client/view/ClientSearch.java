@@ -250,7 +250,8 @@ public class ClientSearch extends Composite
             criteria.add(new StringPair("PostCode", postcode.getText()));
         }
         MainServiceAsync.Util.getInstance().findClients(
-            (StringPair[]) criteria.toArray(new StringPair[0]), range, new SearchCallback());
+            (StringPair[]) criteria.toArray(new StringPair[0]), range,
+            new SearchCallback());
     }
 
     private class SearchCallback extends AbstractAsyncCallback<BasePair[]>

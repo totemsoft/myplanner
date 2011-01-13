@@ -17,7 +17,6 @@ import com.argus.financials.domain.hibernate.view.ClientView;
 import com.argus.financials.etc.Address;
 import com.argus.financials.etc.PersonName;
 import com.argus.util.DateTimeUtils;
-import com.argus.util.Range;
 
 /**
  * @author vchibaev (Valeri SHIBAEV)
@@ -35,10 +34,10 @@ public class ClientDaoImpl extends BaseDAOImpl implements ClientDao
     }
 
     /* (non-Javadoc)
-     * @see com.argus.financials.dao.ClientDao#findClients(java.util.Map, com.argus.util.Range)
+     * @see com.argus.financials.dao.ClientDao#findClients(java.util.Map, int, int)
      */
     @SuppressWarnings("unchecked")
-    public List<ClientView> findClients(Map<String, Object> criteria, Range range)
+    public List<ClientView> findClients(Map<String, Object> criteria, int start, int length)
     {
         Map<String, Object> parameters = new HashMap<String, Object>();
         String sql = "FROM ClientView WHERE 1=1";
@@ -113,7 +112,7 @@ public class ClientDaoImpl extends BaseDAOImpl implements ClientDao
         }
         Query qry = getEntityManager().createQuery(sql);
         updateQuery(qry, parameters);
-        updateQuery(qry, range);
+        updateQuery(qry, start, length);
         return qry.getResultList();
     }
 

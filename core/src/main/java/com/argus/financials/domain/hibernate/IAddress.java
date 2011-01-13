@@ -5,7 +5,7 @@ import com.argus.financials.domain.client.refdata.IAddressCode;
 import com.argus.financials.domain.client.refdata.ICountry;
 import com.argus.financials.domain.client.refdata.IState;
 
-public interface IAddress extends IBase<Long>
+public interface IAddress extends IBase<Integer>
 {
     IAddress getParentId();
 
@@ -27,9 +27,9 @@ public interface IAddress extends IBase<Long>
 
     void setSuburb(String suburb);
 
-    Long getPostcode();
+    Integer getPostcode();
 
-    void setPostcode(Long postcode);
+    void setPostcode(Integer postcode);
 
     IState getState();
 

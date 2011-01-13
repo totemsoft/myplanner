@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * @author vchibaev (Valeri SHIBAEV)
  */
-public interface IClient extends IPerson
+public interface IClient extends IPerson//, IOwnerBase<Long>
 {
 
     Date getFeeDate();

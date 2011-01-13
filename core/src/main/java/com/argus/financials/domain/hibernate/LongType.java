@@ -9,7 +9,7 @@ import java.sql.Types;
 import org.hibernate.HibernateException;
 import org.hibernate.usertype.UserType;
 
-public class LongIntegerType implements UserType {
+public class LongType implements UserType {
 
     /* (non-Javadoc)
      * @see org.hibernate.usertype.UserType#assemble(java.io.Serializable, java.lang.Object)

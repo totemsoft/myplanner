@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.argus.financials.domain.hibernate.Client;
 import com.argus.financials.domain.hibernate.User;
 import com.argus.financials.domain.hibernate.view.ClientView;
-import com.argus.util.Range;
 
 /**
  * @author valeri chibaev
@@ -54,12 +53,12 @@ public interface UserService extends PersonService
     /**
      * 
      * @param criteria
-     * @param range - optional
+     * @param start
+     * @param length
      * @return
      * @throws ServiceException
      */
-    List<ClientView> findClients(Map<String, Object> criteria, Range range) throws ServiceException;
-    
+    List<ClientView> findClients(Map<String, Object> criteria, int start, int length) throws ServiceException;
     
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     PersonService create(Integer ownerPersonID, boolean store) throws ServiceException,

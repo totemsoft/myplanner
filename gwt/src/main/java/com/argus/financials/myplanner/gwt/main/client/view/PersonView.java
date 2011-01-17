@@ -3,6 +3,7 @@ package com.argus.financials.myplanner.gwt.main.client.view;
 import com.argus.financials.domain.client.IDateTime;
 import com.argus.financials.myplanner.gwt.commons.client.PersonProxy;
 import com.google.gwt.editor.client.Editor;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
@@ -25,7 +26,7 @@ public class PersonView extends Composite implements Editor<PersonProxy>
     private ListBox maritalStatus;
     private DateBox dateOfBirth;
 
-    public PersonView(PersonProxy person)
+    public PersonView(PersonProxy person, ChangeHandler handler)
     {
         Grid grid = new Grid(7, 2);
         grid.setStyleName("border");
@@ -41,6 +42,7 @@ public class PersonView extends Composite implements Editor<PersonProxy>
         grid.setWidget(1, 0, label_1);
         
         surname = new TextBox();
+        surname.addChangeHandler(handler);
         surname.setText(person.getSurname());
         grid.setWidget(1, 1, surname);
 

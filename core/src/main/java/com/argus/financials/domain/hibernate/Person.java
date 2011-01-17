@@ -54,10 +54,9 @@ public class Person extends AbstractAuditable<Long> implements IPerson
     @JoinColumn(name = "ResidenceCountryCodeID")
     private ICountry residenceCountry;
 
-//  [SexCodeID] [int] NULL,
 //  [TitleCodeID] [int] NULL,
+//  [SexCodeID] [int] NULL,
 //  [MaritalCodeID] [int] NULL,
-//  [ResidenceStatusCodeID] [int] NULL,
 
     @Column(name = "TaxFileNumber")
     private String taxFileNumber;
@@ -69,6 +68,7 @@ public class Person extends AbstractAuditable<Long> implements IPerson
     @Column(name = "SupportToAge")
     private Integer supportToAge;
 
+//  [ResidenceStatusCodeID] [int] NULL,
 //  [PreferredLanguageID] [int] NULL,
 //  [PreferredLanguage] [varchar](20) NULL,
 //  [ReferalSourceCodeID] [int] NULL,

@@ -13,7 +13,7 @@ public interface MainService extends RemoteService {
      * 
      * @param selected
      */
-    void setClient(Long clientId);
+    void openClient(Long clientId);
 
     BasePair[] findClients(StringPair[] criteria, Range range);
 

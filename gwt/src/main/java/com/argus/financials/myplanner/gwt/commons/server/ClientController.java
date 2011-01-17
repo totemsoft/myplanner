@@ -24,6 +24,7 @@ public class ClientController implements Filter
     public void init(FilterConfig filterConfig) throws ServletException
     {
         userService = (UserService) WebUtils.getBean(filterConfig.getServletContext(), "userService");
+        //Client.setUserService(userService);
     }
 
     /* (non-Javadoc)

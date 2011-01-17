@@ -1,22 +1,32 @@
 package com.argus.financials.myplanner.gwt.main.client.view;
 
-import com.argus.financials.myplanner.gwt.commons.client.AbstractReceiver;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.argus.financials.myplanner.gwt.commons.client.ClientProxy;
+import com.argus.financials.myplanner.gwt.commons.shared.ClientRequest;
 import com.argus.financials.myplanner.gwt.commons.shared.GwtRequestFactory;
 import com.argus.financials.myplanner.gwt.main.client.Main;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
-import com.google.gwt.requestfactory.shared.Request;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class ClientDetails extends Composite
+public class ClientDetails extends Composite implements ChangeHandler
 {
+
+    private static final Logger LOG = Logger.getLogger(ClientDetails.class.getName());
 
     public static final String TITLE = "Client Details";
 
@@ -35,16 +45,33 @@ public class ClientDetails extends Composite
     private final CheckBox sameAsAbove;
 
     private final AddressView postalAddressView;
-    
+
+    private final Button buttonSave;
+
     public ClientDetails(ClientProxy client, EventBus eventBus, GwtRequestFactory requestFactory)
     {
-        this.client = client;
+        // Any objects not returned from RequestContext.create(), such as those received from the server,
+        // must be enabled for changes by calling the RequestFactory's edit() method.
+        // Any EntityProxies returned from the getters of an editable proxy are also editable.
+        if (client == null)
+        {
+            this.client = requestFactory.clientRequest().create(ClientProxy.class);
+        }
+        else
+        {
+            this.client = requestFactory.clientRequest().edit(client);
+        }
         this.eventBus = eventBus;
         this.requestFactory = requestFactory;
 
+        VerticalPanel verticalPanel = new VerticalPanel();
+        initWidget(verticalPanel);
+        verticalPanel.setStyleName("mp-Panel-center");
+        verticalPanel.setSize("30em", null);
+
         TabLayoutPanel tabLayoutPanel = new TabLayoutPanel(1.5, Unit.EM);
-        initWidget(tabLayoutPanel);
-        tabLayoutPanel.setHeight("42em");
+        verticalPanel.add(tabLayoutPanel);
+        tabLayoutPanel.setHeight("43em");
         
         HorizontalPanel details = new HorizontalPanel();
         tabLayoutPanel.add(details, "Client Details", false);
@@ -52,7 +79,7 @@ public class ClientDetails extends Composite
         VerticalPanel leftPanel = new VerticalPanel();
         details.add(leftPanel);
         
-        personView = new PersonView(client);
+        personView = new PersonView(client, this);
         leftPanel.add(personView);
         
         addressView = new AddressView(null);
@@ -79,8 +106,38 @@ public class ClientDetails extends Composite
         HorizontalPanel contacts = new HorizontalPanel();
         tabLayoutPanel.add(contacts, "Contact Details", false);
         
+        FlowPanel flowPanel = new FlowPanel();
+        verticalPanel.add(flowPanel);
+        
+        buttonSave = new Button("Save");
+        buttonSave.addClickHandler(new ClickHandler()
+        {
+            public void onClick(ClickEvent event) {
+                save();
+            }
+        });
+        buttonSave.setEnabled(false);
+        flowPanel.add(buttonSave);
+        
         Window.setTitle(Main.TITLE + TITLE);
     }
+
+    /* (non-Javadoc)
+     * @see com.google.gwt.event.dom.client.ChangeHandler#onChange(com.google.gwt.event.dom.client.ChangeEvent)
+     */
+    public void onChange(ChangeEvent event)
+    {
+        buttonSave.setEnabled(true);//requestFactory.clientRequest().isChanged());
+    }
+
+    private void save()
+    {
+        LOG.log(Level.INFO, "save");
+        ClientRequest request = requestFactory.clientRequest();
+        request.persist(client).fire();
+        //request.persist().using(client).fire();
+    }
+
 /*
     private void onSave()
     {

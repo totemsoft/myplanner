@@ -20,7 +20,7 @@ public class MainServiceImpl extends AbstractGwtController implements MainServic
     /* (non-Javadoc)
      * @see com.argus.financials.myplanner.gwt.main.client.MainService#setClient(com.argus.financials.myplanner.gwt.commons.client.BasePair)
      */
-    public void setClient(Long clientId)
+    public void openClient(Long clientId)
     {
         getUserPreferences().setClient(getUserService().findClient(clientId));
     }

@@ -22,6 +22,8 @@ public class Client extends Person implements IClient
     /** serialVersionUID */
     private static final long serialVersionUID = 1209327387101767887L;
 
+//    private static UserService userService;
+
     @Column(name = "FeeDate")
     private Date feeDate;
 
@@ -63,5 +65,38 @@ public class Client extends Person implements IClient
     {
         this.reviewDate = password;
     }
+
+//    /**
+//     * 
+//     * @return
+//     */
+//    public static UserService getUserService()
+//    {
+//        assert userService != null;
+//        return userService;
+//    }
+//
+//    /**
+//     * @param userService the userService to set
+//     */
+//    public static void setUserService(UserService userService)
+//    {
+//        Client.userService = userService;
+//    }
+//
+//    public static Client findClient(Long clientId)
+//    {
+//        return getUserService().findClient(clientId);
+//    }
+//
+//    public Client persist()
+//    {
+//        return getUserService().persist(this);
+//    }
+//
+//    public Client remove()
+//    {
+//        return getUserService().remove(this);
+//    }
 
 }

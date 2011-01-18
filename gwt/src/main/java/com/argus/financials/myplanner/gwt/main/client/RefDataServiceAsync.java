@@ -18,7 +18,21 @@ public interface RefDataServiceAsync
      * GWT-RPC service  asynchronous (client-side) interface
      * @see com.argus.financials.myplanner.gwt.main.client.RefDataService
      */
+    void findMaritalCodes( AsyncCallback<com.argus.financials.myplanner.gwt.commons.client.BasePair[]> callback );
+
+
+    /**
+     * GWT-RPC service  asynchronous (client-side) interface
+     * @see com.argus.financials.myplanner.gwt.main.client.RefDataService
+     */
     void findStates( java.lang.String p0, AsyncCallback<com.argus.financials.myplanner.gwt.commons.client.BasePair[]> callback );
+
+
+    /**
+     * GWT-RPC service  asynchronous (client-side) interface
+     * @see com.argus.financials.myplanner.gwt.main.client.RefDataService
+     */
+    void findTitileCodes( AsyncCallback<com.argus.financials.myplanner.gwt.commons.client.BasePair[]> callback );
 
 
     /**

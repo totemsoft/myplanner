@@ -25,12 +25,28 @@ public class RefDataServiceImpl extends AbstractGwtController implements RefData
     }
 
     /* (non-Javadoc)
+     * @see com.argus.financials.myplanner.gwt.main.client.RefDataService#findMaritalCodes()
+     */
+    public BasePair[] findMaritalCodes()
+    {
+        return convert(getEntityService().findMaritalCodes());
+    }
+
+    /* (non-Javadoc)
      * @see com.argus.financials.myplanner.gwt.main.client.RefDataService#findStates(java.lang.String)
      */
     public BasePair[] findStates(String countryId)
     {
         return convert(getEntityService().findStates(
             StringUtils.isNotBlank(countryId) ? NumberUtils.createInteger(countryId) : null));
+    }
+
+    /* (non-Javadoc)
+     * @see com.argus.financials.myplanner.gwt.main.client.RefDataService#findTitileCodes()
+     */
+    public BasePair[] findTitileCodes()
+    {
+        return convert(getEntityService().findTitleCodes());
     }
 
     /**

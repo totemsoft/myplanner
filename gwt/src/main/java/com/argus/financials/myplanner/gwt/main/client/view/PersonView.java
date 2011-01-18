@@ -1,7 +1,9 @@
 package com.argus.financials.myplanner.gwt.main.client.view;
 
 import com.argus.financials.domain.client.IDateTime;
+import com.argus.financials.myplanner.gwt.commons.client.AddListBoxItemsCallback;
 import com.argus.financials.myplanner.gwt.commons.client.PersonProxy;
+import com.argus.financials.myplanner.gwt.main.client.RefDataServiceAsync;
 import com.google.gwt.editor.client.Editor;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -23,7 +25,7 @@ public class PersonView extends Composite implements Editor<PersonProxy>
     private TextBox othernames;
     private RadioButton genderMale;
     private RadioButton genderFemale;
-    private ListBox maritalStatus;
+    private ListBox marital;
     private DateBox dateOfBirth;
 
     public PersonView(PersonProxy person, ChangeHandler handler)
@@ -36,14 +38,16 @@ public class PersonView extends Composite implements Editor<PersonProxy>
         grid.setWidget(0, 0, label);
         
         title = new ListBox();
+        addTitleCodes(title);
+        title.addChangeHandler(handler);
         grid.setWidget(0, 1, title);
 
         Label label_1 = new Label("Surname");
         grid.setWidget(1, 0, label_1);
         
         surname = new TextBox();
-        surname.addChangeHandler(handler);
         surname.setText(person.getSurname());
+        surname.addChangeHandler(handler);
         grid.setWidget(1, 1, surname);
 
         Label label_2 = new Label("Firstname");
@@ -51,6 +55,7 @@ public class PersonView extends Composite implements Editor<PersonProxy>
         
         firstname = new TextBox();
         firstname.setText(person.getFirstname());
+        firstname.addChangeHandler(handler);
         grid.setWidget(2, 1, firstname);
         
         Label label_3 = new Label("Other names");
@@ -58,6 +63,7 @@ public class PersonView extends Composite implements Editor<PersonProxy>
         
         othernames = new TextBox();
         othernames.setText(person.getOtherNames());
+        othernames.addChangeHandler(handler);
         grid.setWidget(3, 1, othernames);
         
         Label label_4 = new Label("Gender");
@@ -67,16 +73,20 @@ public class PersonView extends Composite implements Editor<PersonProxy>
         grid.setWidget(4, 1, horizontalPanel);
 
         genderMale = new RadioButton("gender", "Male");
+        //genderMale.addValueChangeHandler(handler);
         horizontalPanel.add(genderMale);
         
         genderFemale = new RadioButton("gender", "Female");
+        //genderFemale.addValueChangeHandler(handler);
         horizontalPanel.add(genderFemale);
         
         Label label_5 = new Label("Marital Status");
         grid.setWidget(5, 0, label_5);
         
-        maritalStatus = new ListBox();
-        grid.setWidget(5, 1, maritalStatus);
+        marital = new ListBox();
+        addMaritalCodes(marital);
+        marital.addChangeHandler(handler);
+        grid.setWidget(5, 1, marital);
 
         Label label_6 = new Label("Date of Birth");
         grid.setWidget(6, 0, label_6);
@@ -84,7 +94,18 @@ public class PersonView extends Composite implements Editor<PersonProxy>
         dateOfBirth = new DateBox();
         dateOfBirth.setFormat(new DefaultFormat(DateTimeFormat.getFormat(IDateTime.DEFAULT_DATE)));
         dateOfBirth.setValue(person.getDateOfBirth());
+        //dateOfBirth.addValueChangeHandler(handler);
         grid.setWidget(6, 1, dateOfBirth);
+    }
+
+    private void addMaritalCodes(ListBox marital)
+    {
+        RefDataServiceAsync.Util.getInstance().findMaritalCodes(new AddListBoxItemsCallback(marital));
+    }
+
+    private void addTitleCodes(ListBox title)
+    {
+        RefDataServiceAsync.Util.getInstance().findTitileCodes(new AddListBoxItemsCallback(title));
     }
 
 }

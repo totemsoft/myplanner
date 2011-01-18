@@ -6,8 +6,13 @@ import com.argus.financials.domain.client.IBase;
  *
  * @author vchibaev (Valeri SHIBAEV)
  */
-public interface ICode extends IBase<Integer>
+public interface ICode extends IBase<Long>
 {
+
+    Long getId();
+
+    Integer getVersion();
+
     /**
      * 
      * @return

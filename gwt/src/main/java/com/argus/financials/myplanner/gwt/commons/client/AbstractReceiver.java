@@ -7,7 +7,6 @@ import java.util.logging.Logger;
 import com.google.gwt.requestfactory.shared.Receiver;
 import com.google.gwt.requestfactory.shared.ServerFailure;
 import com.google.gwt.requestfactory.shared.Violation;
-import com.google.gwt.user.client.Window;
 
 /**
  * 
@@ -26,8 +25,7 @@ public abstract class AbstractReceiver<T> extends Receiver<T>
     @Override
     public void onFailure(ServerFailure error)
     {
-        Window.alert("onView::onFailure: " + error.getMessage() + '\n' + error.getStackTraceString());
-        LOG.log(Level.SEVERE, error.getMessage());
+        LOG.log(Level.SEVERE, getClass() + "::onFailure: " + error.getMessage() + '\n' + error.getStackTraceString());
         super.onFailure(error);
     }
 

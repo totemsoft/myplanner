@@ -53,13 +53,14 @@ public class ClientDetails extends Composite implements ChangeHandler
         // Any objects not returned from RequestContext.create(), such as those received from the server,
         // must be enabled for changes by calling the RequestFactory's edit() method.
         // Any EntityProxies returned from the getters of an editable proxy are also editable.
+        ClientRequest request = requestFactory.clientRequest();
         if (client == null)
         {
-            this.client = requestFactory.clientRequest().create(ClientProxy.class);
+            this.client = request.create(ClientProxy.class);
         }
         else
         {
-            this.client = requestFactory.clientRequest().edit(client);
+            this.client = client;//request.edit(client);
         }
         this.eventBus = eventBus;
         this.requestFactory = requestFactory;
@@ -127,6 +128,7 @@ public class ClientDetails extends Composite implements ChangeHandler
      */
     public void onChange(ChangeEvent event)
     {
+        LOG.log(Level.INFO, "onChange: " + event.toDebugString());
         buttonSave.setEnabled(true);//requestFactory.clientRequest().isChanged());
     }
 
@@ -137,28 +139,5 @@ public class ClientDetails extends Composite implements ChangeHandler
         request.persist(client).fire();
         //request.persist().using(client).fire();
     }
-
-/*
-    private void onSave()
-    {
-        ClientRequest request = requestFactory.clientRequest();
-        ClientProxy client = request.create(ClientProxy.class);
-//      client.setFeeDate(feeDate);
-//      client.setReviewDate(reviewDate);
-        personView.onSave(client);
-        //addressView.onSave(address);
-        //postalAddressView.onSave(postalAddress);
-        //sameAsAbove.setValue(address.equals(postalAddress));
-        Request<Void> saveRequest = request.persist().using(client);
-        saveRequest.fire(new AbstractReceiver<Void>()
-        {
-            @Override
-            public void onSuccess(Void response)
-            {
-                // Update display
-            }
-        });
-    }
-*/
 
 }

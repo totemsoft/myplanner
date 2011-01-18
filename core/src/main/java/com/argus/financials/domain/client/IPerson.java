@@ -6,7 +6,10 @@ package com.argus.financials.domain.client;
 
 import java.util.Date;
 
-import com.argus.financials.domain.client.refdata.ICountry;
+import com.argus.financials.domain.hibernate.refdata.Country;
+import com.argus.financials.domain.hibernate.refdata.MaritalCode;
+import com.argus.financials.domain.hibernate.refdata.SexCode;
+import com.argus.financials.domain.hibernate.refdata.TitleCode;
 
 /**
  * @author vchibaev (Valeri SHIBAEV)
@@ -42,14 +45,26 @@ public interface IPerson extends IBase<Long>
 
     void setDateOfBirth(Date dateOfBirth);
 
-    ICountry getDobCountry();
+    Country getDobCountry();
 
-    void setDobCountry(ICountry dobCountry);
+    void setDobCountry(Country dobCountry);
 
-    ICountry getResidenceCountry();
+    Country getResidenceCountry();
 
-    void setResidenceCountry(ICountry residenceCountry);
+    void setResidenceCountry(Country residenceCountry);
 
+    TitleCode getTitle();
+
+    void setTitle(TitleCode title);
+
+    SexCode getSex();
+
+    void setSex(SexCode sex);
+
+    MaritalCode getMarital();
+
+    void setMarital(MaritalCode marital);
+    
     String getTaxFileNumber();
 
     void setTaxFileNumber(String taxFileNumber);

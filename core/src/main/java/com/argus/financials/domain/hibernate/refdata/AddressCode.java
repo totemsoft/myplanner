@@ -7,6 +7,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
 
 import com.argus.financials.domain.client.refdata.IAddressCode;
 
@@ -21,7 +22,8 @@ public class AddressCode extends AbstractCode implements IAddressCode
 
     @Id
     @Column(name = "AddressCodeID", nullable = false)
-    private Integer id;
+    @Type(type = "com.argus.financials.domain.hibernate.LongType")
+    private Long id;
 
     //@Column(name = "AddressCode", nullable = false)
     //private String code;
@@ -32,7 +34,7 @@ public class AddressCode extends AbstractCode implements IAddressCode
     /* (non-Javadoc)
      * @see com.argus.financials.domain.IBase#getId()
      */
-    public Integer getId()
+    public Long getId()
     {
         return id;
     }

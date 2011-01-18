@@ -52,15 +52,16 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
 
     // value has to be Integer
     public void setOwnerPrimaryKey(Object value) throws ServiceException {
-        if (equals(value, getOwnerPrimaryKeyID()))
+        Integer id = value == null ? null : ((Number) value).intValue();
+        if (equals(id, getOwnerPrimaryKeyID()))
             return;
         FPSLinkObject lo = FPSLinkObject.getInstance();
         try {
             Connection con = getConnection();
             lo.unlink(getOwnerPrimaryKeyID(), getPrimaryKeyID(), USER_2_CLIENT, con);
-            if (value != null)
-                lo.link((Integer) value, getPrimaryKeyID(), USER_2_CLIENT, con);
-            setOwnerPrimaryKeyID((Integer) value);
+            if (id != null)
+                lo.link(id, getPrimaryKeyID(), USER_2_CLIENT, con);
+            setOwnerPrimaryKeyID(id);
         } catch (SQLException e) {
             throw new ServiceException(e.getMessage());
         }

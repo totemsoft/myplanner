@@ -15,9 +15,21 @@ public interface RefDataService extends RemoteService {
 
     /**
      * 
+     * @return
+     */
+    BasePair[] findMaritalCodes();
+
+    /**
+     * 
      * @param countryId
      * @return
      */
     BasePair[] findStates(String countryId);
+
+    /**
+     * 
+     * @return
+     */
+    BasePair[] findTitileCodes();
 
 }

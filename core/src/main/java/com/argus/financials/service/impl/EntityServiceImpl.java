@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.argus.financials.config.FPSLocale;
 import com.argus.financials.dao.EntityDao;
 import com.argus.financials.domain.hibernate.refdata.Country;
+import com.argus.financials.domain.hibernate.refdata.MaritalCode;
 import com.argus.financials.domain.hibernate.refdata.State;
+import com.argus.financials.domain.hibernate.refdata.TitleCode;
 import com.argus.financials.domain.util.CountryComparator;
 import com.argus.financials.service.EntityService;
 
@@ -26,6 +28,24 @@ public class EntityServiceImpl implements EntityService
         List<Country> result = entityDao.findCountries();
         String defaultCountry = FPSLocale.getInstance().getDisplayCountry();
         Collections.sort(result, new CountryComparator(defaultCountry));
+        return result;
+    }
+
+    /* (non-Javadoc)
+     * @see com.argus.financials.service.EntityService#findMaritalCodes()
+     */
+    public List<MaritalCode> findMaritalCodes()
+    {
+        List<MaritalCode> result = entityDao.findMaritalCodes();
+        return result;
+    }
+
+    /* (non-Javadoc)
+     * @see com.argus.financials.service.EntityService#findTitleCodes()
+     */
+    public List<TitleCode> findTitleCodes()
+    {
+        List<TitleCode> result = entityDao.findTitleCodes();
         return result;
     }
 

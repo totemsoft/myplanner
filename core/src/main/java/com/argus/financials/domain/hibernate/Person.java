@@ -15,8 +15,10 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 
 import com.argus.financials.domain.client.IPerson;
-import com.argus.financials.domain.client.refdata.ICountry;
 import com.argus.financials.domain.hibernate.refdata.Country;
+import com.argus.financials.domain.hibernate.refdata.MaritalCode;
+import com.argus.financials.domain.hibernate.refdata.SexCode;
+import com.argus.financials.domain.hibernate.refdata.TitleCode;
 
 @Entity
 @Table(name = "Person")
@@ -46,17 +48,25 @@ public class Person extends AbstractAuditable<Long> implements IPerson
     @Column(name = "DateOfBirth")
     private Date dateOfBirth;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Country.class)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DOBCountryID")
-    private ICountry dobCountry;
+    private Country dobCountry;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Country.class)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ResidenceCountryCodeID")
-    private ICountry residenceCountry;
+    private Country residenceCountry;
 
-//  [TitleCodeID] [int] NULL,
-//  [SexCodeID] [int] NULL,
-//  [MaritalCodeID] [int] NULL,
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TitleCodeID")
+    private TitleCode title;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "SexCodeID")
+    private SexCode sex;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MaritalCodeID")
+    private MaritalCode marital;
 
     @Column(name = "TaxFileNumber")
     private String taxFileNumber;
@@ -181,7 +191,7 @@ public class Person extends AbstractAuditable<Long> implements IPerson
     /**
      * @return the dobCountry
      */
-    public ICountry getDobCountry()
+    public Country getDobCountry()
     {
         return dobCountry;
     }
@@ -189,7 +199,7 @@ public class Person extends AbstractAuditable<Long> implements IPerson
     /**
      * @param dobCountry the dobCountry to set
      */
-    public void setDobCountry(ICountry dobCountry)
+    public void setDobCountry(Country dobCountry)
     {
         this.dobCountry = dobCountry;
     }
@@ -197,7 +207,7 @@ public class Person extends AbstractAuditable<Long> implements IPerson
     /**
      * @return the residenceCountry
      */
-    public ICountry getResidenceCountry()
+    public Country getResidenceCountry()
     {
         return residenceCountry;
     }
@@ -205,9 +215,57 @@ public class Person extends AbstractAuditable<Long> implements IPerson
     /**
      * @param residenceCountry the residenceCountry to set
      */
-    public void setResidenceCountry(ICountry residenceCountry)
+    public void setResidenceCountry(Country residenceCountry)
     {
         this.residenceCountry = residenceCountry;
+    }
+
+    /**
+     * @return the title
+     */
+    public TitleCode getTitle()
+    {
+        return title;
+    }
+
+    /**
+     * @param title the title to set
+     */
+    public void setTitle(TitleCode title)
+    {
+        this.title = title;
+    }
+
+    /**
+     * @return the sex
+     */
+    public SexCode getSex()
+    {
+        return sex;
+    }
+
+    /**
+     * @param sex the sex to set
+     */
+    public void setSex(SexCode sex)
+    {
+        this.sex = sex;
+    }
+
+    /**
+     * @return the marital
+     */
+    public MaritalCode getMarital()
+    {
+        return marital;
+    }
+
+    /**
+     * @param marital the marital to set
+     */
+    public void setMarital(MaritalCode marital)
+    {
+        this.marital = marital;
     }
 
     /**

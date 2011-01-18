@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 import com.argus.financials.dao.EntityDao;
 import com.argus.financials.domain.client.refdata.ICountry;
 import com.argus.financials.domain.hibernate.refdata.Country;
+import com.argus.financials.domain.hibernate.refdata.MaritalCode;
 import com.argus.financials.domain.hibernate.refdata.State;
+import com.argus.financials.domain.hibernate.refdata.TitleCode;
 
 /**
  * @author vchibaev (Valeri SHIBAEV)
@@ -29,6 +31,17 @@ public class EntityDaoImpl extends BaseDAOImpl implements EntityDao
     }
 
     /* (non-Javadoc)
+     * @see com.argus.financials.dao.EntityDao#findMaritalCodes()
+     */
+    @SuppressWarnings("unchecked")
+    public List<MaritalCode> findMaritalCodes()
+    {
+        return getEntityManager()
+            .createQuery("FROM MaritalCode ORDER BY description")
+            .getResultList();
+    }
+
+    /* (non-Javadoc)
      * @see com.argus.financials.dao.EntityDao#findStates(java.lang.Integer)
      */
     @SuppressWarnings("unchecked")
@@ -42,6 +55,17 @@ public class EntityDaoImpl extends BaseDAOImpl implements EntityDao
                 .getResultList();
         }
         return Collections.emptyList();
+    }
+
+    /* (non-Javadoc)
+     * @see com.argus.financials.dao.EntityDao#findTitleCodes()
+     */
+    @SuppressWarnings("unchecked")
+    public List<TitleCode> findTitleCodes()
+    {
+        return getEntityManager()
+            .createQuery("FROM TitleCode ORDER BY description")
+            .getResultList();
     }
 
 }

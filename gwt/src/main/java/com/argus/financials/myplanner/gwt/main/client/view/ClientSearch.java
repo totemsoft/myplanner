@@ -252,10 +252,10 @@ public class ClientSearch extends Composite
         }
         MainServiceAsync.Util.getInstance().findClients(
             (StringPair[]) criteria.toArray(new StringPair[0]), range,
-            new SearchCallback());
+            new FindClientsCallback());
     }
 
-    private class SearchCallback extends AbstractAsyncCallback<BasePair[]>
+    private class FindClientsCallback extends AbstractAsyncCallback<BasePair[]>
     {
         public void onSuccess(BasePair[] result)
         {

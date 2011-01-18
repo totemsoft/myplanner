@@ -7,6 +7,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
 
 import com.argus.financials.domain.client.refdata.ICountry;
 
@@ -20,7 +21,8 @@ public class Country extends AbstractCode implements ICountry
 
     @Id
     @Column(name = "CountryCodeID", nullable = false)
-    private Integer id;
+    @Type(type = "com.argus.financials.domain.hibernate.LongType")
+    private Long id;
 
     @Column(name = "CountryCode", nullable = false)
     private String code;
@@ -31,7 +33,7 @@ public class Country extends AbstractCode implements ICountry
     /* (non-Javadoc)
      * @see com.argus.financials.domain.IBase#getId()
      */
-    public Integer getId()
+    public Long getId()
     {
         return id;
     }

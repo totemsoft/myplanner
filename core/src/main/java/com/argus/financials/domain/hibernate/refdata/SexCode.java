@@ -9,26 +9,26 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
-import com.argus.financials.domain.client.refdata.IContactCode;
+import com.argus.financials.domain.client.refdata.ISexCode;
 
 @Entity
-@Table(name = IContactCode.TABLE_NAME)
+@Table(name = ISexCode.TABLE_NAME)
 @Cache(region = "refdata", usage = CacheConcurrencyStrategy.READ_ONLY)
-public class ContactCode extends AbstractCode implements IContactCode
+public class SexCode extends AbstractCode implements ISexCode
 {
 
     /** serialVersionUID */
-    private static final long serialVersionUID = 4075870871770958268L;
+    private static final long serialVersionUID = 5701671045822264162L;
 
     @Id
-    @Column(name = "ContactMediaCodeID", nullable = false)
+    @Column(name = "SexCodeID", nullable = false)
     @Type(type = "com.argus.financials.domain.hibernate.LongType")
     private Long id;
 
-    //@Column(name = "ContactMediaCode", nullable = false)
+    //@Column(name = "SexCode", nullable = false)
     //private String code;
 
-    @Column(name = "ContactMediaCodeDesc", nullable = false)
+    @Column(name = "SexCodeDesc", nullable = false)
     private String description;
 
     /* (non-Javadoc)
@@ -44,7 +44,7 @@ public class ContactCode extends AbstractCode implements IContactCode
      */
     public String getCode()
     {
-        return description;
+        return getDescription();
     }
 
     /* (non-Javadoc)

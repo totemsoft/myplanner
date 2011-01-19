@@ -221,7 +221,7 @@ public class AddRecommendationView extends javax.swing.JPanel implements
 
         try {
             view.updateView(recommendation);
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
             return null;
         }
@@ -270,7 +270,7 @@ public class AddRecommendationView extends javax.swing.JPanel implements
     }
 
     public void updateView(boolean recommendation)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
 
         SwingUtil.setTitle(this, recommendation ? "Select new Recommendation"
                 : "Select new Financial type");

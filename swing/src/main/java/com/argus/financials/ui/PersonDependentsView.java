@@ -328,7 +328,7 @@ public class PersonDependentsView extends TableEditView {
         return new Integer(ObjectTypeConstant.PERSON);
     }
 
-    public void updateView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
         // new: same as partner
         this.person = person;
 
@@ -345,7 +345,7 @@ public class PersonDependentsView extends TableEditView {
 
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
         person.setDependents((TreeMap) details);
 
@@ -394,7 +394,7 @@ public class PersonDependentsView extends TableEditView {
 
     }
 
-    protected void display(Object obj) throws com.argus.financials.service.ServiceException {
+    protected void display(Object obj) throws com.argus.financials.service.client.ServiceException {
 
         SwingUtil.setEnabled(jTextFieldAge, false);
 
@@ -485,7 +485,7 @@ public class PersonDependentsView extends TableEditView {
 
     }
 
-    private void save(Object obj) throws com.argus.financials.service.ServiceException {
+    private void save(Object obj) throws com.argus.financials.service.client.ServiceException {
         Number2 number = Number2.getNumberInstance();
 
         Dependent d = (Dependent) obj;
@@ -566,7 +566,7 @@ public class PersonDependentsView extends TableEditView {
                 }
                 ((DefaultTableModel) jTable.getModel()).fireTableDataChanged();
             } // end if
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         } catch (java.lang.NullPointerException e) {
             e.printStackTrace(System.err);
@@ -578,7 +578,7 @@ public class PersonDependentsView extends TableEditView {
             try {
                 person.setDependents(new TreeMap());
                 updateView(person);
-            } catch (com.argus.financials.service.ServiceException e) {
+            } catch (com.argus.financials.service.client.ServiceException e) {
                 e.printStackTrace(System.err);
             }
         }

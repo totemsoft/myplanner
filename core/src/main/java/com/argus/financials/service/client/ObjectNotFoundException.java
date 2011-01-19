@@ -11,25 +11,24 @@
  * Code is Argus Software Pty Ltd, All Rights Reserved.
  */
 
-package com.argus.financials.service;
+package com.argus.financials.service.client;
 
-/*
+/**
  * 
  */
-public class ServiceException extends RuntimeException {
+public class ObjectNotFoundException extends ServiceException
+{
 
     /** serialVersionUID */
-    private static final long serialVersionUID = -5296241869954780677L;
+    private static final long serialVersionUID = -4791962336461311970L;
 
-    public ServiceException(String message) {
+    public ObjectNotFoundException(String message)
+    {
         super(message);
     }
 
-    public ServiceException(Throwable cause) {
-        super(cause);
-    }
-
-    public ServiceException(String message, Throwable cause) {
+    public ObjectNotFoundException(String message, Throwable cause)
+    {
         super(message, cause);
     }
 

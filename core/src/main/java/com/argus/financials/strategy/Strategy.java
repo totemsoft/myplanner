@@ -122,7 +122,7 @@ public class Strategy extends AbstractBase {
                     result[i++] = new StrategyModel((Model) iter.next());
             }
 
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         }
 
@@ -150,7 +150,7 @@ public class Strategy extends AbstractBase {
 
             }
 
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err); // ( e.getMessage() );
         }
 

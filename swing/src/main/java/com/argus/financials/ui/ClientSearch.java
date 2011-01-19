@@ -24,6 +24,7 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
+import com.argus.financials.bean.DbConstant;
 import com.argus.financials.bean.ObjectTypeConstant;
 import com.argus.financials.code.AdviserTypeCode;
 import com.argus.financials.code.Advisers;
@@ -32,6 +33,7 @@ import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.StateCode;
 import com.argus.financials.config.FPSLocale;
 import com.argus.financials.domain.client.refdata.ICountry;
+import com.argus.financials.domain.hibernate.Client;
 import com.argus.financials.domain.hibernate.User;
 import com.argus.financials.domain.hibernate.view.ClientView;
 import com.argus.financials.etc.Address;
@@ -39,7 +41,7 @@ import com.argus.financials.etc.Contact;
 import com.argus.financials.etc.PersonName;
 import com.argus.financials.service.PersonService;
 import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.UserService;
+import com.argus.financials.service.client.UserService;
 import com.argus.financials.swing.DateInputVerifier;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.swing.table.SortedTableModel;
@@ -457,7 +459,7 @@ public final class ClientSearch extends javax.swing.JPanel {
         if (selectedRow < 0)
             return;
 
-        Integer clientID = getSelectedPersonID();
+        Integer clientId = getSelectedPersonID();
 
         if (JOptionPane.showConfirmDialog(this,
                 "You are about to remove the client " + getClientName()
@@ -470,7 +472,8 @@ public final class ClientSearch extends javax.swing.JPanel {
         TableModel tm = jTable.getModel();
         ((SortedTableModel) tm).removeRow(selectedRow);
         try {
-            ServiceLocator.getInstance().getUserService().removeClient(clientID);
+            Client client = ServiceLocator.getInstance().getUserService().findClient(clientId.longValue());
+            ServiceLocator.getInstance().getUserService().remove(client);
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -501,7 +504,7 @@ public final class ClientSearch extends javax.swing.JPanel {
             updateView();
             jPanelDetails.setVisible(true);
             jScrollPaneClientDetails.setVisible(true);
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
             jPanelDetails.setVisible(false);
             jScrollPaneClientDetails.setVisible(false);
@@ -530,7 +533,7 @@ public final class ClientSearch extends javax.swing.JPanel {
             SwingUtil.add2Dialog(owner, view.getViewCaption(), true, view, true, true);
             return view;
         }
-        catch (com.argus.financials.service.ServiceException e)
+        catch (com.argus.financials.service.client.ServiceException e)
         {
             e.printStackTrace(System.err);
             return null;
@@ -704,7 +707,7 @@ public final class ClientSearch extends javax.swing.JPanel {
             column.setPreferredWidth(preferredWidth);
     }
 
-    private Map<String, Object> getSelectionCriteria() throws com.argus.financials.service.ServiceException {
+    private Map<String, Object> getSelectionCriteria() throws com.argus.financials.service.client.ServiceException {
 
         Map<String, Object> criteria = new HashMap<String, Object>();
         if (jCheckBoxDisplayAll.isSelected())
@@ -715,11 +718,11 @@ public final class ClientSearch extends javax.swing.JPanel {
         boolean supportPerson = AdviserTypeCode.isSupportPerson(userTypeId);
         if (!supportPerson)
         {
-            criteria.put(UserService.ADVISORID, user.getId());
+            criteria.put(DbConstant.ADVISORID, user.getId());
         }
         else if (jCheckBoxAllUsersClients.isSelected())
         {
-            criteria.put(UserService.ALL_USERS_CLIENTS, Boolean.TRUE);
+            criteria.put(DbConstant.ALL_USERS_CLIENTS, Boolean.TRUE);
         }
         else
         {
@@ -728,13 +731,13 @@ public final class ClientSearch extends javax.swing.JPanel {
             PersonName name = cs == null || cs == Advisers.NONE ? null : cs.getName();
             if (name == null || name.getSurname().trim().length() == 0)
             {
-                criteria.put(UserService.ADVISORID, user.getId());
+                criteria.put(DbConstant.ADVISORID, user.getId());
             }
             else
             {
                 Integer adviserId = cs.getPrimaryKeyID();
                 if (adviserId != null)
-                    criteria.put(UserService.ADVISORID, adviserId);
+                    criteria.put(DbConstant.ADVISORID, adviserId);
             }
         }
 
@@ -825,7 +828,7 @@ public final class ClientSearch extends javax.swing.JPanel {
             jCheckBoxAllUsersClients.setSelected(false);
     }
 
-    public void updateView() throws com.argus.financials.service.ServiceException 
+    public void updateView() throws com.argus.financials.service.client.ServiceException 
     {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         try {
@@ -835,7 +838,7 @@ public final class ClientSearch extends javax.swing.JPanel {
         }
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.ServiceException,
+    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException,
             InvalidCodeException {
     }
 

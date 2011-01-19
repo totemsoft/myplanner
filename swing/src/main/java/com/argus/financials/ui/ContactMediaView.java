@@ -158,7 +158,7 @@ public class ContactMediaView extends java.awt.Container {
     /**
      * 
      */
-    private void updateView() throws com.argus.financials.service.ServiceException {
+    private void updateView() throws com.argus.financials.service.client.ServiceException {
 
         if (contactMedia == null) {
             clearView();
@@ -169,7 +169,7 @@ public class ContactMediaView extends java.awt.Container {
         jTextFieldValue2.setText(contactMedia.getValue2());
     }
 
-    private void saveView() throws com.argus.financials.service.ServiceException {
+    private void saveView() throws com.argus.financials.service.client.ServiceException {
 
         if (contactMedia == null)
             return;
@@ -189,7 +189,7 @@ public class ContactMediaView extends java.awt.Container {
     /**
      * 
      */
-    public void updateView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
         // updateView( person.getContactMedia(contactMediaCodeID) );
         if (contactMedia == null)
@@ -198,7 +198,7 @@ public class ContactMediaView extends java.awt.Container {
             updateView();
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
         // save anyway
         if (contactMedia == null) {
@@ -224,7 +224,7 @@ public class ContactMediaView extends java.awt.Container {
         contactMedia = (ContactMedia) value;
         try {
             updateView();
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             throw new RuntimeException(e.getMessage());
         }
     }

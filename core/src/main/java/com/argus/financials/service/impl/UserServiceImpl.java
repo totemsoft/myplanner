@@ -16,16 +16,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.argus.crypto.Digest;
+import com.argus.financials.bean.DbConstant;
 import com.argus.financials.bean.LinkObjectTypeConstant;
 import com.argus.financials.bean.db.FPSLinkObject;
 import com.argus.financials.code.AdviserTypeCode;
@@ -34,14 +32,11 @@ import com.argus.financials.dao.UserDao;
 import com.argus.financials.domain.hibernate.Client;
 import com.argus.financials.domain.hibernate.User;
 import com.argus.financials.domain.hibernate.view.ClientView;
-import com.argus.financials.etc.Contact;
-import com.argus.financials.etc.db.ContactBean;
 import com.argus.financials.etc.db.PersonNameAddressBean;
 import com.argus.financials.service.CreateException;
-import com.argus.financials.service.ObjectNotFoundException;
-import com.argus.financials.service.ServiceException;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.UserService;
+import com.argus.financials.service.client.ObjectNotFoundException;
+import com.argus.financials.service.client.ServiceException;
+import com.argus.financials.service.client.UserService;
 
 public class UserServiceImpl extends PersonServiceImpl implements UserService {
 
@@ -114,16 +109,16 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
         throws ServiceException
     {
         // add user
-        User user = ServiceLocator.getInstance().getUserPreferences().getUser();
+        User user = getUserPreferences().getUser();
         Integer userTypeId = user == null ? null : user.getTypeId();
         boolean supportPerson = AdviserTypeCode.isSupportPerson(userTypeId);
         if (!supportPerson)
         {
-            criteria.put(UserService.ADVISORID, user.getId());
+            criteria.put(DbConstant.ADVISORID, user.getId());
         }
         else
         {
-            criteria.put(UserService.ALL_USERS_CLIENTS, Boolean.TRUE);
+            criteria.put(DbConstant.ALL_USERS_CLIENTS, Boolean.TRUE);
         }
         //
         List<ClientView> clients = clientDao.findClients(criteria, start, length);
@@ -133,19 +128,47 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
     /* (non-Javadoc)
      * @see com.argus.financials.service.UserService#persist(com.argus.financials.domain.hibernate.Client)
      */
-    public Client persist(Client client) throws ServiceException
+    public Long persist(Client client) throws ServiceException
     {
-        // TODO: implement
-        return client;
+        try
+        {
+            if (client == null || client.getId() == null)
+            {
+                // TODO: save via hibernate
+                User user = getUserPreferences().getUser();
+                ClientServiceImpl cs = new ClientServiceImpl();
+                cs.setOwnerPrimaryKeyID(user.getId().intValue());
+                Integer clientId = cs.create();
+                return clientId.longValue();
+            }
+            else
+            {
+                // TODO: implement save
+                return client.getId();
+            }
+        }
+        catch (Exception e)
+        {
+            LOG.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage(), e);
+        }
     }
 
     /* (non-Javadoc)
      * @see com.argus.financials.service.UserService#remove(com.argus.financials.domain.hibernate.Client)
      */
-    public Client remove(Client client) throws ServiceException
+    public Long remove(Client client) throws ServiceException
     {
-        // TODO: implement
-        return client;
+        try {
+            Connection con = getConnection();
+            Long clientId = client.getId();
+            boolean result = FPSLinkObject.getInstance().unlink(getPersonID(),
+                clientId.intValue(), LinkObjectTypeConstant.USER_2_CLIENT,
+                con) > 0;
+            return clientId;
+        } catch (Exception e) {
+            throw new ServiceException(e.getMessage(), e);
+        }
     }
 
     public Integer create() throws ServiceException, CreateException {
@@ -251,107 +274,6 @@ public class UserServiceImpl extends PersonServiceImpl implements UserService {
 
         setDateCreated(rs.getDate("DateCreated"));
         setDateModified(rs.getDate("DateModified"));
-
-    }
-
-    public boolean removeClient(Integer clientID)
-            throws com.argus.financials.service.ServiceException {
-
-        if (clientID == null)
-            return false;
-
-        Connection con = null;
-        try {
-            con = getConnection();
-            return FPSLinkObject.getInstance().unlink(getPersonID(),
-                    clientID.intValue(), LinkObjectTypeConstant.USER_2_CLIENT,
-                    con) > 0;
-
-        } catch (SQLException e) {
-            throw new com.argus.financials.service.ServiceException(e.getMessage());
-        }
-
-    }
-
-    public List<Contact> findUsers(java.util.Properties selectionCriteria)
-            throws ServiceException {
-
-        if (getPrimaryKeyID() == null)
-            return null;
-
-        Connection con = null;
-        PreparedStatement sql = null;
-        ResultSet rs = null;
-
-        try {
-            con = this.getConnection();
-
-            StringBuffer sb = new StringBuffer("SELECT UserPersonID"
-                    + " FROM UserPerson");
-
-            if (selectionCriteria != null) {
-
-            }
-
-            sql = con.prepareStatement(sb.toString()
-            // , ResultSet.TYPE_FORWARD_ONLY
-                    // , ResultSet.CONCUR_READ_ONLY
-                    );
-
-            rs = sql.executeQuery();
-
-            Vector<Contact> data = null;
-            while (rs.next()) {
-                if (data == null)
-                    data = new Vector<Contact>();
-
-                Contact c = new Contact();
-                c.setPrimaryKeyID((Integer) rs.getObject(1)); // UserPersonID
-
-                data.addElement(c);
-            }
-
-            close(rs, sql);
-            rs = null;
-            sql = null;
-
-            if (data == null)
-                return null;
-
-            Iterator<Contact> iter = data.iterator();
-            ArrayList<Contact> toRemove = new ArrayList<Contact>();
-            while (iter.hasNext()) {
-                Contact c = (Contact) iter.next();
-                new ContactBean(c).load(con);
-
-                if (c.toString().trim().length() == 0) {
-                    //System.err.println("UserServiceImpl::findUsers(), c.toString().trim().length() == 0 for ID:" + c.getPrimaryKeyID());
-                    // mark for remove
-                    toRemove.add(c);
-                }
-
-            }
-
-            iter = toRemove.iterator();
-            while (iter.hasNext()) {
-                Contact c = iter.next();
-                data.remove(c);
-            }
-
-            return data;
-
-        } catch (SQLException e) {
-            //e.printStackTrace();
-            throw new ServiceException(e.getMessage());
-        } catch (Exception e) {
-            throw new ServiceException(e.getMessage());
-        } finally {
-            try {
-                close(rs, sql);
-            } catch (SQLException e) {
-                throw new ServiceException(e.getMessage());
-            }
-        }
 
     }
 

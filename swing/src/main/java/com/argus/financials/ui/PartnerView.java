@@ -96,7 +96,7 @@ public final class PartnerView extends PersonView2 {
 
     }
 
-    public void updateView() throws com.argus.financials.service.ServiceException {
+    public void updateView() throws com.argus.financials.service.client.ServiceException {
 
         // will create new person if null
         PersonService person = getPerson();
@@ -107,7 +107,7 @@ public final class PartnerView extends PersonView2 {
 
     }
 
-    public void saveView() throws com.argus.financials.service.ServiceException,
+    public void saveView() throws com.argus.financials.service.client.ServiceException,
             InvalidCodeException {
 
         // will create new person if null
@@ -142,7 +142,7 @@ public final class PartnerView extends PersonView2 {
         return new Integer(ObjectTypeConstant.PERSON);
     }
 
-    protected PersonService getPerson() throws com.argus.financials.service.ServiceException {
+    protected PersonService getPerson() throws com.argus.financials.service.client.ServiceException {
         return ServiceLocator.getInstance().getClientPerson().getPartner(true);
     }
 

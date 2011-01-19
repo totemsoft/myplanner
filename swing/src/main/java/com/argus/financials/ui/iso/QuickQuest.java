@@ -17,7 +17,7 @@ import com.argus.financials.code.InvestmentStrategyData;
 import com.argus.financials.etc.GrowthRate;
 import com.argus.financials.etc.Survey;
 import com.argus.financials.projection.AssetAllocationView;
-import com.argus.financials.service.ServiceException;
+import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.PercentInputVerifier;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.format.Percent;

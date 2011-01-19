@@ -143,7 +143,7 @@ public abstract class MoneyCalc implements ActionEventID,
                 try {
                     ModelCollection models = person.getModels();
                     models.addModel(model);
-                } catch (com.argus.financials.service.ServiceException e) {
+                } catch (com.argus.financials.service.client.ServiceException e) {
                     e.printStackTrace(System.err);
                 }
             }

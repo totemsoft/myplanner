@@ -362,7 +362,7 @@ public class DataCollectionRestructureView extends javax.swing.JPanel implements
 
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
         // if ( sgData == null )
         // sgData = new StrategyGroupData();
@@ -470,7 +470,7 @@ public class DataCollectionRestructureView extends javax.swing.JPanel implements
             ServiceLocator.getInstance().getClientPerson().deleteStrategy(
                     getStrategy());
             SwingUtil.setVisible(this, false);
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         }
 
@@ -495,7 +495,7 @@ public class DataCollectionRestructureView extends javax.swing.JPanel implements
 
                 SwingUtil.setVisible(this, false);
 
-            } catch (com.argus.financials.service.ServiceException e) {
+            } catch (com.argus.financials.service.client.ServiceException e) {
                 e.printStackTrace(System.err);
             }
 
@@ -524,7 +524,7 @@ public class DataCollectionRestructureView extends javax.swing.JPanel implements
 
                 SwingUtil.setVisible(this, false);
 
-            } catch (com.argus.financials.service.ServiceException e) {
+            } catch (com.argus.financials.service.client.ServiceException e) {
                 e.printStackTrace(System.err);
             }
 
@@ -535,7 +535,7 @@ public class DataCollectionRestructureView extends javax.swing.JPanel implements
     }
 
     private StrategyGroup getSelectedStrategyGroup(ClientService clientPerson)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
 
         java.util.Collection set = clientPerson.getStrategies();
         if (set == null || set.size() == 0)

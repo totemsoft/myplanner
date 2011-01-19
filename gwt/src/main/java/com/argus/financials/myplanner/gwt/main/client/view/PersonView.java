@@ -28,7 +28,7 @@ public class PersonView extends Composite implements Editor<PersonProxy>
     private ListBox marital;
     private DateBox dateOfBirth;
 
-    public PersonView(PersonProxy person, ChangeHandler handler)
+    public PersonView(PersonProxy person, ChangeHandler changeHandler)
     {
         Grid grid = new Grid(7, 2);
         grid.setStyleName("border");
@@ -39,7 +39,7 @@ public class PersonView extends Composite implements Editor<PersonProxy>
         
         title = new ListBox();
         addTitleCodes(title);
-        title.addChangeHandler(handler);
+        title.addChangeHandler(changeHandler);
         grid.setWidget(0, 1, title);
 
         Label label_1 = new Label("Surname");
@@ -47,7 +47,7 @@ public class PersonView extends Composite implements Editor<PersonProxy>
         
         surname = new TextBox();
         surname.setText(person.getSurname());
-        surname.addChangeHandler(handler);
+        surname.addChangeHandler(changeHandler);
         grid.setWidget(1, 1, surname);
 
         Label label_2 = new Label("Firstname");
@@ -55,7 +55,7 @@ public class PersonView extends Composite implements Editor<PersonProxy>
         
         firstname = new TextBox();
         firstname.setText(person.getFirstname());
-        firstname.addChangeHandler(handler);
+        firstname.addChangeHandler(changeHandler);
         grid.setWidget(2, 1, firstname);
         
         Label label_3 = new Label("Other names");
@@ -63,7 +63,7 @@ public class PersonView extends Composite implements Editor<PersonProxy>
         
         othernames = new TextBox();
         othernames.setText(person.getOtherNames());
-        othernames.addChangeHandler(handler);
+        othernames.addChangeHandler(changeHandler);
         grid.setWidget(3, 1, othernames);
         
         Label label_4 = new Label("Gender");
@@ -85,7 +85,7 @@ public class PersonView extends Composite implements Editor<PersonProxy>
         
         marital = new ListBox();
         addMaritalCodes(marital);
-        marital.addChangeHandler(handler);
+        marital.addChangeHandler(changeHandler);
         grid.setWidget(5, 1, marital);
 
         Label label_6 = new Label("Date of Birth");

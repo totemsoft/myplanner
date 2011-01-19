@@ -18,6 +18,8 @@ import org.springframework.context.ApplicationContext;
 
 import com.argus.financials.domain.hibernate.User;
 import com.argus.financials.security.UserPreferences;
+import com.argus.financials.service.client.ServiceException;
+import com.argus.financials.service.client.UserService;
 
 public final class ServiceLocator {
 
@@ -116,7 +118,7 @@ public final class ServiceLocator {
     }
 
     public Integer getUserPersonID() {
-        return (Integer) getUserService().getPrimaryKey();
+        return ServiceLocator.getInstance().getUserPreferences().getUser().getId().intValue();
     }
 
     public void setClientPersonID(Integer value) throws Exception {
@@ -129,11 +131,8 @@ public final class ServiceLocator {
         return client == null ? null : (Integer) client.getPrimaryKey();
     }
 
-    public Integer createClientPerson() throws Exception {
-        if (getUserPersonID() == null)
-            return null;
-        return (Integer) getClientPerson().create(getUserPersonID(), true)
-                .getPrimaryKey();
+    public Integer createClient() throws Exception {
+        return getUserService().persist(null).intValue();
     }
 
 }

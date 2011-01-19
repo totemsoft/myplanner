@@ -249,7 +249,7 @@ public class CashflowTableModel extends FinancialTableModel {
                 data.add(taxPartner);
             }
 
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
             // no personal data will be initialized !!! (impossible)
         }
@@ -448,7 +448,7 @@ public class CashflowTableModel extends FinancialTableModel {
         private double[] data;
 
         public TaxRow(ReferenceCode rc, PersonService person,
-                java.util.Collection regulars) throws com.argus.financials.service.ServiceException {
+                java.util.Collection regulars) throws com.argus.financials.service.client.ServiceException {
             super(BODY);
 
             this.rc = rc;
@@ -594,7 +594,7 @@ public class CashflowTableModel extends FinancialTableModel {
         }
 
         private void initTaxContainer(TaxContainer tc, PersonService person)
-                throws com.argus.financials.service.ServiceException {
+                throws com.argus.financials.service.client.ServiceException {
 
             boolean hospitalCover = person == null ? false : person
                     .hasHospitalCover();

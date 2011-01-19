@@ -76,7 +76,7 @@ public class AdviserTypeCode extends BaseCode {
                         (String) entry.getKey()));
             }
 
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         }
 

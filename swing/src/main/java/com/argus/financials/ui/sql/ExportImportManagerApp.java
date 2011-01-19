@@ -28,9 +28,9 @@ import com.argus.financials.config.PropertySourceManager;
 import com.argus.financials.config.ViewSettings;
 import com.argus.financials.domain.hibernate.view.ClientView;
 import com.argus.financials.exchange.ExportData;
-import com.argus.financials.service.ServiceException;
 import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.UserService;
+import com.argus.financials.service.client.ServiceException;
+import com.argus.financials.service.client.UserService;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.ui.CheckBoxList;
 

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.strategy.StrategyGroup;
 
 @Service

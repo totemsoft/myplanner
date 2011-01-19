@@ -36,7 +36,7 @@ import com.argus.financials.domain.hibernate.Client;
 import com.argus.financials.domain.hibernate.view.ClientView;
 import com.argus.financials.exchange.ExportData;
 import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.UserService;
+import com.argus.financials.service.client.UserService;
 import com.argus.financials.swing.ICloseDialog;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.swing.table.SortedTableModel;
@@ -514,7 +514,7 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
                 data.add(row);
             }
             tableModelStep1 = new TableModelStep1(data);
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         }
         return tableModelStep1;

@@ -160,7 +160,7 @@ public class PlanWriter extends BaseView implements
             java.util.Collection plans = null;
             try {
                 plans = person.getPlans(null);
-            } catch (com.argus.financials.service.ServiceException e) {
+            } catch (com.argus.financials.service.client.ServiceException e) {
                 e.printStackTrace(System.err);
             }
             clientPlans = plans == null || plans.size() == 0 ? new java.util.Vector()
@@ -183,7 +183,7 @@ public class PlanWriter extends BaseView implements
             java.util.Collection plans = null;
             try {
                 plans = person.getPlans(PersonService.TEMPLATE_PLAN);
-            } catch (com.argus.financials.service.ServiceException e) {
+            } catch (com.argus.financials.service.client.ServiceException e) {
                 e.printStackTrace(System.err);
             }
             templatePlans = plans == null || plans.size() == 0 ? new java.util.Vector()
@@ -2031,7 +2031,7 @@ public class PlanWriter extends BaseView implements
 
             setModified(false);
 
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
             return;
         }

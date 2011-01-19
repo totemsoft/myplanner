@@ -26,7 +26,7 @@ import com.argus.financials.etc.Address;
 import com.argus.financials.etc.Contact;
 import com.argus.financials.etc.ContactMedia;
 import com.argus.financials.etc.Occupation;
-import com.argus.financials.service.ObjectNotFoundException;
+import com.argus.financials.service.client.ObjectNotFoundException;
 
 public class ContactBean extends AbstractPersistable {
 

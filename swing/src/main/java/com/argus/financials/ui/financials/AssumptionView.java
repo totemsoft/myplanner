@@ -1013,7 +1013,7 @@ public class AssumptionView extends javax.swing.JPanel implements
     /***************************************************************************
      * 
      **************************************************************************/
-    public void saveView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
     }
 
     public void updateView() { // throws com.argus.financials.service.ServiceException {
@@ -1025,7 +1025,7 @@ public class AssumptionView extends javax.swing.JPanel implements
         }
     }
 
-    public void updateView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
         PersonName clientName = person.getPersonName();
 

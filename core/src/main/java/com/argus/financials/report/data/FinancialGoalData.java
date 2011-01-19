@@ -43,7 +43,7 @@ public class FinancialGoalData extends BaseData {
     }
 
     public void init(com.argus.financials.service.PersonService person)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
 
         if (person == null)
             return;

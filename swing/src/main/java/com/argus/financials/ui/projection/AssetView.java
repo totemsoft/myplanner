@@ -24,7 +24,7 @@ import com.argus.financials.etc.GrowthRate;
 import com.argus.financials.projection.AssetGrowth;
 import com.argus.financials.projection.DocumentNames;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceException;
+import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.PercentInputVerifier;
 import com.argus.financials.swing.SwingUtil;

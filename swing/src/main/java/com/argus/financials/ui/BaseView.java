@@ -304,7 +304,7 @@ public abstract class BaseView extends javax.swing.JPanel implements
     protected abstract ReportFields getReportData(PersonService person)
             throws Exception;
 
-    protected PersonService getPerson() throws com.argus.financials.service.ServiceException {
+    protected PersonService getPerson() throws com.argus.financials.service.client.ServiceException {
         return ServiceLocator.getInstance().getClientPerson();
     }
 

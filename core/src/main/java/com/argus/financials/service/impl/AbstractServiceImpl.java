@@ -20,7 +20,7 @@ import com.argus.financials.bean.DbConstant;
 import com.argus.financials.bean.db.AbstractPersistable;
 import com.argus.financials.etc.FPSObject;
 import com.argus.financials.service.RemoveException;
-import com.argus.financials.service.ServiceException;
+import com.argus.financials.service.client.ServiceException;
 
 public abstract class AbstractServiceImpl extends AbstractPersistable implements DbConstant {
 

@@ -170,7 +170,7 @@ public class DataRestructureView extends javax.swing.JPanel implements
     }
 
     private void setRoot(PersonService person, DataRestructureModel value)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
 
         jScrollPaneTree.setViewportView(null);
 

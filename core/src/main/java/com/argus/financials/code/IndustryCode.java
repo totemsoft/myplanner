@@ -42,7 +42,7 @@ public class IndustryCode extends Code {
             if (map == null)
                 return;
             codeMap.putAll(map);
-        } catch (com.argus.financials.service.ServiceException re) {
+        } catch (com.argus.financials.service.client.ServiceException re) {
         }
     }
 

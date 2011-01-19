@@ -23,43 +23,43 @@ import com.argus.financials.code.InvalidCodeException;
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public interface BusinessService extends DbConstant {
 
-    public Integer getParentBusinessID() throws com.argus.financials.service.ServiceException;
+    public Integer getParentBusinessID() throws com.argus.financials.service.client.ServiceException;
 
     // public void setParentBusinessID( Integer value )
     // throws com.argus.financials.service.ServiceException;
 
-    public Integer getIndustryCodeID() throws com.argus.financials.service.ServiceException;
+    public Integer getIndustryCodeID() throws com.argus.financials.service.client.ServiceException;
 
     public void setIndustryCodeID(Integer value)
-            throws com.argus.financials.service.ServiceException, InvalidCodeException;
+            throws com.argus.financials.service.client.ServiceException, InvalidCodeException;
 
-    public Integer getBusinessStructureCodeID() throws com.argus.financials.service.ServiceException;
+    public Integer getBusinessStructureCodeID() throws com.argus.financials.service.client.ServiceException;
 
     public void setBusinessStructureCodeID(Integer value)
-            throws com.argus.financials.service.ServiceException, InvalidCodeException;
+            throws com.argus.financials.service.client.ServiceException, InvalidCodeException;
 
-    public String getLegalName() throws com.argus.financials.service.ServiceException;
+    public String getLegalName() throws com.argus.financials.service.client.ServiceException;
 
-    public void setLegalName(String value) throws com.argus.financials.service.ServiceException;
+    public void setLegalName(String value) throws com.argus.financials.service.client.ServiceException;
 
-    public String getTradingName() throws com.argus.financials.service.ServiceException;
+    public String getTradingName() throws com.argus.financials.service.client.ServiceException;
 
-    public void setTradingName(String value) throws com.argus.financials.service.ServiceException;
+    public void setTradingName(String value) throws com.argus.financials.service.client.ServiceException;
 
-    public String getBusinessNumber() throws com.argus.financials.service.ServiceException;
+    public String getBusinessNumber() throws com.argus.financials.service.client.ServiceException;
 
-    public void setBusinessNumber(String value) throws com.argus.financials.service.ServiceException;
+    public void setBusinessNumber(String value) throws com.argus.financials.service.client.ServiceException;
 
-    public String getTaxFileNumber() throws com.argus.financials.service.ServiceException;
+    public String getTaxFileNumber() throws com.argus.financials.service.client.ServiceException;
 
-    public void setTaxFileNumber(String value) throws com.argus.financials.service.ServiceException;
+    public void setTaxFileNumber(String value) throws com.argus.financials.service.client.ServiceException;
 
-    public String getWebSiteName() throws com.argus.financials.service.ServiceException;
+    public String getWebSiteName() throws com.argus.financials.service.client.ServiceException;
 
-    public void setWebSiteName(String value) throws com.argus.financials.service.ServiceException;
+    public void setWebSiteName(String value) throws com.argus.financials.service.client.ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void remove() throws com.argus.financials.service.ServiceException, RemoveException;
+    public void remove() throws com.argus.financials.service.client.ServiceException, RemoveException;
 
     public Object getPrimaryKey();
 

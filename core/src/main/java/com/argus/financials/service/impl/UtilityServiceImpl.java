@@ -17,6 +17,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.Vector;
@@ -26,13 +28,15 @@ import com.argus.financials.code.BaseCode;
 import com.argus.financials.code.Code;
 import com.argus.financials.code.SexCode;
 import com.argus.financials.db.BaseSQLHelper;
+import com.argus.financials.etc.Contact;
+import com.argus.financials.etc.db.ContactBean;
 import com.argus.financials.io.IOUtils2;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.projection.save.db.ModelBean;
 import com.argus.financials.service.RemoveException;
-import com.argus.financials.service.ServiceException;
 import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.service.UtilityService;
+import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.strategy.StrategyGroup;
 import com.argus.financials.strategy.db.StrategyGroupBean;
 import com.argus.swing.SplashWindow;
@@ -47,6 +51,70 @@ public class UtilityServiceImpl extends AbstractPersistable implements UtilitySe
 
     public void remove() throws ServiceException, RemoveException {
         // getEJBHome().remove( getPrimaryKey() );
+    }
+
+    public List<Contact> findUsers() throws ServiceException {
+
+        if (getPrimaryKeyID() == null)
+            return null;
+
+        Connection con = null;
+        PreparedStatement sql = null;
+        ResultSet rs = null;
+        try {
+            con = this.getConnection();
+            StringBuffer sb = new StringBuffer("SELECT UserPersonID FROM UserPerson");
+            sql = con.prepareStatement(sb.toString());
+            rs = sql.executeQuery();
+            Vector<Contact> data = null;
+            while (rs.next()) {
+                if (data == null)
+                    data = new Vector<Contact>();
+                Contact c = new Contact();
+                c.setPrimaryKeyID((Integer) rs.getObject(1)); // UserPersonID
+                data.addElement(c);
+            }
+
+            close(rs, sql);
+            rs = null;
+            sql = null;
+
+            if (data == null)
+                return null;
+
+            Iterator<Contact> iter = data.iterator();
+            ArrayList<Contact> toRemove = new ArrayList<Contact>();
+            while (iter.hasNext()) {
+                Contact c = (Contact) iter.next();
+                new ContactBean(c).load(con);
+                if (c.toString().trim().length() == 0) {
+                    //System.err.println("UserServiceImpl::findUsers(), c.toString().trim().length() == 0 for ID:" + c.getPrimaryKeyID());
+                    // mark for remove
+                    toRemove.add(c);
+                }
+            }
+
+            iter = toRemove.iterator();
+            while (iter.hasNext()) {
+                Contact c = iter.next();
+                data.remove(c);
+            }
+
+            return data;
+
+        } catch (SQLException e) {
+            //e.printStackTrace();
+            throw new ServiceException(e.getMessage());
+        } catch (Exception e) {
+            throw new ServiceException(e.getMessage());
+        } finally {
+            try {
+                close(rs, sql);
+            } catch (SQLException e) {
+                throw new ServiceException(e.getMessage());
+            }
+        }
+
     }
 
     /**

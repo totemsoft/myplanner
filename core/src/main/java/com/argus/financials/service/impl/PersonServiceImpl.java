@@ -57,9 +57,9 @@ import com.argus.financials.security.UserPreferences;
 import com.argus.financials.service.BusinessService;
 import com.argus.financials.service.CreateException;
 import com.argus.financials.service.FinderException;
-import com.argus.financials.service.ObjectNotFoundException;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceException;
+import com.argus.financials.service.client.ObjectNotFoundException;
+import com.argus.financials.service.client.ServiceException;
 import com.argus.util.DateTimeUtils;
 import com.argus.util.ReferenceCode;
 import com.argus.util.StringUtils;
@@ -80,12 +80,57 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
      * to create a new instance of Person entity bean and therefore insert data
      * into database invoke create(...) method
      */
-    public PersonService create(Integer ownerPersonID, boolean store)
-            throws ServiceException, CreateException {
-        PersonServiceImpl pb = new PersonServiceImpl();
-        pb.setOwnerPrimaryKeyID(ownerPersonID);
-        Integer personID = (Integer) pb.create();
-        return pb;
+    public Integer persist(Integer ownerPersonID)
+            throws ServiceException {
+        try {
+            PersonServiceImpl pb = new PersonServiceImpl();
+            pb.setOwnerPrimaryKeyID(ownerPersonID);
+            Connection con = getConnection();
+            Integer personID = pb.create(con);
+            return personID;
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+
+    /**
+     * to create a new instance of Person entity bean and therefore insert data
+     * into database invoke create(...) method
+     */
+    protected Integer create(Connection con) throws ServiceException,
+            CreateException {
+
+        PreparedStatement sql = null;
+
+        try {
+            // get new ObjectID for person
+            Integer personID = new Integer(getNewObjectID(PERSON, con));
+
+            // add to Person table
+            sql = con
+                    .prepareStatement("INSERT INTO Person (PersonID) VALUES (?)");
+            sql.setInt(1, personID.intValue());
+            sql.executeUpdate();
+
+            return personID;
+
+        } catch (SQLException e) {
+            e.printStackTrace(System.err);
+            throw new CreateException(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            throw new ServiceException(e.getMessage());
+        } finally {
+            try {
+                close(null, sql);
+            } catch (SQLException e) {
+                e.printStackTrace(System.err);
+                throw new ServiceException(e.getMessage());
+            }
+        }
+
     }
 
     public PersonService findByPrimaryKey(Integer personID, boolean store) throws ServiceException,
@@ -180,56 +225,6 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
             throw new ServiceException(e.getMessage());
         }
     }
-
-    /**
-     * to create a new instance of Person entity bean and therefore insert data
-     * into database invoke create(...) method
-     */
-    protected Integer create(Connection con) throws ServiceException,
-            CreateException {
-
-        PreparedStatement sql = null;
-
-        try {
-            // get new ObjectID for person
-            Integer personID = new Integer(getNewObjectID(PERSON, con));
-
-            // add to Person table
-            sql = con
-                    .prepareStatement("INSERT INTO Person (PersonID) VALUES (?)");
-            sql.setInt(1, personID.intValue());
-            sql.executeUpdate();
-
-            return personID;
-
-        } catch (SQLException e) {
-            e.printStackTrace(System.err);
-            throw new CreateException(e.getMessage());
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-            throw new ServiceException(e.getMessage());
-        } finally {
-            try {
-                close(null, sql);
-            } catch (SQLException e) {
-                e.printStackTrace(System.err);
-                throw new ServiceException(e.getMessage());
-            }
-        }
-
-    }
-
-    public Integer create() throws ServiceException, CreateException {
-        try {
-            Connection con = getConnection();
-            Integer personID = create(con);
-            return personID;
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-            throw new ServiceException(e.getMessage());
-        }
-    }
-
     public Object getOwnerPrimaryKey() throws ServiceException {
         return getOwnerPrimaryKeyID();
     }

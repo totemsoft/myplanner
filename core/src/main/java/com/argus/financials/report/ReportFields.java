@@ -202,7 +202,7 @@ public final class ReportFields implements IReportFields {
     // PERSONAL //
     // //////////////////////////////////////////////////////////////////////////
     public synchronized void initialize(PersonService person)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
 
         if (person == null) {
             // java.awt.Toolkit.getDefaultToolkit().beep();
@@ -237,7 +237,7 @@ public final class ReportFields implements IReportFields {
 
     }
 
-    private void initAdviser(PersonName pn) throws com.argus.financials.service.ServiceException {
+    private void initAdviser(PersonName pn) throws com.argus.financials.service.client.ServiceException {
 
         fields.put(Adviser_Title, pn == null ? null : pn.getTitleCode());
         fields.put(Adviser_FamilyName, pn == null ? null : pn.getSurname());
@@ -249,7 +249,7 @@ public final class ReportFields implements IReportFields {
     }
 
     private void initClient(ClientService person)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
 
         PersonName pn = person == null ? null : person.getPersonName();
         fields.put(Client_Sex, pn == null ? null : pn.getSexCode());
@@ -382,7 +382,7 @@ public final class ReportFields implements IReportFields {
 
     }
 
-    private void initPartner(PersonService person) throws com.argus.financials.service.ServiceException {
+    private void initPartner(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
         PersonName pn = person == null ? null : person.getPersonName();
         fields.put(Partner_Sex, pn == null ? null : pn.getSexCode());

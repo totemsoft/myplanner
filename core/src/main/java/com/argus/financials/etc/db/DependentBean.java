@@ -22,7 +22,7 @@ import com.argus.financials.bean.DbConstant;
 import com.argus.financials.bean.db.FPSLinkObject;
 import com.argus.financials.etc.Address;
 import com.argus.financials.etc.Dependent;
-import com.argus.financials.service.ObjectNotFoundException;
+import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.util.DateTimeUtils;
 
 public class DependentBean extends ContactBean {

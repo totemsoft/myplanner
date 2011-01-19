@@ -335,7 +335,7 @@ class FinancialPlannerMenu extends JMenuBar
 
             SwingUtils.setDefaultFont(this);
             
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace();
         }
 

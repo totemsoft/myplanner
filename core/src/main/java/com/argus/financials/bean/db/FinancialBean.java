@@ -22,7 +22,7 @@ import com.argus.financials.assetallocation.AssetAllocation;
 import com.argus.financials.bean.Financial;
 import com.argus.financials.bean.LinkObjectTypeConstant;
 import com.argus.financials.bean.ObjectTypeConstant;
-import com.argus.financials.service.ObjectNotFoundException;
+import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.util.DateTimeUtils;
 
 public abstract class FinancialBean extends AbstractPersistable

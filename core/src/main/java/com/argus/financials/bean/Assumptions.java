@@ -87,7 +87,7 @@ public class Assumptions extends AbstractBase implements java.lang.Cloneable {
     public Assumptions() {
     }
 
-    public Assumptions(PersonService person) throws com.argus.financials.service.ServiceException {
+    public Assumptions(PersonService person) throws com.argus.financials.service.client.ServiceException {
         update(person);
     }
 
@@ -473,7 +473,7 @@ public class Assumptions extends AbstractBase implements java.lang.Cloneable {
         return displayModeTerm;
     }
 
-    public void update(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void update(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
         if (person == null)
             person = ServiceLocator.getInstance().getClientPerson();

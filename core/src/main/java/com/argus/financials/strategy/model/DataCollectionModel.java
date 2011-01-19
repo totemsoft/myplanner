@@ -542,7 +542,7 @@ public class DataCollectionModel extends FinancialDataModel {
     }// end of Class Node1
 
     // load COPY of financial data
-    public java.util.Map reload(PersonService person) throws com.argus.financials.service.ServiceException {
+    public java.util.Map reload(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
         if (person == null)
             return null;

@@ -364,11 +364,11 @@ public abstract class TableEditView extends javax.swing.JPanel implements
         return null;
     }
 
-    public void updateView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
         initTable();
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.ServiceException,
+    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException,
             InvalidCodeException {
         // ( ( ClientService) person ).setContacts( details );
     }
@@ -413,12 +413,12 @@ public abstract class TableEditView extends javax.swing.JPanel implements
     protected void display() {
         try {
             display(getSelectedObject());
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         }
     }
 
-    protected abstract void display(Object obj) throws com.argus.financials.service.ServiceException;
+    protected abstract void display(Object obj) throws com.argus.financials.service.client.ServiceException;
 
     /**
      * Helper methodes

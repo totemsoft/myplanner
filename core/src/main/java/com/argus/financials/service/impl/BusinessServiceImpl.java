@@ -21,8 +21,8 @@ import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.service.BusinessService;
 import com.argus.financials.service.CreateException;
 import com.argus.financials.service.FinderException;
-import com.argus.financials.service.ObjectNotFoundException;
-import com.argus.financials.service.ServiceException;
+import com.argus.financials.service.client.ObjectNotFoundException;
+import com.argus.financials.service.client.ServiceException;
 
 public class BusinessServiceImpl extends AbstractServiceImpl implements BusinessService {
 
@@ -127,12 +127,12 @@ public class BusinessServiceImpl extends AbstractServiceImpl implements Business
     /**
      * Business
      */
-    public Integer getParentBusinessID() throws com.argus.financials.service.ServiceException {
+    public Integer getParentBusinessID() throws com.argus.financials.service.client.ServiceException {
         return parentBusinessID;
     }
 
     private void setParentBusinessID(Integer value)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
         if (equals(parentBusinessID, value))
             return;
 
@@ -142,12 +142,12 @@ public class BusinessServiceImpl extends AbstractServiceImpl implements Business
         super.setModified(true);
     }
 
-    public Integer getIndustryCodeID() throws com.argus.financials.service.ServiceException {
+    public Integer getIndustryCodeID() throws com.argus.financials.service.client.ServiceException {
         return industryCodeID;
     }
 
     public void setIndustryCodeID(Integer value)
-            throws com.argus.financials.service.ServiceException, InvalidCodeException {
+            throws com.argus.financials.service.client.ServiceException, InvalidCodeException {
         if (equals(industryCodeID, value))
             return;
 
@@ -158,12 +158,12 @@ public class BusinessServiceImpl extends AbstractServiceImpl implements Business
         super.setModified(true);
     }
 
-    public Integer getBusinessStructureCodeID() throws com.argus.financials.service.ServiceException {
+    public Integer getBusinessStructureCodeID() throws com.argus.financials.service.client.ServiceException {
         return businessStructureCodeID;
     }
 
     public void setBusinessStructureCodeID(Integer value)
-            throws com.argus.financials.service.ServiceException, InvalidCodeException {
+            throws com.argus.financials.service.client.ServiceException, InvalidCodeException {
         if (equals(businessStructureCodeID, value))
             return;
 
@@ -174,11 +174,11 @@ public class BusinessServiceImpl extends AbstractServiceImpl implements Business
         super.setModified(true);
     }
 
-    public String getLegalName() throws com.argus.financials.service.ServiceException {
+    public String getLegalName() throws com.argus.financials.service.client.ServiceException {
         return legalName;
     }
 
-    public void setLegalName(String value) throws com.argus.financials.service.ServiceException {
+    public void setLegalName(String value) throws com.argus.financials.service.client.ServiceException {
         if (equals(legalName, value))
             return;
 
@@ -188,11 +188,11 @@ public class BusinessServiceImpl extends AbstractServiceImpl implements Business
         super.setModified(true);
     }
 
-    public String getTradingName() throws com.argus.financials.service.ServiceException {
+    public String getTradingName() throws com.argus.financials.service.client.ServiceException {
         return tradingName;
     }
 
-    public void setTradingName(String value) throws com.argus.financials.service.ServiceException {
+    public void setTradingName(String value) throws com.argus.financials.service.client.ServiceException {
         if (equals(tradingName, value))
             return;
 
@@ -200,11 +200,11 @@ public class BusinessServiceImpl extends AbstractServiceImpl implements Business
         super.setModified(true);
     }
 
-    public String getBusinessNumber() throws com.argus.financials.service.ServiceException {
+    public String getBusinessNumber() throws com.argus.financials.service.client.ServiceException {
         return businessNumber;
     }
 
-    public void setBusinessNumber(String value) throws com.argus.financials.service.ServiceException {
+    public void setBusinessNumber(String value) throws com.argus.financials.service.client.ServiceException {
         if (equals(businessNumber, value))
             return;
 
@@ -212,11 +212,11 @@ public class BusinessServiceImpl extends AbstractServiceImpl implements Business
         super.setModified(true);
     }
 
-    public String getTaxFileNumber() throws com.argus.financials.service.ServiceException {
+    public String getTaxFileNumber() throws com.argus.financials.service.client.ServiceException {
         return taxFileNumber;
     }
 
-    public void setTaxFileNumber(String value) throws com.argus.financials.service.ServiceException {
+    public void setTaxFileNumber(String value) throws com.argus.financials.service.client.ServiceException {
         if (equals(taxFileNumber, value))
             return;
 
@@ -224,11 +224,11 @@ public class BusinessServiceImpl extends AbstractServiceImpl implements Business
         super.setModified(true);
     }
 
-    public String getWebSiteName() throws com.argus.financials.service.ServiceException {
+    public String getWebSiteName() throws com.argus.financials.service.client.ServiceException {
         return webSiteName;
     }
 
-    public void setWebSiteName(String value) throws com.argus.financials.service.ServiceException {
+    public void setWebSiteName(String value) throws com.argus.financials.service.client.ServiceException {
         if (equals(webSiteName, value))
             return;
 

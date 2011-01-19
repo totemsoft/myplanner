@@ -22,8 +22,8 @@ import com.argus.financials.code.FinancialTypeID;
 import com.argus.financials.code.InvestmentStrategyData;
 import com.argus.financials.etc.GrowthRate;
 import com.argus.financials.etc.Survey;
-import com.argus.financials.service.ObjectNotFoundException;
 import com.argus.financials.service.PersonService;
+import com.argus.financials.service.client.ObjectNotFoundException;
 
 public class InvRiskData // extends BaseData
         extends com.argus.financials.bean.AbstractBase implements

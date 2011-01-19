@@ -128,7 +128,7 @@ public class FinancialView extends javax.swing.JPanel
     }
 
     private void setRoot(PersonService person, ReferenceCode root)
-            throws com.argus.financials.service.ServiceException
+            throws com.argus.financials.service.client.ServiceException
     {
         am.setRoot(person, root);
         
@@ -201,12 +201,12 @@ public class FinancialView extends javax.swing.JPanel
     /***************************************************************************
      * 
      **************************************************************************/
-    public void updateView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
         am.updateView(person);
         setRoot(person, null);
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
         am.saveView(person);
     }
 

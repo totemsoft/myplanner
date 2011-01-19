@@ -20,7 +20,7 @@ import com.argus.financials.bean.LinkObjectTypeConstant;
 import com.argus.financials.bean.ObjectTypeConstant;
 import com.argus.financials.bean.db.AbstractPersistable;
 import com.argus.financials.bean.db.FPSLinkObject;
-import com.argus.financials.service.ObjectNotFoundException;
+import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.financials.strategy.StrategyGroup;
 import com.argus.util.DateTimeUtils;
 import com.argus.util.StringUtils;
@@ -74,7 +74,7 @@ public class StrategyGroupBean extends AbstractPersistable {
     }
 
     public void update(Connection con) throws SQLException,
-            com.argus.financials.service.ServiceException, ObjectNotFoundException {
+            com.argus.financials.service.client.ServiceException, ObjectNotFoundException {
         PreparedStatement sql = null;
         ResultSet rs = null;
 

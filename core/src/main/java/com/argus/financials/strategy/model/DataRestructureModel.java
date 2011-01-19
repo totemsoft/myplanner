@@ -910,7 +910,7 @@ public class DataRestructureModel extends DataCollectionModel {
 
     }
 
-    public java.util.Map reload(PersonService person) throws com.argus.financials.service.ServiceException {
+    public java.util.Map reload(PersonService person) throws com.argus.financials.service.client.ServiceException {
         return null; // do nothing, restore as serialized object
     }
 

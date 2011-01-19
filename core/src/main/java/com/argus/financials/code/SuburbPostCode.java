@@ -52,7 +52,7 @@ public class SuburbPostCode extends Code {
             codeMap = ServiceLocator.getInstance().getUtilityService().getPostCodes(
                     countryCodeID);
             countryID = countryCodeID;
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             countryID = null;
             e.printStackTrace();
         }

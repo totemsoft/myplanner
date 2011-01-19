@@ -13,11 +13,12 @@ package com.argus.financials.code;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 import com.argus.financials.etc.Contact;
 import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.UserService;
+import com.argus.financials.service.client.ServiceException;
 
 public class Advisers extends BaseCode {
 
@@ -51,14 +52,13 @@ public class Advisers extends BaseCode {
         codes.add(NONE);
 
         try {
-            UserService user = ServiceLocator.getInstance().getUserService();
-            java.util.List l = user == null ? null : user.findUsers(null); // ALL
+            List<Contact> l = ServiceLocator.getInstance().getUtilityService().findUsers(); // ALL
             if (l == null)
                 return;
 
             codes.addAll(l);
 
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (ServiceException e) {
             e.printStackTrace(System.err);
         }
 

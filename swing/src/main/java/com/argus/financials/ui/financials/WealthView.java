@@ -123,7 +123,7 @@ public class WealthView extends com.argus.financials.ui.GraphTableView
     }
 
     private void init(PersonService person, java.util.Map financials, String prefix)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
 
         // wealthData = new WealthData( null, assumptions, prefix );
         // wealthData.addChangeListener( this ); // update table/chart
@@ -334,7 +334,7 @@ public class WealthView extends com.argus.financials.ui.GraphTableView
     protected void doRefresh(java.awt.event.ActionEvent evt) {
         try {
             wealthData.update();
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         }
     }
@@ -350,7 +350,7 @@ public class WealthView extends com.argus.financials.ui.GraphTableView
     }
 
     public void updateView(PersonService person, java.util.Map financials,
-            String prefix) throws com.argus.financials.service.ServiceException {
+            String prefix) throws com.argus.financials.service.client.ServiceException {
         init(person, financials, prefix);
     }
 

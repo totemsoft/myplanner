@@ -22,7 +22,7 @@ public class TreeModelTest extends javax.swing.JFrame {
 
     /** Creates new form TreeModelTest */
     public TreeModelTest(java.util.Map financials)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
         initComponents();
 
         FinancialTreeStructure fts = new FinancialTreeStructure();
@@ -145,7 +145,7 @@ public class TreeModelTest extends javax.swing.JFrame {
      * @param args
      *            the command line arguments
      */
-    static void main(String args[]) throws com.argus.financials.service.ServiceException {
+    static void main(String args[]) throws com.argus.financials.service.client.ServiceException {
         try {
             PropertySourceManager.getInstance().load("force.properties");
         } catch (Exception e) {

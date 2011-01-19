@@ -105,7 +105,7 @@ public class WealthData extends com.argus.financials.bean.AbstractBase implement
 
     private PersonService person;
 
-    public void update() throws com.argus.financials.service.ServiceException {
+    public void update() throws com.argus.financials.service.client.ServiceException {
         assumptions.disableNotify();
         try {
             assumptions.update(person);
@@ -115,7 +115,7 @@ public class WealthData extends com.argus.financials.bean.AbstractBase implement
     }
 
     public void update(PersonService _person, java.util.Map _financials)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
         this.person = _person;
         this.financials = _financials;
         update();

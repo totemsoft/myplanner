@@ -21,7 +21,7 @@ import com.argus.financials.bean.DbConstant;
 import com.argus.financials.bean.db.AbstractPersistable;
 import com.argus.financials.bean.db.FPSLinkObject;
 import com.argus.financials.etc.ContactMedia;
-import com.argus.financials.service.ObjectNotFoundException;
+import com.argus.financials.service.client.ObjectNotFoundException;
 
 public class ContactMediaBean extends AbstractPersistable {
 

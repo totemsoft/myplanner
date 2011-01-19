@@ -550,7 +550,7 @@ public class AddressView extends javax.swing.JPanel implements
     /**
      * 
      */
-    public void updateView() throws com.argus.financials.service.ServiceException {
+    public void updateView() throws com.argus.financials.service.client.ServiceException {
 
         boolean sameAsClient = address.getParentAddressID() != null;
         if (jCheckBoxSameAs.isSelected() != sameAsClient)
@@ -599,7 +599,7 @@ public class AddressView extends javax.swing.JPanel implements
 
     }
 
-    public Address saveView() throws com.argus.financials.service.ServiceException {
+    public Address saveView() throws com.argus.financials.service.client.ServiceException {
 
         boolean notify = address.isNotify();
         if (notify)
@@ -667,11 +667,11 @@ public class AddressView extends javax.swing.JPanel implements
     /**
      * 
      */
-    public void updateView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
         updateView();
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
         saveView();
     }
 
@@ -705,7 +705,7 @@ public class AddressView extends javax.swing.JPanel implements
         address = (Address) value;
         try {
             updateView();
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         }
     }

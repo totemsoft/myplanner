@@ -123,7 +123,7 @@ public class TaxAnalysisView extends com.argus.financials.ui.BaseView implements
     }
 
     private void init(PersonService person, java.util.Map financials, String prefix)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
 
         // taxAnalysisData = new TaxAnalysisData( null, assumptions, prefix );
         // taxAnalysisData.addChangeListener( this ); // update table/chart
@@ -251,7 +251,7 @@ public class TaxAnalysisView extends com.argus.financials.ui.BaseView implements
     protected void doRefresh(java.awt.event.ActionEvent evt) {
         try {
             taxAnalysisData.update();
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         }
     }
@@ -267,7 +267,7 @@ public class TaxAnalysisView extends com.argus.financials.ui.BaseView implements
     }
 
     public void updateView(PersonService person, java.util.Map financials,
-            String prefix) throws com.argus.financials.service.ServiceException {
+            String prefix) throws com.argus.financials.service.client.ServiceException {
         init(person, financials, prefix);
     }
 

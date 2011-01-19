@@ -167,6 +167,15 @@ public class Person extends AbstractAuditable<Long> implements IPerson
      * Calculated
      * @return
      */
+    public String getFullName()
+    {
+        return surname + (firstname == null ? "" : ", " + firstname);
+    }
+
+    /**
+     * Calculated
+     * @return
+     */
     public String getShortName()
     {
         return surname + (firstname == null ? "" : ", " + firstname);

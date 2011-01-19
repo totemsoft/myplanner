@@ -352,7 +352,7 @@ public class FinancialPlannerApplet extends javax.swing.JApplet implements
 
             try {
                 view.updateView(null);
-            } catch (com.argus.financials.service.ServiceException re) {
+            } catch (com.argus.financials.service.client.ServiceException re) {
                 throw new RuntimeException(re.getMessage());
             }
         }
@@ -379,7 +379,7 @@ public class FinancialPlannerApplet extends javax.swing.JApplet implements
             try {
                 view.updateView(ServiceLocator.getInstance().getClientPerson()
                         .getPartner(true));
-            } catch (com.argus.financials.service.ServiceException re) {
+            } catch (com.argus.financials.service.client.ServiceException re) {
                 throw new RuntimeException(re.getMessage());
             }
         }

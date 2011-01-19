@@ -92,7 +92,7 @@ public class BaseCode implements java.io.Serializable {
     /**
      * implement this methods in derived classes if you want it to be editable
      */
-    public void save() throws com.argus.financials.service.ServiceException {
+    public void save() throws com.argus.financials.service.client.ServiceException {
     }
 
     public javax.swing.table.TableModel asTableModel() {

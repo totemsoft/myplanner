@@ -786,7 +786,7 @@ public class GoalsInterestsView extends javax.swing.JPanel implements
             updateSelectedCategoryView(category);
     }
 
-    public void updateView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
         clearView();
         if (person instanceof ClientService)
             clientPerson = (ClientService) person;
@@ -818,7 +818,7 @@ public class GoalsInterestsView extends javax.swing.JPanel implements
 
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
         FinancialGoal fg = person.getFinancialGoal();
         if (fg == null) {
             fg = new FinancialGoal((Integer) person.getPrimaryKey());

@@ -15,7 +15,7 @@ import com.argus.financials.bean.Financial;
 import com.argus.financials.bean.Liability;
 import com.argus.financials.bean.LinkObjectTypeConstant;
 import com.argus.financials.bean.ObjectTypeConstant;
-import com.argus.financials.service.ObjectNotFoundException;
+import com.argus.financials.service.client.ObjectNotFoundException;
 
 public class LiabilityBean extends RegularBean {
 

@@ -23,9 +23,11 @@ import com.argus.financials.projection.dss.DSSContainer;
 import com.argus.financials.projection.dss.NonDeemedAssetTableModel;
 import com.argus.financials.projection.dss.NotEligibleException;
 import com.argus.financials.projection.dss.PersonInfo;
+import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.swing.table.UpdateableTableModel;
 import com.argus.financials.swing.table.UpdateableTableRow;
 import com.argus.financials.table.FinancialColumnID;
+import com.argus.util.DateTimeUtils;
 
 public class DSSCalcNew extends AbstractComponentModel implements
         DocumentNames, com.argus.financials.report.Reportable {
@@ -179,7 +181,7 @@ public class DSSCalcNew extends AbstractComponentModel implements
     }
 
     public void setValues(com.argus.financials.service.ClientService client)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
 
         com.argus.financials.etc.PersonName pn = client == null ? null : client
                 .getPersonName();
@@ -1431,13 +1433,12 @@ public class DSSCalcNew extends AbstractComponentModel implements
             reportFields.initialize(person);
         else {
             reportFields.setValue(reportFields.Adviser_FullName,
-                    com.argus.financials.service.ServiceLocator.getInstance()
-                            .getUserService().getPersonName().getFullName());
+                ServiceLocator.getInstance().getUserPreferences().getUser().getFullName());
             reportFields.setValue(reportFields.Client_FullName,
-                    getValue(CLIENT_NAME));
-            java.util.Date now = new java.util.Date();
+                getValue(CLIENT_NAME));
+            Date now = new Date();
             reportFields.setValue(reportFields.DateMedium,
-                    com.argus.util.DateTimeUtils.formatAsMEDIUM(now));
+                DateTimeUtils.formatAsMEDIUM(now));
         }
 
         reportFields.setValue(reportFields.CentrelinkReport_Table,

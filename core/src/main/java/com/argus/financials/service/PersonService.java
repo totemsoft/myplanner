@@ -29,6 +29,8 @@ import com.argus.financials.etc.PersonName;
 import com.argus.financials.etc.Survey;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.projection.save.ModelCollection;
+import com.argus.financials.service.client.ObjectNotFoundException;
+import com.argus.financials.service.client.ServiceException;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
@@ -186,15 +188,9 @@ public interface PersonService extends DbConstant
     public Integer getSurveyID(int surveyTypeID) throws ServiceException, ObjectNotFoundException;
 
     
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    PersonService create(Integer ownerPersonID, boolean store) throws ServiceException,
-        CreateException;
-
+    
     PersonService findByPrimaryKey(Integer personID, boolean store) throws ServiceException,
         FinderException;
-
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public Integer create() throws ServiceException, CreateException;
 
     public Object getOwnerPrimaryKey() throws ServiceException;
 

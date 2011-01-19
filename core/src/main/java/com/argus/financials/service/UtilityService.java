@@ -7,10 +7,14 @@
 package com.argus.financials.service;
 
 import java.sql.Connection;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.argus.financials.etc.Contact;
+import com.argus.financials.service.client.ServiceException;
 
 /**
  * 
@@ -23,8 +27,12 @@ import org.springframework.transaction.annotation.Transactional;
 public interface UtilityService {
 
     // Parameter Type IDs
-    public static final Integer PARAM_INVESTMENT_STRATEGY = new Integer(1);
+    Integer PARAM_INVESTMENT_STRATEGY = new Integer(1);
 
+
+    public List<Contact> findUsers() throws ServiceException;
+
+    
     public java.util.TreeMap getCodes(String tableName) throws ServiceException;
 
     public java.util.TreeMap getCodes(String tableName, String fieldKeyValues,

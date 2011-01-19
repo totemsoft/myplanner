@@ -24,7 +24,7 @@ import com.argus.financials.etc.DuplicateException;
 import com.argus.financials.etc.ModelTitleRestrictionException;
 import com.argus.financials.io.IOUtils2;
 import com.argus.financials.projection.save.Model;
-import com.argus.financials.service.ObjectNotFoundException;
+import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.util.StringUtils;
 
 public class ModelBean extends AbstractPersistable {

@@ -63,7 +63,7 @@ public class CommentView extends javax.swing.JComponent {
     }
 
     public void updateView(com.argus.financials.service.PersonService person)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
         if (person == null)
             person = ServiceLocator.getInstance().getClientPerson();
 
@@ -75,7 +75,7 @@ public class CommentView extends javax.swing.JComponent {
     }
 
     public void saveView(com.argus.financials.service.PersonService person)
-            throws com.argus.financials.service.ServiceException,
+            throws com.argus.financials.service.client.ServiceException,
             com.argus.financials.code.InvalidCodeException {
         if (person == null)
             person = ServiceLocator.getInstance().getClientPerson();

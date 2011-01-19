@@ -47,7 +47,7 @@ public abstract class PersonView2 extends PersonView {
 
     // End of variables declaration
 
-    public void updateView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
         super.updateView(person);
 
@@ -56,7 +56,7 @@ public abstract class PersonView2 extends PersonView {
 
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
         super.saveView(person);
 

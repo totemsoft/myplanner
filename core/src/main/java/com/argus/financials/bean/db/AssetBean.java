@@ -20,7 +20,7 @@ import java.sql.SQLException;
 import com.argus.financials.bean.Asset;
 import com.argus.financials.bean.LinkObjectTypeConstant;
 import com.argus.financials.bean.ObjectTypeConstant;
-import com.argus.financials.service.ObjectNotFoundException;
+import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.util.DateTimeUtils;
 
 public abstract class AssetBean extends FinancialBean {

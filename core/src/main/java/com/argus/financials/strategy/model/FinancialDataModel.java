@@ -818,7 +818,7 @@ public class FinancialDataModel extends BaseDataModel implements
 
     }
 
-    public java.util.Map reload(PersonService person) throws com.argus.financials.service.ServiceException {
+    public java.util.Map reload(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
         if (person == null)
             return null;

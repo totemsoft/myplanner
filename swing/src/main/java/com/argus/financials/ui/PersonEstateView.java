@@ -381,7 +381,7 @@ public class PersonEstateView extends javax.swing.JPanel {
 
     // private Estate estate;
 
-    public void updateView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
         /*
          * // display estate info Estate estate = ( (ClientService) person
          * ).getEstate();
@@ -402,7 +402,7 @@ public class PersonEstateView extends javax.swing.JPanel {
          */
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.ServiceException,
+    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException,
             InvalidCodeException {
         /*
          * // save estate info

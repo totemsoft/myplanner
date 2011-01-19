@@ -33,10 +33,10 @@ import com.argus.financials.config.WordSettings;
 import com.argus.financials.etc.Survey;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.report.data.InvRiskData;
-import com.argus.financials.service.ObjectNotFoundException;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceException;
 import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.service.client.ObjectNotFoundException;
+import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.SwingUtil;
 
 public class InvRisk extends javax.swing.JPanel implements

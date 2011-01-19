@@ -101,7 +101,7 @@ public final class ClientView extends PersonView2 {
 
     }
 
-    public void updateView() throws com.argus.financials.service.ServiceException {
+    public void updateView() throws com.argus.financials.service.client.ServiceException {
 
         ClientService person = (ClientService) getPerson();
         if (person == null)
@@ -117,7 +117,7 @@ public final class ClientView extends PersonView2 {
 
     }
 
-    public void saveView() throws com.argus.financials.service.ServiceException,
+    public void saveView() throws com.argus.financials.service.client.ServiceException,
             InvalidCodeException {
 
         ClientService person = (ClientService) getPerson();
@@ -159,7 +159,7 @@ public final class ClientView extends PersonView2 {
         return new Integer(ObjectTypeConstant.CLIENT_PERSON);
     }
 
-    protected PersonService getPerson() throws com.argus.financials.service.ServiceException {
+    protected PersonService getPerson() throws com.argus.financials.service.client.ServiceException {
         return ServiceLocator.getInstance().getClientPerson();
     }
 

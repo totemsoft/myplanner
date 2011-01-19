@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 import com.argus.financials.bean.db.AbstractPersistable;
 import com.argus.financials.etc.Occupation;
-import com.argus.financials.service.ObjectNotFoundException;
+import com.argus.financials.service.client.ObjectNotFoundException;
 
 public final class OccupationBean
 // extends Occupation

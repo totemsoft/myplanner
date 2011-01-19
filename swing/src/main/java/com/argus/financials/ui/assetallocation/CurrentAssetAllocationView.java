@@ -23,9 +23,9 @@ import com.argus.financials.etc.GrowthRate;
 import com.argus.financials.etc.Survey;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.ClientService;
-import com.argus.financials.service.ObjectNotFoundException;
 import com.argus.financials.service.PersonService;
 import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.financials.strategy.model.DataCollectionModel;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.ui.data.AssetAllocationData;
@@ -234,7 +234,7 @@ public class CurrentAssetAllocationView extends AssetAllocationView implements
      *            a person object
      */
     public void updateView(com.argus.financials.service.PersonService person)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
         // we don't use a DataCollectionModel
         // !!! ATTENTION: SETING _dcm = null is IMPORTANT FOR saveView() methode
         // !!!
@@ -258,7 +258,7 @@ public class CurrentAssetAllocationView extends AssetAllocationView implements
     }
 
     public void updateView(java.util.Map financials)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
         this._dcm = null;
         // get the financials and keep them, required for report generating
         this._financials = financials;
@@ -275,7 +275,7 @@ public class CurrentAssetAllocationView extends AssetAllocationView implements
     }
 
     public void updateView(DataCollectionModel dcm)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
         this._dcm = dcm;
         this._financials = null;
 
@@ -299,7 +299,7 @@ public class CurrentAssetAllocationView extends AssetAllocationView implements
      */
     private void displayRiskProfileAssetAllocation(
             com.argus.financials.service.PersonService person)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
         Integer surveyID = null;
         Integer investmentStrategyCodeID = null;
         String investmentStrategyName = "";
@@ -311,7 +311,7 @@ public class CurrentAssetAllocationView extends AssetAllocationView implements
         } catch (ObjectNotFoundException e) {
             // ignore that exception, it's raised when we don't have a survey id
             // e.printStackTrace(System.err);
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         }
 

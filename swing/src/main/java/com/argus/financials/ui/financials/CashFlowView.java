@@ -95,7 +95,7 @@ public class CashFlowView extends com.argus.financials.ui.GraphTableView
     }
 
     private void init(PersonService person, java.util.Map financials, String prefix)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
 
         // cashFlowData = new CashFlowData( null, assumptions, prefix );
         // cashFlowData.addChangeListener( this ); // update table/chart
@@ -277,7 +277,7 @@ public class CashFlowView extends com.argus.financials.ui.GraphTableView
     protected void doRefresh(java.awt.event.ActionEvent evt) {
         try {
             cashFlowData.update();
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         }
     }
@@ -285,15 +285,15 @@ public class CashFlowView extends com.argus.financials.ui.GraphTableView
     /***************************************************************************
      * 
      **************************************************************************/
-    public void saveView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
     }
 
-    public void updateView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
         updateView(person, person.getFinancials(), ReportFields.CURRENT_PREFIX);
     }
 
     public void updateView(PersonService person, java.util.Map financials,
-            String prefix) throws com.argus.financials.service.ServiceException {
+            String prefix) throws com.argus.financials.service.client.ServiceException {
         init(person, financials, prefix);
     }
 

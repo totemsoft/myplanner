@@ -155,7 +155,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
 
     private PersonService person;
 
-    public void update() throws com.argus.financials.service.ServiceException {
+    public void update() throws com.argus.financials.service.client.ServiceException {
         assumptions.disableNotify();
         try {
             assumptions.update(person);
@@ -165,7 +165,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
     }
 
     public void update(PersonService _person, java.util.Map _financials)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
         this.person = _person;
         this.financials = _financials;
         update();
@@ -181,7 +181,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
 
         try {
             updateTreeModel();
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
             return;
         }
@@ -189,7 +189,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
 
     }
 
-    private void updateTreeModel() throws com.argus.financials.service.ServiceException {
+    private void updateTreeModel() throws com.argus.financials.service.client.ServiceException {
 
         clear();
 

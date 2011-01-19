@@ -156,7 +156,7 @@ public class CountryCode extends Code {
             if (map == null)
                 return;
             codeMap.putAll(map);
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
             codeMap.put(ICountry.AUSTRALIA, ICountry.AUSTRALIA_ID);
         }

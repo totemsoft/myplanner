@@ -5,6 +5,7 @@
 	<inherits name="com.google.gwt.editor.Editor" />
 	<inherits name="com.google.gwt.requestfactory.RequestFactory"/>
 	<inherits name="com.argus.financials.domain.Domain" />
+	<inherits name="com.argus.financials.service.Service" />
 
 	<source path="client" />
 	<source path="shared" />

@@ -1289,11 +1289,11 @@ public final class PlanTracker extends javax.swing.JPanel {
 
     // End of variables declaration//GEN-END:variables
 
-    public void updateView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.ServiceException,
+    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException,
             InvalidCodeException {
     }
 

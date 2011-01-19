@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 import com.argus.financials.assetallocation.AssetAllocation;
 import com.argus.financials.code.BooleanCode;
-import com.argus.financials.service.ObjectNotFoundException;
+import com.argus.financials.service.client.ObjectNotFoundException;
 
 /**
  * AssetAllocationTableBean is responsible for creating,loading and storing

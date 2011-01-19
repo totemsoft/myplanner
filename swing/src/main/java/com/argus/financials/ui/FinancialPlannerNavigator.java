@@ -283,7 +283,7 @@ class FinancialPlannerNavigator extends com.l2fprod.common.swing.JTaskPane
 
             }
 
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace();
         }
 

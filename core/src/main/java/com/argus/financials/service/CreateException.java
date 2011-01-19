@@ -13,6 +13,8 @@
 
 package com.argus.financials.service;
 
+import com.argus.financials.service.client.ServiceException;
+
 /*
  * Created on 21/05/2006
  * 

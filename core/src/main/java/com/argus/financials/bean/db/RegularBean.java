@@ -24,7 +24,7 @@ import com.argus.financials.bean.LinkObjectTypeConstant;
 import com.argus.financials.bean.ObjectTypeConstant;
 import com.argus.financials.bean.Regular;
 import com.argus.financials.code.BooleanCode;
-import com.argus.financials.service.ObjectNotFoundException;
+import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.util.DateTimeUtils;
 
 public abstract class RegularBean extends FinancialBean implements

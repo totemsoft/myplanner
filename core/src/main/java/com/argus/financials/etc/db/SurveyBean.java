@@ -21,7 +21,7 @@ import com.argus.financials.bean.ObjectTypeConstant;
 import com.argus.financials.bean.db.AbstractPersistable;
 import com.argus.financials.bean.db.FPSLinkObject;
 import com.argus.financials.etc.Survey;
-import com.argus.financials.service.ObjectNotFoundException;
+import com.argus.financials.service.client.ObjectNotFoundException;
 
 public class SurveyBean extends AbstractPersistable {
 

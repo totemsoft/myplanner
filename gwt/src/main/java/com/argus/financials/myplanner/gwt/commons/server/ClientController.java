@@ -11,7 +11,7 @@ import javax.servlet.ServletResponse;
 
 import com.argus.financials.domain.hibernate.Client;
 import com.argus.financials.myplanner.web.servlet.WebUtils;
-import com.argus.financials.service.UserService;
+import com.argus.financials.service.client.UserService;
 
 public class ClientController implements Filter
 {
@@ -57,12 +57,12 @@ public class ClientController implements Filter
         return userService.findClient(clientId);
     }
 
-    public static Client persist(Client client)
+    public static Long persist(Client client)
     {
         return userService.persist(client);
     }
 
-    public static Client remove(Client client)
+    public static Long remove(Client client)
     {
         return userService.remove(client);
     }

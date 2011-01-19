@@ -94,7 +94,7 @@ public class FinancialServiceCode extends BaseCode {
                 codes.add(rc);
             }
 
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         }
 
@@ -103,7 +103,7 @@ public class FinancialServiceCode extends BaseCode {
     // //////////////////////////////////////////////////////////////////////////
     //
     // //////////////////////////////////////////////////////////////////////////
-    public void save() throws com.argus.financials.service.ServiceException {
+    public void save() throws com.argus.financials.service.client.ServiceException {
 
         if (tm == null)
             return;

@@ -16,8 +16,8 @@ import com.argus.financials.bean.IPersistable;
 import com.argus.financials.db.BaseSQLHelper;
 import com.argus.financials.db.SQLServerHelper;
 import com.argus.financials.etc.FPSObject;
-import com.argus.financials.service.ObjectNotFoundException;
 import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.service.client.ObjectNotFoundException;
 
 public abstract class AbstractPersistable extends FPSObject implements IPersistable {
 

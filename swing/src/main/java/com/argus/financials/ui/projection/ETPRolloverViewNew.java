@@ -42,8 +42,8 @@ import com.argus.financials.report.ReportFields;
 import com.argus.financials.report.data.ETPData;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceException;
 import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.CalcDateInputVerifier;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.DateInputVerifier;
@@ -101,7 +101,7 @@ public class ETPRolloverViewNew extends javax.swing.JPanel implements
         if (person != null) {
             try {
                 model.setOwner(person.getModels());
-            } catch (com.argus.financials.service.ServiceException e) {
+            } catch (com.argus.financials.service.client.ServiceException e) {
                 e.printStackTrace(System.err);
             }
         }
@@ -3181,7 +3181,7 @@ public class ETPRolloverViewNew extends javax.swing.JPanel implements
                 etpCalc.setPartnerDOB(partnerName == null ? null : partnerName
                         .getDateOfBirth());
 
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
             return;
         }
@@ -3555,7 +3555,7 @@ public class ETPRolloverViewNew extends javax.swing.JPanel implements
                 try {
                     person.removeModel(getModel());
                     person.storeModels();
-                } catch (com.argus.financials.service.ServiceException e) {
+                } catch (com.argus.financials.service.client.ServiceException e) {
                     e.printStackTrace();
                     return;
                 }

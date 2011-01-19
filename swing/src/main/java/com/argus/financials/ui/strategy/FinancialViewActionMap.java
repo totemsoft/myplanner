@@ -84,7 +84,7 @@ class FinancialViewActionMap
      * 
      **************************************************************************/
     void setRoot(PersonService person, ReferenceCode root)
-        throws com.argus.financials.service.ServiceException 
+        throws com.argus.financials.service.client.ServiceException 
     {
         model = new FinancialDataModel();
         model.setRoot(root);
@@ -118,7 +118,7 @@ class FinancialViewActionMap
             public void actionPerformed(ActionEvent evt) {
                 try {
                     removeFinancial(getCurrentCollectionNode());
-                } catch (com.argus.financials.service.ServiceException e) {
+                } catch (com.argus.financials.service.client.ServiceException e) {
                     e.printStackTrace(System.err);
                 }
             }
@@ -160,11 +160,11 @@ class FinancialViewActionMap
     /***************************************************************************
      * 
      **************************************************************************/
-    void updateView(PersonService person) throws com.argus.financials.service.ServiceException {
+    void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
         this.person = person;
     }
 
-    void saveView(PersonService person) throws com.argus.financials.service.ServiceException {
+    void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
         // if ( currentPerson != person )
         // throw new com.argus.financials.service.ServiceException( "!!! BUG!!! Wrong PersonService..." );
 
@@ -225,7 +225,7 @@ class FinancialViewActionMap
     }
 
     private void removeFinancial(FinancialDataModel.Node node)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
         if (node == null || !node.isFinancial())
             return;
 
@@ -314,7 +314,7 @@ class FinancialViewActionMap
             // System.out.println( "3 doCashFlow: " + System.currentTimeMillis()
             // );
 
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         }
 

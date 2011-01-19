@@ -897,7 +897,7 @@ public class AssetAllocationTableModel extends DefaultTableModel implements
      *            a person object
      */
     public void updateModel(com.argus.financials.service.PersonService person)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
 
         /***********************************************************************
          * FINANCIAL (usually client)
@@ -1370,7 +1370,7 @@ public class AssetAllocationTableModel extends DefaultTableModel implements
      *            a person object
      */
     public void saveModel(com.argus.financials.service.PersonService person)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
         /***********************************************************************
          * FINANCIAL (usually client)
          **********************************************************************/
@@ -1392,7 +1392,7 @@ public class AssetAllocationTableModel extends DefaultTableModel implements
      *            a person object
      */
     public void saveModel(java.util.Map financials)
-            throws com.argus.financials.service.ServiceException {
+            throws com.argus.financials.service.client.ServiceException {
         Integer objectTypeID = new Integer(ObjectTypeConstant.ASSET_CASH);
         java.util.Map assetCash = (java.util.Map) financials.get(objectTypeID);
 

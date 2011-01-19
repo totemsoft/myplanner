@@ -34,8 +34,8 @@ import com.argus.financials.projection.save.ModelCollection;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceException;
 import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.IntegerInputVerifier;
 import com.argus.financials.swing.SwingUtil;
@@ -4241,7 +4241,7 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
         ModelCollection mc = null;
         try {
             mc = person.getModels();
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
             return;
         }
@@ -4311,7 +4311,7 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
         try {
             person.storeModels();
             // saveView( person );
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
             return;
         }
@@ -4411,7 +4411,7 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
                 try {
                     person.removeModel(model);
                     person.storeModels();
-                } catch (com.argus.financials.service.ServiceException e) {
+                } catch (com.argus.financials.service.client.ServiceException e) {
                     e.printStackTrace();
                     return;
                 }

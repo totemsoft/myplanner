@@ -43,8 +43,8 @@ import com.argus.financials.projection.MoneyCalc;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceException;
 import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.DateInputVerifier;
 import com.argus.financials.swing.NumberInputVerifier;
@@ -123,7 +123,7 @@ public class GearingView2 extends javax.swing.JPanel implements ActionEventID,
         if (person != null) {
             try {
                 model.setOwner(person.getModels());
-            } catch (com.argus.financials.service.ServiceException e) {
+            } catch (com.argus.financials.service.client.ServiceException e) {
                 e.printStackTrace(System.err);
             }
         }
@@ -1913,7 +1913,7 @@ public class GearingView2 extends javax.swing.JPanel implements ActionEventID,
                 try {
                     person.removeModel(getModel());
                     person.storeModels();
-                } catch (com.argus.financials.service.ServiceException e) {
+                } catch (com.argus.financials.service.client.ServiceException e) {
                     e.printStackTrace();
                     return;
                 }

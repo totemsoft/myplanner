@@ -22,7 +22,7 @@ import com.argus.financials.bean.db.AbstractPersistable;
 import com.argus.financials.bean.db.FPSLinkObject;
 import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.etc.Estate;
-import com.argus.financials.service.ObjectNotFoundException;
+import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.util.DateTimeUtils;
 
 public class EstateBean extends AbstractPersistable {

@@ -82,70 +82,58 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         MenuBar menuBar = new MenuBar(false);
         dockLayoutPanel.addNorth(menuBar, 2.0);
         menuBar.setSize("100%", "100%");
-        MenuBar menuBar_1 = new MenuBar(true);
+        MenuBar menuBarFile = new MenuBar(true);
         
-        MenuItem mntmFileMenu = new MenuItem("File", false, menuBar_1);
+        MenuItem mntmFileMenu = new MenuItem("File", false, menuBarFile);
         
         mntmExport = new MenuItem("Export", false, (Command) null);
         mntmExport.setEnabled(false);
-        menuBar_1.addItem(mntmExport);
+        menuBarFile.addItem(mntmExport);
         
         mntmImport = new MenuItem("Import", false, (Command) null);
         mntmImport.setEnabled(false);
         mntmImport.setHTML("Import");
-        menuBar_1.addItem(mntmImport);
+        menuBarFile.addItem(mntmImport);
         
         MenuItemSeparator separator = new MenuItemSeparator();
-        menuBar_1.addSeparator(separator);
+        menuBarFile.addSeparator(separator);
         
-        MenuItem mntmExit = new MenuItem("Logout", false, new Command() {
-            public void execute() {
-                onLogout();
-            }
-        });
-        menuBar_1.addItem(mntmExit);
+        MenuItem mntmExit = new MenuItem("Logout", false, logoutCommand);
+        menuBarFile.addItem(mntmExit);
         menuBar.addItem(mntmFileMenu);
-        MenuBar menuBar_2 = new MenuBar(true);
+        MenuBar menuBarClient = new MenuBar(true);
         
-        MenuItem mntmClient = new MenuItem("Client", false, menuBar_2);
+        MenuItem mntmClient = new MenuItem("Client", false, menuBarClient);
         
-        MenuItem mntmSearch = new MenuItem("Search", false, new Command() {
-            public void execute() {
-                showView(ClientSearch.HISTORY_TOKEN);
-            }
-        });
-        menuBar_2.addItem(mntmSearch);
+        MenuItem mntmSearch = new MenuItem("Search", false, searchClient);
+        menuBarClient.addItem(mntmSearch);
         
-        MenuItem mntmAddNew = new MenuItem("Add New", false, (Command) null);
-        menuBar_2.addItem(mntmAddNew);
+        MenuItem mntmAddNewClient = new MenuItem("Add New", false, addNewClientCommand);
+        menuBarClient.addItem(mntmAddNewClient);
         
-        mntmClientDetails = new MenuItem("Details", false, new Command() {
-            public void execute() {
-                showView(ClientDetails.HISTORY_TOKEN);
-            }
-        });
+        mntmClientDetails = new MenuItem("Details", false, clientDetailsCommand);
         mntmClientDetails.setEnabled(false);
-        menuBar_2.addItem(mntmClientDetails);
+        menuBarClient.addItem(mntmClientDetails);
         
         mntmClientRisk = new MenuItem("Risk", false, (Command) null);
         mntmClientRisk.setEnabled(false);
-        menuBar_2.addItem(mntmClientRisk);
+        menuBarClient.addItem(mntmClientRisk);
         
         mntmFinancials = new MenuItem("Financials", false, (Command) null);
         mntmFinancials.setEnabled(false);
-        menuBar_2.addItem(mntmFinancials);
+        menuBarClient.addItem(mntmFinancials);
         menuBar.addItem(mntmClient);
-        MenuBar menuBar_3 = new MenuBar(true);
+        MenuBar menuBarPartner = new MenuBar(true);
         
-        MenuItem mntmPartner = new MenuItem("Partner", false, menuBar_3);
+        MenuItem mntmPartner = new MenuItem("Partner", false, menuBarPartner);
         
         mntmPartnerDetails = new MenuItem("Details", false, (Command) null);
         mntmPartnerDetails.setEnabled(false);
-        menuBar_3.addItem(mntmPartnerDetails);
+        menuBarPartner.addItem(mntmPartnerDetails);
         
         mntmPartnerRisk = new MenuItem("Risk", false, (Command) null);
         mntmPartnerRisk.setEnabled(false);
-        menuBar_3.addItem(mntmPartnerRisk);
+        menuBarPartner.addItem(mntmPartnerRisk);
         menuBar.addItem(mntmPartner);
         MenuBar menuBar_4 = new MenuBar(true);
         
@@ -261,5 +249,51 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         }
         showView(ClientDetails.HISTORY_TOKEN);
     }
+
+    private Command searchClient = new Command()
+    {
+        public void execute()
+        {
+            showView(ClientSearch.HISTORY_TOKEN);
+        }
+    };
+
+    private Command clientDetailsCommand = new Command()
+    {
+        public void execute()
+        {
+            showView(ClientDetails.HISTORY_TOKEN);
+        }
+    };
+
+    private Command addNewClientCommand = new Command()
+    {
+        public void execute()
+        {
+            Request<Long> request = requestFactory.clientRequest().persist(null);
+            request.fire(new AbstractReceiver<Long>()
+            {
+                @Override
+                public void onSuccess(Long clientId)
+                {
+                    MainServiceAsync.Util.getInstance().openClient(clientId, new AbstractAsyncCallback<Void>()
+                    {
+                        public void onSuccess(Void result)
+                        {
+                            showView(ClientDetails.HISTORY_TOKEN);
+                        }
+                    });
+                }
+            });
+        }
+    };
+
+    private Command logoutCommand = new Command()
+    {
+        public void execute()
+        {
+            onLogout();
+        }
+    };
 
 }

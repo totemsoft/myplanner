@@ -228,7 +228,7 @@ public class PersonContactsView extends TableEditView {
         return new Integer(ObjectTypeConstant.PERSON);
     }
 
-    public void updateView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
         details = person.getContacts();
 
@@ -241,7 +241,7 @@ public class PersonContactsView extends TableEditView {
         }
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
         person.setContacts((TreeMap) details);
 
@@ -290,7 +290,7 @@ public class PersonContactsView extends TableEditView {
         // );
     }
 
-    protected void display(Object obj) throws com.argus.financials.service.ServiceException {
+    protected void display(Object obj) throws com.argus.financials.service.client.ServiceException {
 
         if (obj == null) {
             clearView();
@@ -378,7 +378,7 @@ public class PersonContactsView extends TableEditView {
 
     }
 
-    private void save(Object obj) throws com.argus.financials.service.ServiceException {
+    private void save(Object obj) throws com.argus.financials.service.client.ServiceException {
 
         Contact c = (Contact) obj;
 

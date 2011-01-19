@@ -543,7 +543,7 @@ class FinancialPlannerActionMap
 
         try {
             view.updateView(null);
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
             return;
         }
@@ -583,7 +583,7 @@ class FinancialPlannerActionMap
 
         try {
             // new client will be created
-            Integer newClientID = ServiceLocator.getInstance().createClientPerson();
+            Integer newClientID = ServiceLocator.getInstance().createClient();
 
             // close all visible forms (visible = false)
             SwingUtil.closeAll();
@@ -778,7 +778,7 @@ class FinancialPlannerActionMap
             get(IMenuCommand.PLAN_WIZARD).setEnabled(isClient);
             get(IMenuCommand.PLAN_TEMPLATE_WIZARD).setEnabled(adminPerson);
 
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         }
 

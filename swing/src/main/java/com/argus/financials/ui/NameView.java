@@ -260,7 +260,7 @@ public class NameView extends javax.swing.JPanel {
         jComboBoxMaritalStatus.setVisible(value);
     }
 
-    private void updateView() throws com.argus.financials.service.ServiceException {
+    private void updateView() throws com.argus.financials.service.client.ServiceException {
 
         if (personName == null) {
             clearView();
@@ -286,7 +286,7 @@ public class NameView extends javax.swing.JPanel {
 
     }
 
-    private void saveView() throws com.argus.financials.service.ServiceException {
+    private void saveView() throws com.argus.financials.service.client.ServiceException {
 
         if (personName == null)
             personName = new PersonName();
@@ -324,11 +324,11 @@ public class NameView extends javax.swing.JPanel {
     /**
      * 
      */
-    public void updateView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
         updateView();
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
         saveView();
     }
 
@@ -348,7 +348,7 @@ public class NameView extends javax.swing.JPanel {
 
         try {
             updateView();
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         }
     }

@@ -925,7 +925,7 @@ public abstract class PersonView extends BaseView {
                 setJPasswordFieldVisible(true);
 
             }
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         }
     }// GEN-LAST:event_jButtonPasswordMouseClicked
@@ -1153,15 +1153,15 @@ public abstract class PersonView extends BaseView {
     /**
      * 
      */
-    public void updateView() throws com.argus.financials.service.ServiceException,
+    public void updateView() throws com.argus.financials.service.client.ServiceException,
             InvalidCodeException {
     }
 
-    public void saveView() throws com.argus.financials.service.ServiceException,
+    public void saveView() throws com.argus.financials.service.client.ServiceException,
             InvalidCodeException {
     }
 
-    public void updateView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
         clearView();
 
@@ -1340,7 +1340,7 @@ public abstract class PersonView extends BaseView {
 
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
         String s = null;
         Integer n = null;

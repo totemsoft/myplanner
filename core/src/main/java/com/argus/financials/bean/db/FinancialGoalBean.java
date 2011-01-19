@@ -20,7 +20,7 @@ import java.sql.SQLException;
 import com.argus.financials.bean.FinancialGoal;
 import com.argus.financials.bean.ObjectTypeConstant;
 import com.argus.financials.code.InvalidCodeException;
-import com.argus.financials.service.ObjectNotFoundException;
+import com.argus.financials.service.client.ObjectNotFoundException;
 
 public class FinancialGoalBean extends AbstractPersistable {
 

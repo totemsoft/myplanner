@@ -40,7 +40,7 @@ public class Parameters {
             if (paramMap == null)
                 return;
             map.putAll(paramMap);
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace();
         }
 

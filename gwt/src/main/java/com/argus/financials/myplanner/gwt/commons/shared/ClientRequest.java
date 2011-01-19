@@ -16,10 +16,10 @@ public interface ClientRequest extends RequestContext
 
     Request<ClientProxy> findClient(Long clientId);
 
-    Request<ClientProxy> persist(ClientProxy client); // implement on ClientController class
+    Request<Long> persist(ClientProxy client); // implement on ClientController class
     //InstanceRequest<ClientProxy, Void> persist(); // implement on Client class
 
-    Request<ClientProxy> remove(ClientProxy client); // implement on ClientController class
+    Request<Long> remove(ClientProxy client); // implement on ClientController class
     //InstanceRequest<ClientProxy, Void> remove(); // implement on Client class
 
 }

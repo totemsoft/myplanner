@@ -356,7 +356,7 @@ public class PlanWriterTemplate
             Integer userTypeId = user == null ? null : user.getTypeId();
             adminPerson = AdviserTypeCode.isAdminPerson(userTypeId);
             supportPerson = AdviserTypeCode.isSupportPerson(userTypeId);
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         }
         // jButtonSaveAsTemplate.setVisible( adminPerson || supportPerson );
@@ -1262,7 +1262,7 @@ public class PlanWriterTemplate
 
         }
 
-        PersonService person = ServiceLocator.getInstance().getUserService();
+        PersonService person = ServiceLocator.getInstance().getClientPerson();
         try {
             boolean newPlan = plan.getCodeID() <= 0;
 
@@ -1285,7 +1285,7 @@ public class PlanWriterTemplate
 
             }
 
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
             return;
         }
@@ -1379,7 +1379,7 @@ public class PlanWriterTemplate
             return;
 
         try {
-            if (!ServiceLocator.getInstance().getUserService().deletePlan(plan,
+            if (!ServiceLocator.getInstance().getClientPerson().deletePlan(plan,
                     PersonService.TEMPLATE_PLAN)) {
                 System.err.println("FAILED to delete: " + plan);
                 return;
@@ -1409,7 +1409,7 @@ public class PlanWriterTemplate
             java.util.Collection plans = null;
             try {
                 plans = person.getPlans(PersonService.TEMPLATE_PLAN);
-            } catch (com.argus.financials.service.ServiceException e) {
+            } catch (com.argus.financials.service.client.ServiceException e) {
                 e.printStackTrace(System.err);
             }
             templatePlans = plans == null || plans.size() == 0 ? new java.util.Vector()
@@ -1423,14 +1423,14 @@ public class PlanWriterTemplate
      * 
      **************************************************************************/
     public void updateView() throws java.io.IOException {
-        updateView(ServiceLocator.getInstance().getUserService());
+        updateView(ServiceLocator.getInstance().getClientPerson());
     }
 
     public void updateView(PersonService person) throws java.io.IOException {
 
         //
         if (person == null)
-            person = ServiceLocator.getInstance().getUserService();
+            person = ServiceLocator.getInstance().getClientPerson();
         getTemplatePlans(person);
 
         jComboBoxPlanTemplate.setModel(new DefaultComboBoxModel(templatePlans));

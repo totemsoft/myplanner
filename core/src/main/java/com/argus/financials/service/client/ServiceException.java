@@ -11,31 +11,30 @@
  * Code is Argus Software Pty Ltd, All Rights Reserved.
  */
 
-package com.argus.financials.service;
+package com.argus.financials.service.client;
 
-import com.argus.financials.service.client.ServiceException;
-
-/*
- * Created on 21/05/2006
+/**
  * 
  */
-public class RemoveException extends ServiceException {
+public class ServiceException extends RuntimeException
+{
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -5098545824592844953L;
+    /** serialVersionUID */
+    private static final long serialVersionUID = -5296241869954780677L;
 
-    public RemoveException(String message) {
+    public ServiceException(String message)
+    {
         super(message);
     }
 
-    public RemoveException(String message, Throwable cause) {
-        super(message, cause);
+    public ServiceException(Throwable cause)
+    {
+        super(cause);
     }
 
-    public RemoveException(Throwable cause) {
-        super(cause);
+    public ServiceException(String message, Throwable cause)
+    {
+        super(message, cause);
     }
 
 }

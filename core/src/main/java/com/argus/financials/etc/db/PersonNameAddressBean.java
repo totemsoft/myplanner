@@ -20,7 +20,7 @@ import java.sql.SQLException;
 import com.argus.financials.bean.db.AbstractPersistable;
 import com.argus.financials.etc.Address;
 import com.argus.financials.etc.PersonName;
-import com.argus.financials.service.ObjectNotFoundException;
+import com.argus.financials.service.client.ObjectNotFoundException;
 
 public class PersonNameAddressBean extends AbstractPersistable {
 

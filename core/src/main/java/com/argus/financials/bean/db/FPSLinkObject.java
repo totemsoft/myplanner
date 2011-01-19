@@ -370,7 +370,7 @@ public class FPSLinkObject extends AbstractPersistable {
 
     }
 
-    public void remove() throws com.argus.financials.service.ServiceException, RemoveException {
+    public void remove() throws com.argus.financials.service.client.ServiceException, RemoveException {
     }
 
 }

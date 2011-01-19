@@ -77,7 +77,7 @@ public class FinancialView2 extends BaseView implements IReset {
         view.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         try {
             view.updateView(person);
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
             return;
         } finally {
@@ -116,7 +116,7 @@ public class FinancialView2 extends BaseView implements IReset {
     public void doSave(java.awt.event.ActionEvent evt) {
         try {
             saveView(null);
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err); // ( e.getMessage() );
         }
     }
@@ -135,7 +135,7 @@ public class FinancialView2 extends BaseView implements IReset {
     /***************************************************************************
      * 
      **************************************************************************/
-    public void updateView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
         if (person == null)
             person = ServiceLocator.getInstance().getClientPerson();
@@ -144,7 +144,7 @@ public class FinancialView2 extends BaseView implements IReset {
 
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
 
         if (person == null)
             person = ServiceLocator.getInstance().getClientPerson();

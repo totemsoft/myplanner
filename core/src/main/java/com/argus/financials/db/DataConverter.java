@@ -19,7 +19,7 @@ import java.util.Vector;
 import javax.swing.table.DefaultTableModel;
 
 import com.argus.financials.bean.db.AbstractPersistable;
-import com.argus.financials.service.ObjectNotFoundException;
+import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.financials.swing.table.UpdateableTableModel;
 import com.argus.util.KeyValue;
 

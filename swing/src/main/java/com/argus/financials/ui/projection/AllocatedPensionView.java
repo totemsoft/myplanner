@@ -36,7 +36,7 @@ import com.argus.financials.projection.MoneyCalc;
 import com.argus.financials.projection.TaxUtils;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceException;
+import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.DateInputVerifier;
 import com.argus.financials.swing.PercentInputVerifier;

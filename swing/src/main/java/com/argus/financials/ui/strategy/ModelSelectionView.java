@@ -261,7 +261,7 @@ public class ModelSelectionView extends javax.swing.JPanel {
 
         try {
             view.updateView(strategy);
-        } catch (com.argus.financials.service.ServiceException e) {
+        } catch (com.argus.financials.service.client.ServiceException e) {
             e.printStackTrace(System.err);
         }
 
@@ -319,7 +319,7 @@ public class ModelSelectionView extends javax.swing.JPanel {
 
     }
 
-    public void updateView(Strategy strategy) throws com.argus.financials.service.ServiceException {
+    public void updateView(Strategy strategy) throws com.argus.financials.service.client.ServiceException {
         if (strategy == null)
             return;
 

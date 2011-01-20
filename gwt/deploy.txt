@@ -1,14 +1,18 @@
 ####################################################
-cd /home/shibaevv/dev/workspace/java2com
-svn update
+cd /home/shibaevv/dev/workspace
 svn checkout http://192.168.1.108:18081/svn/java2com/trunk java2com
 
-mvn -o clean install -Pdev
+cd /home/shibaevv/dev/workspace/java2com
+svn update
+
+mvn -o clean install
 
 ####################################################
+cd /home/shibaevv/dev/workspace
+svn checkout http://192.168.1.108:18081/svn/myplanner/trunk myplanner
+
 cd /home/shibaevv/dev/workspace/myplanner
 svn update
-svn checkout http://192.168.1.108:18081/svn/myplanner/trunk myplanner
 
 mvn -o clean install -Pdev
 

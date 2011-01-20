@@ -92,19 +92,19 @@ public class Client extends Person implements IClient
         Client.userService = userService;
     }
 
-//    public static Client findClient(Long clientId)
-//    {
-//        return getUserService().findClient(clientId);
-//    }
-//
-//    public Long persist()
-//    {
-//        return getUserService().persist(this);
-//    }
-//
-//    public Long remove()
-//    {
-//        return getUserService().remove(this);
-//    }
+    public static Client findClient(Long clientId)
+    {
+        return getUserService().findClient(clientId);
+    }
+
+    public Long persist()
+    {
+        return getUserService().persist(this);
+    }
+
+    public Long remove()
+    {
+        return getUserService().remove(this);
+    }
 
 }

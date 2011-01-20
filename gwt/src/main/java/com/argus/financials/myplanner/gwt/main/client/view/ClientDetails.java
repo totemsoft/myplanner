@@ -81,7 +81,7 @@ public class ClientDetails extends Composite implements ChangeHandler
         VerticalPanel leftPanel = new VerticalPanel();
         details.add(leftPanel);
         
-        personView = new PersonView(client, this);
+        personView = new PersonView(client, requestFactory, this);
         leftPanel.add(personView);
         
         addressView = new AddressView(null);
@@ -129,7 +129,7 @@ public class ClientDetails extends Composite implements ChangeHandler
      */
     public void onChange(ChangeEvent event)
     {
-        LOG.log(Level.INFO, "onChange: " + event.toDebugString());
+        //LOG.log(Level.INFO, "onChange: " + event.toDebugString());
         buttonSave.setEnabled(true);//requestFactory.clientRequest().isChanged());
     }
 

@@ -50,7 +50,6 @@ public class DateUtils {
 	private static final String sJAVA_ZERO_DATE    = "01/01/1970";
 
     public static final Date EXCEL_ZERO_DATE;
-    public static final Date VARIANT_ZERO_DATE;
     public static final Date MSSQL_ZERO_DATE;
     public static final Date JAVA_ZERO_DATE;
 
@@ -67,11 +66,6 @@ public class DateUtils {
 		calendar.set( Calendar.DAY_OF_MONTH, 1 );
 		EXCEL_ZERO_DATE = calendar.getTime();
 
-		calendar.set( Calendar.YEAR, 1899 );
-		calendar.set( Calendar.MONTH, 11 );
-		calendar.set( Calendar.DAY_OF_MONTH, 30 );
-		VARIANT_ZERO_DATE = calendar.getTime(); 
-		
 		calendar.set( Calendar.YEAR, 1753 );
 		calendar.set( Calendar.MONTH, 0 );
 		calendar.set( Calendar.DAY_OF_MONTH, 1 );
@@ -86,35 +80,47 @@ public class DateUtils {
 	public static long JAVA_EXCEL_TIME_DIFF   = JAVA_ZERO_DATE.getTime() - EXCEL_ZERO_DATE.getTime();
 	public static long JAVA_EXCEL_DAY_DIFF    = JAVA_EXCEL_TIME_DIFF / MILLIS_PER_DAY;
 
-	public static long JAVA_VARIANT_TIME_DIFF = JAVA_ZERO_DATE.getTime() - VARIANT_ZERO_DATE.getTime();
-	public static long JAVA_VARIANT_DAY_DIFF  = JAVA_VARIANT_TIME_DIFF / MILLIS_PER_DAY;
-
-	
 	// hide ctor
-	private DateUtils() {}
+    private DateUtils()
+    {
+        super();
+    }
 
-	
-	// TODO: use excel-date converter methods ???
-	public static Date convertVariantDate2JavaDate(double msDate) { 
-		long ms = (long) ( msDate * MILLIS_PER_DAY ) - JAVA_VARIANT_TIME_DIFF;
-		calendar.setTimeInMillis(ms);
-		long ZONE_OFFSET = calendar.get(Calendar.ZONE_OFFSET);
-		long DST_OFFSET = calendar.get(Calendar.DST_OFFSET);
-		long dtd = ZONE_OFFSET + DST_OFFSET;
-		return new Date( ms - dtd );
+    /**
+     *
+     * @return
+     */
+    public static Date getCurrentDate()
+    {
+        return getStartOfDay(getCurrentDateTime());
     }
-	public static double convertJavaDate2VariantDate(Date date) { 
-		//TIME_ZONE_INFORMATION timeinfo;
-		//GetTimeZoneInformation(&timeinfo);
-		//return val / (24*60*60*1000.) + 25569.0 - (timeinfo.Bias/(60.0*24.0));
-		calendar.setTime(date);
-		long ZONE_OFFSET = calendar.get(Calendar.ZONE_OFFSET);
-		long DST_OFFSET = calendar.get(Calendar.DST_OFFSET);
-		long dtd = ZONE_OFFSET + DST_OFFSET;
-		return (double) ( date.getTime() + JAVA_VARIANT_TIME_DIFF + dtd ) / MILLIS_PER_DAY;
+
+    /**
+     *
+     * @return
+     */
+    public static Date getCurrentDateTime()
+    {
+        return new Date();
     }
-	
-	
+
+    /**
+     * Return the start of the day for the specified date.
+     *
+     * @param date a date
+     * @return start of the day of the day for the specified date
+     */
+    public static Date getStartOfDay(Date date)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
 	public static Date convertExcelDate2JavaDate(double excelDate) { 
 		
 		// Excel 2000 incorrectly assumes that the year 1900 is a leap year

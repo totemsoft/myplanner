@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 mvn install:install-file -DgroupId=com.klg.jclass -DartifactId=chart -Dversion=5.0.0 -Dpackaging=jar -Dfile=lib/JClass50K/jcchartK.jar
-mvn install:install-file -DgroupId=com.argus -DartifactId=java2com -Dversion=1.4.0 -Dpackaging=jar -Dfile=lib/java2com/java2com.jar
-mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversion=1.4.0 -Dpackaging=jar -Dfile=lib/java2com/java2comUtils.jar
+mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com -Dversion=1.4.0 -Dpackaging=jar -Dfile=lib/java2com/java2com.jar
+mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com-utils -Dversion=1.4.0 -Dpackaging=jar -Dfile=lib/java2com/java2comUtils.jar
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -476,12 +476,12 @@ mvn install:install-file -DgroupId=com.argus -DartifactId=java2com-utils -Dversi
                 <version>${l2fprod.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.argus</groupId>
-                <artifactId>java2com</artifactId>
+                <groupId>com.argus.java2com</groupId>
+                <artifactId>java2com-core</artifactId>
                 <version>${java2com.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.argus</groupId>
+                <groupId>com.argus.java2com</groupId>
                 <artifactId>java2com-utils</artifactId>
                 <version>${java2com.version}</version>
             </dependency>

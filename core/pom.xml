@@ -135,11 +135,11 @@
             <artifactId>chart</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.argus</groupId>
-            <artifactId>java2com</artifactId>
+            <groupId>com.argus.java2com</groupId>
+            <artifactId>java2com-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.argus</groupId>
+            <groupId>com.argus.java2com</groupId>
             <artifactId>java2com-utils</artifactId>
         </dependency>
     </dependencies>

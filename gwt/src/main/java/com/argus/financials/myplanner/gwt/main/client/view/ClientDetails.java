@@ -60,7 +60,8 @@ public class ClientDetails extends Composite implements ChangeHandler
         }
         else
         {
-            this.client = client;//request.edit(client);
+            this.client = client;
+            //this.client = request.edit(client);
         }
         this.eventBus = eventBus;
         this.requestFactory = requestFactory;

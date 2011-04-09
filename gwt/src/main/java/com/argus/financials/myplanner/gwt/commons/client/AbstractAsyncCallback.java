@@ -47,7 +47,7 @@ public abstract class AbstractAsyncCallback<T> implements AsyncCallback<T>
     public static void addItems(ListBox listBox, BasePair[] items)
     {
         listBox.clear();
-        listBox.addItem("", null);
+        listBox.addItem("", (String) null);
         for (BasePair item : items)
         {
             listBox.addItem(item.getSecond(), item.getFirst().toString());

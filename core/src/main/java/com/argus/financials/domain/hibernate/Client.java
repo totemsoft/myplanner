@@ -8,11 +8,13 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Where;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.argus.financials.domain.client.IClient;
 import com.argus.financials.service.client.UserService;
 
-
+@Component
 @Entity
 @Table(name = "ClientPerson")
 @PrimaryKeyJoinColumn(name = "ClientPersonID")
@@ -73,38 +75,28 @@ public class Client extends Person implements IClient
     ///////////////////////////////////////////////////////////////////////////
 
     /**
-     * 
-     * @return
-     */
-    private static UserService getUserService()
-    {
-        assert userService != null;
-        return userService;
-    }
-
-    /**
-     * TODO: inject via spring configuration
+     * inject via spring configuration
      * @param userService the userService to set
      */
-    public static void setUserService(UserService userService)
+    @Autowired
+    public void setUserService(UserService userService)
     {
-        assert userService == null;
         Client.userService = userService;
     }
 
     public static Client findClient(Long id)
     {
-        return getUserService().findClient(id);
+        return Client.userService.findClient(id);
     }
 
     public void persist()
     {
-        getUserService().persist(this);
+        Client.userService.persist(this);
     }
 
     public void remove()
     {
-        getUserService().remove(this);
+        Client.userService.remove(this);
     }
 
 }

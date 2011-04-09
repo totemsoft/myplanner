@@ -9,12 +9,8 @@ import org.apache.log4j.Logger;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.argus.financials.domain.hibernate.Client;
-import com.argus.financials.domain.hibernate.refdata.AbstractCode;
-import com.argus.financials.service.EntityService;
 import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.service.UtilityService;
-import com.argus.financials.service.client.UserService;
 
 /**
  * Helper class for setting up the web application.
@@ -83,12 +79,6 @@ public class SetupContextListener extends ContextLoaderListener
             LOG.error("Failed to syncDBSchema", e);
             //throw e;
         }
-        //
-        UserService userService = (UserService) WebUtils.getBean(servletContext, "userService");
-        Client.setUserService(userService);
-        //
-        EntityService entityService = (EntityService) WebUtils.getBean(servletContext, "entityService");
-        AbstractCode.setEntityService(entityService);
         //
         return ctx;
     }

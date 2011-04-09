@@ -55,14 +55,4 @@ public class TitleCode extends AbstractCode implements ITitleCode
         return description;
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // These methods (findTitleCode, persist, remove) are required by GWT
-    // 
-    ///////////////////////////////////////////////////////////////////////////
-
-    public static TitleCode findTitleCode(Long id)
-    {
-        return getEntityService().findTitleCode(id);
-    }
-
 }

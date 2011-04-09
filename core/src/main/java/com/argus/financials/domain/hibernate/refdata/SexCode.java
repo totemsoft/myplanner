@@ -55,14 +55,4 @@ public class SexCode extends AbstractCode implements ISexCode
         return description;
     }
 
-    ///////////////////////////////////////////////////////////////////////////
-    // These methods (findSexCode, persist, remove) are required by GWT
-    // 
-    ///////////////////////////////////////////////////////////////////////////
-
-    public static SexCode findSexCode(Long id)
-    {
-        return getEntityService().findSexCode(id);
-    }
-
 }

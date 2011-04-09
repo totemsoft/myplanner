@@ -21,8 +21,7 @@
     <security-domain>java:/jaas/web-console</security-domain>
     -->
 
-    <context-root>/${application.context.root}</context-root>
-    <!--context-root>/myplanner</context-root-->
+    <context-root>/myplanner</context-root>
 
     <use-session-cookies>true</use-session-cookies>
 

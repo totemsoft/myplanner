@@ -358,7 +358,7 @@ public interface IReportFields {
     public static final String AA_RecommendedProposedTable = "AA/RecommendedProposedTable";
 
     // //////////////////////////////////////////////////////////////////////////
-    // Risk Evaluation/ISO – Risk Profile //
+    // Risk Evaluation/ISO - Risk Profile //
     // //////////////////////////////////////////////////////////////////////////
     public static final String InvRisk_QuestionaryTable = "InvRisk/QuestionaryTable";
 

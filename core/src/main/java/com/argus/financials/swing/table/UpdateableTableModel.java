@@ -393,8 +393,8 @@ public class UpdateableTableModel extends AbstractTableModel implements
     }
 
     /**
-     * Initial value of the pointer is 0. If table model doesn’t contain any
-     * records value is –1. When the current row is deleted the pointer set to
+     * Initial value of the pointer is 0. If table model doesn't contain any
+     * records value is -1. When the current row is deleted the pointer set to
      * pointer-1. When the row are added the pointer points at new row.
      */
 

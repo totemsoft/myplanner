@@ -154,7 +154,7 @@ public class InvRiskData // extends BaseData
     public void init(Integer investmentStrategyCodeID)
             throws java.io.IOException {
         // !!!ATTENTION: The copying of the questions and their answers to the
-        // “InvRiskData” class is NOT dynamic, so when the number
+        // "InvRiskData" class is NOT dynamic, so when the number
         // of question changes, this code has to be changed too!!!
         qa_table = new QuestionAnswerTableModel();
 

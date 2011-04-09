@@ -10,6 +10,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 import com.argus.financials.domain.client.refdata.IMaritalCode;
+import com.argus.financials.domain.hibernate.Client;
 
 @Entity
 @Table(name = IMaritalCode.TABLE_NAME)
@@ -53,6 +54,16 @@ public class MaritalCode extends AbstractCode implements IMaritalCode
     public String getDescription()
     {
         return description;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // These methods (findMaritalCode, persist, remove) are required by GWT
+    // 
+    ///////////////////////////////////////////////////////////////////////////
+
+    public static MaritalCode findMaritalCode(Long id)
+    {
+        return getEntityService().findMaritalCode(id);
     }
 
 }

@@ -173,7 +173,7 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         LOG.log(Level.INFO, "[Main] view succesfully loaded.");
     }
 
-    private void showView(String historyToken) {
+    public void showView(String historyToken) {
         if (History.getToken().equals(historyToken)) {
             History.fireCurrentHistoryState();
         } else {
@@ -201,17 +201,7 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         } else if (historyToken.equals(ClientDetails.HISTORY_TOKEN)) {
             BasePair client = clientSearch.getSelectedClient();
             Long clientId = client == null ? null : client.getFirst().longValue();
-            // When querying the server, RequestFactory does not automatically populate relations in the object graph.
-            // To do this, use the with() method on a request and specify the related property name as a String
-            Request<ClientProxy> request = requestFactory.clientRequest().findClient(clientId);//.with("address");
-            request.fire(new AbstractReceiver<ClientProxy>()
-            {
-                @Override
-                public void onSuccess(ClientProxy client)
-                {
-                    centerPanel.setWidget(new ClientDetails(client, eventBus, requestFactory));
-                }
-            });
+            openClient(clientId);
         } else {
             LOG.log(Level.WARNING, "Unhandled History Token: " + historyToken);
         }
@@ -227,27 +217,39 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
         }
     }
 
-    public void openClient(BasePair client)
+    private void openClient(Long clientId)
     {
-        footerPanel.clear();
-        if (client != null)
+        // When querying the server, RequestFactory does not automatically populate relations in the object graph.
+        // To do this, use the with() method on a request and specify the related property name as a String
+        Request<ClientProxy> request = requestFactory.clientRequest().findClient(clientId);//.with("address");
+        request.fire(new AbstractReceiver<ClientProxy>()
         {
-            // menu
-            mntmExport.setEnabled(true);
-            mntmImport.setEnabled(true);
-            mntmClientDetails.setEnabled(true);
-            mntmClientRisk.setEnabled(true);
-            mntmFinancials.setEnabled(true);
-            boolean isSingle = true; // MaritalCode.isSingle(client.getPersonName().getMaritalCodeID())
-            mntmPartnerDetails.setEnabled(!isSingle);
-            mntmPartnerRisk.setEnabled(!isSingle);
-            mntmStrategy.setEnabled(true);
-            mntmAnalysis.setEnabled(true);
-            mntmPlan.setEnabled(true);
-            // footer
-            footerPanel.add(new Label("Client: " + client.getSecond()));
-        }
-        showView(ClientDetails.HISTORY_TOKEN);
+            @Override
+            public void onSuccess(ClientProxy client)
+            {
+                centerPanel.setWidget(new ClientDetails(client, eventBus, requestFactory));
+                updateMenu(client);
+            }
+        });
+    }
+
+    private void updateMenu(ClientProxy client)
+    {
+        // menu
+        mntmExport.setEnabled(true);
+        mntmImport.setEnabled(true);
+        mntmClientDetails.setEnabled(true);
+        mntmClientRisk.setEnabled(true);
+        mntmFinancials.setEnabled(true);
+        boolean isSingle = true; // MaritalCode.isSingle(client.getPersonName().getMaritalCodeID())
+        mntmPartnerDetails.setEnabled(!isSingle);
+        mntmPartnerRisk.setEnabled(!isSingle);
+        mntmStrategy.setEnabled(true);
+        mntmAnalysis.setEnabled(true);
+        mntmPlan.setEnabled(true);
+        // footer
+        footerPanel.clear();
+        footerPanel.add(new Label("Client: " + client.getSurname()));
     }
 
     private Command searchClient = new Command()
@@ -270,17 +272,17 @@ public class Main implements EntryPoint, ValueChangeHandler<String> {
     {
         public void execute()
         {
-            Request<Long> request = requestFactory.clientRequest().persist(null);
+            Request<Long> request = requestFactory.clientControllerRequest().persist(null);
             request.fire(new AbstractReceiver<Long>()
             {
                 @Override
-                public void onSuccess(Long clientId)
+                public void onSuccess(final Long clientId)
                 {
                     MainServiceAsync.Util.getInstance().openClient(clientId, new AbstractAsyncCallback<Void>()
                     {
                         public void onSuccess(Void result)
                         {
-                            showView(ClientDetails.HISTORY_TOKEN);
+                            openClient(clientId);
                         }
                     });
                 }

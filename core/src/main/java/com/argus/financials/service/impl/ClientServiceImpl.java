@@ -121,7 +121,7 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
         try {
             Connection con = this.getConnection();
             // get new ObjectID for client
-            Integer personID = new Integer(getNewObjectID(CLIENT_PERSON, con));
+            Integer personID = getNewObjectID(CLIENT_PERSON, con);
             // add to person table
             sql = con.prepareStatement("INSERT INTO person (PersonID) VALUES (?)");
             sql.setInt(1, personID.intValue());

@@ -94,7 +94,7 @@ mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com-util
         <commons-logging.version>1.1.1</commons-logging.version>
         <commons-net.version>2.0</commons-net.version>
         <ehcache.version>2.1.0</ehcache.version>
-        <gwt.version>2.1.0</gwt.version>
+        <gwt.version>2.1.1</gwt.version>
         <hibernate.version>3.3.1.GA</hibernate.version>
         <hibernate-annotations.version>3.4.0.GA</hibernate-annotations.version>
         <hibernate-entitymanager.version>3.4.0.GA</hibernate-entitymanager.version>

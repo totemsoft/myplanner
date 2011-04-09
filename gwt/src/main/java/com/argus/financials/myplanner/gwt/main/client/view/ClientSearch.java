@@ -278,7 +278,7 @@ public class ClientSearch extends Composite
     {
         public void onSuccess(Void result)
         {
-            parent.openClient(getSelectedClient());
+            parent.showView(ClientDetails.HISTORY_TOKEN);
         }
     }
 

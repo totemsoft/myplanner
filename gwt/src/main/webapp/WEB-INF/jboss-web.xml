@@ -28,7 +28,7 @@
 
     <resource-env-ref>
         <resource-env-ref-name>jdbc/DataSource_myplanner</resource-env-ref-name>
-        <jndi-name>java:jdbc/DataSource_myplanner_${application.env}</jndi-name>
+        <jndi-name>java:jdbc/DataSource_myplanner</jndi-name>
     </resource-env-ref>
 
     <!-- The war depends on the

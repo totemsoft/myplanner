@@ -4,7 +4,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.argus.financials.myplanner.gwt.commons.client.ClientProxy;
-import com.argus.financials.myplanner.gwt.commons.shared.ClientRequest;
 import com.argus.financials.myplanner.gwt.commons.shared.GwtRequestFactory;
 import com.argus.financials.myplanner.gwt.main.client.Main;
 import com.google.gwt.dom.client.Style.Unit;
@@ -53,15 +52,16 @@ public class ClientDetails extends Composite implements ChangeHandler
         // Any objects not returned from RequestContext.create(), such as those received from the server,
         // must be enabled for changes by calling the RequestFactory's edit() method.
         // Any EntityProxies returned from the getters of an editable proxy are also editable.
-        ClientRequest request = requestFactory.clientRequest();
         if (client == null)
         {
-            this.client = request.create(ClientProxy.class);
+            this.client = requestFactory.clientRequest().create(ClientProxy.class);
+            LOG.info("new client.stableId=" + this.client.stableId());
         }
         else
         {
-            this.client = client;
-            //this.client = request.edit(client);
+            //this.client = client;
+            this.client = requestFactory.clientRequest().edit(client);
+            LOG.info("client.stableId=" + client.stableId());
         }
         this.eventBus = eventBus;
         this.requestFactory = requestFactory;
@@ -135,10 +135,9 @@ public class ClientDetails extends Composite implements ChangeHandler
 
     private void save()
     {
-        LOG.log(Level.INFO, "save");
-        ClientRequest request = requestFactory.clientRequest();
-        request.persist(client).fire();
-        //request.persist().using(client).fire();
+        LOG.log(Level.INFO, "save: " + client.getFirstname() + " " + client.getSurname());
+        //requestFactory.clientControllerRequest().persist(client).fire();
+        requestFactory.clientRequest().persist().using(client).fire();
     }
 
 }

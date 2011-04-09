@@ -13,6 +13,63 @@
     <name>MyPlanner J2EE 1.4 GWT Webapp</name>
     <url>http://maven.apache.org</url>
 
+    <build>
+        <finalName>myplanner</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>gwt-maven-plugin</artifactId>
+                <version>${gwt.version}</version>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <!--extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs-->
+                            <servicePattern>**/gwt/**/*Service.java</servicePattern>
+                            <generateDirectory>${basedir}/src/main/java</generateDirectory>
+                        </configuration>
+                        <goals>
+                            <goal>resources</goal>
+                            <goal>compile</goal>
+                            <goal>generateAsync</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+			        <compileSourcesArtifacts>
+			          <artifact>com.argus.financials.myplanner:myplanner-core</artifact>
+			        </compileSourcesArtifacts>
+                </configuration>
+            </plugin>
+            <!-- Enabling and configuring web resources filtering -->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>src/main/webapp</directory>
+                            <filtering>true</filtering>
+                            <includes>
+                                <include>WEB-INF/jboss-web.xml</include>
+                                <include>WEB-INF/web.xml</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>war</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>${application.env}</classifier>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>com.argus.financials.myplanner</groupId>
@@ -65,60 +122,4 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <!-- Enabling and configuring web resources filtering -->
-            <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <configuration>
-                    <webResources>
-                        <resource>
-                            <directory>src/main/webapp</directory>
-                            <filtering>true</filtering>
-                            <includes>
-                                <include>WEB-INF/jboss-web.xml</include>
-                                <include>WEB-INF/web.xml</include>
-                            </includes>
-                        </resource>
-                    </webResources>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>war</goal>
-                        </goals>
-                        <configuration>
-                            <classifier>${application.env}</classifier>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>gwt-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <configuration>
-                            <!--extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs-->
-                            <servicePattern>**/gwt/**/*Service.java</servicePattern>
-                            <generateDirectory>${basedir}/src/main/java</generateDirectory>
-                        </configuration>
-                        <goals>
-                            <goal>resources</goal>
-                            <goal>compile</goal>
-                            <goal>generateAsync</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-			        <compileSourcesArtifacts>
-			          <artifact>com.argus.financials.myplanner:myplanner-core</artifact>
-			        </compileSourcesArtifacts>
-                </configuration>
-            </plugin>
-        </plugins>
-        <finalName>myplanner</finalName>
-    </build>
 </project>

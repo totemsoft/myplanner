@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.argus.financials.domain.hibernate.Client;
 import com.argus.financials.domain.hibernate.view.ClientView;
 import com.argus.financials.myplanner.gwt.AbstractGwtController;
 import com.argus.financials.myplanner.gwt.commons.client.BasePair;
@@ -22,7 +23,8 @@ public class MainServiceImpl extends AbstractGwtController implements MainServic
      */
     public void openClient(Long clientId)
     {
-        getUserPreferences().setClient(getUserService().findClient(clientId));
+        Client client = getUserService().findClient(clientId);
+        getUserPreferences().setClient(client);
     }
 
     /* (non-Javadoc)

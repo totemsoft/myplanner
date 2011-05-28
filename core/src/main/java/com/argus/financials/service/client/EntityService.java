@@ -1,4 +1,4 @@
-package com.argus.financials.service;
+package com.argus.financials.service.client;
 
 import java.util.List;
 

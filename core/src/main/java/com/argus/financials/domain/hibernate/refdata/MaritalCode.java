@@ -8,9 +8,13 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.argus.financials.domain.client.refdata.IMaritalCode;
+import com.argus.financials.service.client.EntityService;
 
+@Component
 @Entity
 @Table(name = IMaritalCode.TABLE_NAME)
 @Cache(region = "refdata", usage = CacheConcurrencyStrategy.READ_ONLY)
@@ -19,6 +23,8 @@ public class MaritalCode extends AbstractCode implements IMaritalCode
 
     /** serialVersionUID */
     private static final long serialVersionUID = 5122594855961886803L;
+
+    private static EntityService entityService;
 
     @Id
     @Column(name = "MaritalCodeID", nullable = false)
@@ -53,6 +59,36 @@ public class MaritalCode extends AbstractCode implements IMaritalCode
     public String getDescription()
     {
         return description;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // These methods (findClassName, persist, remove) are required by GWT
+    // for class that accessed via ClassNameProxy
+    ///////////////////////////////////////////////////////////////////////////
+
+    /**
+     * inject via spring configuration
+     * @param entityService the entityService to set
+     */
+    @Autowired
+    public void setEntityService(EntityService entityService)
+    {
+        MaritalCode.entityService = entityService;
+    }
+
+    public static MaritalCode findMaritalCode(Long id)
+    {
+        return MaritalCode.entityService.findMaritalCode(id);
+    }
+
+    public void persist()
+    {
+        //MaritalCode.entityService.persist(this);
+    }
+
+    public void remove()
+    {
+        //MaritalCode.entityService.remove(this);
     }
 
 }

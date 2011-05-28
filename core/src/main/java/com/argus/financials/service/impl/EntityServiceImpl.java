@@ -13,7 +13,7 @@ import com.argus.financials.domain.hibernate.refdata.SexCode;
 import com.argus.financials.domain.hibernate.refdata.State;
 import com.argus.financials.domain.hibernate.refdata.TitleCode;
 import com.argus.financials.domain.util.CountryComparator;
-import com.argus.financials.service.EntityService;
+import com.argus.financials.service.client.EntityService;
 
 public class EntityServiceImpl implements EntityService
 {

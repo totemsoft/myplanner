@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.argus.financials.myplanner.web.servlet.WebUtils;
 import com.argus.financials.security.UserPreferences;
-import com.argus.financials.service.EntityService;
+import com.argus.financials.service.client.EntityService;
 import com.argus.financials.service.client.UserService;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

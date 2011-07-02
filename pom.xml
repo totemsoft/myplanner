@@ -506,7 +506,7 @@ mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com-util
             <id>dev</id>
             <properties>
                 <application.env>dev</application.env>
-                <application.context.root>myplanner</application.context.root>
+                <application.context.root>myplanner-dev</application.context.root>
             </properties>
         </profile>
     </profiles>

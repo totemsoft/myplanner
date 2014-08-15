@@ -2,7 +2,13 @@
 <!--
 mvn install:install-file -DgroupId=com.klg.jclass -DartifactId=chart -Dversion=5.0.0 -Dpackaging=jar -Dfile=lib/JClass50K/jcchartK.jar
 mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com -Dversion=1.4.0 -Dpackaging=jar -Dfile=lib/java2com/java2com.jar
-mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com-utils -Dversion=1.4.0 -Dpackaging=jar -Dfile=lib/java2com/java2comUtils.jar
+mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com-utils -Dversion=1.4.0 -Dpackaging=jar -Dfile=lib/java2com/java2com-utils.jar
+
+mvn eclipse:clean
+mvn eclipse:eclipse
+mvn dependency:sources -Dclassifier=sources -DexcludeGroupIds=org/apache/maven
+mvn dependency:resolve -Dclassifier=javadoc -DexcludeGroupIds=org/apache/maven
+mvn dependency:tree -DoutputFile=jms-dependency.txt
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -21,7 +27,7 @@ mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com-util
         <developer>
             <id>shibaevv</id>
             <name>Valeri Chibaev</name>
-            <email>shibaevv at apollosoft.net</email>
+            <email>mail at apollosoft.net.au</email>
             <organization>ApolloSoft Pty Ltd</organization>
             <roles>
                 <role>Solution Architect</role>
@@ -39,7 +45,7 @@ mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com-util
     <modules>
         <module>core</module>
         <module>swing</module>
-        <module>gwt</module>
+        <!--module>gwt</module-->
     </modules>
     <build>
         <!-- Instructing the resources plugin to filter certain directories -->
@@ -59,15 +65,31 @@ mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com-util
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.3</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
             </plugin>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <!--version>2.3.2</version-->
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -75,13 +97,15 @@ mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com-util
     <properties>
         <application.version>1.0.0</application.version>
 
+        <!-- artifacts provided by jboss -->
+        <!--profile.scope>provided</profile.scope-->
+        <profile.scope>compile</profile.scope>
+
         <!-- commonly used library versions -->
-        <asm.version>2.2.3</asm.version>
-        <cglib.version>2.2</cglib.version>
         <antlr.version>2.7.7</antlr.version>
+        <aspectj.version>1.6.2</aspectj.version>
         <btm.version>2.1.0</btm.version>
         <org.antlr.version>3.0.1</org.antlr.version>
-        <aspectj.version>1.6.2</aspectj.version>
         <commons-beanutils.version>1.8.3</commons-beanutils.version>
         <commons-codec.version>1.3</commons-codec.version>
         <commons-collections.version>3.2.1</commons-collections.version>
@@ -95,15 +119,18 @@ mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com-util
         <commons-net.version>2.0</commons-net.version>
         <ehcache.version>2.1.0</ehcache.version>
         <gwt.version>2.2.0</gwt.version>
-        <hibernate.version>3.3.1.GA</hibernate.version>
-        <hibernate-annotations.version>3.4.0.GA</hibernate-annotations.version>
-        <hibernate-entitymanager.version>3.4.0.GA</hibernate-entitymanager.version>
-        <!--hibernate-validator.version>3.1.0.GA</hibernate-validator.version-->
-        <hibernate-validator.version>4.1.0.Final</hibernate-validator.version>
+
+        <!-- hibernate -->
+        <hibernate.version>4.2.0.CR1</hibernate.version>
+        <hibernate-validator.version>4.2.0.Final</hibernate-validator.version>
+
+        <infinispan.version>5.2.1.Final</infinispan.version>
+        <hibernate.infinispan.version>${hibernate.version}</hibernate.infinispan.version>
+
         <json.version>20090211</json.version>
         <junit.version>3.8.2</junit.version>
         <jxl.version>2.6.10</jxl.version>
-        <log4j.version>1.2.15</log4j.version>
+        <log4j.version>1.2.16</log4j.version>
         <mail.version>1.4</mail.version>
         <jtds.version>1.2.4</jtds.version>
         <fop.version>0.95</fop.version>
@@ -121,9 +148,23 @@ mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com-util
         <sitemesh.version>2.4.2</sitemesh.version>
         <slf4j.version>1.5.6</slf4j.version>
         <smsj.version>20051126</smsj.version>
-        <spring.version>3.0.5.RELEASE</spring.version>
+        <spring.version>3.2.8.RELEASE</spring.version>
         <validation.version>1.0.0.GA</validation.version>
         <velocity.version>1.6.3</velocity.version>
+
+        <hibernate.show_sql>false</hibernate.show_sql>
+        <!-- infinispan -->
+        <!--hibernate.cache.region.factory_class>org.hibernate.cache.infinispan.InfinispanRegionFactory</hibernate.cache.region.factory_class-->
+        <hibernate.cache.region.factory_class>org.jboss.as.jpa.hibernate4.infinispan.InfinispanRegionFactory</hibernate.cache.region.factory_class>
+        <hibernate.cache.infinispan.cachemanager>java:jboss/infinispan/container/hibernate</hibernate.cache.infinispan.cachemanager>
+    
+        <tx.managerLookupClass>org.hibernate.transaction.JBossTransactionManagerLookup</tx.managerLookupClass>
+        <hibernate.transaction.jta.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform</hibernate.transaction.jta.platform>
+        <!--hibernate.transaction.jta.platform>org.hibernate.service.jta.platform.internal.JBossStandAloneJtaPlatform</hibernate.transaction.jta.platform-->
+
+        <jdk.version>1.6</jdk.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ss</maven.build.timestamp.format>
     </properties>
     <repositories>
         <!--repository>
@@ -146,36 +187,11 @@ mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com-util
             </dependency>
 
             <dependency>
-                <groupId>asm</groupId>
-                <artifactId>asm-commons</artifactId>
-                <version>${asm.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>asm</groupId>
-                <artifactId>asm</artifactId>
-                <version>${asm.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cglib</groupId>
-                <artifactId>cglib-nodep</artifactId>
-                <version>${cglib.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>antlr</groupId>
                 <artifactId>antlr</artifactId>
                 <version>${antlr.version}</version>
             </dependency>
-            <dependency>
-                <groupId>org.antlr</groupId>
-                <artifactId>antlr</artifactId>
-                <version>${org.antlr.version}</version>
-            </dependency>
 
-            <dependency>
-                <groupId>org.aspectj</groupId>
-                <artifactId>aspectjrt</artifactId>
-                <version>${aspectj.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.aspectj</groupId>
                 <artifactId>aspectjweaver</artifactId>
@@ -300,26 +316,79 @@ mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com-util
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-aop</artifactId>
                 <version>${spring.version}</version>
+                <scope>${profile.scope}</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring.version}</version>
+                <scope>${profile.scope}</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring.version}</version>
+                <scope>${profile.scope}</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+                <version>${spring.version}</version>
+                <scope>${profile.scope}</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>${spring.version}</version>
+                <scope>${profile.scope}</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-expression</artifactId>
+                <version>${spring.version}</version>
+                <scope>${profile.scope}</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-oxm</artifactId>
+                <version>${spring.version}</version>
+                <scope>${profile.scope}</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-orm</artifactId>
                 <version>${spring.version}</version>
+                <scope>${profile.scope}</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-jdbc</artifactId>
                 <version>${spring.version}</version>
+                <scope>${profile.scope}</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-tx</artifactId>
+                <version>${spring.version}</version>
+                <scope>${profile.scope}</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-web</artifactId>
                 <version>${spring.version}</version>
+                <scope>${profile.scope}</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-struts</artifactId>
+                <version>${spring.version}</version>
+                <scope>${profile.scope}</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-webmvc</artifactId>
                 <version>${spring.version}</version>
+                <scope>${profile.scope}</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -341,6 +410,10 @@ mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com-util
         <version>${hibernate.version}</version>
         <exclusions>
             <exclusion>
+              <groupId>org.jboss.spec.javax.transaction</groupId>
+              <artifactId>jboss-transaction-api_1.1_spec</artifactId>
+            </exclusion>
+            <exclusion>
                 <groupId>cglib</groupId>
                 <artifactId>cglib</artifactId>
             </exclusion>
@@ -351,25 +424,28 @@ mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com-util
         </exclusions>
       </dependency>
       <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-ehcache</artifactId>
-        <version>${hibernate.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-annotations</artifactId>
-        <version>${hibernate-annotations.version}</version>
+          <groupId>org.hibernate</groupId>
+          <artifactId>ejb3-persistence</artifactId>
+          <version>${jpa.version}</version>
       </dependency>
       <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-entitymanager</artifactId>
-        <version>${hibernate-entitymanager.version}</version>
+        <version>${hibernate.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.jboss.spec.javax.transaction</groupId>
+            <artifactId>jboss-transaction-api_1.1_spec</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.0-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.hibernate</groupId>
@@ -471,11 +547,13 @@ mvn install:install-file -DgroupId=com.argus.java2com -DartifactId=java2com-util
                 <artifactId>chart</artifactId>
                 <version>${jclass.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.l2fprod</groupId>
                 <artifactId>l2fprod-common-all</artifactId>
                 <version>${l2fprod.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.argus.java2com</groupId>
                 <artifactId>java2com-core</artifactId>

@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import com.argus.activex.wordreport.IWordReport;
 import com.argus.dao.SQLHelper;
 import com.argus.financials.api.bean.UserPreferences;
 import com.argus.financials.api.service.FinancialService;
 import com.argus.financials.api.service.UserService;
 import com.argus.financials.projection.GeneralTaxCalculatorNew;
+import com.argus.financials.report.IWordReport;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.UtilityService;
 import com.argus.financials.service.client.EntityService;

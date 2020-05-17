@@ -2,14 +2,12 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.argus.financials</groupId>
+        <groupId>au.com.totemsoft.myplanner</groupId>
         <artifactId>myplanner</artifactId>
-        <version>1.0.0</version>
+        <version>${revision}</version>
     </parent>
-    <groupId>com.argus.financials.myplanner</groupId>
     <artifactId>myplanner-gwt</artifactId>
     <packaging>war</packaging>
-    <version>1.0.0</version>
     <name>MyPlanner J2EE 1.4 GWT Webapp</name>
     <url>http://maven.apache.org</url>
 
@@ -71,7 +69,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.argus.financials.myplanner</groupId>
+            <groupId>au.com.totemsoft.myplanner</groupId>
             <artifactId>myplanner-core</artifactId>
         </dependency>
 

@@ -46,7 +46,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.tree.TreePath;
 
-import com.argus.activex.wordreport.IWordReport;
 import com.argus.financials.api.ServiceException;
 import com.argus.financials.api.bean.DbConstant;
 import com.argus.financials.code.ModelTypeID;
@@ -54,6 +53,7 @@ import com.argus.financials.config.ViewSettings;
 import com.argus.financials.config.WordSettings;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.projection.save.ModelCollection;
+import com.argus.financials.report.IWordReport;
 import com.argus.financials.report.ReportException;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.ClientService;

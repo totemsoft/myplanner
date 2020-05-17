@@ -4,11 +4,10 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.orm.jpa.EntityScan;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 
-import com.argus.activex.wordreport.IWordReport;
 import com.argus.dao.SQLHelper;
 import com.argus.financials.api.bean.UserPreferences;
 import com.argus.financials.api.bean.hibernate.AbstractCode;
@@ -37,6 +36,7 @@ import com.argus.financials.etc.db.ContactBean;
 import com.argus.financials.exchange.AssetProcessor;
 import com.argus.financials.exchange.ExportData;
 import com.argus.financials.projection.DSSCalcNew;
+import com.argus.financials.report.IWordReport;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.ServiceAware;

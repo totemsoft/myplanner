@@ -12,7 +12,6 @@ package com.argus.financials.report;
 
 import java.io.File;
 
-import com.argus.activex.wordreport.IWordReport;
 import com.argus.financials.api.ServiceException;
 import com.argus.financials.api.bean.IBusiness;
 import com.argus.financials.api.bean.IOccupation;

@@ -6,8 +6,6 @@
 
 package com.argus.financials.report;
 
-import com.argus.activex.ComException;
-
 /**
  * 
  * @author valeri chibaev
@@ -16,6 +14,9 @@ import com.argus.activex.ComException;
 
 public class ReportException extends java.lang.Exception
 {
+
+    /** serialVersionUID */
+    private static final long serialVersionUID = -8269285666365019438L;
 
     /**
      * Constructs an <code>ReportException</code> with the specified detail
@@ -30,9 +31,8 @@ public class ReportException extends java.lang.Exception
     /**
      * Creates new <code>ReportException</code> from ComException.
      */
-    public ReportException(ComException e) {
-        super("COM Exception:\t" + Long.toHexString((e.getHResult())) + '\n'
-                + e.getMessage());
+    public ReportException(Exception e) {
+        super(e);
     }
 
 }

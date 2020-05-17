@@ -17,8 +17,6 @@ import java.util.Map;
 
 import org.w3c.dom.Document;
 
-import com.argus.activex.wordreport.IWordReport;
-
 /**
  * <p>Title: </p>
  * <p>Description: </p>
@@ -29,7 +27,7 @@ import com.argus.activex.wordreport.IWordReport;
  * @version                   $Revision: 1.5 $
  */
 
-public interface IReport extends IWordReport {
+public interface IReport /*extends com.argus.activex.wordreport.IWordReport*/ {
 
     /**
      * File Name will be used as document template for report

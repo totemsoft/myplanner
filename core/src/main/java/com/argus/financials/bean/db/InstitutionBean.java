@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.argus.dao.SQLHelper;
+
 /**
  * InstitutionBean is responsible for load and store information form the
  * database table "Institution".
@@ -24,6 +26,11 @@ public class InstitutionBean {
     public static final String DATABASE_TABLE_NAME = "Institution";
 
     private static final String SEARCH_OPERATOR = "OR";
+
+    private transient static SQLHelper sqlHelper;
+    public static void setSqlHelper(SQLHelper sqlHelper) {
+        InstitutionBean.sqlHelper = sqlHelper;
+    }
 
     // bean properties
     public int institutionID; // length: 4
@@ -57,7 +64,7 @@ public class InstitutionBean {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // get max. FinancialCodeID
             // build sql query
@@ -76,7 +83,7 @@ public class InstitutionBean {
                 this.institutionID++;
             }
             // close ResultSet and PreparedStatement
-            closeRsSql(rs, pstmt);
+            sqlHelper.close(rs, pstmt);
 
             // build sql query
             pstmt_StringBuffer.append("INSERT INTO ");
@@ -93,14 +100,14 @@ public class InstitutionBean {
             status = pstmt.executeUpdate();
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(rs, pstmt);
+            sqlHelper.close(rs, pstmt, con);
         }
     }
 
@@ -116,7 +123,7 @@ public class InstitutionBean {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("UPDATE ");
@@ -134,14 +141,14 @@ public class InstitutionBean {
             status = pstmt.executeUpdate();
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
     }
 
@@ -191,7 +198,7 @@ public class InstitutionBean {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
@@ -216,14 +223,14 @@ public class InstitutionBean {
             }
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(rs, pstmt);
+            sqlHelper.close(rs, pstmt, con);
         }
 
         return found;
@@ -245,47 +252,6 @@ public class InstitutionBean {
         }
 
         return str_to_return;
-    }
-
-    /**
-     * Closes a given ResultSet and PreparedStatement.
-     * 
-     * @param rs -
-     *            the ResultSet to close
-     * @param pstmt -
-     *            the PreparedStatement to close
-     */
-    private void closeRsSql(ResultSet rs, PreparedStatement pstmt) {
-        try {
-            if (rs != null)
-                rs.close();
-            if (pstmt != null)
-                pstmt.close();
-        } catch (java.sql.SQLException e) {
-            // do nothing here
-        }
-    }
-
-    /**
-     * Prints the SQLException's messages, SQLStates and ErrorCode to System.err
-     * 
-     * @param extends -
-     *            a SQLException
-     */
-    private void printSQLException(java.sql.SQLException e) {
-        System.err.println("\n--- SQLException caught ---\n");
-
-        while (e != null) {
-            e.printStackTrace(System.err);
-
-            System.err.println("Message:   " + e.getMessage());
-            System.err.println("SQLState:  " + e.getSQLState());
-            System.err.println("ErrorCode: " + e.getErrorCode());
-
-            e = e.getNextException();
-
-        }
-
     }
 
     /*

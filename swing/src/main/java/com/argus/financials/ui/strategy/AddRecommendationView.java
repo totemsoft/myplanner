@@ -6,20 +6,17 @@
 
 package com.argus.financials.ui.strategy;
 
-/**
- * 
- * @author valeri chibaev
- */
-
-import com.argus.financials.code.FinancialClassID;
+import com.argus.financials.api.code.FinancialClassID;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.swing.SwingUtil;
+import com.argus.financials.ui.AbstractPanel;
 import com.argus.format.LimitedPlainDocument;
 import com.argus.util.ReferenceCode;
 
-public class AddRecommendationView extends javax.swing.JPanel implements
-        FinancialClassID {
+public class AddRecommendationView
+    extends AbstractPanel
+    implements FinancialClassID
+{
 
     public static final int CANCEL_OPTION = javax.swing.JOptionPane.CANCEL_OPTION;
 
@@ -221,7 +218,7 @@ public class AddRecommendationView extends javax.swing.JPanel implements
 
         try {
             view.updateView(recommendation);
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
             return null;
         }
@@ -265,12 +262,12 @@ public class AddRecommendationView extends javax.swing.JPanel implements
         ReferenceCode refCode = (ReferenceCode) jComboBoxFinancialTypes
                 .getSelectedItem(); // Financial Type
 
-        return new ReferenceCode(refCode.getCodeID(), refCode.getCode(), desc);
+        return new ReferenceCode(refCode.getId(), refCode.getCode(), desc);
 
     }
 
     public void updateView(boolean recommendation)
-            throws com.argus.financials.service.client.ServiceException {
+            throws com.argus.financials.api.ServiceException {
 
         SwingUtil.setTitle(this, recommendation ? "Select new Recommendation"
                 : "Select new Financial type");
@@ -281,7 +278,7 @@ public class AddRecommendationView extends javax.swing.JPanel implements
         jComboBoxFinancialTypes.setVisible(!recommendation);
         jLabelFinancialTypes.setVisible(!recommendation);
 
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
         if (person == null)
             return;
 

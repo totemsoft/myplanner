@@ -6,21 +6,24 @@
 
 package com.argus.financials.ui.data;
 
-/**
- * 
- * @author valeri chibaev
- */
-
-import com.argus.beans.format.CurrencyLabelGenerator;
-import com.argus.financials.GraphView;
+import com.argus.financials.api.code.FinancialClassID;
+import com.argus.financials.bean.AbstractBase;
 import com.argus.financials.bean.Assumptions;
-import com.argus.financials.code.FinancialClassID;
+import com.argus.financials.chart.GraphView;
 import com.argus.financials.report.ReportFields;
+import com.argus.financials.report.Reportable;
 import com.argus.financials.service.PersonService;
 import com.argus.financials.swing.table.ProxyTableModel;
 import com.argus.financials.table.RetirementTableModel;
 import com.argus.financials.table.WealthTableModel;
 import com.argus.format.Currency;
+
+/**
+ * 
+ * @author valeri chibaev
+ */
+
+import com.argus.format.CurrencyLabelGenerator;
 import com.argus.io.ImageUtils;
 import com.argus.swing.SwingUtils;
 import com.klg.jclass.chart.ChartDataView;
@@ -28,9 +31,11 @@ import com.klg.jclass.chart.JCBarChartFormat;
 import com.klg.jclass.chart.JCChart;
 import com.klg.jclass.chart.JCSymbolStyle;
 
-public class WealthData extends com.argus.financials.bean.AbstractBase implements
-        FinancialClassID, com.argus.financials.report.Reportable,
+public class WealthData
+    extends AbstractBase
+    implements FinancialClassID, Reportable,
         javax.swing.event.ChangeListener {
+
     private String prefix;
 
     public String getReportFieldsPrefix() {
@@ -105,7 +110,7 @@ public class WealthData extends com.argus.financials.bean.AbstractBase implement
 
     private PersonService person;
 
-    public void update() throws com.argus.financials.service.client.ServiceException {
+    public void update() throws com.argus.financials.api.ServiceException {
         assumptions.disableNotify();
         try {
             assumptions.update(person);
@@ -115,7 +120,7 @@ public class WealthData extends com.argus.financials.bean.AbstractBase implement
     }
 
     public void update(PersonService _person, java.util.Map _financials)
-            throws com.argus.financials.service.client.ServiceException {
+            throws com.argus.financials.api.ServiceException {
         this.person = _person;
         this.financials = _financials;
         update();
@@ -141,9 +146,7 @@ public class WealthData extends com.argus.financials.bean.AbstractBase implement
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields)
             throws Exception {
-        initializeReportData(reportFields,
-                com.argus.financials.service.ServiceLocator.getInstance()
-                        .getClientPerson());
+        initializeReportData(reportFields, clientService);
     }
 
     public void initializeReportData(

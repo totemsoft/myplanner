@@ -150,8 +150,8 @@ public class GearingData extends ClientPersonData {
 
         Boolean b = calc.getReinvestIncome();
         gearing.ReinvestIncome = b == null || !b.booleanValue() ? BooleanCode.rcNO
-                .getCodeDesc()
-                : BooleanCode.rcYES.getCodeDesc();
+                .getDescription()
+                : BooleanCode.rcYES.getDescription();
 
         gearing.CreditLimitAmount = (currency.toString(calc.getCreditLimit()) == null) ? STRING_EMPTY
                 : currency.toString(calc.getCreditLimit());

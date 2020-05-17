@@ -6,6 +6,10 @@
 
 package com.argus.financials.strategy;
 
+import java.util.Map;
+
+import com.argus.financials.api.bean.IStrategyGroup;
+
 /**
  * 
  * @author valeri chibaev
@@ -16,12 +20,8 @@ import com.argus.financials.etc.FPSAssignableObject;
 import com.argus.financials.strategy.model.StrategyGroupData;
 import com.argus.util.DateTimeUtils;
 
-public class StrategyGroup extends FPSAssignableObject {
-    // serialver -classpath . com.argus.strategy.StrategyGroup
+public class StrategyGroup extends FPSAssignableObject implements IStrategyGroup {
 
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 1397703350987660141L;
 
     public static final StrategyGroup DEFAULT_ROOT = new StrategyGroup();
@@ -157,10 +157,10 @@ public class StrategyGroup extends FPSAssignableObject {
         data = null;
     }
 
-    public java.util.Map getCollectionFinancials(boolean deepCopy) {
+    public Map getCollectionFinancials(boolean deepCopy) {
 
         try {
-            java.util.Map financials = getStrategyGroupData()
+            Map financials = getStrategyGroupData()
                     .getCollectionModel().getFinancials();
             if (deepCopy)
                 financials = Financials.deepCopy(financials, true);
@@ -174,11 +174,10 @@ public class StrategyGroup extends FPSAssignableObject {
 
     }
 
-    public java.util.Map getRestructureFinancials(boolean deepCopy) {
+    public Map getRestructureFinancials(boolean deepCopy) {
 
         try {
-            java.util.Map financials = getStrategyGroupData()
-                    .getRestructureModel().getFinancials();
+            Map financials = getStrategyGroupData().getRestructureModel().getFinancials();
             if (deepCopy)
                 financials = Financials.deepCopy(financials, true);
             // System.out.println(financials);

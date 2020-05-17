@@ -6,13 +6,8 @@
 
 package com.argus.financials.etc;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
-
-import com.argus.financials.code.InvalidCodeException;
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.bean.IFPSAssignableObject;
 
 public class Estate extends FPSAssignableObject {
 
@@ -44,7 +39,8 @@ public class Estate extends FPSAssignableObject {
     /**
      * Assignable
      */
-    public void assign(FPSAssignableObject value) throws ClassCastException {
+    @Override
+    public void assign(IFPSAssignableObject value) throws ClassCastException {
 
         super.assign(value);
 
@@ -61,7 +57,7 @@ public class Estate extends FPSAssignableObject {
     /**
      * helper methods
      */
-    protected void clear() {
+    public void clear() {
         super.clear();
 
     }
@@ -85,8 +81,8 @@ public class Estate extends FPSAssignableObject {
         super.setModified(value);
     }
 
-    public void setPrimaryKeyID(Integer value) {
-        super.setPrimaryKeyID(value);
+    public void setId(Integer value) {
+        super.setId(value);
     }
 
     public Integer getStatusCodeID() {

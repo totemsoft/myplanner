@@ -11,9 +11,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.argus.dao.SQLHelper;
+
 /**
  * ApirPicBean is responsible for load and store information form the database
- * table "product-information".
+ * table "product_information".
  * 
  * @author shibaevv
  * @version 0.01
@@ -21,7 +23,12 @@ import java.sql.SQLException;
  */
 public class ProductInformationBean {
 
-    public static final String DATABASE_TABLE_NAME = "product-information";
+    public static final String DATABASE_TABLE_NAME = "product_information";
+
+    private transient static SQLHelper sqlHelper;
+    public static void setSqlHelper(SQLHelper sqlHelper) {
+        ProductInformationBean.sqlHelper = sqlHelper;
+    }
 
     // bean properties
     private String identifier; // length: 3
@@ -91,11 +98,11 @@ public class ProductInformationBean {
     }
 
     /**
-     * Loads an entry from the "product-information" table. The "code" column is
+     * Loads an entry from the "product_information" table. The "code" column is
      * used for identification. The first matching entry will be loaded.
      * 
-     * @param code_id -
-     *            use the apir-pic column as identifier
+     * @param code_id _
+     *            use the apir_pic column as identifier
      * @return true = found an entry
      */
     public boolean findByCode(int code_id) throws java.sql.SQLException {
@@ -103,13 +110,13 @@ public class ProductInformationBean {
     }
 
     /**
-     * Loads an entry from the "apir-pic" table. The given column name and id is
+     * Loads an entry from the "apir_pic" table. The given column name and id is
      * used for identification. The first matching (column contains id) entry
      * will be loaded.
      * 
-     * @param column_name -
+     * @param column_name _
      *            the column name for the search
-     * @param id -
+     * @param id _
      *            the identification
      * @return true = found an entry
      */
@@ -123,7 +130,7 @@ public class ProductInformationBean {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
@@ -143,51 +150,50 @@ public class ProductInformationBean {
                 // get the data
                 this.identifier = rs.getString("identifier");
                 this.code = rs.getInt("code");
-                this.full_name = rs.getString("full-name");
-                this.country_code = rs.getString("country-code");
-                this.tax_group_code = rs.getString("tax-group-code");
-                this.manager_code = rs.getString("manager-code");
-                this.group_code = rs.getInt("group-code");
-                this.short_name = rs.getString("short-name");
-                this.brief_name = rs.getString("brief-name");
-                this.legal_type_code = rs.getString("legal-type-code");
-                this.region_code = rs.getString("region-code");
-                this.asset_type_code = rs.getString("asset-type-code");
+                this.full_name = rs.getString("full_name");
+                this.country_code = rs.getString("country_code");
+                this.tax_group_code = rs.getString("tax_group_code");
+                this.manager_code = rs.getString("manager_code");
+                this.group_code = rs.getInt("group_code");
+                this.short_name = rs.getString("short_name");
+                this.brief_name = rs.getString("brief_name");
+                this.legal_type_code = rs.getString("legal_type_code");
+                this.region_code = rs.getString("region_code");
+                this.asset_type_code = rs.getString("asset_type_code");
                 this.cash_distribution_code = rs
-                        .getString("cash-distribution-code");
-                this.trustee_code = rs.getString("trustee-code");
-                this.custodian_code = rs.getString("custodian-code");
-                // this.commencement_date = rs.getTimestamp( "commencement-date"
-                // );
-                // this.data_date = rs.getTimestamp( "data-date" );
-                this.stock_exchange = rs.getInt("stock-exchange");
+                        .getString("cash_distribution_code");
+                this.trustee_code = rs.getString("trustee_code");
+                this.custodian_code = rs.getString("custodian_code");
+                // this.commencement_date = rs.getTimestamp( "commencement_date");
+                // this.data_date = rs.getTimestamp( "data_date" );
+                this.stock_exchange = rs.getInt("stock_exchange");
                 this.guarantees = rs.getInt("guarantees");
-                this.unit_linked = rs.getInt("unit-linked");
-                this.valuation_frequency = rs.getString("valuation-frequency");
-                this.declared_yield = rs.getInt("declared-yield");
+                this.unit_linked = rs.getInt("unit_linked");
+                this.valuation_frequency = rs.getString("valuation_frequency");
+                this.declared_yield = rs.getInt("declared_yield");
                 this.rate_of_return_advance = rs
-                        .getInt("rate-of-return-advance");
+                        .getInt("rate_of_return_advance");
                 this.category = rs.getString("category");
                 this.subcategory = rs.getString("subcategory");
-                this.manager_group_code = rs.getString("manager-group-code");
+                this.manager_group_code = rs.getString("manager_group_code");
                 this.gearing = rs.getInt("gearing");
-                this.gearing_max = rs.getDouble("gearing-max");
-                this.gearing_comments = rs.getString("gearing-comments");
-                this.special_features = rs.getString("special-features");
+                this.gearing_max = rs.getDouble("gearing_max");
+                this.gearing_comments = rs.getString("gearing_comments");
+                this.special_features = rs.getString("special_features");
                 // this.id = rs.getTimestamp( "id" );
 
                 found = true;
             }
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
 
         return found;
@@ -209,7 +215,7 @@ public class ProductInformationBean {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
@@ -217,7 +223,7 @@ public class ProductInformationBean {
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
             pstmt_StringBuffer.append("WHERE [code] = ? ");
             pstmt_StringBuffer.append("AND ");
-            pstmt_StringBuffer.append("[full-name] = ? ");
+            pstmt_StringBuffer.append("[full_name] = ? ");
 
             // set and execute query
             pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
@@ -233,58 +239,17 @@ public class ProductInformationBean {
             }
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
 
         return found;
-    }
-
-    /**
-     * Closes a given ResultSet and PreparedStatement.
-     * 
-     * @param rs -
-     *            the ResultSet to close
-     * @param pstmt -
-     *            the PreparedStatement to close
-     */
-    private void closeRsSql(ResultSet rs, PreparedStatement pstmt) {
-        try {
-            if (rs != null)
-                rs.close();
-            if (pstmt != null)
-                pstmt.close();
-        } catch (java.sql.SQLException e) {
-            // do nothing here
-        }
-    }
-
-    /**
-     * Prints the SQLException's messages, SQLStates and ErrorCode to System.err
-     * 
-     * @param extends -
-     *            a SQLException
-     */
-    private void printSQLException(java.sql.SQLException e) {
-        System.err.println("\n--- SQLException caught ---\n");
-
-        while (e != null) {
-            e.printStackTrace(System.err);
-
-            System.err.println("Message:   " + e.getMessage());
-            System.err.println("SQLState:  " + e.getSQLState());
-            System.err.println("ErrorCode: " + e.getErrorCode());
-
-            e = e.getNextException();
-
-        }
-
     }
 
     /*

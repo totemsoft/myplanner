@@ -6,26 +6,16 @@
 
 package com.argus.financials.bean;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
-
-import com.argus.financials.code.FinancialType;
+import com.argus.financials.api.code.FinancialTypeEnum;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.code.FrequencyCode;
+import com.argus.financials.tax.au.ITaxConstants;
 
 public class TaxOffset extends Regular {
 
-    // serialver -classpath . com.argus.financial.TaxOffset
-
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 2203597048523637390L;
 
-    public static final Integer OBJECT_TYPE_ID = new Integer(
-            ObjectTypeConstant.TAX_OFFSET);
+    public static final Integer OBJECT_TYPE_ID = ObjectTypeConstant.TAX_OFFSET;
 
     public Integer getObjectTypeID() {
         return OBJECT_TYPE_ID;
@@ -46,9 +36,7 @@ public class TaxOffset extends Regular {
      * use financialTypeID
      */
     public String getGeneratedTypeDesc() {
-        return ""
-                + FinancialType.getFinancialType(OBJECT_TYPE_ID,
-                        getFinancialTypeID());
+        return getFinancialType().getDescription();
     }
 
     public Financial getNewFinancial() {
@@ -104,60 +92,43 @@ public class TaxOffset extends Regular {
 
     public String getRegularTaxType() {
         String taxType = super.getRegularTaxType();
-
         if (taxType == null) {
             taxType = getRegularTaxType(getFinancialTypeID());
             setRegularTaxType(taxType);
         }
-
         return taxType;
+    }
 
+    public static String getRegularTaxType(FinancialTypeEnum financialType) {
+        return getRegularTaxType(financialType.getId());
     }
 
     public static String getRegularTaxType(Integer financialTypeID) {
-
-        String taxType;
-
-        if (TAXOFFSET_IMPUTATION_CREDIT.equals(financialTypeID))
-            taxType = com.argus.financials.tax.au.ITaxConstants.O_IMPUTATION_CREDIT;
-        else if (TAXOFFSET_LUMP_SUM.equals(financialTypeID))
-            taxType = com.argus.financials.tax.au.ITaxConstants.O_LUMP_SUM_ETP;
-        // else if ( .equals( financialTypeID ) )
-        // taxType = com.fiducian.tax.TaxConstants.O_TAX_WITHHELD;
-        else if (TAXOFFSET_SUPER.equals(financialTypeID))
-            taxType = com.argus.financials.tax.au.ITaxConstants.O_SUPER;
-        else if (TAXOFFSET_LOW_INCOME.equals(financialTypeID))
-            taxType = com.argus.financials.tax.au.ITaxConstants.O_LOW_INCOME;
-        else
-            taxType = com.argus.financials.tax.au.ITaxConstants.O_OTHER;
-
-        return taxType;
-
+        if (FinancialTypeEnum.TAXOFFSET_IMPUTATION_CREDIT.getId() == financialTypeID)
+            return ITaxConstants.O_IMPUTATION_CREDIT;
+        if (FinancialTypeEnum.TAXOFFSET_LUMP_SUM.getId() == financialTypeID)
+            return ITaxConstants.O_LUMP_SUM_ETP;
+        //if ( == financialTypeID)
+        //    return TaxConstants.O_TAX_WITHHELD;
+        if (FinancialTypeEnum.TAXOFFSET_SUPER.getId() == financialTypeID)
+            return ITaxConstants.O_SUPER;
+        if (FinancialTypeEnum.TAXOFFSET_LOW_INCOME.getId() == financialTypeID)
+            return ITaxConstants.O_LOW_INCOME;
+        return ITaxConstants.O_OTHER;
     }
 
     public static Integer getFinancialTypeID(String taxType) {
-
-        Integer financialTypeID;
-
-        if (com.argus.financials.tax.au.ITaxConstants.O_IMPUTATION_CREDIT
-                .equals(taxType))
-            financialTypeID = TAXOFFSET_IMPUTATION_CREDIT;
-        else if (com.argus.financials.tax.au.ITaxConstants.O_LUMP_SUM_ETP
-                .equals(taxType))
-            financialTypeID = TAXOFFSET_LUMP_SUM;
-        // else if ( com.fiducian.tax.TaxConstants.O_TAX_WITHHELD.equals(
-        // taxType ) )
-        // financialTypeID = ;
-        else if (com.argus.financials.tax.au.ITaxConstants.O_SUPER.equals(taxType))
-            financialTypeID = TAXOFFSET_SUPER;
-        else if (com.argus.financials.tax.au.ITaxConstants.O_LOW_INCOME
-                .equals(taxType))
-            financialTypeID = TAXOFFSET_LOW_INCOME;
-        else
-            financialTypeID = TAXOFFSET_OTHER;
-
-        return financialTypeID;
-
+        if (ITaxConstants.O_IMPUTATION_CREDIT.equals(taxType))
+            return FinancialTypeEnum.TAXOFFSET_IMPUTATION_CREDIT.getId();
+        if (ITaxConstants.O_LUMP_SUM_ETP.equals(taxType))
+            return FinancialTypeEnum.TAXOFFSET_LUMP_SUM.getId();
+        //if (TaxConstants.O_TAX_WITHHELD.equals(taxType))
+        //    return ;
+        if (ITaxConstants.O_SUPER.equals(taxType))
+            return FinancialTypeEnum.TAXOFFSET_SUPER.getId();
+        if (ITaxConstants.O_LOW_INCOME.equals(taxType))
+            return FinancialTypeEnum.TAXOFFSET_LOW_INCOME.getId();
+        return FinancialTypeEnum.TAXOFFSET_OTHER.getId();
     }
 
 }

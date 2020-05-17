@@ -12,20 +12,16 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import com.argus.financials.assetallocation.AssetAllocationTableModel;
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.code.LinkObjectTypeConstant;
 import com.argus.financials.assetallocation.AssetAllocationTableRow;
-import com.argus.financials.assetallocation.CurrentAssetAllocationTableModel;
 import com.argus.financials.assetallocation.IAssetAllocation;
-import com.argus.financials.assetallocation.NewAssetAllocationTableModel;
-import com.argus.financials.bean.LinkObjectTypeConstant;
 import com.argus.financials.code.InvestmentStrategyData;
 import com.argus.financials.config.WordSettings;
 import com.argus.financials.etc.GrowthRate;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.ui.data.AssetAllocationData;
 import com.argus.format.Percent;
@@ -72,8 +68,7 @@ public class NewAssetAllocationView extends AssetAllocationView implements
         createCharts();
 
         try {
-            displayRiskProfileAssetAllocation(ServiceLocator.getInstance()
-                    .getClientPerson());
+            displayRiskProfileAssetAllocation(clientService);
             updateRecommendedChart();
             displayCurrentAssetAllocation(null);
             updateCurrentChart();
@@ -223,10 +218,9 @@ public class NewAssetAllocationView extends AssetAllocationView implements
      *            a person object
      */
     public void updateView(com.argus.financials.service.PersonService person)
-            throws com.argus.financials.service.client.ServiceException {
+            throws com.argus.financials.api.ServiceException {
         // update pie charts
-        displayRiskProfileAssetAllocation(ServiceLocator.getInstance()
-                .getClientPerson());
+        displayRiskProfileAssetAllocation(clientService);
         updateRecommendedChart();
 
         displayCurrentAssetAllocation(null);
@@ -249,7 +243,7 @@ public class NewAssetAllocationView extends AssetAllocationView implements
      */
     private void displayRiskProfileAssetAllocation(
             com.argus.financials.service.PersonService person)
-            throws com.argus.financials.service.client.ServiceException {
+            throws com.argus.financials.api.ServiceException {
         Integer surveyID = null;
         Integer investmentStrategyCodeID = null;
         String investmentStrategyName = "";
@@ -261,7 +255,7 @@ public class NewAssetAllocationView extends AssetAllocationView implements
         } catch (ObjectNotFoundException e) {
             // ignore that exception, it's raised when we don't have a survey id
             // e.printStackTrace(System.err);
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
 
@@ -377,11 +371,10 @@ public class NewAssetAllocationView extends AssetAllocationView implements
     private java.util.Map newFinancials;
 
     public void updateView(java.util.Map oldFinancials,
-            java.util.Map newFinancials) throws com.argus.financials.service.client.ServiceException {
+            java.util.Map newFinancials) throws com.argus.financials.api.ServiceException {
 
         // update pie charts
-        displayRiskProfileAssetAllocation(ServiceLocator.getInstance()
-                .getClientPerson());
+        displayRiskProfileAssetAllocation(clientService);
         updateRecommendedChart();
 
         this.oldFinancials = oldFinancials;
@@ -408,7 +401,7 @@ public class NewAssetAllocationView extends AssetAllocationView implements
         try {
             ((NewAssetAllocationTableModel) jTableAssetAllocation.getModel())
                     .saveModel(newFinancials);
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
     }
@@ -431,12 +424,12 @@ public class NewAssetAllocationView extends AssetAllocationView implements
      * screen.
      */
     private void displayCurrentAssetAllocation(java.util.Map financials)
-            throws com.argus.financials.service.client.ServiceException {
+            throws com.argus.financials.api.ServiceException {
         CurrentAssetAllocationTableModel caatm = new CurrentAssetAllocationTableModel(
                 this, null);
 
         if (financials == null)
-            caatm.updateModel(ServiceLocator.getInstance().getClientPerson());
+            caatm.updateModel(clientService);
         else
             caatm.updateModel(financials);
 
@@ -917,7 +910,7 @@ public class NewAssetAllocationView extends AssetAllocationView implements
             // allocation and generate a report
             saveView();
 
-            ClientService cp = ServiceLocator.getInstance().getClientPerson();
+            ClientService cp = clientService;
             _data = new AssetAllocationData();
             _data.init(cp, oldFinancials, newFinancials);
 

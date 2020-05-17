@@ -11,9 +11,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.argus.dao.SQLHelper;
+import com.argus.financials.api.ObjectNotFoundException;
 import com.argus.financials.assetallocation.AssetAllocation;
 import com.argus.financials.code.BooleanCode;
-import com.argus.financials.service.client.ObjectNotFoundException;
 
 /**
  * AssetAllocationTableBean is responsible for creating,loading and storing
@@ -24,6 +25,11 @@ import com.argus.financials.service.client.ObjectNotFoundException;
 public class AssetAllocationBean {
     // constants
     public static final String DATABASE_TABLE_NAME = "AssetAllocation";
+
+    private transient static SQLHelper sqlHelper;
+    public static void setSqlHelper(SQLHelper sqlHelper) {
+        AssetAllocationBean.sqlHelper = sqlHelper;
+    }
 
     // bean properties
     private AssetAllocation assetAllocation;
@@ -215,7 +221,7 @@ public class AssetAllocationBean {
                 pstmt.close();
             }
         } finally {
-            closeRsSql(rs, pstmt);
+            sqlHelper.close(rs, pstmt);
         }
     }
 
@@ -234,7 +240,7 @@ public class AssetAllocationBean {
      */
     public boolean findByPrimaryKey(Connection con)
             throws java.sql.SQLException, ObjectNotFoundException {
-        return findByPrimaryKey(con, assetAllocation.getPrimaryKeyID());
+        return findByPrimaryKey(con, assetAllocation.getId());
     }
 
     public boolean findByPrimaryKey(Connection con, Integer id)
@@ -283,7 +289,7 @@ public class AssetAllocationBean {
             }
 
         } finally {
-            closeRsSql(rs, pstmt);
+            sqlHelper.close(rs, pstmt);
         }
 
         return found;
@@ -300,7 +306,7 @@ public class AssetAllocationBean {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             pstmt_StringBuffer = new StringBuffer();
 
@@ -331,51 +337,11 @@ public class AssetAllocationBean {
             status = pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
-        }
-    }
-
-    /**
-     * Closes a given ResultSet and PreparedStatement.
-     * 
-     * @param rs -
-     *            the ResultSet to close
-     * @param pstmt -
-     *            the PreparedStatement to close
-     */
-    private void closeRsSql(ResultSet rs, PreparedStatement pstmt) {
-        try {
-            if (rs != null)
-                rs.close();
-            if (pstmt != null)
-                pstmt.close();
-        } catch (java.sql.SQLException e) {
-            // do nothing here
-        }
-    }
-
-    /**
-     * Prints the SQLException's messages, SQLStates and ErrorCode to System.err
-     * 
-     * @param extends -
-     *            a SQLException
-     */
-    private void printSQLException(java.sql.SQLException e) {
-        System.err.println("\n--- SQLException caught ---\n");
-
-        while (e != null) {
-            e.printStackTrace(System.err);
-
-            System.err.println("Message:   " + e.getMessage());
-            System.err.println("SQLState:  " + e.getSQLState());
-            System.err.println("ErrorCode: " + e.getErrorCode());
-
-            e = e.getNextException();
-
+            sqlHelper.close(null, pstmt, con);
         }
     }
 

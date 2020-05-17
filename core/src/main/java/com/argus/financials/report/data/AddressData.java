@@ -6,6 +6,8 @@
 
 package com.argus.financials.report.data;
 
+import com.argus.financials.etc.AddressDto;
+
 /**
  * 
  * @author valeri chibaev
@@ -30,7 +32,7 @@ public class AddressData extends BaseData {
         clear();
     }
 
-    public AddressData(com.argus.financials.etc.Address address) {
+    public AddressData(AddressDto address) {
         this();
         init(address);
     }
@@ -56,24 +58,19 @@ public class AddressData extends BaseData {
                 + (Postcode == null ? STRING_EMPTY : Postcode);
     }
 
-    public void init(com.argus.financials.etc.Address address) {
+    public void init(AddressDto address) {
 
         if (address == null) {
             clear();
             return;
         }
 
-        StreetNumber = address.getStreetNumber() == null ? STRING_EMPTY
-                : address.getStreetNumber();
-        StreetNumber2 = address.getStreetNumber2() == null ? STRING_EMPTY
-                : address.getStreetNumber2();
-        Suburb = address.getSuburb() == null ? STRING_EMPTY : address
-                .getSuburb();
-        Postcode = address.getPostCode() == null ? STRING_EMPTY : address
-                .getPostCode();
-        State = address.getState() == null ? STRING_EMPTY : address.getState();
-        Country = address.getCountryCode() == null ? STRING_EMPTY : address
-                .getCountryCode();
+        StreetNumber = address.getStreetNumber() == null ? STRING_EMPTY : address.getStreetNumber();
+        StreetNumber2 = address.getStreetNumber2() == null ? STRING_EMPTY : address.getStreetNumber2();
+        Suburb = address.getSuburb() == null ? STRING_EMPTY : address.getSuburb();
+        Postcode = address.getPostcode() == null ? STRING_EMPTY : address.getPostcode().toString();
+        State = address.getStateCode() == null ? STRING_EMPTY : address.getStateCode();
+        Country = address.getCountryCode() == null ? STRING_EMPTY : address.getCountryCode();
 
     }
 

@@ -80,7 +80,7 @@ public final class TitleCode extends Code {
 
     private static Map codeMap;
 
-    static {
+    protected Map getCodeMap() {
         if (codeMap == null) {
             codeMap = new TreeMap(new Comparator() {
 
@@ -143,9 +143,6 @@ public final class TitleCode extends Code {
 
             initCodeMap();
         }
-    }
-
-    protected Map getCodeMap() {
         return codeMap;
     }
 
@@ -154,12 +151,11 @@ public final class TitleCode extends Code {
         codeMap.put(NONE, VALUE_NONE);
 
         try {
-            Map map = com.argus.financials.service.ServiceLocator.getInstance()
-                    .getUtilityService().getCodes(TABLE_NAME);
+            Map map = utilityService.getCodes(TABLE_NAME);
             if (map == null)
                 return;
             codeMap.putAll(map);
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
     }

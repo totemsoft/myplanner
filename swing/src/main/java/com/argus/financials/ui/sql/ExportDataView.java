@@ -25,18 +25,17 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import com.argus.beans.AbstractComponentModel;
-import com.argus.beans.FTable;
-import com.argus.beans.FTextArea;
-import com.argus.beans.FTextField;
-import com.argus.beans.MessageSent;
-import com.argus.beans.MessageSentEvent;
-import com.argus.beans.WizardContentHandler;
-import com.argus.financials.domain.hibernate.Client;
-import com.argus.financials.domain.hibernate.view.ClientView;
+import com.argus.bean.AbstractComponentModel;
+import com.argus.bean.FTable;
+import com.argus.bean.FTextArea;
+import com.argus.bean.FTextField;
+import com.argus.bean.MessageSent;
+import com.argus.bean.MessageSentEvent;
+import com.argus.bean.WizardContentHandler;
+import com.argus.financials.api.bean.IClientView;
+import com.argus.financials.api.service.UserService;
+import com.argus.financials.domain.hibernate.ClientView;
 import com.argus.financials.exchange.ExportData;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.client.UserService;
 import com.argus.financials.swing.ICloseDialog;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.swing.table.SortedTableModel;
@@ -44,8 +43,10 @@ import com.argus.swing.SplashWindow;
 import com.argus.swing.SwingUtils;
 import com.argus.util.KeyValue;
 
-public class ExportDataView extends com.argus.beans.BasePanel implements
-        ICloseDialog {
+public class ExportDataView
+    extends com.argus.bean.BasePanel
+    implements ICloseDialog
+{
 
     private static final String WIZARD = "Wizard";
 
@@ -68,6 +69,11 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
     private ExportComponentModel model;
 
     private WizardContentHandler wch;
+
+    private static UserService userService;
+    public static void setUserService(UserService userService) {
+        ExportDataView.userService = userService;
+    }
 
     /** Creates new form ExportDataView */
     public ExportDataView() {
@@ -157,18 +163,18 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
         jPanelCards = new javax.swing.JPanel();
         jPanelStep1 = new javax.swing.JPanel();
         jScrollPaneStep1 = new javax.swing.JScrollPane();
-        tableStep1 = new com.argus.beans.FTable();
+        tableStep1 = new com.argus.bean.FTable();
         jPanelStep2 = new javax.swing.JPanel();
         textFieldStep2 = new FTextField();
         ((FTextField) textFieldStep2)
-                .setFieldType(com.argus.beans.FTextField.ANY);
+                .setFieldType(com.argus.bean.FTextField.ANY);
         jButtonStep2 = new javax.swing.JButton();
         jPanelStep3 = new javax.swing.JPanel();
         jScrollPaneDetailsStep3 = new javax.swing.JScrollPane();
-        textAreaDetailsStep3 = new com.argus.beans.FTextArea();
+        textAreaDetailsStep3 = new com.argus.bean.FTextArea();
         jPanelStep4 = new javax.swing.JPanel();
         jScrollPaneDetailsStep4 = new javax.swing.JScrollPane();
-        textAreaDetailsStep4 = new com.argus.beans.FTextArea();
+        textAreaDetailsStep4 = new com.argus.bean.FTextArea();
         jSeparatorHorizontal = new javax.swing.JSeparator();
         jPanelControls = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -500,11 +506,10 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
 
         try {
             Map<String, Object> criteria = new HashMap<String, Object>();
-            UserService userService = ServiceLocator.getInstance().getUserService();
-            List<ClientView> clients = userService.findClients(criteria, 0, -1);
+            List<? extends IClientView> clients = userService.findClients(criteria, 0, -1);
             int size = clients == null ? 0 : clients.size();
             Vector data = new Vector(size);
-            for (ClientView c : clients) {
+            for (IClientView c : clients) {
                 java.util.Vector row = new java.util.Vector();
                 row.add(Boolean.FALSE); // Selected
                 row.add(c); // ClientView
@@ -514,7 +519,7 @@ public class ExportDataView extends com.argus.beans.BasePanel implements
                 data.add(row);
             }
             tableModelStep1 = new TableModelStep1(data);
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
         return tableModelStep1;

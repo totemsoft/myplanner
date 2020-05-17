@@ -17,12 +17,12 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
-import com.argus.beans.AbstractComponentModel;
-import com.argus.beans.FTable;
-import com.argus.beans.FTextField;
-import com.argus.beans.MessageSent;
-import com.argus.beans.MessageSentEvent;
-import com.argus.beans.WizardContentHandler;
+import com.argus.bean.AbstractComponentModel;
+import com.argus.bean.FTable;
+import com.argus.bean.FTextField;
+import com.argus.bean.MessageSent;
+import com.argus.bean.MessageSentEvent;
+import com.argus.bean.WizardContentHandler;
 import com.argus.financials.assetinvestment.AvailableInvestmentsTableRow;
 import com.argus.financials.exchange.AssetProcessor;
 import com.argus.financials.swing.ICloseDialog;
@@ -31,7 +31,7 @@ import com.argus.financials.ui.financials.AssetInvestmentSelectionByView;
 import com.argus.swing.SplashWindow;
 import com.argus.util.KeyValue;
 
-public class AssetSwapView extends com.argus.beans.BasePanel implements
+public class AssetSwapView extends com.argus.bean.BasePanel implements
         ICloseDialog {
 
     private static final String WIZARD = "Wizard";
@@ -156,28 +156,28 @@ public class AssetSwapView extends com.argus.beans.BasePanel implements
         jPanelStep1 = new javax.swing.JPanel();
         textFieldReplaceAssetStep1 = new FTextField();
         ((FTextField) textFieldReplaceAssetStep1)
-                .setFieldType(com.argus.beans.FTextField.ANY);
+                .setFieldType(com.argus.bean.FTextField.ANY);
         jButtonReplaceAssetStep1 = new javax.swing.JButton();
         textFieldReplaceWithAssetStep1 = new FTextField();
         ((FTextField) textFieldReplaceWithAssetStep1)
-                .setFieldType(com.argus.beans.FTextField.ANY);
+                .setFieldType(com.argus.bean.FTextField.ANY);
         jButtonReplaceWithAssetStep1 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         textFieldJournalNameStep1 = new FTextField();
         ((FTextField) textFieldJournalNameStep1)
-                .setFieldType(com.argus.beans.FTextField.ANY);
+                .setFieldType(com.argus.bean.FTextField.ANY);
         jPanelStep2 = new javax.swing.JPanel();
         jPanelStep2text = new javax.swing.JPanel();
         jLabelStep2text = new javax.swing.JLabel();
         jScrollPaneStep2 = new javax.swing.JScrollPane();
-        tableStep2 = new com.argus.beans.FTable();
+        tableStep2 = new com.argus.bean.FTable();
         jPanelStep3 = new javax.swing.JPanel();
         jPanelStep3text = new javax.swing.JPanel();
         jLabelStep3text = new javax.swing.JLabel();
         jScrollPaneDetailsStep3 = new javax.swing.JScrollPane();
-        tableStep3 = new com.argus.beans.FTable();
+        tableStep3 = new com.argus.bean.FTable();
         jSeparatorHorizontal = new javax.swing.JSeparator();
         jPanelControls = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();

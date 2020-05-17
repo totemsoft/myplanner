@@ -6,6 +6,7 @@
 
 package com.argus.financials.projection.dss;
 
+import com.argus.financials.api.bean.IMaritalCode;
 import com.argus.financials.code.MaritalCode;
 import com.argus.financials.code.SexCode;
 import com.argus.financials.projection.DSSCalc;
@@ -77,11 +78,11 @@ public class DSSEligibilityCheck implements DocumentNames {
                         || !new SexCode().getCodeDescription(SexCode.FEMALE)
                                 .equals(personInfo.sex)
                         || (!new MaritalCode().getCodeDescription(
-                                MaritalCode.WIDOWED).equals(personInfo.marital)
+                                IMaritalCode.WIDOWED).equals(personInfo.marital)
                                 && !new MaritalCode().getCodeDescription(
-                                        MaritalCode.SEPARATED).equals(
+                                        IMaritalCode.SEPARATED).equals(
                                         personInfo.marital) && !new MaritalCode()
-                                .getCodeDescription(MaritalCode.DIVORCED)
+                                .getCodeDescription(IMaritalCode.DIVORCED)
                                 .equals(personInfo.marital)))
                     throw new NotEligibleException(CLIENT_WA_EXCEPTION);
             } else if (SICKNESS_ALLOWANCE.equals(calcType)) {

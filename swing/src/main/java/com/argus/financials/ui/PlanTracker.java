@@ -18,7 +18,7 @@ import java.awt.Font;
 
 import javax.swing.JComponent;
 
-import com.argus.financials.code.InvalidCodeException;
+import com.argus.financials.api.InvalidCodeException;
 import com.argus.financials.service.PersonService;
 import com.argus.swing.SwingUtils;
 
@@ -1289,11 +1289,11 @@ public final class PlanTracker extends javax.swing.JPanel {
 
     // End of variables declaration//GEN-END:variables
 
-    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.api.ServiceException {
 
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException,
+    public void saveView(PersonService person) throws com.argus.financials.api.ServiceException,
             InvalidCodeException {
     }
 

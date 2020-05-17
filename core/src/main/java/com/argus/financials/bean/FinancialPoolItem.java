@@ -27,7 +27,7 @@ public class FinancialPoolItem extends com.argus.financials.bean.AbstractBase {
     /** Creates new FinancialPool */
     FinancialPoolItem(Financial financial) {
         this.financial = financial;
-        setPrimaryKeyID(financial.getPrimaryKeyID());
+        setId(financial.getId());
     }
 
     public void clear() {

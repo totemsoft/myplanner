@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.argus.dao.SQLHelper;
+
 /**
  * IressAssetNameBean is responsible for loading and storing information form
  * the database table "AssetAllocationData".
@@ -29,6 +31,11 @@ public class AssetAllocationDataBean {
     private static final int INITIAL_VECTOR_SIZE = 64;
 
     private static final int INITIAL_VECTOR_GROWTH_SIZE = 32;
+
+    private transient static SQLHelper sqlHelper;
+    public static void setSqlHelper(SQLHelper sqlHelper) {
+        AssetAllocationDataBean.sqlHelper = sqlHelper;
+    }
 
     // bean properties
     public int code;
@@ -54,7 +61,7 @@ public class AssetAllocationDataBean {
     }
 
     /**
-     * Creates a new entry in the "apir-pic" table. The properties for the new
+     * Creates a new entry in the "apir_pic" table. The properties for the new
      * entry must be set before creating a new entry.
      */
     public void create() throws java.sql.SQLException {
@@ -65,7 +72,7 @@ public class AssetAllocationDataBean {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("INSERT INTO ");
@@ -96,23 +103,23 @@ public class AssetAllocationDataBean {
             status = pstmt.executeUpdate();
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
     }
 
     /**
-     * Loads an entry from the "iress-asset-name" table. The "code" column is
+     * Loads an entry from the "iress_asset_name" table. The "code" column is
      * used for identification. The first matching entry will be loaded.
      * 
-     * @param apir_pic_id -
-     *            use the apir-pic column as identifier
+     * @param apir_pic_id _
+     *            use the apir_pic column as identifier
      * @return true = found an entry
      */
     public boolean findByCode(String code) throws java.sql.SQLException {
@@ -124,7 +131,7 @@ public class AssetAllocationDataBean {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
@@ -164,25 +171,25 @@ public class AssetAllocationDataBean {
             }
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
 
         return found;
     }
 
     /**
-     * Loads an entry from the "iress-asset-name" table. The "code" column is
+     * Loads an entry from the "iress_asset_name" table. The "code" column is
      * used for identification. The first matching entry will be loaded.
      * 
-     * @param apir_pic_id -
-     *            use the apir-pic column as identifier
+     * @param apir_pic_id _
+     *            use the apir_pic column as identifier
      * @return true = found an entry
      */
     public boolean findByCode(int code) throws java.sql.SQLException {
@@ -190,13 +197,13 @@ public class AssetAllocationDataBean {
     }
 
     /**
-     * Loads an entry from the "iress-asset-name" table. The given column name
+     * Loads an entry from the "iress_asset_name" table. The given column name
      * and id is used for identification. The first matching (column contains
      * id) entry will be loaded.
      * 
-     * @param column_name -
+     * @param column_name _
      *            the column name for the search
-     * @param id -
+     * @param id _
      *            the identification
      * @return true = found an entry
      */
@@ -210,7 +217,7 @@ public class AssetAllocationDataBean {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("SELECT * FROM ");
@@ -243,58 +250,17 @@ public class AssetAllocationDataBean {
             }
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
 
         return found;
-    }
-
-    /**
-     * Closes a given ResultSet and PreparedStatement.
-     * 
-     * @param rs -
-     *            the ResultSet to close
-     * @param pstmt -
-     *            the PreparedStatement to close
-     */
-    private void closeRsSql(ResultSet rs, PreparedStatement pstmt) {
-        try {
-            if (rs != null)
-                rs.close();
-            if (pstmt != null)
-                pstmt.close();
-        } catch (java.sql.SQLException e) {
-            // do nothing here
-        }
-    }
-
-    /**
-     * Prints the SQLException's messages, SQLStates and ErrorCode to System.err
-     * 
-     * @param extends -
-     *            a SQLException
-     */
-    private void printSQLException(java.sql.SQLException e) {
-        System.err.println("\n--- SQLException caught ---\n");
-
-        while (e != null) {
-            e.printStackTrace(System.err);
-
-            System.err.println("Message:   " + e.getMessage());
-            System.err.println("SQLState:  " + e.getSQLState());
-            System.err.println("ErrorCode: " + e.getErrorCode());
-
-            e = e.getNextException();
-
-        }
-
     }
 
     /*

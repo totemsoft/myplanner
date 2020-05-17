@@ -24,12 +24,12 @@ import java.util.Stack;
 import javax.swing.tree.TreePath;
 
 import com.argus.financials.config.WordSettings;
-import com.argus.financials.io.IOUtils2;
-import com.argus.financials.swing.table.AbstractTreeTableModel;
-import com.argus.financials.swing.table.MergeSort;
-import com.argus.financials.swing.table.TreeTableModel;
 import com.argus.io.IOUtils;
+import com.argus.io.IOUtils2;
 import com.argus.io.RTFFileFilter;
+import com.argus.swing.table.AbstractTreeTableModel;
+import com.argus.swing.table.MergeSort;
+import com.argus.swing.table.TreeTableModel;
 import com.argus.util.ReferenceCode;
 
 public class PlanWriterTemplateModel extends AbstractTreeTableModel {
@@ -762,8 +762,6 @@ public class PlanWriterTemplateModel extends AbstractTreeTableModel {
             try {
                 String[] files = file.list(new java.io.FilenameFilter() {
                     public boolean accept(java.io.File dir, String name) {
-                        // if (DEBUG) System.out.println( "" + dir + ", " + (
-                        // dir.getPath() + java.io.File.separator + name ) );
                         if (dir.isDirectory()
                                 && new java.io.File(dir.getPath()
                                         + java.io.File.separator + name)

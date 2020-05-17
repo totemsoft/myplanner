@@ -6,6 +6,8 @@
 
 package com.argus.financials.ui.financials;
 
+import com.argus.financials.api.InvalidCodeException;
+
 /**
  * 
  * @author valeri chibaev
@@ -14,7 +16,6 @@ package com.argus.financials.ui.financials;
 
 import com.argus.financials.bean.Regular;
 import com.argus.financials.bean.RegularExpense;
-import com.argus.financials.code.InvalidCodeException;
 
 public class AddRegularExpenseView extends AddRegularView {
 
@@ -99,7 +100,7 @@ public class AddRegularExpenseView extends AddRegularView {
     }
 
     public String getTitle() {
-        return RC_REGULAR_EXPENSE.getCodeDesc();
+        return RC_REGULAR_EXPENSE.getDescription();
     }
 
 }

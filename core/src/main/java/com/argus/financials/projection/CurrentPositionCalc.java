@@ -6,13 +6,7 @@
 
 package com.argus.financials.projection;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
-
-import com.argus.beans.format.CurrencyLabelGenerator;
+import com.argus.financials.chart.StrategyResultView;
 import com.argus.financials.code.FrequencyCode;
 import com.argus.financials.code.IReportFields;
 import com.argus.financials.code.InvestmentStrategyCode;
@@ -23,8 +17,8 @@ import com.argus.financials.projection.save.Model;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.report.Reportable;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.format.Currency;
+import com.argus.format.CurrencyLabelGenerator;
 import com.argus.format.Percent;
 import com.argus.io.ImageUtils;
 import com.argus.util.DateTimeUtils;
@@ -637,8 +631,7 @@ public final class CurrentPositionCalc extends AssetGrowthLinked implements Repo
      **************************************************************************/
     public void initializeReportData(ReportFields reportFields)
             throws Exception {
-        initializeReportData(reportFields, ServiceLocator.getInstance()
-                .getClientPerson());
+        initializeReportData(reportFields, clientService);
     }
 
     public void initializeReportData(ReportFields reportFields, PersonService person)

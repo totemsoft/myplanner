@@ -16,24 +16,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.argus.financials.bean.LinkObjectTypeConstant;
-import com.argus.financials.bean.ObjectTypeConstant;
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.bean.IStrategyGroup;
+import com.argus.financials.api.code.LinkObjectTypeConstant;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.bean.db.AbstractPersistable;
-import com.argus.financials.bean.db.FPSLinkObject;
-import com.argus.financials.service.client.ObjectNotFoundException;
-import com.argus.financials.strategy.StrategyGroup;
 import com.argus.util.DateTimeUtils;
 import com.argus.util.StringUtils;
 
 public class StrategyGroupBean extends AbstractPersistable {
 
-    private StrategyGroup strategy;
+    private IStrategyGroup strategy;
 
     /** Creates a new instance of StrategyGroupBean */
     public StrategyGroupBean() {
     }
 
-    public StrategyGroupBean(StrategyGroup strategy) {
+    public StrategyGroupBean(IStrategyGroup strategy) {
         this.strategy = strategy;
     }
 
@@ -45,28 +44,28 @@ public class StrategyGroupBean extends AbstractPersistable {
         return LinkObjectTypeConstant.PERSON_2_STRATEGYGROUP;
     }
 
-    public StrategyGroup getStrategyGroup() {
+    public IStrategyGroup getStrategyGroup() {
         return strategy;
     }
 
-    public void setStrategyGroup(StrategyGroup strategy) {
+    public void setStrategyGroup(IStrategyGroup strategy) {
         this.strategy = strategy;
     }
 
-    public Integer getPrimaryKeyID() {
-        return strategy.getPrimaryKeyID();
+    public Integer getId() {
+        return strategy.getId();
     }
 
-    public void setPrimaryKeyID(Integer value) {
-        strategy.setPrimaryKeyID(value);
+    public void setId(Integer value) {
+        strategy.setId(value);
     }
 
     public Integer getOwnerPrimaryKeyID() {
-        return strategy.getOwnerPrimaryKeyID();
+        return strategy.getOwnerId();
     }
 
     public void setOwnerPrimaryKeyID(Integer value) {
-        strategy.setOwnerPrimaryKeyID(value);
+        strategy.setOwnerId(value);
     }
 
     public String getSelectFieldsList() {
@@ -74,7 +73,7 @@ public class StrategyGroupBean extends AbstractPersistable {
     }
 
     public void update(Connection con) throws SQLException,
-            com.argus.financials.service.client.ServiceException, ObjectNotFoundException {
+            com.argus.financials.api.ServiceException, ObjectNotFoundException {
         PreparedStatement sql = null;
         ResultSet rs = null;
 
@@ -83,7 +82,7 @@ public class StrategyGroupBean extends AbstractPersistable {
             sql = con.prepareStatement("SELECT " + getSelectFieldsList()
                     + " FROM StrategyGroup WHERE ( StrategyGroupID = ? )");
 
-            sql.setInt(1, getPrimaryKeyID().intValue());
+            sql.setInt(1, getId().intValue());
             rs = sql.executeQuery();
 
             if (!rs.next())
@@ -103,8 +102,8 @@ public class StrategyGroupBean extends AbstractPersistable {
         int i = 0;
 
         Integer strategyGroupID = (Integer) rs.getObject(++i);
-        if (!equals(getPrimaryKeyID(), strategyGroupID))
-            setPrimaryKeyID(strategyGroupID);
+        if (!equals(getId(), strategyGroupID))
+            setId(strategyGroupID);
 
         strategy.setStrategyGroupDesc(rs.getString(++i));
 
@@ -119,7 +118,7 @@ public class StrategyGroupBean extends AbstractPersistable {
     public int store(Connection con) throws SQLException {
 
         int i = 0;
-        Integer primaryKeyID = getPrimaryKeyID();
+        Integer primaryKeyID = getId();
         PreparedStatement sql = null;
 
         try {
@@ -127,7 +126,7 @@ public class StrategyGroupBean extends AbstractPersistable {
 
                 primaryKeyID = new Integer(getNewObjectID(getObjectTypeID(),
                         con));
-                strategy.setPrimaryKeyID(primaryKeyID);
+                strategy.setId(primaryKeyID);
 
                 // do insert into table
                 sql = con
@@ -153,7 +152,7 @@ public class StrategyGroupBean extends AbstractPersistable {
                 sql.executeUpdate();
 
                 // then create link
-                FPSLinkObject.getInstance().link(getOwnerPrimaryKeyID(),
+                linkObjectDao.link(getOwnerId(),
                         primaryKeyID, getLinkObjectTypeID(), con);
 
             } else {

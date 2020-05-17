@@ -16,14 +16,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import com.argus.financials.api.code.CodeComparator;
+import com.argus.financials.bean.AbstractBase;
+
 public class BaseCodes extends BaseCode {
 
-    // cd /D D:\projects\Financial Planner\ant\build\classes
-    // serialver -classpath . com.argus.code.BaseCodes
-
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = -1838542427804470428L;
 
     private Collection codes;
@@ -53,10 +50,9 @@ public class BaseCodes extends BaseCode {
         while (iter.hasNext()) {
             Object obj = iter.next();
 
-            if (obj instanceof com.argus.financials.bean.AbstractBase) {
+            if (obj instanceof AbstractBase) {
                 if (primaryKey
-                        .equals(((com.argus.financials.bean.AbstractBase) obj)
-                                .getPrimaryKeyID()))
+                        .equals(((AbstractBase) obj).getId()))
                     return obj;
             } else if (obj instanceof com.argus.util.ReferenceCode) {
                 // do nothing

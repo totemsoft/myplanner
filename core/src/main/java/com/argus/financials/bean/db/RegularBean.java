@@ -17,14 +17,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.code.LinkObjectTypeConstant;
+import com.argus.financials.api.code.ObjectTypeConstant;
+import com.argus.financials.api.dao.IPersistable;
 import com.argus.financials.bean.Asset;
 import com.argus.financials.bean.Assets;
-import com.argus.financials.bean.IPersistable;
-import com.argus.financials.bean.LinkObjectTypeConstant;
-import com.argus.financials.bean.ObjectTypeConstant;
 import com.argus.financials.bean.Regular;
 import com.argus.financials.code.BooleanCode;
-import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.util.DateTimeUtils;
 
 public abstract class RegularBean extends FinancialBean implements
@@ -86,7 +86,7 @@ public abstract class RegularBean extends FinancialBean implements
 
             // has to be last (to be safe), we are not using primaryKeyID for
             // other queries
-            setPrimaryKeyID(primaryKeyID);
+            setId(primaryKeyID);
 
         } finally {
             close(rs, sql);
@@ -126,17 +126,16 @@ public abstract class RegularBean extends FinancialBean implements
 
         } else {
 
-            AssetBean ab = (AssetBean) createNewInstance(asset
-                    .getObjectTypeID());
+            AssetBean ab = ObjectClass.createNewInstance(asset.getObjectTypeID());
 
-            asset.setOwnerPrimaryKeyID(getOwnerPrimaryKeyID());
+            asset.setOwnerId(getOwnerId());
             ab.setFinancial(asset);
             ab.store(con);
 
         }
 
         try {
-            if (getPrimaryKeyID() == null || getPrimaryKeyID().intValue() < 0) {
+            if (getId() == null || getId().intValue() < 0) {
 
                 // do insert into Regular table
                 sql = con
@@ -173,14 +172,14 @@ public abstract class RegularBean extends FinancialBean implements
                     sql.executeUpdate();
                 } catch (SQLException e) {
                     System.err.println("FAILED to store Regular: " + financial
-                            + "\tID: " + getPrimaryKeyID() + "\n\tAsset: "
+                            + "\tID: " + getId() + "\n\tAsset: "
                             + asset + ", AssetID: " + getAssetID());
                     throw e;
                 }
 
                 // then create link
-                FPSLinkObject.getInstance().link(
-                        getOwnerPrimaryKeyID().intValue(), primaryKeyID,
+                linkObjectDao.link(
+                        getOwnerId().intValue(), primaryKeyID,
                         getLinkObjectTypeID(), con);
 
             } else {

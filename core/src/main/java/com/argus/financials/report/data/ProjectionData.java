@@ -6,15 +6,7 @@
 
 package com.argus.financials.report.data;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- * 
- * used in QUICKView Report
- */
-
-import com.argus.financials.code.FinancialClassID;
+import com.argus.financials.api.code.FinancialClassID;
 import com.argus.financials.code.SexCode;
 import com.argus.financials.projection.AssetGrowthLinked;
 import com.argus.financials.projection.CurrentPositionCalc;

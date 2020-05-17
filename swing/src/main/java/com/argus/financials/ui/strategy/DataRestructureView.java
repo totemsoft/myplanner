@@ -37,14 +37,13 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.tree.TreePath;
 
+import com.argus.financials.api.code.FinancialClassID;
 import com.argus.financials.bean.Assumptions;
 import com.argus.financials.bean.Financial;
 import com.argus.financials.code.FinancialClass;
-import com.argus.financials.code.FinancialClassID;
 import com.argus.financials.code.ModelType;
 import com.argus.financials.config.FPSLocale;
 import com.argus.financials.config.ViewSettings;
-import com.argus.financials.io.IOUtils2;
 import com.argus.financials.projection.CurrentPositionCalc;
 import com.argus.financials.projection.ETPCalcNew;
 import com.argus.financials.projection.GearingCalc2;
@@ -52,7 +51,6 @@ import com.argus.financials.projection.MoneyCalc;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.strategy.Strategy;
 import com.argus.financials.strategy.StrategyFinancial;
 import com.argus.financials.strategy.StrategyModel;
@@ -64,6 +62,7 @@ import com.argus.financials.strategy.model.StrategyGroupData;
 import com.argus.financials.swing.ResultDialog;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.swing.table.JTreeTable;
+import com.argus.financials.ui.AbstractPanel;
 import com.argus.financials.ui.ListSelection;
 import com.argus.financials.ui.assetallocation.NewAssetAllocationView;
 import com.argus.financials.ui.financials.AddFinancialView;
@@ -77,12 +76,13 @@ import com.argus.financials.ui.projection.GearingView2;
 import com.argus.financials.ui.projection.MortgageCalc;
 import com.argus.financials.ui.projection.MortgageView;
 import com.argus.financials.ui.projection.SnapEntryView;
+import com.argus.io.IOUtils2;
 import com.argus.util.ReferenceCode;
 
-public class DataRestructureView extends javax.swing.JPanel implements
-        FinancialClassID, com.argus.financials.swing.IReset {
-
-    private static boolean DEBUG = false;
+public class DataRestructureView
+    extends AbstractPanel
+    implements FinancialClassID, com.argus.financials.swing.IReset
+{
 
     private PersonService person;
 
@@ -99,9 +99,6 @@ public class DataRestructureView extends javax.swing.JPanel implements
 
     /** Creates new form DataCollectionView */
     public DataRestructureView() {
-        FPSLocale r = com.argus.financials.config.FPSLocale.getInstance();
-        DEBUG = Boolean.valueOf(System.getProperty("DEBUG")).booleanValue();
-
         initComponents();
         initComponents2();
     }
@@ -170,7 +167,7 @@ public class DataRestructureView extends javax.swing.JPanel implements
     }
 
     private void setRoot(PersonService person, DataRestructureModel value)
-            throws com.argus.financials.service.client.ServiceException {
+            throws com.argus.financials.api.ServiceException {
 
         jScrollPaneTree.setViewportView(null);
 
@@ -708,7 +705,7 @@ public class DataRestructureView extends javax.swing.JPanel implements
         DataRestructureModel.Node2 rootNode = (DataRestructureModel.Node2) model
                 .getRoot();
         Integer strategyGroupID = ((ReferenceCode) rootNode.getObject())
-                .getCodeIDInteger();
+                .getCodeId();
         if (strategyGroupID == null) {
             JOptionPane
                     .showMessageDialog(
@@ -771,7 +768,7 @@ public class DataRestructureView extends javax.swing.JPanel implements
 
     private Object getProjection(Model selected) {
 
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
         java.util.Vector items = Strategy.getAllModels(person); // Model(s)
         if (items == null)
             return null;

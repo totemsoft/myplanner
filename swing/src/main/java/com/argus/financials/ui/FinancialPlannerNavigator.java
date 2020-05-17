@@ -18,11 +18,9 @@ import javax.swing.JComponent;
 import javax.swing.UIManager;
 
 import com.argus.financials.code.ModelType;
-import com.argus.financials.config.FPSLocale;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.projection.save.ModelCollection;
 import com.argus.financials.service.ClientService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.ui.help.HelpBrokerView;
 import com.argus.util.Pair;
 import com.l2fprod.common.swing.JTaskPaneGroup;
@@ -31,12 +29,17 @@ import com.l2fprod.common.swing.JTaskPaneGroup;
  *
  * @author  Valera
  */
-class FinancialPlannerNavigator extends com.l2fprod.common.swing.JTaskPane
+public class FinancialPlannerNavigator extends com.l2fprod.common.swing.JTaskPane
     implements IFinancialPlannerNavigator
 {
     
     private final FinancialPlannerPermission fpp = FinancialPlannerPermission.getInstance();
-    
+
+    private static ClientService clientService;
+    public static void setClientService(ClientService clientService) {
+        FinancialPlannerNavigator.clientService = clientService;
+    }
+
     /** Creates new form FinancialPlannerMenu2 */
     FinancialPlannerNavigator(ActionMap am) {
         setActionMap(am);
@@ -92,10 +95,8 @@ class FinancialPlannerNavigator extends com.l2fprod.common.swing.JTaskPane
         //jTaskPaneGroupTools.add(getActionMap().get(IMenuCommand.RECOVER_ASSETS));
         //jTaskPaneGroupTools.add(getActionMap().get(IMenuCommand.REMOVE_ASSETS));
         jTaskPaneGroupTools.add(getActionMap().get(IMenuCommand.SOFTWARE_UPDATES));
-        if (!FPSLocale.isDevelopment()) {
-            jTaskPaneGroupTools.add(getActionMap().get(IMenuCommand.SYSTEM_OUT));
-            jTaskPaneGroupTools.add(getActionMap().get(IMenuCommand.SYSTEM_ERR));
-        }
+//        jTaskPaneGroupTools.add(getActionMap().get(IMenuCommand.SYSTEM_OUT));
+//        jTaskPaneGroupTools.add(getActionMap().get(IMenuCommand.SYSTEM_ERR));
         // look-and-feel
         UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
         JTaskPaneGroup jTaskPaneGroupLookAndFeel = createTaskGroup(jTaskPaneGroupTools, "Look-And-Feels");
@@ -162,7 +163,7 @@ class FinancialPlannerNavigator extends com.l2fprod.common.swing.JTaskPane
         JTaskPaneGroup jTaskPaneGroupPayg = createTaskGroup4Calculators(jTaskPaneGroupCalculators, IMenuCommand.PAYG_CALC);
 
         // add saved ones
-        ClientService client = ServiceLocator.getInstance().getClientPerson();
+        ClientService client = clientService;
         if (client == null)
             return;
 
@@ -283,7 +284,7 @@ class FinancialPlannerNavigator extends com.l2fprod.common.swing.JTaskPane
 
             }
 
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace();
         }
 

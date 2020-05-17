@@ -6,21 +6,10 @@
 
 package com.argus.financials.strategy;
 
-/**
- * 
- * @author valeri chibaev
- */
-
 import com.argus.financials.bean.AbstractBase;
 
 public class Recommendation extends AbstractBase {
 
-    // cd /D D:\projects\Financial Planner\ant\build\classes
-    // serialver -classpath . com.argus.strategy.Recommendation
-
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 6151414596952719756L;
 
     private String name;

@@ -15,8 +15,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
+import com.argus.financials.api.code.FinancialClassID;
 import com.argus.financials.bean.Financial;
-import com.argus.financials.code.FinancialClassID;
 import com.argus.financials.swing.table.ISmartTableRow;
 import com.argus.financials.swing.table.SmartTableModel;
 import com.argus.math.Numeric;

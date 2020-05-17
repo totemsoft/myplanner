@@ -15,9 +15,9 @@ package com.argus.financials.bean.db;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.argus.financials.api.code.LinkObjectTypeConstant;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.bean.Financial;
-import com.argus.financials.bean.LinkObjectTypeConstant;
-import com.argus.financials.bean.ObjectTypeConstant;
 import com.argus.financials.bean.RegularExpense;
 
 public class RegularExpenseBean extends RegularBean {
@@ -61,14 +61,14 @@ public class RegularExpenseBean extends RegularBean {
 
         int primaryKeyID = super.store(con);
 
-        if (getPrimaryKeyID() == null || getPrimaryKeyID().intValue() < 0) {
+        if (getId() == null || getId().intValue() < 0) {
             // then create link
-            FPSLinkObject.getInstance().link(getOwnerPrimaryKeyID().intValue(),
+            linkObjectDao.link(getOwnerId().intValue(),
                     primaryKeyID, getLinkObjectTypeID(), con);
 
             // check its object type
             if (getClass().equals(RegularExpenseBean.class))
-                setPrimaryKeyID(new Integer(primaryKeyID));
+                setId(new Integer(primaryKeyID));
 
         }
 

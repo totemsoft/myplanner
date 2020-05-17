@@ -19,267 +19,202 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
 
-import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.api.bean.ICode;
+import com.argus.financials.api.bean.hibernate.FinancialCode;
+import com.argus.financials.api.code.FinancialTypeID;
 import com.argus.util.ReferenceCode;
 
-public class FinancialType extends BaseCode implements FinancialTypeID {
+public class FinancialType extends BaseCode {
 
-    private static Map codes;
+//    private static final FinancialType financialType = new FinancialType();
 
-    private static FinancialType financialType;
-
-    static {
-        financialType = new FinancialType();
-    }
+//    private static Map codes;
 
     public FinancialType() {
-        codes = new TreeMap(new CodeComparator());
-        initCodes();
+        super();
+//        if (codes == null) {
+//            codes = new TreeMap(new CodeComparator());
+//            initCodes();
+//        }
     }
 
     public Collection getCodes() {
-
         Collection finTypes = new ArrayList();
-
-        Iterator iter = codes.values().iterator();
-        while (iter.hasNext()) {
-            Map map = (Map) iter.next();
-            if (map != null)
-                finTypes.addAll(map.keySet());
-        }
-
+//        Iterator iter = codes.values().iterator();
+//        while (iter.hasNext()) {
+//            Map map = (Map) iter.next();
+//            if (map != null)
+//                finTypes.addAll(map.keySet());
+//        }
         return finTypes;
     }
 
-    public Map getCodeMap() {
-        return codes;
-    }
+//    /**
+//     * SEE UtilityService
+//     * 
+//     * CONTAINER structure Map( objType, Map( ReferenceCode( finTypeID,
+//     * finTypeDesc ), Vector( ReferenceCode( finCodeID, finCode, finCodeDesc ) ) ) )
+//     */
+//    private static void initCodes() {
+//        try {
+//            Map map = utilityService.getFinancialObjectTypes();
+//            if (map == null)
+//                codes.clear();
+//            else
+//                codes.putAll(map);
+//        } catch (com.argus.financials.api.ServiceException e) {
+//            e.printStackTrace(System.err);
+//        }
+//    }
 
-    /**
-     * SEE UtilityService
-     * 
-     * CONTAINER structure Map( objType, Map( ReferenceCode( finTypeID,
-     * finTypeDesc ), Vector( ReferenceCode( finCodeID, finCode, finCodeDesc ) ) ) )
-     */
-    private static void initCodes() {
-        try {
-            Map map = ServiceLocator.getInstance().getUtilityService()
-                    .getFinancialObjectTypes();
-            if (map == null)
-                codes.clear();
-            else
-                codes.putAll(map);
-        } catch (com.argus.financials.service.client.ServiceException e) {
-            e.printStackTrace(System.err);
-        }
+//    /**
+//     * helper methodes
+//     */
+//    public static Object[] getFinancialTypes(Integer objectTypeID) {
+//        if (codes == null)
+//            return CODES_NONE;
+//
+//        Map finTypes = (Map) codes.get(objectTypeID);
+//        if (finTypes == null)
+//            return CODES_NONE;
+//
+//        return finTypes.keySet().toArray();
+//    }
 
-    }
+//    public static Object[] getFinancialCodes(Integer objectTypeID, ICode financialType) {
+//        if (objectTypeID == null || financialType == null)
+//            return CODES_NONE;
+//
+//        Map finTypes = (Map) codes.get(objectTypeID);
+//        if (finTypes == null)
+//            return CODES_NONE;
+//
+//        Vector finCodes = (Vector) finTypes.get(financialType);
+//        if (finCodes == null)
+//            return CODES_NONE;
+//
+//        return finCodes.toArray();
+//    }
 
-    /**
-     * helper methodes
-     */
-    public static Object[] getFinancialTypes(Integer objectTypeID) {
-        if (codes == null)
-            return CODES_NONE;
+//    public static ICode getFinancialType(Integer objectTypeID, Integer financialTypeID) {
+//        if (objectTypeID == null || financialTypeID == null)
+//            return null;
+//        Map finTypes = (Map) codes.get(objectTypeID);
+//        if (finTypes == null)
+//            return null;
+//        Iterator iter = finTypes.entrySet().iterator();
+//        while (iter.hasNext()) {
+//            Map.Entry entry = (Map.Entry) iter.next();
+//            ICode item = (ICode) entry.getKey();
+//            if (financialTypeID.equals(item.getId()))
+//                return item;
+//        }
+//        return null;
+//    }
 
-        Map finTypes = (Map) codes.get(objectTypeID);
-        if (finTypes == null)
-            return CODES_NONE;
+//    public static FinancialCode getFinancialCode(Integer objectTypeId, Integer financialTypeId, Integer financialCodeId) {
+//        if (financialCodeId == null) {
+//            return null;
+//        }
+//        // 21/10/2002 - FinancialTypeID in FinancialCode table can be null
+//        if (financialTypeId == null || financialTypeId <= 0
+//                || FinancialTypeID.INVESTMENT_LISTED_SHARES == financialTypeId.intValue()
+//                || FinancialTypeID.INVESTMENT_LISTED_UNIT_TRUST == financialTypeId.intValue()
+//                || FinancialTypeID.INVESTMENT_OTHER == financialTypeId.intValue()
+//                || FinancialTypeID.INVESTMENT_PROPERTY == financialTypeId.intValue()
+//                || FinancialTypeID.SUPERANNUATION_ACCOUNT == financialTypeId.intValue()
+//                || FinancialTypeID.INCOMESTREAM_PENSION_ACCOUNT == financialTypeId.intValue()
+//                || FinancialTypeID.INCOMESTREAM_ANNUITY_POLICY == financialTypeId.intValue()) {
+//            financialTypeId = 0;
+//            objectTypeId = 0;
+//        }
+//        Map finTypes = (Map) codes.get(objectTypeId);
+//        if (finTypes == null) {
+//            return null;
+//        }
+//        Iterator iter = finTypes.entrySet().iterator();
+//        while (iter.hasNext()) {
+//            Map.Entry entry = (Map.Entry) iter.next();
+//            ICode code = (ICode) entry.getKey();
+//            if (financialTypeId.equals(code.getId())) {
+//                Iterator iter2 = ((Vector) entry.getValue()).iterator();
+//                while (iter2.hasNext()) {
+//                    FinancialCode item = (FinancialCode) iter2.next();
+//                    if (financialCodeId.equals(item.getId())) {
+//                        return item;
+//                    }
+//                }
+//            }
+//        }
+//        return null;
+//    }
 
-        return finTypes.keySet().toArray();
-    }
+//    public static boolean addFinancialCode(Integer objectTypeId, Integer financialTypeId, ICode financialCode) {
+//        // 21/10/2002 - FinancialTypeID in FinancialCode table can be null
+//        if (financialTypeId == null || financialTypeId <= 0
+//                || FinancialTypeID.INVESTMENT_LISTED_SHARES == financialTypeId.intValue()
+//                || FinancialTypeID.INVESTMENT_LISTED_UNIT_TRUST == financialTypeId.intValue()
+//                || FinancialTypeID.INVESTMENT_OTHER == financialTypeId.intValue()
+//                || FinancialTypeID.INVESTMENT_PROPERTY == financialTypeId.intValue()
+//                || FinancialTypeID.SUPERANNUATION_ACCOUNT == financialTypeId.intValue()
+//                || FinancialTypeID.INCOMESTREAM_PENSION_ACCOUNT == financialTypeId.intValue()
+//                || FinancialTypeID.INCOMESTREAM_ANNUITY_POLICY == financialTypeId.intValue()) {
+//            financialTypeId = 0;
+//            objectTypeId = 0;
+//        }
+//        Map finTypes = (Map) codes.get(objectTypeId);
+//        if (finTypes == null) {
+//            return false;
+//        }
+//        Iterator iter = finTypes.entrySet().iterator();
+//        while (iter.hasNext()) {
+//            Map.Entry entry = (Map.Entry) iter.next();
+//            Vector financialCodes = (Vector) entry.getValue();
+//            if (financialCodes != null) {
+//                for (int i = 0; i < financialCodes.size(); i++) {
+//                    ICode item = (ICode) financialCodes.elementAt(i);
+//                    // do we have an entry for the given FinancialCode?
+//                    if (item != null && item.getId() == financialCode.getId()) {
+//                        // yes, break here
+//                        return true;
+//                    }
+//                }
+//                // do we need to insert a new entry?
+//                financialCodes.addElement(financialCode);
+//            }
+//        }
+//        return false;
+//    }
 
-    public static Object[] getFinancialCodes(Integer objectTypeID,
-            ReferenceCode financialType) {
-        if (objectTypeID == null || financialType == null)
-            return CODES_NONE;
+//    public static boolean containsFinancialCode(Integer objectTypeID, Integer financialTypeID, ICode financialCode) {
+//        if (objectTypeID == null || financialTypeID == null)
+//            return false;
+//
+//        Map finTypes = (Map) codes.get(objectTypeID);
+//        if (finTypes == null)
+//            return false;
+//
+//        Iterator iter = finTypes.entrySet().iterator();
+//        while (iter.hasNext()) {
+//            Map.Entry entry = (Map.Entry) iter.next();
+//            Vector financialCodes = (Vector) entry.getValue();
+//            if (financialCodes != null) {
+//                for (int i = 0; i < financialCodes.size(); i++) {
+//                    ICode item = (ICode) financialCodes.elementAt(i);
+//                    // do we have an entry for the given FinancialCode?
+//                    if (item != null
+//                            && item.getCode() != null
+//                            && item.getDescription() != null
+//                            && item.getCode().equals(financialCode.getCode())
+//                            && item.getDescription().equals(financialCode.getDescription())) {
+//                        // yes, break here
+//                        return true;
+//                    }
+//                }
+//            }
+//            break;
+//        }
+//        return false;
+//    }
 
-        Map finTypes = (Map) codes.get(objectTypeID);
-        if (finTypes == null)
-            return CODES_NONE;
-
-        Vector finCodes = (Vector) finTypes.get(financialType);
-        if (finCodes == null)
-            return CODES_NONE;
-
-        return finCodes.toArray();
-    }
-
-    public static ReferenceCode getFinancialType(Integer objectTypeID,
-            Integer financialTypeID) {
-        if (objectTypeID == null || financialTypeID == null)
-            return null;
-
-        Map finTypes = (Map) codes.get(objectTypeID);
-        if (finTypes == null)
-            return null;
-
-        Iterator iter = finTypes.entrySet().iterator();
-        while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
-            ReferenceCode refCode = (ReferenceCode) entry.getKey();
-            if (financialTypeID.equals(refCode.getCodeIDInteger()))
-                return refCode;
-        }
-
-        return null;
-
-    }
-
-    public static ReferenceCode getFinancialCode(Integer objectTypeID,
-            Integer financialTypeID, Integer financialCodeID) {
-
-        if (financialCodeID == null)
-            return null;
-
-        // 21/10/2002 - FinancialTypeID in FinancialCode table can be null
-        if (financialTypeID == null || financialTypeID.intValue() <= 0
-                || INVESTMENT_LISTED_SHARES == financialTypeID.intValue()
-                || INVESTMENT_LISTED_UNIT_TRUST == financialTypeID.intValue()
-                || INVESTMENT_OTHER == financialTypeID.intValue()
-                || INVESTMENT_PROPERTY == financialTypeID.intValue()
-
-                || SUPERANNUATION_ACCOUNT == financialTypeID.intValue()
-
-                || INCOMESTREAM_PENSION_ACCOUNT == financialTypeID.intValue()
-                || INCOMESTREAM_ANNUITY_POLICY == financialTypeID.intValue()) {
-            financialTypeID = new Integer(0);
-            objectTypeID = new Integer(0);
-        }
-
-        Map finTypes = (Map) codes.get(objectTypeID);
-        if (finTypes == null)
-            return null;
-
-        Iterator iter = finTypes.entrySet().iterator();
-        while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
-            ReferenceCode refCode = (ReferenceCode) entry.getKey();
-
-            if (financialTypeID.intValue() == refCode.getCodeID()) {
-                Iterator iter2 = ((Vector) entry.getValue()).iterator();
-                while (iter2.hasNext()) {
-                    ReferenceCode refCode2 = (ReferenceCode) iter2.next();
-                    if (financialCodeID.intValue() == refCode2.getCodeID())
-                        return refCode2;
-
-                }
-
-            }
-
-        }
-
-        return null;
-
-    }
-
-    public static void addFinancialCode(Integer objectTypeID,
-            Integer financialTypeID, ReferenceCode financialCode) {
-
-        // 21/10/2002 - FinancialTypeID in FinancialCode table can be null
-        if (financialTypeID == null || 0 >= financialTypeID.intValue()
-                || INVESTMENT_LISTED_SHARES == financialTypeID.intValue()
-                || INVESTMENT_LISTED_UNIT_TRUST == financialTypeID.intValue()
-                || INVESTMENT_OTHER == financialTypeID.intValue()
-                || INVESTMENT_PROPERTY == financialTypeID.intValue()
-
-                || SUPERANNUATION_ACCOUNT == financialTypeID.intValue()
-
-                || INCOMESTREAM_PENSION_ACCOUNT == financialTypeID.intValue()
-                || INCOMESTREAM_ANNUITY_POLICY == financialTypeID.intValue()) {
-            financialTypeID = new Integer(0);
-            objectTypeID = new Integer(0);
-        }
-
-        Map finTypes = (Map) codes.get(objectTypeID);
-        if (finTypes == null)
-            return;
-
-        Iterator iter = finTypes.entrySet().iterator();
-        while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
-            // ReferenceCode finTypeRefCode = (ReferenceCode) entry.getKey();
-
-            // if ( financialTypeID.equals( finTypeRefCode.getCodeIDInteger() )
-            // ) {
-            Vector financialCodes = (Vector) entry.getValue();
-            // TODO: contains...
-
-            if (financialCodes != null) {
-                boolean found = false;
-
-                for (int i = 0; i < financialCodes.size() && !found; i++) {
-                    ReferenceCode help = (ReferenceCode) financialCodes
-                            .elementAt(i);
-
-                    // do we have an entry for the given FinancialCode?
-                    if (help != null
-                            && help.getCodeID() == financialCode.getCodeID()) {
-                        // yes, break here
-                        found = true;
-                    }
-                }
-                // do we need to insert a new entry?
-                if (!found) {
-                    // yes
-                    financialCodes.addElement(financialCode);
-                }
-            }
-            break;
-            // } // end if
-
-        }
-
-    }
-
-    public static boolean containsFinancialCode(Integer objectTypeID,
-            Integer financialTypeID, ReferenceCode financialCode) {
-        boolean contains = false;
-
-        if (objectTypeID == null || financialTypeID == null)
-            return contains;
-
-        Map finTypes = (Map) codes.get(objectTypeID);
-        if (finTypes == null)
-            return contains;
-
-        Iterator iter = finTypes.entrySet().iterator();
-        while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
-            // ReferenceCode finTypeRefCode = (ReferenceCode) entry.getKey();
-
-            // if ( financialTypeID.equals( finTypeRefCode.getCodeIDInteger() )
-            // ) {
-            Vector financialCodes = (Vector) entry.getValue();
-            // TODO: contains...
-
-            if (financialCodes != null) {
-                boolean found = false;
-
-                for (int i = 0; i < financialCodes.size() && !found; i++) {
-                    ReferenceCode help = (ReferenceCode) financialCodes
-                            .elementAt(i);
-
-                    // do we have an entry for the given FinancialCode?
-                    if (help != null
-                            && help.getCode() != null
-                            && help.getCodeDesc() != null
-                            && help.getCode().equals(financialCode.getCode())
-                            && help.getCodeDesc().equals(
-                                    financialCode.getCodeDesc())) {
-                        // yes, break here
-                        found = true;
-
-                        // System.err.println( "id: " + help.getCodeID() +
-                        // "code: " + help.getCode() + " desc: " +
-                        // help.getCodeDesc() );
-                    }
-                }
-            }
-            break;
-            // } // end if
-
-        }
-        return contains;
-    }
 }

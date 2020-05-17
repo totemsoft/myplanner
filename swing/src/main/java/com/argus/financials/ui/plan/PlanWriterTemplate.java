@@ -40,27 +40,28 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.tree.TreePath;
 
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.api.bean.DbConstant;
+import com.argus.financials.api.bean.IUser;
 import com.argus.financials.code.AdviserTypeCode;
-import com.argus.financials.config.FPSLocale;
 import com.argus.financials.config.ViewSettings;
 import com.argus.financials.config.WordSettings;
-import com.argus.financials.domain.hibernate.User;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.swing.table.JTreeTable;
-import com.argus.financials.swing.table.TreeTableModel;
+import com.argus.financials.ui.AbstractPanel;
 import com.argus.financials.ui.CheckBoxList;
+import com.argus.io.IOUtils;
 import com.argus.swing.SwingUtils;
+import com.argus.swing.table.TreeTableModel;
 import com.argus.util.ReferenceCode;
 
 public class PlanWriterTemplate
 // extends client.view.BaseView
-        extends javax.swing.JPanel implements
+    extends AbstractPanel
+    implements
         javax.swing.event.TreeSelectionListener,
         javax.swing.event.ListSelectionListener, java.awt.event.MouseListener {
-
-    private static boolean DEBUG = false;
 
     private static PlanWriterTemplate view;
 
@@ -110,21 +111,12 @@ public class PlanWriterTemplate
         return view != null;
     }
 
-    public static PlanWriterTemplate getInstance() {
-        if (view == null)
-            view = new PlanWriterTemplate();
-        return view;
-    }
-
     public String getDefaultTitle() {
         return "Template Editor ";
     }
 
     /** Creates new form PlanWriterTemplate */
     private PlanWriterTemplate() {
-        FPSLocale r = com.argus.financials.config.FPSLocale.getInstance();
-        DEBUG = Boolean.valueOf(System.getProperty("DEBUG")).booleanValue();
-
         initComponents();
         initComponents2();
 
@@ -137,16 +129,12 @@ public class PlanWriterTemplate
      * 
      **************************************************************************/
     public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
-        // if (DEBUG) System.out.println( "valueChanged(TreeSelectionEvent)" );
-
         updateControls();
     }
 
     public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
         if (evt.getValueIsAdjusting())
             return;
-        // if (DEBUG) System.out.println( "valueChanged(ListSelectionEvent)" );
-
         updateControls();
     }
 
@@ -177,7 +165,7 @@ public class PlanWriterTemplate
         jButtonSavePlan.setEnabled(jMenuItemSavePlan.isEnabled());
         jButtonSave.setEnabled(jMenuItemSavePlan.isEnabled());
 
-        jMenuItemDeletePlan.setEnabled(model.getPlan().getCodeID() > 0); // already
+        jMenuItemDeletePlan.setEnabled(model.getPlan().getId() > 0); // already
                                                                             // saved
                                                                             // (can
                                                                             // be
@@ -289,25 +277,18 @@ public class PlanWriterTemplate
 
         destListDataListener = new ListDataListener() {
             public void intervalAdded(ListDataEvent evt) {
-                // if (DEBUG) System.out.println( "intervalAdded()\n" + evt );
                 doListChanged(evt);
             }
 
             public void intervalRemoved(ListDataEvent evt) {
-                // if (DEBUG) System.out.println( "intervalRemoved()\n" + evt );
                 doListChanged(evt);
             }
 
             public void contentsChanged(ListDataEvent evt) {
-                // if (DEBUG) System.out.println( "contentsChanged()\n" + evt );
                 doListChanged(evt);
             }
 
             private void doListChanged(ListDataEvent evt) {
-                // if (DEBUG) System.out.println( "doListChanged()\n" +
-                // evt.getType() + "," + evt.getIndex0() + "," + evt.getIndex1()
-                // );
-
                 updateControls(); // plan documents changed
             }
         };
@@ -352,11 +333,11 @@ public class PlanWriterTemplate
         boolean adminPerson = false;
         boolean supportPerson = false;
         try {
-            User user = ServiceLocator.getInstance().getUserPreferences().getUser();
+            IUser user = userPreferences.getUser();
             Integer userTypeId = user == null ? null : user.getTypeId();
             adminPerson = AdviserTypeCode.isAdminPerson(userTypeId);
             supportPerson = AdviserTypeCode.isSupportPerson(userTypeId);
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
         // jButtonSaveAsTemplate.setVisible( adminPerson || supportPerson );
@@ -812,22 +793,19 @@ public class PlanWriterTemplate
     }// GEN-LAST:event_jRadioButtonPlainItemStateChanged
 
     public static void display(java.awt.event.FocusListener[] listeners) {
-
-        boolean exists = exists();
-
-        PlanWriterTemplate view = getInstance();
-        if (!exists) {
-
-            view.openPlan(WordSettings.getInstance().getPlanTemplateDirectory());
-
-            // java.awt.Container container =
-            SwingUtil.add2Frame(view, listeners, view.getDefaultTitle(),
-                    ViewSettings.getInstance().getViewImage(
-                            view.getClass().getName()), true, true, false);
+        try {
+            if (!exists()) {
+                view = new PlanWriterTemplate();
+                view.openPlan(WordSettings.getInstance().getPlanTemplateDirectory());
+                // java.awt.Container container =
+                SwingUtil.add2Frame(view, listeners, view.getDefaultTitle(),
+                    ViewSettings.getInstance().getViewImage(view.getClass().getName()), true, true, false);
+            }
+            SwingUtil.setVisible(view, true);
+        } catch (ServiceException e) {
+            view = null;
+            SwingUtil.showError(e);
         }
-
-        SwingUtil.setVisible(view, true);
-
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -934,21 +912,19 @@ public class PlanWriterTemplate
         if (jFileChooser.showOpenDialog(SwingUtil.getJFrame(this)) != JFileChooser.APPROVE_OPTION)
             return;
 
-        String dir = jFileChooser.getSelectedFile().getPath();
-        openPlan(dir);
-
+        try {
+            openPlan(jFileChooser.getSelectedFile().getPath());
+        } catch (ServiceException e) {
+            SwingUtil.showError(e);
+        }
     }
 
-    private void openPlan(String dir) {
+    private void openPlan(String dir) throws ServiceException {
 
-        if (!new java.io.File(dir).exists()) {
-            java.lang.System.err.println("Directory does not exists: " + dir);
-            return;
+        File d = new File(dir);
+        if (!d.exists()) {
+            throw new ServiceException("Directory does not exists: " + IOUtils.getCanonicalPath(d));
         }
-
-        if (DEBUG)
-            java.lang.System.out.println("You chose to open this directory: "
-                    + dir);
 
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         try {
@@ -1233,7 +1209,7 @@ public class PlanWriterTemplate
 
     protected void doSave(java.awt.event.ActionEvent evt) {
 
-        Integer planTypeID = PersonService.TEMPLATE_PLAN;
+        Integer planTypeID = DbConstant.TEMPLATE_PLAN;
 
         String selectedFiles = getSelectedFiles(false, false, planTypeID);
         if (selectedFiles == null)
@@ -1242,7 +1218,7 @@ public class PlanWriterTemplate
         ReferenceCode plan = model.getPlan();
         plan.setObject(selectedFiles);
 
-        if (plan.getCodeID() <= 0) {
+        if (plan.getId() <= 0) {
 
             String planDesc = JOptionPane.showInputDialog(this,
                     "--- New Plan Template ---",
@@ -1253,25 +1229,25 @@ public class PlanWriterTemplate
 
             // Template (save as copy)
             plan = new ReferenceCode(plan);
-            plan.setCodeDesc(planDesc);
+            plan.setDescription(planDesc);
 
         } else {
-            if (JOptionPane.showConfirmDialog(this, plan.getCodeDesc(),
+            if (JOptionPane.showConfirmDialog(this, plan.getDescription(),
                     "Do You want to save changes?", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION)
                 return;
 
         }
 
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
         try {
-            boolean newPlan = plan.getCodeID() <= 0;
+            boolean newPlan = plan.getId() <= 0;
 
             int planID = person.storePlan(plan, planTypeID);
             if (planID > 0) {
 
                 // update templates combobox
                 if (newPlan) {
-                    plan.setCodeID(planID);
+                    plan.setId(planID);
                     templatePlans.add(plan);
                     jComboBoxPlanTemplate.setModel(new DefaultComboBoxModel(
                             templatePlans));
@@ -1279,13 +1255,13 @@ public class PlanWriterTemplate
                     // doPlanChanged( plan );
                 }
 
-                SwingUtil.setTitle(this, plan.getCodeDesc());
+                SwingUtil.setTitle(this, plan.getDescription());
 
                 setModified(false);
 
             }
 
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
             return;
         }
@@ -1374,13 +1350,12 @@ public class PlanWriterTemplate
     protected void doDelete(java.awt.event.ActionEvent evt) {
 
         ReferenceCode plan = model.getPlan();
-        if (JOptionPane.showConfirmDialog(this, plan.getCodeDesc(),
+        if (JOptionPane.showConfirmDialog(this, plan.getDescription(),
                 "Do You want to delete this plan?", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION)
             return;
 
         try {
-            if (!ServiceLocator.getInstance().getClientPerson().deletePlan(plan,
-                    PersonService.TEMPLATE_PLAN)) {
+            if (!clientService.deletePlan(plan, DbConstant.TEMPLATE_PLAN)) {
                 System.err.println("FAILED to delete: " + plan);
                 return;
             }
@@ -1408,8 +1383,8 @@ public class PlanWriterTemplate
         if (templatePlans == null && person != null) {
             java.util.Collection plans = null;
             try {
-                plans = person.getPlans(PersonService.TEMPLATE_PLAN);
-            } catch (com.argus.financials.service.client.ServiceException e) {
+                plans = person.getPlans(DbConstant.TEMPLATE_PLAN);
+            } catch (com.argus.financials.api.ServiceException e) {
                 e.printStackTrace(System.err);
             }
             templatePlans = plans == null || plans.size() == 0 ? new java.util.Vector()
@@ -1423,14 +1398,14 @@ public class PlanWriterTemplate
      * 
      **************************************************************************/
     public void updateView() throws java.io.IOException {
-        updateView(ServiceLocator.getInstance().getClientPerson());
+        updateView(clientService);
     }
 
     public void updateView(PersonService person) throws java.io.IOException {
 
         //
         if (person == null)
-            person = ServiceLocator.getInstance().getClientPerson();
+            person = clientService;
         getTemplatePlans(person);
 
         jComboBoxPlanTemplate.setModel(new DefaultComboBoxModel(templatePlans));
@@ -1440,9 +1415,6 @@ public class PlanWriterTemplate
 
     private void doPlanChanged(ReferenceCode templatePlan) {
 
-        if (DEBUG)
-            System.out.println("Selected Plan Template: " + templatePlan + "\n"
-                    + templatePlan.getObject());
         SwingUtil.setTitle(this, getDefaultTitle() + templatePlan.toString());
 
         destList.removeAllElements();

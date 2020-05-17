@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
 
-import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.api.code.CodeComparator;
 import com.argus.util.ReferenceCode;
 
 public class AdviserTypeCode extends BaseCode {
@@ -41,13 +41,11 @@ public class AdviserTypeCode extends BaseCode {
 
     private static Collection codes;
 
-    /** Creates new AdviserTypeCode */
-    public AdviserTypeCode() {
-        codes = new TreeSet(new CodeComparator());
-        initCodes();
-    }
-
     public Collection getCodes() {
+        if (codes == null) {
+            codes = new TreeSet(new CodeComparator());
+            initCodes();
+        }
         return codes;
     }
 
@@ -56,16 +54,14 @@ public class AdviserTypeCode extends BaseCode {
         // codes.add( CODE_NONE );
 
         /*
-         * codes.add( new ReferenceCode( FIDUCIAN_FRANCHISE, "Fiducain
-         * Franchise" ) ); codes.add( new ReferenceCode( DEALER, "Dealer" ) );
+         * codes.add( new ReferenceCode( DEALER, "Dealer" ) );
          * codes.add( new ReferenceCode( PROPER_AUTHORITY, "Proper Authority" ) );
          * codes.add( new ReferenceCode( ADMINISTRATOR, "Administrator" ) );
          * codes.add( new ReferenceCode( ADVISER_SUPPORT, "Adviser Support" ) );
          */
 
         try {
-            Map map = ServiceLocator.getInstance().getUtilityService().getCodes(
-                    "AdviserTypeCode");
+            Map map = utilityService.getCodes("AdviserTypeCode");
             if (map == null)
                 return;
 
@@ -76,7 +72,7 @@ public class AdviserTypeCode extends BaseCode {
                         (String) entry.getKey()));
             }
 
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
 

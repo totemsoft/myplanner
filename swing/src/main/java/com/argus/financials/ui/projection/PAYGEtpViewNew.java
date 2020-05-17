@@ -6,14 +6,14 @@
 
 package com.argus.financials.ui.projection;
 
-import com.argus.beans.AbstractComponentModel;
+import com.argus.bean.AbstractComponentModel;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.tax.au.ITaxConstants;
 
 /**
  * 
  */
-public class PAYGEtpViewNew extends com.argus.beans.BasePanel {
+public class PAYGEtpViewNew extends com.argus.bean.BasePanel {
 
     AbstractComponentModel dm;
 
@@ -89,20 +89,20 @@ public class PAYGEtpViewNew extends com.argus.beans.BasePanel {
         jLabel7 = new javax.swing.JLabel();
         jLabel45 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        fTextField5 = new com.argus.beans.FTextField();
-        fTextField4 = new com.argus.beans.FTextField();
-        fTextField7 = new com.argus.beans.FTextField();
-        fTextField1 = new com.argus.beans.FTextField();
-        fTextField3 = new com.argus.beans.FTextField();
-        fTextField2 = new com.argus.beans.FTextField();
-        fTextField8 = new com.argus.beans.FTextField();
-        fTextField6 = new com.argus.beans.FTextField();
+        fTextField5 = new com.argus.bean.FTextField();
+        fTextField4 = new com.argus.bean.FTextField();
+        fTextField7 = new com.argus.bean.FTextField();
+        fTextField1 = new com.argus.bean.FTextField();
+        fTextField3 = new com.argus.bean.FTextField();
+        fTextField2 = new com.argus.bean.FTextField();
+        fTextField8 = new com.argus.bean.FTextField();
+        fTextField6 = new com.argus.bean.FTextField();
         jPanel7 = new javax.swing.JPanel();
         jPanel24 = new javax.swing.JPanel();
         jPanel25 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jLabel50 = new javax.swing.JLabel();
-        fComboBox1 = new com.argus.beans.FComboBox();
+        fComboBox1 = new com.argus.bean.FComboBox();
         jPanel6 = new javax.swing.JPanel();
         jPanel26 = new javax.swing.JPanel();
         jLabel46 = new javax.swing.JLabel();
@@ -117,15 +117,15 @@ public class PAYGEtpViewNew extends com.argus.beans.BasePanel {
         jLabel60 = new javax.swing.JLabel();
         jPanel27 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        fTextField46 = new com.argus.beans.FTextField();
-        fTextField50 = new com.argus.beans.FTextField();
+        fTextField46 = new com.argus.bean.FTextField();
+        fTextField50 = new com.argus.bean.FTextField();
         jLabel22 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        fTextField38 = new com.argus.beans.FTextField();
-        fTextField48 = new com.argus.beans.FTextField();
-        fTextField49 = new com.argus.beans.FTextField();
+        fTextField38 = new com.argus.bean.FTextField();
+        fTextField48 = new com.argus.bean.FTextField();
+        fTextField49 = new com.argus.bean.FTextField();
         jLabel12 = new javax.swing.JLabel();
-        fTextField9 = new com.argus.beans.FTextField();
+        fTextField9 = new com.argus.bean.FTextField();
         jPanel9 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -549,21 +549,21 @@ public class PAYGEtpViewNew extends com.argus.beans.BasePanel {
 
     private javax.swing.JPanel jPanel5;
 
-    private com.argus.beans.FTextField fTextField5;
+    private com.argus.bean.FTextField fTextField5;
 
-    private com.argus.beans.FTextField fTextField4;
+    private com.argus.bean.FTextField fTextField4;
 
-    private com.argus.beans.FTextField fTextField7;
+    private com.argus.bean.FTextField fTextField7;
 
-    private com.argus.beans.FTextField fTextField1;
+    private com.argus.bean.FTextField fTextField1;
 
-    private com.argus.beans.FTextField fTextField3;
+    private com.argus.bean.FTextField fTextField3;
 
-    private com.argus.beans.FTextField fTextField2;
+    private com.argus.bean.FTextField fTextField2;
 
-    private com.argus.beans.FTextField fTextField8;
+    private com.argus.bean.FTextField fTextField8;
 
-    private com.argus.beans.FTextField fTextField6;
+    private com.argus.bean.FTextField fTextField6;
 
     private javax.swing.JPanel jPanel7;
 
@@ -575,7 +575,7 @@ public class PAYGEtpViewNew extends com.argus.beans.BasePanel {
 
     private javax.swing.JLabel jLabel50;
 
-    private com.argus.beans.FComboBox fComboBox1;
+    private com.argus.bean.FComboBox fComboBox1;
 
     private javax.swing.JPanel jPanel6;
 
@@ -605,23 +605,23 @@ public class PAYGEtpViewNew extends com.argus.beans.BasePanel {
 
     private javax.swing.JLabel jLabel10;
 
-    private com.argus.beans.FTextField fTextField46;
+    private com.argus.bean.FTextField fTextField46;
 
-    private com.argus.beans.FTextField fTextField50;
+    private com.argus.bean.FTextField fTextField50;
 
     private javax.swing.JLabel jLabel22;
 
     private javax.swing.JLabel jLabel11;
 
-    private com.argus.beans.FTextField fTextField38;
+    private com.argus.bean.FTextField fTextField38;
 
-    private com.argus.beans.FTextField fTextField48;
+    private com.argus.bean.FTextField fTextField48;
 
-    private com.argus.beans.FTextField fTextField49;
+    private com.argus.bean.FTextField fTextField49;
 
     private javax.swing.JLabel jLabel12;
 
-    private com.argus.beans.FTextField fTextField9;
+    private com.argus.bean.FTextField fTextField9;
 
     private javax.swing.JPanel jPanel9;
 

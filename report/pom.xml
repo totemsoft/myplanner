@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.argus.financials</groupId>
+        <artifactId>myplanner</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <groupId>com.argus.financials.myplanner</groupId>
+    <artifactId>myplanner-report</artifactId>
+    <packaging>jar</packaging>
+    <name>Report</name>
+    <description>My Planner Report.</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.argus.financials.myplanner</groupId>
+            <artifactId>myplanner-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.argus.java2com</groupId>
+            <artifactId>java2com-core</artifactId>
+            <version>${java2com.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.argus.java2com</groupId>
+            <artifactId>java2com-utils</artifactId>
+            <version>${java2com.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.argus.java2com</groupId>
+            <artifactId>java2com-library</artifactId>
+            <version>${java2com.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-jxpath</groupId>
+            <artifactId>commons-jxpath</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+        </dependency>
+    </dependencies>
+</project>

@@ -21,23 +21,15 @@ import com.argus.financials.bean.ICashFlow;
 import com.argus.financials.bean.Liability;
 import com.argus.financials.bean.RegularExpense;
 import com.argus.financials.bean.RegularIncome;
-import com.argus.financials.config.FPSLocale;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.swing.table.TreeTableModel;
+import com.argus.swing.table.TreeTableModel;
 import com.argus.util.ReferenceCode;
 
 public class DataCollectionModel extends FinancialDataModel {
 
-    // cd /D D:\projects\Financial Planner\ant\build\classes
-    // serialver -classpath . com.argus.strategy.model.DataCollectionModel
-
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 1558898383495637707L;
 
-    public static final ReferenceCode DEFAULT_ROOT = new ReferenceCode(0,
-            "Collection Data");
+    public static final ReferenceCode DEFAULT_ROOT = new ReferenceCode(0, "Collection Data");
 
     private static Node1[] EMPTY_CHILDREN = new Node1[0];
 
@@ -253,12 +245,7 @@ public class DataCollectionModel extends FinancialDataModel {
      * 
      */
     public class Node1 extends Node {
-        // serialver -classpath .
-        // com.argus.strategy.model.DataCollectionModel$Node1
 
-        // Compatible changes include adding or removing a method or a field.
-        // Incompatible changes include changing an object's hierarchy or
-        // removing the implementation of the Serializable interface.
         static final long serialVersionUID = 3630625802921675281L;
 
         // True if this node is selected
@@ -542,16 +529,14 @@ public class DataCollectionModel extends FinancialDataModel {
     }// end of Class Node1
 
     // load COPY of financial data
-    public java.util.Map reload(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public java.util.Map reload(PersonService person) throws com.argus.financials.api.ServiceException {
 
         if (person == null)
             return null;
 
         // get ALL current financial data (null means ALL object types, financial)
-        person.setFinancials(null, null); // reset all data
-
         // reload COPY financials for Strategy Collection
-        return reload(Financials.deepCopy(person.getFinancials(), true));
+        return reload(Financials.deepCopy(person.findFinancials(), true));
 
     }
 

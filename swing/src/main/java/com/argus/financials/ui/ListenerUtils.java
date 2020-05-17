@@ -36,8 +36,8 @@ public class ListenerUtils {
         if (comp instanceof JTextComponent) {
             addDocumentListener((JTextComponent) comp, listener);
 
-        } else if (comp instanceof com.argus.beans.FDateChooser) {
-            addDocumentListener(((com.argus.beans.FDateChooser) comp)
+        } else if (comp instanceof com.argus.bean.FDateChooser) {
+            addDocumentListener(((com.argus.bean.FDateChooser) comp)
                     .getDateField(), listener);
 
         } else if (comp instanceof ItemSelectable) {

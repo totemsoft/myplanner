@@ -21,18 +21,18 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import com.argus.beans.AbstractComponentModel;
-import com.argus.beans.FTable;
-import com.argus.beans.MessageSent;
-import com.argus.beans.MessageSentEvent;
-import com.argus.beans.WizardContentHandler;
+import com.argus.bean.AbstractComponentModel;
+import com.argus.bean.FTable;
+import com.argus.bean.MessageSent;
+import com.argus.bean.MessageSentEvent;
+import com.argus.bean.WizardContentHandler;
 import com.argus.financials.exchange.AssetProcessor;
 import com.argus.financials.swing.ICloseDialog;
 import com.argus.financials.swing.table.SortedTableModel;
 import com.argus.swing.SplashWindow;
 import com.argus.util.KeyValue;
 
-public class AssetRecoverView extends com.argus.beans.BasePanel implements
+public class AssetRecoverView extends com.argus.bean.BasePanel implements
         ICloseDialog {
 
     private static final String WIZARD = "Wizard";
@@ -138,17 +138,17 @@ public class AssetRecoverView extends com.argus.beans.BasePanel implements
         jPanelCards = new javax.swing.JPanel();
         jPanelStep1 = new javax.swing.JPanel();
         jScrollPaneStep1 = new javax.swing.JScrollPane();
-        tableStep1 = new com.argus.beans.FTable();
+        tableStep1 = new com.argus.bean.FTable();
         jPanelStep2 = new javax.swing.JPanel();
         jPanelStep2text = new javax.swing.JPanel();
         jLabelStep2text = new javax.swing.JLabel();
         jScrollPaneStep2 = new javax.swing.JScrollPane();
-        tableStep2 = new com.argus.beans.FTable();
+        tableStep2 = new com.argus.bean.FTable();
         jPanelStep3 = new javax.swing.JPanel();
         jPanelStep3text = new javax.swing.JPanel();
         jLabelStep3text = new javax.swing.JLabel();
         jScrollPaneDetailsStep3 = new javax.swing.JScrollPane();
-        tableStep3 = new com.argus.beans.FTable();
+        tableStep3 = new com.argus.bean.FTable();
         jSeparatorHorizontal = new javax.swing.JSeparator();
         jPanelControls = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();

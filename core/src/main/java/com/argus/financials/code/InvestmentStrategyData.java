@@ -74,7 +74,7 @@ public class InvestmentStrategyData extends InvestmentStrategyCode {
     private static Object[][] rawAllocationHistDataFull;
 
     /**
-     * 2002/06/12 valeri chibaev default Fiducian color scheme for investments
+     * 2002/06/12 valeri chibaev default color scheme for investments
      */
     public static final Color COLOR_CASH = new Color(0xff, 0x00, 0x00);
 

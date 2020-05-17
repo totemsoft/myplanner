@@ -589,8 +589,8 @@ public class GoalsInterestsView extends javax.swing.JPanel implements
             Enumeration items = listModel.elements();
             boolean flag = true;
             while (items.hasMoreElements()) {
-                if (((ReferenceCode) items.nextElement()).getCodeDesc().equals(
-                        ((ReferenceCode) values[i]).getCodeDesc())) {
+                if (((ReferenceCode) items.nextElement()).getDescription().equals(
+                        ((ReferenceCode) values[i]).getDescription())) {
                     flag = false;
                 }
             }
@@ -732,7 +732,7 @@ public class GoalsInterestsView extends javax.swing.JPanel implements
 
         Iterator iter = categories.iterator();
         while (iter.hasNext()) {
-            if (((ReferenceCode) iter.next()).getCodeDesc().equalsIgnoreCase(
+            if (((ReferenceCode) iter.next()).getDescription().equalsIgnoreCase(
                     cate)) {
                 javax.swing.JOptionPane.showMessageDialog(this,
                         "Duplicated Name!  Please input another name!",
@@ -742,7 +742,7 @@ public class GoalsInterestsView extends javax.swing.JPanel implements
         }
 
         ReferenceCode category = new ReferenceCode();
-        category.setCodeDesc(cate);
+        category.setDescription(cate);
         category.setObject("CATEGORY");
         try {
             clientPerson.addCategory(category);
@@ -761,7 +761,7 @@ public class GoalsInterestsView extends javax.swing.JPanel implements
 
         Iterator iter = categories.iterator();
         while (iter.hasNext()) {
-            if (((ReferenceCode) iter.next()).getCodeDesc().equalsIgnoreCase(
+            if (((ReferenceCode) iter.next()).getDescription().equalsIgnoreCase(
                     cate)) {
                 javax.swing.JOptionPane.showMessageDialog(this,
                         "Duplicated Name!  Please input another name!",
@@ -772,7 +772,7 @@ public class GoalsInterestsView extends javax.swing.JPanel implements
 
         boolean success = true;
         ReferenceCode category = (ReferenceCode) jListLeft.getSelectedValue();
-        category.setCodeDesc(cate);
+        category.setDescription(cate);
         try {
             clientPerson.updateCategory(category);
         } catch (Exception e) {
@@ -786,7 +786,7 @@ public class GoalsInterestsView extends javax.swing.JPanel implements
             updateSelectedCategoryView(category);
     }
 
-    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.api.ServiceException {
         clearView();
         if (person instanceof ClientService)
             clientPerson = (ClientService) person;
@@ -818,10 +818,10 @@ public class GoalsInterestsView extends javax.swing.JPanel implements
 
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.api.ServiceException {
         FinancialGoal fg = person.getFinancialGoal();
         if (fg == null) {
-            fg = new FinancialGoal((Integer) person.getPrimaryKey());
+            fg = new FinancialGoal(person.getId());
             person.setFinancialGoal(fg);
         }
 
@@ -845,7 +845,7 @@ public class GoalsInterestsView extends javax.swing.JPanel implements
             selectedCategories = new Vector();
             while (e.hasMoreElements()) {
                 selectedCategories.add(new Integer(((ReferenceCode) e
-                        .nextElement()).getCodeID()));
+                        .nextElement()).getId()));
             }
             ((ClientService) person).addSelectedCategories(selectedCategories);
         } catch (NumberFormatException nfe) {
@@ -878,8 +878,8 @@ public class GoalsInterestsView extends javax.swing.JPanel implements
     public void updateSelectedCategoryView(ReferenceCode category) {
         for (int i = 0; i < ((DefaultListModel) jListRight.getModel())
                 .getSize(); i++) {
-            if (category.getCodeID() == ((ReferenceCode) ((DefaultListModel) jListRight
-                    .getModel()).get(i)).getCodeID())
+            if (category.getId() == ((ReferenceCode) ((DefaultListModel) jListRight
+                    .getModel()).get(i)).getId())
                 ((DefaultListModel) jListRight.getModel()).setElementAt(
                         category, i);
         }
@@ -971,7 +971,7 @@ public class GoalsInterestsView extends javax.swing.JPanel implements
         jButtonSave.setVisible(true);
         jButtonAdd.setVisible(false);
         ReferenceCode rc = (ReferenceCode) jListLeft.getSelectedValue();
-        jTextFieldNewCategory.setText(rc.getCodeDesc());
+        jTextFieldNewCategory.setText(rc.getDescription());
     }
 
     private void displayAdd() {
@@ -991,7 +991,7 @@ public class GoalsInterestsView extends javax.swing.JPanel implements
         for (int i = 0; i < ((DefaultListModel) jListRight.getModel())
                 .getSize(); i++) {
             if (((ReferenceCode) ((DefaultListModel) jListRight.getModel())
-                    .get(i)).getCodeID() == rc.getCodeID()) {
+                    .get(i)).getId() == rc.getId()) {
                 javax.swing.JOptionPane
                         .showMessageDialog(
                                 this,

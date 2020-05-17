@@ -6,6 +6,8 @@
 
 package com.argus.financials.ui.data;
 
+import com.argus.financials.api.code.FinancialClassID;
+
 /**
  * 
  * @author valeri chibaev
@@ -15,8 +17,6 @@ package com.argus.financials.ui.data;
 import com.argus.financials.bean.Financial;
 import com.argus.financials.bean.IRegularType;
 import com.argus.financials.code.FinancialClass;
-import com.argus.financials.code.FinancialClassID;
-import com.argus.financials.code.FinancialType;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.swing.table.ISmartTableModel;
 import com.argus.financials.swing.table.JointTableModel;
@@ -157,8 +157,7 @@ public class FinancialData extends com.argus.financials.bean.AbstractBase
 
         financialClassFilter.clear();
         financialClassFilter.add(FinancialClassID.RC_ASSET_INVESTMENT);
-        FinancialTreeFilter financialTypeFilter = new FinancialTreeFilter(
-                new FinancialType());
+        FinancialTreeFilter financialTypeFilter = new FinancialTreeFilter(FinancialTreeStructure.FINANCIAL_TYPE);
         filters.add(financialTypeFilter);
         structure.add(FinancialTreeStructure.FINANCIAL_TYPE);
         tree = financialTreeModel.buildCopy();
@@ -308,9 +307,7 @@ public class FinancialData extends com.argus.financials.bean.AbstractBase
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields)
             throws Exception {
-        initializeReportData(reportFields,
-                com.argus.financials.service.ServiceLocator.getInstance()
-                        .getClientPerson());
+        initializeReportData(reportFields, clientService);
     }
 
     public void initializeReportData(

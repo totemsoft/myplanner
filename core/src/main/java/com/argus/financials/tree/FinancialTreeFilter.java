@@ -13,6 +13,7 @@ package com.argus.financials.tree;
 
 import java.util.Vector;
 
+import com.argus.financials.api.bean.ICode;
 import com.argus.financials.bean.Financial;
 import com.argus.financials.bean.Regular;
 import com.argus.financials.bean.RegularExpense;
@@ -158,7 +159,7 @@ public class FinancialTreeFilter {
                     } else if (item instanceof ReferenceCode) {
                         ReferenceCode refCode = (ReferenceCode) item;
                         objectTypeID = refCode == null ? null : refCode
-                                .getCodeIDInteger();
+                                .getCodeId();
                     }
                     inGroup = af.getObjectTypeID().equals(objectTypeID);
 
@@ -180,7 +181,7 @@ public class FinancialTreeFilter {
                 } else if (item instanceof ReferenceCode) {
                     ReferenceCode refCode = (ReferenceCode) item;
                     objectTypeID = refCode == null ? null : refCode
-                            .getCodeIDInteger();
+                            .getCodeId();
                 }
                 inGroup = f.getObjectTypeID().equals(objectTypeID);
 
@@ -203,13 +204,10 @@ public class FinancialTreeFilter {
                             Integer financialTypeID1 = (Integer) item;
                             Integer financialTypeID2 = af.getFinancialTypeID();
                             inGroup = equals(financialTypeID1, financialTypeID2);
-                        } else if (item instanceof ReferenceCode) {
-                            ReferenceCode refCode1 = (ReferenceCode) item;
-                            ReferenceCode refCode2 = af.getFinancialType();
-                            inGroup = refCode1 != null
-                                    && refCode2 != null
-                                    && refCode1.getCodeID() == refCode2
-                                            .getCodeID();
+                        } else if (item instanceof ICode) {
+                            ICode refCode1 = (ICode) item;
+                            ICode refCode2 = af.getFinancialType();
+                            inGroup = refCode1 != null && refCode2 != null && refCode1.getId() == refCode2.getId();
                         }
 
                         if (inGroup)
@@ -220,23 +218,18 @@ public class FinancialTreeFilter {
 
             }
 
-        } else if (group == FinancialTreeStructure.FINANCIAL_TYPE
-                || group instanceof FinancialType) {
-
+        } else if (group == FinancialTreeStructure.FINANCIAL_TYPE || group instanceof FinancialType) {
             for (int i = 0; i < size; i++) {
                 Object item = groupItems.elementAt(i);
-
                 if (item instanceof Integer) {
                     Integer financialTypeID1 = (Integer) item;
                     Integer financialTypeID2 = f.getFinancialTypeID();
                     inGroup = equals(financialTypeID1, financialTypeID2);
-                } else if (item instanceof ReferenceCode) {
-                    ReferenceCode refCode1 = (ReferenceCode) item;
-                    ReferenceCode refCode2 = f.getFinancialType();
-                    inGroup = refCode1 != null && refCode2 != null
-                            && refCode1.getCodeID() == refCode2.getCodeID();
+                } else if (item instanceof ICode) {
+                    ICode refCode1 = (ICode) item;
+                    ICode refCode2 = f.getFinancialType();
+                    inGroup = refCode1 != null && refCode2 != null && refCode1.getId() == refCode2.getId();
                 }
-
                 if (inGroup)
                     break;
             }
@@ -255,7 +248,7 @@ public class FinancialTreeFilter {
                     else if (fund instanceof Integer)
                         inGroup = fund.equals(af.getFundTypeID());
                     else if (fund instanceof ReferenceCode) {
-                        fund = ((ReferenceCode) fund).getCodeIDInteger();
+                        fund = ((ReferenceCode) fund).getCodeId();
                         inGroup = fund.equals(af.getFundTypeID());
                     }
 
@@ -276,7 +269,7 @@ public class FinancialTreeFilter {
                 else if (fund instanceof Integer)
                     inGroup = fund.equals(f.getFundTypeID());
                 else if (fund instanceof ReferenceCode) {
-                    fund = ((ReferenceCode) fund).getCodeIDInteger();
+                    fund = ((ReferenceCode) fund).getCodeId();
                     inGroup = fund.equals(f.getFundTypeID());
                 }
 

@@ -3,63 +3,30 @@ package com.argus.financials.service.client;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.argus.financials.domain.hibernate.refdata.Country;
-import com.argus.financials.domain.hibernate.refdata.MaritalCode;
-import com.argus.financials.domain.hibernate.refdata.SexCode;
-import com.argus.financials.domain.hibernate.refdata.State;
-import com.argus.financials.domain.hibernate.refdata.TitleCode;
+import com.argus.financials.api.bean.ICountry;
+import com.argus.financials.api.bean.IMaritalCode;
+import com.argus.financials.api.bean.ISexCode;
+import com.argus.financials.api.bean.IState;
+import com.argus.financials.api.bean.ITitleCode;
 
 @Service
-@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public interface EntityService
 {
 
-    /**
-     * @return
-     */
-    List<Country> findCountries();
+    List<? extends ICountry> findCountries();
 
-    /**
-     * 
-     * @param id
-     * @return
-     */
-    MaritalCode findMaritalCode(Long id);
+    List<? extends IState> findStates(Integer countryId);
 
-    /**
-     * 
-     * @return
-     */
-    List<MaritalCode> findMaritalCodes();
+    IMaritalCode findMaritalCode(Integer id);
+    IMaritalCode findMaritalCode(String codeDesc);
+    List<? extends IMaritalCode> findMaritalCodes();
 
-    /**
-     * 
-     * @param id
-     * @return
-     */
-    SexCode findSexCode(Long id);
+    ISexCode findSexCode(Integer id);
+    ISexCode findSexCode(String codeDesc);
 
-    /**
-     * 
-     * @param countryId
-     * @return
-     */
-    List<State> findStates(Integer countryId);
-
-    /**
-     * 
-     * @param id
-     * @return
-     */
-    TitleCode findTitleCode(Long id);
-
-    /**
-     * 
-     * @return
-     */
-    List<TitleCode> findTitleCodes();
+    ITitleCode findTitleCode(Integer id);
+    ITitleCode findTitleCode(String codeDesc);
+    List<? extends ITitleCode> findTitleCodes();
 
 }

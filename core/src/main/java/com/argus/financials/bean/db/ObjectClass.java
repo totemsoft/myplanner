@@ -15,20 +15,20 @@ package com.argus.financials.bean.db;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.bean.AssetCash;
 import com.argus.financials.bean.AssetInvestment;
 import com.argus.financials.bean.AssetPersonal;
 import com.argus.financials.bean.AssetSuperannuation;
 import com.argus.financials.bean.IncomeStream;
 import com.argus.financials.bean.Liability;
-import com.argus.financials.bean.ObjectTypeConstant;
 import com.argus.financials.bean.RegularExpense;
 import com.argus.financials.bean.RegularIncome;
 import com.argus.financials.bean.TaxOffset;
 
 public class ObjectClass implements ObjectTypeConstant {
 
-    private static Map map = new HashMap();
+    private static Map<Integer, Class> map = new HashMap<Integer, Class>();
 
     static {
         // map.put( new Integer( PERSON ), null );
@@ -47,8 +47,7 @@ public class ObjectClass implements ObjectTypeConstant {
         map.put(new Integer(-ASSET_INVESTMENT), AssetInvestment.class);
         map.put(new Integer(ASSET_PERSONAL), AssetPersonalBean.class);
         map.put(new Integer(-ASSET_PERSONAL), AssetPersonal.class);
-        map.put(new Integer(ASSET_SUPERANNUATION),
-                AssetSuperannuationBean.class);
+        map.put(new Integer(ASSET_SUPERANNUATION), AssetSuperannuationBean.class);
         map.put(new Integer(-ASSET_SUPERANNUATION), AssetSuperannuation.class);
         map.put(new Integer(INCOME_STREAM), IncomeStreamBean.class);
         map.put(new Integer(-INCOME_STREAM), IncomeStream.class);
@@ -74,6 +73,23 @@ public class ObjectClass implements ObjectTypeConstant {
 
     public static Class getObjectClass(int objectTypeID) {
         return getObjectClass(new Integer(objectTypeID));
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T createNewInstance(Integer objectTypeID, Class[] parameterTypes, Object[] initargs) {
+        // get Class types for this object id (XXXBean)
+        Class objClass = getObjectClass(objectTypeID);
+        try {
+            return (T) objClass.getConstructor(parameterTypes).newInstance(initargs);
+        } catch (Exception e) {
+            System.err.println("-----> No constructor found for objectTypeID: " + objectTypeID + " <-----");
+            // e.printStackTrace( System.err );
+            return null;
+        }
+    }
+
+    public static <T> T createNewInstance(Integer objectTypeID) {
+        return createNewInstance(objectTypeID, null, null);
     }
 
 }

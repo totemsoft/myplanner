@@ -109,7 +109,7 @@
 
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new FTextField();"/>
-                    <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="( (FTextField) textFieldReplaceAssetStep1 ).setFieldType( com.fiducian.javabeans.FTextField.ANY );"/>
+                    <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="( (FTextField) textFieldReplaceAssetStep1 ).setFieldType( com.argus.beans.FTextField.ANY );"/>
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -142,7 +142,7 @@
 
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new FTextField();"/>
-                    <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="( (FTextField) textFieldReplaceWithAssetStep1 ).setFieldType( com.fiducian.javabeans.FTextField.ANY );"/>
+                    <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="( (FTextField) textFieldReplaceWithAssetStep1 ).setFieldType( com.argus.beans.FTextField.ANY );"/>
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -202,7 +202,7 @@
 
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new FTextField();"/>
-                    <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="( (FTextField) textFieldJournalNameStep1 ).setFieldType( com.fiducian.javabeans.FTextField.ANY );"/>
+                    <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="( (FTextField) textFieldJournalNameStep1 ).setFieldType( com.argus.beans.FTextField.ANY );"/>
                   </AuxValues>
                   <Constraints>
                     <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -249,7 +249,7 @@
 
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value=""/>
-                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new com.fiducian.javabeans.FTable();"/>
+                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new com.argus.beans.FTable();"/>
                         <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value=""/>
                       </AuxValues>
                     </Component>
@@ -294,7 +294,7 @@
 
                       <AuxValues>
                         <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value=""/>
-                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new com.fiducian.javabeans.FTable();"/>
+                        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new com.argus.beans.FTable();"/>
                         <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value=""/>
                       </AuxValues>
                     </Component>

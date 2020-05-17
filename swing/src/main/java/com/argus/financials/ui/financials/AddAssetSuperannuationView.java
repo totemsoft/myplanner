@@ -6,6 +6,10 @@
 
 package com.argus.financials.ui.financials;
 
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.bean.ICode;
+import com.argus.financials.api.code.FinancialTypeEnum;
+
 /**
  * 
  * @author valeri chibaev
@@ -16,9 +20,7 @@ import com.argus.financials.bean.AssetSuperannuation;
 import com.argus.financials.bean.db.ApirPicBean;
 import com.argus.financials.bean.db.IressAssetNameBean;
 import com.argus.financials.code.FinancialServiceCode;
-import com.argus.financials.code.FinancialTypeID;
 import com.argus.financials.code.FundType;
-import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.OwnerCode;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.DateInputVerifier;
@@ -81,17 +83,17 @@ public class AddAssetSuperannuationView extends AddAssetView implements
 
     public int getDefaultFinancialTypeID(String source) {
         if (source.equals(ApirPicBean.DATABASE_TABLE_NAME))
-            return SUPERANNUATION_LISTED_UNIT_TRUST;
+            return FinancialTypeEnum.SUPERANNUATION_LISTED_UNIT_TRUST.getId();
         if (source.equals(IressAssetNameBean.DATABASE_TABLE_NAME))
-            return INVESTMENT_LISTED_SHARES; // 4 = Listed Shares
-        return FinancialTypeID.UNDEFINED;
+            return FinancialTypeEnum.INVESTMENT_LISTED_SHARES.getId(); // 4 = Listed Shares
+        return FinancialTypeEnum.UNDEFINED.getId();
     }
 
     public String getDefaultFinancialTypeDesc(String source) {
         if (source.equals(ApirPicBean.DATABASE_TABLE_NAME))
-            return STRING_LISTED_UNIT_TRUST;
+            return FinancialTypeEnum.SUPERANNUATION_LISTED_UNIT_TRUST.getDesc();
         if (source.equals(IressAssetNameBean.DATABASE_TABLE_NAME))
-            return STRING_LISTED_SHARES;
+            return FinancialTypeEnum.INVESTMENT_LISTED_SHARES.getDesc();
         return "";
     }
 
@@ -186,11 +188,11 @@ public class AddAssetSuperannuationView extends AddAssetView implements
         jLabelCurrentValue = new javax.swing.JLabel();
         jTextFieldCurrentValue = new javax.swing.JTextField();
         jLabelPriceDate = new javax.swing.JLabel();
-        jTextFieldPriceDate = new com.argus.beans.FDateChooser();
+        jTextFieldPriceDate = new com.argus.bean.FDateChooser();
         jLabelPurchaseDate = new javax.swing.JLabel();
-        jTextFieldPurchaseDate = new com.argus.beans.FDateChooser();
+        jTextFieldPurchaseDate = new com.argus.bean.FDateChooser();
         jLabelMaturityDate = new javax.swing.JLabel();
-        jTextFieldMaturityDate = new com.argus.beans.FDateChooser();
+        jTextFieldMaturityDate = new com.argus.bean.FDateChooser();
         jPanelPerformance = new javax.swing.JPanel();
         jLabelCapitalGrowth = new javax.swing.JLabel();
         jTextFieldCapitalGrowth = new javax.swing.JTextField();
@@ -204,17 +206,17 @@ public class AddAssetSuperannuationView extends AddAssetView implements
         jLabelIndexation = new javax.swing.JLabel();
         jTextFieldContributionIndexation = new javax.swing.JTextField();
         jLabelContributionsStartDate = new javax.swing.JLabel();
-        jTextFieldContributionsStartDate = new com.argus.beans.FDateChooser();
+        jTextFieldContributionsStartDate = new com.argus.bean.FDateChooser();
         jLabelContributionsEndDate = new javax.swing.JLabel();
-        jTextFieldContributionsEndDate = new com.argus.beans.FDateChooser();
+        jTextFieldContributionsEndDate = new com.argus.bean.FDateChooser();
         jLabelAnnualDrawdowns = new javax.swing.JLabel();
         jTextFieldAnnualDrawdowns = new javax.swing.JTextField();
         jLabelDrawdownIndexation = new javax.swing.JLabel();
         jTextFieldDrawdownIndexation = new javax.swing.JTextField();
         jLabelDrawdownsStartDate = new javax.swing.JLabel();
-        jTextFieldDrawdownsStartDate = new com.argus.beans.FDateChooser();
+        jTextFieldDrawdownsStartDate = new com.argus.bean.FDateChooser();
         jLabelDrawdownsEndDate = new javax.swing.JLabel();
-        jTextFieldDrawdownsEndDate = new com.argus.beans.FDateChooser();
+        jTextFieldDrawdownsEndDate = new com.argus.bean.FDateChooser();
         jPanelFees = new javax.swing.JPanel();
         jLabelUpfrontFee = new javax.swing.JLabel();
         jTextFieldUpfrontFee = new javax.swing.JTextField();
@@ -892,7 +894,7 @@ public class AddAssetSuperannuationView extends AddAssetView implements
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.argus.beans.FDateChooser jTextFieldPurchaseDate;
+    private com.argus.bean.FDateChooser jTextFieldPurchaseDate;
 
     private javax.swing.JLabel jLabelIndexation;
 
@@ -936,7 +938,7 @@ public class AddAssetSuperannuationView extends AddAssetView implements
 
     private javax.swing.JLabel jLabelAssetInvestmentCode;
 
-    private com.argus.beans.FDateChooser jTextFieldContributionsStartDate;
+    private com.argus.bean.FDateChooser jTextFieldContributionsStartDate;
 
     private javax.swing.JLabel jLabelDrawdownsStartDate;
 
@@ -954,15 +956,15 @@ public class AddAssetSuperannuationView extends AddAssetView implements
 
     private javax.swing.JLabel jLabelPersonalContributions;
 
-    private com.argus.beans.FDateChooser jTextFieldDrawdownsEndDate;
+    private com.argus.bean.FDateChooser jTextFieldDrawdownsEndDate;
 
-    private com.argus.beans.FDateChooser jTextFieldDrawdownsStartDate;
+    private com.argus.bean.FDateChooser jTextFieldDrawdownsStartDate;
 
     private javax.swing.JPanel jPanelValue;
 
     private javax.swing.JLabel jLabelOwnerCode;
 
-    private com.argus.beans.FDateChooser jTextFieldPriceDate;
+    private com.argus.bean.FDateChooser jTextFieldPriceDate;
 
     private javax.swing.JTextField jTextFieldCurrentValue;
 
@@ -976,7 +978,7 @@ public class AddAssetSuperannuationView extends AddAssetView implements
 
     private javax.swing.JTextField jTextFieldUnitShares;
 
-    private com.argus.beans.FDateChooser jTextFieldContributionsEndDate;
+    private com.argus.bean.FDateChooser jTextFieldContributionsEndDate;
 
     private javax.swing.JTextField jTextFieldDesc;
 
@@ -994,7 +996,7 @@ public class AddAssetSuperannuationView extends AddAssetView implements
 
     private javax.swing.JComboBox jComboBoxOwnerCode;
 
-    private com.argus.beans.FDateChooser jTextFieldMaturityDate;
+    private com.argus.bean.FDateChooser jTextFieldMaturityDate;
 
     private javax.swing.JLabel jLabelDrawdownsEndDate;
 
@@ -1025,7 +1027,7 @@ public class AddAssetSuperannuationView extends AddAssetView implements
     }
 
     public String getTitle() {
-        return RC_ASSET_SUPERANNUATION.getCodeDesc();
+        return RC_ASSET_SUPERANNUATION.getDescription();
     }
 
     public boolean updateView() {
@@ -1039,14 +1041,14 @@ public class AddAssetSuperannuationView extends AddAssetView implements
 
         AssetSuperannuation assetSuperannuation = getAssetSuperannuation();
 
-        ReferenceCode financialType = assetSuperannuation.getFinancialType();
-        ReferenceCode financialCode = assetSuperannuation.getFinancialCode();
+        ICode financialType = assetSuperannuation.getFinancialType();
+        ICode financialCode = assetSuperannuation.getFinancialCode();
         old_FinancialCode = financialCode;
 
         jTextFieldAssetInvestmentCode.setText(financialCode == null ? null
                 : financialCode.getCode());
         jTextFieldAssetInvestmentName.setText(financialCode == null ? null
-                : financialCode.getCodeDesc());
+                : financialCode.getDescription());
 
         jTextFieldCapitalGrowth.setText(number.toString(assetSuperannuation
                 .getCapitalGrowth()));
@@ -1194,14 +1196,14 @@ public class AddAssetSuperannuationView extends AddAssetView implements
 
         ReferenceCode refCode = (ReferenceCode) jComboBoxFundType
                 .getSelectedItem();
-        assetSuperannuation.setFundTypeID(refCode.getCodeIDInteger());
+        assetSuperannuation.setFundTypeID(refCode.getCodeId());
 
         try {
             updateFinancialCode(assetSuperannuation,
                     jTextFieldAssetInvestmentName.getText().trim(),
                     jTextFieldAssetInvestmentCode.getText().trim());
 
-        } catch (java.sql.SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace(System.err);
             throw new InvalidCodeException(e.getMessage());
         }

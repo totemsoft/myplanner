@@ -181,7 +181,6 @@ public class CheckBoxList extends JList implements DropTargetListener,
         ListModel model = getModel();
         for (int i = 0; i < model.getSize(); i++) {
             String s = ((JCheckBox) model.getElementAt(i)).getToolTipText();
-            // if (DEBUG) System.out.println( "getListData(): " + s );
             listData.add(s);
         }
 
@@ -197,7 +196,6 @@ public class CheckBoxList extends JList implements DropTargetListener,
         String[] array = new String[selection.length];
         for (int i = 0; i < selection.length; i++) {
             String s = ((JCheckBox) selection[i]).getToolTipText();
-            // if (DEBUG) System.out.println( "getSelectedValues(): " + s );
             array[i] = s;
         }
 
@@ -245,10 +243,8 @@ public class CheckBoxList extends JList implements DropTargetListener,
 
         DefaultListModel model = (DefaultListModel) getModel();
 
-        // if (DEBUG) System.out.println( "contains( '" + obj + "' )" );
         for (int i = 0; i < model.getSize(); i++) {
             String s = ((JCheckBox) model.getElementAt(i)).getToolTipText();
-            // if (DEBUG) System.out.println( "\t" + s );
             if (s.equals(obj.toString()))
                 return true;
         }

@@ -13,20 +13,24 @@ package com.argus.financials.report;
 import java.io.File;
 
 import com.argus.activex.wordreport.IWordReport;
-import com.argus.activex.wordreport.WordReportJava2COM;
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.api.bean.IBusiness;
+import com.argus.financials.api.bean.IOccupation;
+import com.argus.financials.api.bean.IPerson;
+import com.argus.financials.api.bean.IPersonHealth;
+import com.argus.financials.api.bean.PersonName;
 import com.argus.financials.bean.FinancialGoal;
 import com.argus.financials.code.Advisers;
+import com.argus.financials.code.BooleanCode;
 import com.argus.financials.code.ContactMediaCode;
 import com.argus.financials.code.HealthStateCode;
 import com.argus.financials.code.IReportFields;
 import com.argus.financials.code.ResidenceStatusCode;
 import com.argus.financials.config.WordSettings;
-import com.argus.financials.etc.Address;
+import com.argus.financials.etc.AddressDto;
 import com.argus.financials.etc.Contact;
 import com.argus.financials.etc.ContactMedia;
 import com.argus.financials.etc.DependentTableModel;
-import com.argus.financials.etc.Occupation;
-import com.argus.financials.etc.PersonName;
 import com.argus.financials.projection.AllocatedPensionCalcNew;
 import com.argus.financials.projection.CurrentPositionCalc;
 import com.argus.financials.projection.DSSCalc2;
@@ -35,13 +39,17 @@ import com.argus.financials.projection.ETPCalcNew;
 import com.argus.financials.projection.GearingCalc2;
 import com.argus.financials.projection.GeneralTaxCalculatorNew;
 import com.argus.financials.projection.data.LifeExpectancy;
-import com.argus.financials.service.BusinessService;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
 import com.argus.swing.SplashWindow;
 import com.argus.util.DateTimeUtils;
 
 public final class ReportFields implements IReportFields {
+
+    private static IWordReport report;
+    public static void setReport(IWordReport report) {
+        ReportFields.report = report;
+    }
 
     private static com.argus.format.Currency currency;
 
@@ -202,7 +210,7 @@ public final class ReportFields implements IReportFields {
     // PERSONAL //
     // //////////////////////////////////////////////////////////////////////////
     public synchronized void initialize(PersonService person)
-            throws com.argus.financials.service.client.ServiceException {
+            throws ServiceException {
 
         if (person == null) {
             // java.awt.Toolkit.getDefaultToolkit().beep();
@@ -237,64 +245,55 @@ public final class ReportFields implements IReportFields {
 
     }
 
-    private void initAdviser(PersonName pn) throws com.argus.financials.service.client.ServiceException {
+    private void initAdviser(PersonName pn) throws ServiceException {
 
         fields.put(Adviser_Title, pn == null ? null : pn.getTitleCode());
         fields.put(Adviser_FamilyName, pn == null ? null : pn.getSurname());
-        fields.put(Adviser_FirstName, pn == null ? null : pn.getFirstName());
+        fields.put(Adviser_FirstName, pn == null ? null : pn.getFirstname());
         fields.put(Adviser_OtherGivenNames, pn == null ? null : pn
-                .getOtherGivenNames());
+                .getOtherNames());
         fields.put(Adviser_FullName, pn == null ? null : pn.getFullName());
 
     }
 
-    private void initClient(ClientService person)
-            throws com.argus.financials.service.client.ServiceException {
+    private void initClient(ClientService person) throws ServiceException {
 
-        PersonName pn = person == null ? null : person.getPersonName();
-        fields.put(Client_Sex, pn == null ? null : pn.getSexCode());
-        fields.put(Client_Title, pn == null ? null : pn.getTitleCode());
-        fields.put(Client_IsMarried, pn == null ? null
-                : (pn.isMarried() ? "Yes" : "No"));
-        fields.put(Client_MaritalCode, pn == null ? null : pn.getMaritalCode());
-        fields.put(Client_FamilyName, pn == null ? null : pn.getSurname());
-        fields.put(Client_FirstName, pn == null ? null : pn.getFirstName());
-        fields.put(Client_OtherGivenNames, pn == null ? null : pn
-                .getOtherGivenNames());
-        fields.put(Client_FullName, pn == null ? null : pn.getFullName());
+        IPerson personName = person == null ? null : person.getPersonName();
+        fields.put(Client_Sex, personName == null ? null : personName.getSex().getCode());
+        fields.put(Client_Title, personName == null ? null : personName.getTitle().getCode());
+        fields.put(Client_IsMarried, personName == null ? null
+                : (personName.isMarried() ? "Yes" : "No"));
+        fields.put(Client_MaritalCode, personName == null ? null : personName.getMarital().getCode());
+        fields.put(Client_FamilyName, personName == null ? null : personName.getSurname());
+        fields.put(Client_FirstName, personName == null ? null : personName.getFirstname());
+        fields.put(Client_OtherGivenNames, personName == null ? null : personName.getOtherNames());
+        fields.put(Client_FullName, personName == null ? null : personName.getFullName());
 
-        java.util.Date dob = pn == null ? null : pn.getDateOfBirth();
+        java.util.Date dob = personName == null ? null : personName.getDateOfBirth();
         setValue(Client_DOB, dob);
 
-        int n = pn == null ? 0 : pn.getAge() == null ? 0 : pn.getAge()
-                .intValue();
+        int n = personName == null ? 0 : personName.getAge() == null ? 0 : personName.getAge().intValue();
         fields.put(Client_Age, n == 0 ? null : new Integer(n));
 
-        double le = pn == null ? -1 : LifeExpectancy.getValue(n, pn
-                .getSexCodeID());
+        double le = personName == null ? -1 : LifeExpectancy.getValue(n, personName.getSex().getId());
         fields.put(Client_LifeExpectancy, le < 0 ? null : number.toString(le));
 
-        fields.put(Client_HealthCover, person == null ? null : person
-                .hasHospitalCover() ? "Yes" : "No");
-        fields.put(Client_StateOfHealth, person == null ? null
-                : new HealthStateCode().getCodeDescription(person
-                        .getHealthStateCodeID()));
+        IPersonHealth personHealth = personName == null ? null : personName.getPersonHealth();
+        fields.put(Client_HealthCover, personHealth == null ? null : personHealth.isHospitalCover() ? BooleanCode.rcYES.getDescription() : BooleanCode.rcNO.getDescription());
+        fields.put(Client_StateOfHealth, personHealth == null ? null
+                : new HealthStateCode().getCodeDescription(personHealth.getHealthStateCodeId()));
         fields.put(Client_Resident, person == null ? null
-                : new ResidenceStatusCode().getCodeDescription(person
-                        .getResidenceStatusCodeID()));
+                : new ResidenceStatusCode().getCodeDescription(personName.getResidenceStatusCodeId()));
 
-        fields.put(Client_AgePensionQualifyingYear, pn == null ? null
-                : new Integer(new DSSCalc2().getPensionQualifyingYear(dob, pn
-                        .getSexCodeID())));
-        fields.put(Client_AgePensionQualifyingAge, pn == null ? null
-                : new Integer((int) Math.ceil(DSSCalc2.getPensionQualifyingAge(
-                        dob, pn.getSexCodeID()))));
+        fields.put(Client_AgePensionQualifyingYear, personName == null ? null
+                : new DSSCalc2().getPensionQualifyingYear(dob, personName.getSex().getId()));
+        fields.put(Client_AgePensionQualifyingAge, personName == null ? null
+                : (int) Math.ceil(DSSCalc2.getPensionQualifyingAge(dob, personName.getSex().getId())));
 
-        java.util.Map dependents = person == null ? null : person
-                .getDependents();
+        java.util.Map dependents = person == null ? null : person.getDependents();
         DependentTableModel dtm = new DependentTableModel(dependents);
-        fields.put(Client_DependentsNameAgeSentence, (pn == null ? null : pn
-                .getFirstName())
+        fields.put(Client_DependentsNameAgeSentence, (personName == null ? null : personName
+                .getFirstname())
                 + " " + dtm.getDependentsNameAge());
         fields.put(Client_Dependents, dtm);
         fields.put(Client_NumberOfDependents, new Integer(
@@ -321,7 +320,7 @@ public final class ReportFields implements IReportFields {
                 .get(ContactMediaCode.EMAIL);
         fields.put(Client_Email, cm == null ? null : cm.toString());
 
-        Address a = person == null ? null : person.getResidentialAddress();
+        AddressDto a = person == null ? null : person.getResidentialAddress();
         fields.put(Client_ResidentialAddress, a == null ? null : a
                 .getFullAddress());
         fields.put(Client_ResidentialAddress_StreetNumber, a == null ? null : a
@@ -331,9 +330,9 @@ public final class ReportFields implements IReportFields {
         fields.put(Client_ResidentialAddress_Suburb, a == null ? null : a
                 .getSuburb());
         fields.put(Client_ResidentialAddress_Postcode, a == null ? null : a
-                .getPostCode());
+                .getPostcode());
         fields.put(Client_ResidentialAddress_State, a == null ? null : a
-                .getState());
+                .getStateCode());
         fields.put(Client_ResidentialAddress_Country, a == null ? null : a
                 .getCountryCode());
 
@@ -346,8 +345,8 @@ public final class ReportFields implements IReportFields {
         fields.put(Client_PostalAddress_Suburb, a == null ? null : a
                 .getSuburb());
         fields.put(Client_PostalAddress_Postcode, a == null ? null : a
-                .getPostCode());
-        fields.put(Client_PostalAddress_State, a == null ? null : a.getState());
+                .getPostcode());
+        fields.put(Client_PostalAddress_State, a == null ? null : a.getStateCode());
         fields.put(Client_PostalAddress_Country, a == null ? null : a
                 .getCountryCode());
 
@@ -362,73 +361,56 @@ public final class ReportFields implements IReportFields {
                 .toString(fg.getLumpSumRequired()));
         fields.put(Client_Notes, fg == null ? null : fg.getNotes());
 
-        BusinessService b = person == null ? null : person.getEmployerBusiness();
-        fields.put(Client_Employer_LegalName, b == null ? null : b
-                .getLegalName());
-        fields.put(Client_Employer_TradingName, b == null ? null : b
-                .getTradingName());
+        IBusiness b = person == null ? null : person.getEmployerBusiness();
+        fields.put(Client_Employer_LegalName, b == null ? null : b.getLegalName());
+        fields.put(Client_Employer_TradingName, b == null ? null : b.getTradingName());
 
-        Occupation o = person == null ? null : person.getOccupation();
-        fields.put(Client_Occupation_EmploymentStatus, o == null ? null : o
-                .getEmploymentStatus());
-        fields.put(Client_Occupation_OccupationName, o == null ? null : o
-                .getOccupation());
-        fields.put(Client_EmploymentStatus, o == null ? null : o
-                .getEmploymentStatus());
+        IOccupation o = personName == null ? null : personName.getOccupation();
+        fields.put(Client_Occupation_EmploymentStatus, o == null ? null : o.getEmploymentStatus());
+        fields.put(Client_Occupation_OccupationName, o == null ? null : o.getOccupation());
+        fields.put(Client_EmploymentStatus, o == null ? null : o.getEmploymentStatus());
 
         fields.put(Client_FeeDate, person == null ? null : person.getFeeDate());
-        fields.put(Client_ReviewDate, person == null ? null : person
-                .getReviewDate());
-
+        fields.put(Client_ReviewDate, person == null ? null : person.getReviewDate());
     }
 
-    private void initPartner(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    private void initPartner(PersonService person) throws ServiceException {
 
-        PersonName pn = person == null ? null : person.getPersonName();
-        fields.put(Partner_Sex, pn == null ? null : pn.getSexCode());
-        fields.put(Partner_Title, pn == null ? null : pn.getTitleCode());
-        fields
-                .put(Partner_MaritalCode, pn == null ? null : pn
-                        .getMaritalCode());
-        fields.put(Partner_FamilyName, pn == null ? null : pn.getSurname());
-        fields.put(Partner_FirstName, pn == null ? null : pn.getFirstName());
-        fields.put(Partner_OtherGivenNames, pn == null ? null : pn
-                .getOtherGivenNames());
-        fields.put(Partner_FullName, pn == null ? null : pn.getFullName());
+        IPerson personName = person == null ? null : person.getPersonName();
+        fields.put(Partner_Sex, personName == null ? null : personName.getSex().getCode());
+        fields.put(Partner_Title, personName == null ? null : personName.getTitle().getCode());
+        fields.put(Partner_MaritalCode, personName == null ? null : personName.getMarital().getCode());
+        fields.put(Partner_FamilyName, personName == null ? null : personName.getSurname());
+        fields.put(Partner_FirstName, personName == null ? null : personName.getFirstname());
+        fields.put(Partner_OtherGivenNames, personName == null ? null : personName.getOtherNames());
+        fields.put(Partner_FullName, personName == null ? null : personName.getFullName());
 
-        java.util.Date dob = pn == null ? null : pn.getDateOfBirth();
-        fields.put(Partner_DOB, dob == null ? null : DateTimeUtils
-                .formatAsMEDIUM(dob));
+        java.util.Date dob = personName == null ? null : personName.getDateOfBirth();
+        fields.put(Partner_DOB, dob == null ? null : DateTimeUtils.formatAsMEDIUM(dob));
 
-        int n = pn == null ? 0 : pn.getAge() == null ? 0 : pn.getAge()
-                .intValue();
+        int n = personName == null ? 0 : personName.getAge() == null ? 0 : personName.getAge().intValue();
         fields.put(Partner_Age, n == 0 ? null : new Integer(n));
 
-        double le = pn == null ? -1 : LifeExpectancy.getValue(n, pn
-                .getSexCodeID());
+        double le = personName == null ? -1 : LifeExpectancy.getValue(n, personName.getSex().getId());
         fields.put(Partner_LifeExpectancy, le < 0 ? null : number.toString(le));
 
-        fields.put(Partner_HealthCover, person == null ? null : person
-                .hasHospitalCover() ? "Yes" : "No");
-        fields.put(Partner_StateOfHealth, person == null ? null
-                : new HealthStateCode().getCodeDescription(person
-                        .getHealthStateCodeID()));
+        IPersonHealth personHealth = personName == null ? null : personName.getPersonHealth();
+        fields.put(Partner_HealthCover, personHealth == null ? null : personHealth.isHospitalCover() ? BooleanCode.rcYES.getDescription() : BooleanCode.rcNO.getDescription());
+        fields.put(Partner_StateOfHealth, personHealth == null ? null
+                : new HealthStateCode().getCodeDescription(personHealth.getHealthStateCodeId()));
         fields.put(Partner_Resident, person == null ? null
-                : new ResidenceStatusCode().getCodeDescription(person
-                        .getResidenceStatusCodeID()));
+                : new ResidenceStatusCode().getCodeDescription(personName.getResidenceStatusCodeId()));
 
-        fields.put(Partner_AgePensionQualifyingYear, pn == null ? null
-                : new Integer(new DSSCalc2().getPensionQualifyingYear(dob, pn
-                        .getSexCodeID())));
-        fields.put(Partner_AgePensionQualifyingAge, pn == null ? null
-                : new Integer((int) Math.ceil(DSSCalc2.getPensionQualifyingAge(
-                        dob, pn.getSexCodeID()))));
+        fields.put(Partner_AgePensionQualifyingYear, personName == null ? null
+                : new DSSCalc2().getPensionQualifyingYear(dob, personName.getSex().getId()));
+        fields.put(Partner_AgePensionQualifyingAge, personName == null ? null
+                : (int) Math.ceil(DSSCalc2.getPensionQualifyingAge(dob, personName.getSex().getId())));
 
         java.util.Map dependents = person == null ? null : person
                 .getDependents();
         DependentTableModel dtm = new DependentTableModel(dependents);
-        fields.put(Partner_DependentsNameAgeSentence, (pn == null ? null : pn
-                .getFirstName())
+        fields.put(Partner_DependentsNameAgeSentence, (personName == null ? null : personName
+                .getFirstname())
                 + " " + dtm.getDependentsNameAge());
         fields.put(Partner_Dependents, dtm);
         fields.put(Partner_NumberOfDependents, new Integer(
@@ -455,7 +437,7 @@ public final class ReportFields implements IReportFields {
                 .get(ContactMediaCode.EMAIL);
         fields.put(Partner_Email, cm == null ? null : cm.toString());
 
-        Address a = person == null ? null : person.getResidentialAddress();
+        AddressDto a = person == null ? null : person.getResidentialAddress();
         fields.put(Partner_ResidentialAddress, a == null ? null : a
                 .getFullAddress());
         fields.put(Partner_ResidentialAddress_StreetNumber, a == null ? null
@@ -465,9 +447,9 @@ public final class ReportFields implements IReportFields {
         fields.put(Partner_ResidentialAddress_Suburb, a == null ? null : a
                 .getSuburb());
         fields.put(Partner_ResidentialAddress_Postcode, a == null ? null : a
-                .getPostCode());
+                .getPostcode());
         fields.put(Partner_ResidentialAddress_State, a == null ? null : a
-                .getState());
+                .getStateCode());
         fields.put(Partner_ResidentialAddress_Country, a == null ? null : a
                 .getCountryCode());
 
@@ -482,10 +464,10 @@ public final class ReportFields implements IReportFields {
         fields.put(Partner_PostalAddress_Suburb, a == null ? null : a
                 .getSuburb());
         fields.put(Partner_PostalAddress_Postcode, a == null ? null : a
-                .getPostCode());
+                .getPostcode());
         fields
                 .put(Partner_PostalAddress_State, a == null ? null : a
-                        .getState());
+                        .getStateCode());
         fields.put(Partner_PostalAddress_Country, a == null ? null : a
                 .getCountryCode());
 
@@ -501,20 +483,14 @@ public final class ReportFields implements IReportFields {
                 .toString(fg.getLumpSumRequired()));
         fields.put(Partner_Notes, fg == null ? null : fg.getNotes());
 
-        BusinessService b = person == null ? null : person.getEmployerBusiness();
-        fields.put(Partner_Employer_LegalName, b == null ? null : b
-                .getLegalName());
-        fields.put(Partner_Employer_TradingName, b == null ? null : b
-                .getTradingName());
+        IBusiness b = person == null ? null : person.getEmployerBusiness();
+        fields.put(Partner_Employer_LegalName, b == null ? null : b.getLegalName());
+        fields.put(Partner_Employer_TradingName, b == null ? null : b.getTradingName());
 
-        Occupation o = person == null ? null : person.getOccupation();
-        fields.put(Partner_Occupation_EmploymentStatus, o == null ? null : o
-                .getEmploymentStatus());
-        fields.put(Partner_Occupation_OccupationName, o == null ? null : o
-                .getOccupation());
-        fields.put(Partner_EmploymentStatus, o == null ? null : o
-                .getEmploymentStatus());
-
+        IOccupation o = personName == null ? null : personName.getOccupation();
+        fields.put(Partner_Occupation_EmploymentStatus, o == null ? null : o.getEmploymentStatus());
+        fields.put(Partner_Occupation_OccupationName, o == null ? null : o.getOccupation());
+        fields.put(Partner_EmploymentStatus, o == null ? null : o.getEmploymentStatus());
     }
 
     public static void generateReport(final java.awt.Window w,
@@ -546,16 +522,15 @@ public final class ReportFields implements IReportFields {
                         }
 
                         splash.setStringPainted("Initialising Word ... ");
-                        IWordReport word = new WordReportJava2COM();
-                        word.setTemplate(WordSettings.getInstance().getReportTemplateDocument());
+                        report.setTemplate(WordSettings.getInstance().getReportTemplateDocument());
 
                         splash.setStringPainted("Adding Document ... ");
-                        word.setReport(fileName);
+                        report.setReport(fileName);
 
                         splash.setStringPainted("Updating Document ... ");
-                        word.setData(rf.getValues());
+                        report.setData(rf.getValues());
 
-                        word.run();
+                        report.run();
                             
                     } catch (Exception e) {
                         e.printStackTrace(System.err);

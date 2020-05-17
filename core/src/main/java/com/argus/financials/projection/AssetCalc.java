@@ -6,13 +6,7 @@
 
 package com.argus.financials.projection;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
-
-import com.argus.financials.code.FinancialClassID;
+import com.argus.financials.api.code.FinancialClassID;
 import com.argus.financials.code.InvestmentStrategyCode;
 import com.argus.financials.code.ModelType;
 

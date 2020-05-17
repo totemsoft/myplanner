@@ -6,24 +6,26 @@
 
 package com.argus.financials.projection;
 
-/**
- * 
- * @author shibaevv
- */
-
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.Vector;
 
-import com.argus.beans.AbstractComponentModel;
-import com.argus.beans.MessageSent;
+import com.argus.bean.AbstractComponentModel;
+import com.argus.bean.MessageSent;
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.api.bean.IPerson;
+import com.argus.financials.api.bean.UserPreferences;
 import com.argus.financials.code.FundType;
 import com.argus.financials.code.OwnerCode;
 import com.argus.financials.projection.dss.DSSContainer;
 import com.argus.financials.projection.dss.NonDeemedAssetTableModel;
 import com.argus.financials.projection.dss.NotEligibleException;
 import com.argus.financials.projection.dss.PersonInfo;
-import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.service.ClientService;
+import com.argus.financials.service.PersonService;
 import com.argus.financials.swing.table.UpdateableTableModel;
 import com.argus.financials.swing.table.UpdateableTableRow;
 import com.argus.financials.table.FinancialColumnID;
@@ -39,6 +41,15 @@ public class DSSCalcNew extends AbstractComponentModel implements
     private boolean noClientPhar;
 
     private boolean noPartnerPhar;
+
+    protected transient static ClientService clientService;
+    protected transient static UserPreferences userPreferences;
+    public static void setClientService(ClientService clientService) {
+        DSSCalcNew.clientService = clientService;
+    }
+    public static void setUserPreferences(UserPreferences userPreferences) {
+        DSSCalcNew.userPreferences = userPreferences;
+    }
 
     /** Creates a new instance of DSSCalcNew */
     public DSSCalcNew() {
@@ -65,7 +76,7 @@ public class DSSCalcNew extends AbstractComponentModel implements
             STA_AA_P, HC_AA_P, VBC_AA_P, OTHER_PER_AA_P, SAL_AI_P, OTHER_AI_P,
             INV_PRO_AI_P, };
 
-    public void setValues(java.util.Map financials) {
+    public void setValues(Map financials) {
 
         DSSUtils dssu = new DSSUtils(financials);
 
@@ -161,7 +172,7 @@ public class DSSCalcNew extends AbstractComponentModel implements
         setDouble(INV_PRO_AI_P, dssu.doubleValue(INV_PRO_AI,
                 FinancialColumnID.REAL_AMOUNT_PARTNER), 2);
 
-        java.util.Vector v = new java.util.Vector();
+        Vector v = new Vector();
         v.addAll(dssu.getDSSElements(FundType.rcPENSION, OwnerCode.CLIENT));
         v.addAll(dssu.getDSSElements(FundType.rcANNUITY, OwnerCode.CLIENT));
         v
@@ -170,7 +181,7 @@ public class DSSCalcNew extends AbstractComponentModel implements
 
         putValue(NON_DEEMED_ASSETS_C, v);
 
-        v = new java.util.Vector();
+        v = new Vector();
         v.addAll(dssu.getDSSElements(FundType.rcPENSION, OwnerCode.PARTNER));
         v.addAll(dssu.getDSSElements(FundType.rcANNUITY, OwnerCode.PARTNER));
         v.addAll(dssu
@@ -180,34 +191,30 @@ public class DSSCalcNew extends AbstractComponentModel implements
 
     }
 
-    public void setValues(com.argus.financials.service.ClientService client)
-            throws com.argus.financials.service.client.ServiceException {
+    public void setValues(ClientService client) throws ServiceException {
 
-        com.argus.financials.etc.PersonName pn = client == null ? null : client
-                .getPersonName();
+        IPerson pn = client == null ? null : client.getPersonName();
         putValue(CLIENT_NAME, pn == null ? null : pn.getFullName());
 
         setTrueDate(DOB, pn == null ? null : pn.getDateOfBirth());
         if (pn != null && pn.getDateOfBirth() != null)
             setInt(AGE, pn.getAge().doubleValue());
-        setDate(CALCULATION_DATE, new java.util.Date());
+        setDate(CALCULATION_DATE, new Date());
 
-        putValue(SEX_CODE, pn == null ? null : pn.getSexCode());
-        putValue(MARITAL_STATUS, pn == null ? null : pn.getMaritalCode());
-        java.util.TreeMap dependents = client == null ? null : client
-                .getDependents();
+        putValue(SEX_CODE, pn == null ? null : pn.getSex().getCode());
+        putValue(MARITAL_STATUS, pn == null ? null : pn.getMarital().getCode());
+        TreeMap dependents = client == null ? null : client.getDependents();
         setInt(CHILDREN_AMOUNT, dependents == null ? 0 : dependents.size());
 
-        com.argus.financials.service.PersonService partner = client == null
-                || !pn.isMarried() ? null : client.getPartner(false);
+        PersonService partner = client == null || !pn.isMarried() ? null : client.getPartner(false);
         pn = partner == null ? null : partner.getPersonName();
         putValue(NAME_PARTNER, pn == null ? null : pn.getFullName());
 
         setTrueDate(DOB_PARTNER, pn == null ? null : pn.getDateOfBirth());
         if (pn != null && pn.getDateOfBirth() != null)
             setInt(AGE_PARTNER, pn.getAge().doubleValue());
-        setDate(CALCULATION_DATE_PARTNER, new java.util.Date());
-        putValue(PARTNER_SEX_CODE, pn == null ? null : pn.getSexCode());
+        setDate(CALCULATION_DATE_PARTNER, new Date());
+        putValue(PARTNER_SEX_CODE, pn == null ? null : pn.getSex().getCode());
 
     }
 
@@ -788,8 +795,8 @@ public class DSSCalcNew extends AbstractComponentModel implements
             addPartner = true;
 
         UpdateableTableRow row;
-        java.util.ArrayList values = new java.util.ArrayList();
-        java.util.ArrayList columClasses = new java.util.ArrayList();
+        ArrayList values = new ArrayList();
+        ArrayList columClasses = new ArrayList();
         columClasses.add("String");
         columClasses.add("String");
         columClasses.add("String");
@@ -1419,21 +1426,19 @@ public class DSSCalcNew extends AbstractComponentModel implements
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields)
             throws java.io.IOException {
-        initializeReportData(reportFields,
-                com.argus.financials.service.ServiceLocator.getInstance()
-                        .getClientPerson());
+        initializeReportData(reportFields, clientService);
     }
 
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields,
-            com.argus.financials.service.PersonService person)
+            PersonService person)
             throws java.io.IOException {
 
         if (person != null)
             reportFields.initialize(person);
         else {
             reportFields.setValue(reportFields.Adviser_FullName,
-                ServiceLocator.getInstance().getUserPreferences().getUser().getFullName());
+                userPreferences.getUser().getFullName());
             reportFields.setValue(reportFields.Client_FullName,
                 getValue(CLIENT_NAME));
             Date now = new Date();

@@ -17,12 +17,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.argus.financials.bean.DbConstant;
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.bean.DbConstant;
 import com.argus.financials.bean.db.AbstractPersistable;
-import com.argus.financials.bean.db.FPSLinkObject;
-import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.etc.Estate;
-import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.util.DateTimeUtils;
 
 public class EstateBean extends AbstractPersistable {
@@ -88,7 +87,7 @@ public class EstateBean extends AbstractPersistable {
      */
     public void load(Connection con) throws SQLException,
             ObjectNotFoundException {
-        load(getPrimaryKeyID(), con);
+        load(getId(), con);
     }
 
     public void load(Integer primaryKeyID, Connection con) throws SQLException,
@@ -102,7 +101,7 @@ public class EstateBean extends AbstractPersistable {
             if (newConnection)
                 con = this.getConnection();
 
-            setPrimaryKeyID(primaryKeyID);
+            setId(primaryKeyID);
 
             sql = con.prepareStatement("SELECT pe.*" + " FROM PersonEstate pe"
                     + " WHERE (pe.PersonEstateID = ?)",
@@ -117,14 +116,14 @@ public class EstateBean extends AbstractPersistable {
 
             Integer personEstateID = (Integer) rs.getObject("PersonEstateID");
             load(rs);
-            setPrimaryKeyID(personEstateID);
+            setId(personEstateID);
 
         } finally {
             if (rs != null)
                 rs.close();
             if (sql != null)
                 sql.close();
-            if (newConnection && (con != null))
+            if (newConnection && con != null)
                 con.close();
         }
 
@@ -156,16 +155,16 @@ public class EstateBean extends AbstractPersistable {
 
     // check if this contact person already exists in Person table (e.g.
     // Partner)
-    // in CLIENT !!! ( use find() return PersonID(s) to setPrimaryKeyID() )
+    // in CLIENT !!! ( use find() return PersonID(s) to setId() )
     public int store(Connection con) throws SQLException {
 
         if (!isModified())
-            return getPrimaryKeyID().intValue();
+            return getId().intValue();
 
         int i = 0;
         PreparedStatement sql = null;
 
-        if (getPrimaryKeyID() == null) {
+        if (getId() == null) {
 
             // insert into Object table new PersonEstateID
             int estateID = getNewObjectID(DbConstant.ESTATE, con);
@@ -203,12 +202,12 @@ public class EstateBean extends AbstractPersistable {
             sql.executeUpdate();
 
             // link this estate to client
-            int linkID = FPSLinkObject.getInstance().link(
-                    getOwnerPrimaryKeyID(), new Integer(estateID),
+            int linkID = linkObjectDao.link(
+                    getOwnerId(), new Integer(estateID),
                     getLinkObjectTypeID(1),// DbID.CLIENT_2_ESTATE,
                     con);
 
-            setPrimaryKeyID(new Integer(estateID));
+            setId(new Integer(estateID));
 
         } else if (isModified()) {
 
@@ -241,14 +240,14 @@ public class EstateBean extends AbstractPersistable {
             sql.setObject(++i, getEstate().getInsolvencyRiskCodeID(),
                     java.sql.Types.INTEGER);
 
-            sql.setInt(++i, getPrimaryKeyID().intValue());
+            sql.setInt(++i, getId().intValue());
 
             sql.executeUpdate();
 
         }
 
         setModified(false);
-        return getPrimaryKeyID().intValue();
+        return getId().intValue();
 
     }
 
@@ -262,12 +261,12 @@ public class EstateBean extends AbstractPersistable {
                 con = this.getConnection();
 
             // remove link this contact to client
-            int linkID = FPSLinkObject.getInstance().unlink(
-                    getOwnerPrimaryKeyID().intValue(),
-                    getPrimaryKeyID().intValue(), getLinkObjectTypeID(1), con);
+            int linkID = linkObjectDao.unlink(
+                    getOwnerId().intValue(),
+                    getId().intValue(), getLinkObjectTypeID(1), con);
 
         } finally {
-            if (newConnection && (con != null))
+            if (newConnection && con != null)
                 con.close();
         }
 
@@ -309,20 +308,20 @@ public class EstateBean extends AbstractPersistable {
         getEstate().setModified(value);
     }
 
-    public Integer getPrimaryKeyID() {
-        return getEstate().getPrimaryKeyID();
+    public Integer getId() {
+        return getEstate().getId();
     }
 
-    public void setPrimaryKeyID(Integer value) {
-        getEstate().setPrimaryKeyID(value);
+    public void setId(Integer value) {
+        getEstate().setId(value);
     }
 
     public Integer getOwnerPrimaryKeyID() {
-        return getEstate().getOwnerPrimaryKeyID();
+        return getEstate().getOwnerId();
     }
 
     public void setOwnerPrimaryKeyID(Integer value) {
-        getEstate().setOwnerPrimaryKeyID(value);
+        getEstate().setOwnerId(value);
     }
 
 }

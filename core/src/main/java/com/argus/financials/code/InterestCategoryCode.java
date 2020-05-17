@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
 
-import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.api.code.CodeComparator;
 import com.argus.util.ReferenceCode;
 
 public class InterestCategoryCode extends BaseCode {
@@ -41,8 +41,7 @@ public class InterestCategoryCode extends BaseCode {
     private void initCodes() {
 
         try {
-            Map map = ServiceLocator.getInstance().getUtilityService().getCodes(
-                    "Category", "CategoryID", "CategoryName");
+            Map map = utilityService.getCodes("Category", "CategoryID", "CategoryName");
             if (map == null)
                 return;
 
@@ -55,7 +54,7 @@ public class InterestCategoryCode extends BaseCode {
                         (String) entry.getKey()));
             }
 
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
 

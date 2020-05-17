@@ -9,7 +9,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
-import com.argus.financials.domain.client.refdata.ICountry;
+import com.argus.financials.api.bean.ICountry;
+import com.argus.financials.api.bean.hibernate.AbstractCode;
 
 @Entity
 @Table(name = ICountry.TABLE_NAME)
@@ -21,8 +22,8 @@ public class Country extends AbstractCode implements ICountry
 
     @Id
     @Column(name = "CountryCodeID", nullable = false)
-    @Type(type = "com.argus.financials.domain.hibernate.LongType")
-    private Long id;
+    @Type(type = "com.argus.financials.domain.hibernate.IntegerType")
+    private Integer id;
 
     @Column(name = "CountryCode", nullable = false)
     private String code;
@@ -30,12 +31,25 @@ public class Country extends AbstractCode implements ICountry
     @Column(name = "CountryCodeDesc", nullable = false)
     private String description;
 
+    public Country() {
+        super();
+    }
+
+    public Country(Integer id, String code, String description) {
+        this.id = id;
+        this.code = code;
+        this.description = description;
+    }
+
     /* (non-Javadoc)
      * @see com.argus.financials.domain.IBase#getId()
      */
-    public Long getId()
+    public Integer getId()
     {
         return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     /* (non-Javadoc)
@@ -46,12 +60,20 @@ public class Country extends AbstractCode implements ICountry
         return code;
     }
 
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     /* (non-Javadoc)
      * @see com.argus.financials.domain.client.refdata.ICode#getDescription()
      */
     public String getDescription()
     {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

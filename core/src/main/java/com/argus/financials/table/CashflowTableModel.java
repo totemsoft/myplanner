@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.api.bean.IPerson;
+import com.argus.financials.api.bean.IPersonHealth;
 import com.argus.financials.bean.Assumptions;
 import com.argus.financials.bean.Financial;
 import com.argus.financials.bean.Financials;
@@ -25,7 +28,6 @@ import com.argus.financials.code.OwnerCode;
 import com.argus.financials.code.TableDisplayMode;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.swing.table.ISmartTableRow;
 import com.argus.financials.swing.table.ProxyTableModel;
 import com.argus.financials.tax.au.ITaxConstants;
@@ -60,29 +62,19 @@ public class CashflowTableModel extends FinancialTableModel {
         return proxy;
     }
 
-    /** Creates a new instance of CashflowTableModel */
-    // private CashflowTableModel() {
-    // super();
-    // }
-    private static int refCount = 0;
+    protected transient static ClientService clientService;
+    public static void setClientService(ClientService clientService) {
+        CashflowTableModel.clientService = clientService;
+    }
 
     public CashflowTableModel(final java.util.Map financials,
             final Assumptions assumptions) {
         super();
-
         update(financials, assumptions);
-
-        // if (DEBUG) System.out.println( getClass().getName() + " created,
-        // refCount=" + ++refCount );
     }
 
     protected void finalize() throws Throwable {
-
-        // if (DEBUG) System.out.println( getClass().getName() + " finalized,
-        // refCount=" + refCount );
-
         super.finalize();
-
     }
 
     public void update(final java.util.Map financials,
@@ -100,15 +92,11 @@ public class CashflowTableModel extends FinancialTableModel {
 
     public void update(java.util.Map financials) {
         setData(initData(financials));
-        // *
         // refresh
         for (int r = 0; r < getRowCount(); r++)
             for (int c = 0; c < getColumnCount(); c++) {
-                // if (DEBUG) System.out.println( "\tgetValueAt( " + r + ", " +
-                // c + " )" );
                 getValueAt(r, c);
             }
-        // */
     }
 
     public GrandGroupFooterRow getGrandTotal() {
@@ -130,12 +118,9 @@ public class CashflowTableModel extends FinancialTableModel {
                 .getYearsToProject(), assumptions.getDisplayMode());
         int[] displayColumns2 = new int[displayColumns.length + 1];
 
-        // if (DEBUG) System.out.println( "CashflowTableModel" );
         displayColumns2[0] = 0; // first column = name, others = years
         for (int i = 0; i < displayColumns.length; i++) {
             displayColumns2[i + 1] = displayColumns[i] + 1;
-            // if (DEBUG) System.out.println( "\t" + displayColumns[i] + " -> "
-            // + displayColumns2[i+1] );
         }
 
         return displayColumns2;
@@ -235,7 +220,7 @@ public class CashflowTableModel extends FinancialTableModel {
         GroupHeaderRow taxGroupHeader = new GroupHeaderRow(new ReferenceCode(0,
                 "Taxes"));
         data.add(taxGroupHeader);
-        ClientService client = ServiceLocator.getInstance().getClientPerson();
+        ClientService client = clientService;
         try {
             taxClient = new TaxRow(new ReferenceCode(CLIENT, "ClientView's tax"),
                     client, taxRegulars);
@@ -249,7 +234,7 @@ public class CashflowTableModel extends FinancialTableModel {
                 data.add(taxPartner);
             }
 
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (ServiceException e) {
             e.printStackTrace(System.err);
             // no personal data will be initialized !!! (impossible)
         }
@@ -355,17 +340,10 @@ public class CashflowTableModel extends FinancialTableModel {
             super(r);
 
             clear();
-            // if (DEBUG) System.out.println( getClass().getName() + " created,
-            // id=" + ( id = ++refCountCashflow ) );
         }
 
         protected void finalize() throws Throwable {
-
-            // if (DEBUG) System.out.println( getClass().getName() + "
-            // finalized, id=" + id );
-
             super.finalize();
-
         }
 
         protected Regular getRegular() {
@@ -394,10 +372,6 @@ public class CashflowTableModel extends FinancialTableModel {
                 if (r.isGenerated()) {
                     temp = (Regular) r.project(year, 0., temp); // no inflation
                     amount = temp.getFinancialYearAmount(true).doubleValue();
-
-                    // if (DEBUG) System.out.println( r.toString() + ", amount="
-                    // + amount );
-
                 } else {
                     r.setGeneratedYear(year);
                     amount = r.getFinancialYearAmount(true).doubleValue();
@@ -412,9 +386,6 @@ public class CashflowTableModel extends FinancialTableModel {
                 data[year] = amount;
 
             }
-
-            // if ( DEBUG ) System.out.println( "columnIndex: " + columnIndex +
-            // ", Amount: " + amount );
 
             return getNumeric(columnIndex).setValue(amount).round();
 
@@ -448,7 +419,7 @@ public class CashflowTableModel extends FinancialTableModel {
         private double[] data;
 
         public TaxRow(ReferenceCode rc, PersonService person,
-                java.util.Collection regulars) throws com.argus.financials.service.client.ServiceException {
+                java.util.Collection regulars) throws ServiceException {
             super(BODY);
 
             this.rc = rc;
@@ -458,17 +429,10 @@ public class CashflowTableModel extends FinancialTableModel {
             initTaxContainer(tc, person);
 
             clear();
-            // if (DEBUG) System.out.println( getClass().getName() + " created,
-            // id=" + ( id = ++refCountCashflow ) );
         }
 
         protected void finalize() throws Throwable {
-
-            // if (DEBUG) System.out.println( getClass().getName() + "
-            // finalized, id=" + id );
-
             super.finalize();
-
         }
 
         public String toString() {
@@ -500,7 +464,7 @@ public class CashflowTableModel extends FinancialTableModel {
                 // reset financial info ONLY !!! (keep personal info)
                 tc.reset();
 
-                int ownerType = rc.getCodeID();
+                int ownerType = rc.getId();
                 double spouseIncome = 0.;
 
                 Iterator iter = regulars.iterator();
@@ -517,17 +481,9 @@ public class CashflowTableModel extends FinancialTableModel {
                     double amount;
                     r.setGeneratedYear(year);
                     if (r.isGenerated()) {
-                        // if (DEBUG) System.out.println( "" + year + "). " +
-                        // r.toString() + ", amount=" + r.getAmount() );
-
-                        temp = (Regular) r.project(year, 0., temp); // no
-                                                                    // inflation
+                        temp = (Regular) r.project(year, 0., temp); // no inflation
                         // amount = temp.getAmount().doubleValue();
                         amount = temp.getFinancialYearAmount().doubleValue();
-
-                        // if (DEBUG) System.out.println( "\t" + year + "). " +
-                        // temp.toString() + ", amount=" + amount );//+ ",
-                        // r.getRegularTaxType()=" + r.getRegularTaxType() );
 
                     } else {
                         amount = r.getFinancialYearAmount().doubleValue();
@@ -586,32 +542,21 @@ public class CashflowTableModel extends FinancialTableModel {
 
             }
 
-            // if ( DEBUG ) System.out.println( "AFTER tc.calculate() " + time +
-            // ", columnIndex: " + columnIndex + ", Tax: " + tax );
-
             return getNumeric(columnIndex).setValue(tax).round();
 
         }
 
-        private void initTaxContainer(TaxContainer tc, PersonService person)
-                throws com.argus.financials.service.client.ServiceException {
-
-            boolean hospitalCover = person == null ? false : person
-                    .hasHospitalCover();
-            tc.add(TaxContainer.PERSONAL, ITaxConstants.P_HOSPITAL_COVER,
-                    hospitalCover ? 1. : 0.); // 0. = false, 1. = true
-            boolean married = person == null ? false : person.getPersonName()
-                    .isMarried();
-            tc.add(TaxContainer.PERSONAL, ITaxConstants.P_MARITAL_STATUS,
-                    married ? 1. : 0.); // 0. = false, 1. = true
-            java.util.TreeMap dependants = person == null ? null : person
-                    .getDependents();
-            tc.add(TaxContainer.PERSONAL, ITaxConstants.P_DEPENDANTS,
-                    dependants == null ? 0. : dependants.size());
-            Double age = person == null ? null : person.getPersonName()
-                    .getAge();
-            tc.add(TaxContainer.PERSONAL, ITaxConstants.P_AGE, age == null ? 0.
-                    : age.doubleValue());
+        private void initTaxContainer(TaxContainer tc, PersonService person) throws ServiceException {
+            IPerson personName = person.getPersonName();
+            IPersonHealth personHealth = personName == null ? null : personName.getPersonHealth();
+            boolean hospitalCover = personHealth == null ? false : personHealth.isHospitalCover();
+            tc.add(TaxContainer.PERSONAL, ITaxConstants.P_HOSPITAL_COVER, hospitalCover ? 1. : 0.); // 0. = false, 1. = true
+            boolean married = person == null ? false : personName.isMarried();
+            tc.add(TaxContainer.PERSONAL, ITaxConstants.P_MARITAL_STATUS, married ? 1. : 0.); // 0. = false, 1. = true
+            java.util.TreeMap dependants = person == null ? null : person.getDependents();
+            tc.add(TaxContainer.PERSONAL, ITaxConstants.P_DEPENDANTS, dependants == null ? 0. : dependants.size());
+            Number age = person == null ? null : personName.getAge();
+            tc.add(TaxContainer.PERSONAL, ITaxConstants.P_AGE, age == null ? 0. : age.doubleValue());
 
         }
 
@@ -700,10 +645,6 @@ public class CashflowTableModel extends FinancialTableModel {
                 for (int i = 0; i < diff.length; i++) {
 
                     int modeIndex = TableDisplayMode.toModeIndex(mode, i);
-                    // if (DEBUG)
-                    // System.out.println( "TableDisplayMode.toModeIndex( " +
-                    // mode + ", " + i + " )=" + modeIndex + ", columnIndex=" +
-                    // columnIndex );
 
                     if (modeIndex > columnIndex - 1)
                         break;

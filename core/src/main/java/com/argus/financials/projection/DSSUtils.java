@@ -6,6 +6,9 @@
 
 package com.argus.financials.projection;
 
+import com.argus.financials.api.code.FinancialClassID;
+import com.argus.financials.api.code.FinancialTypeID;
+
 /**
  * 
  * @author valeri chibaev
@@ -14,8 +17,6 @@ package com.argus.financials.projection;
 import com.argus.financials.bean.Financial;
 import com.argus.financials.bean.IRegularType;
 import com.argus.financials.bean.IncomeStream;
-import com.argus.financials.code.FinancialClassID;
-import com.argus.financials.code.FinancialTypeID;
 import com.argus.financials.code.FundType;
 import com.argus.financials.projection.dss.DSSElement;
 import com.argus.financials.table.FinancialColumnID;
@@ -86,7 +87,7 @@ public class DSSUtils {
         // All Financial Types
         FinancialTreeFilter filter = new FinancialTreeFilter(
                 FinancialTreeStructure.FUND_TYPE);
-        filter.add(fund.getCodeIDInteger());
+        filter.add(fund.getCodeId());
 
         DSSElement elem;
         java.util.Vector data = new java.util.Vector();
@@ -180,7 +181,7 @@ public class DSSUtils {
             // all where fund type = FundType.rcANNUITY_SHORT
             filter = new FinancialTreeFilter(filter,
                     FinancialTreeStructure.FUND_TYPE);
-            filter.add(FundType.rcANNUITY_SHORT.getCodeIDInteger());
+            filter.add(FundType.rcANNUITY_SHORT.getCodeId());
 
         } else if (DocumentNames.HC_AA.equals(componentName)) {
             tableModel = assetPersonalTableModel;

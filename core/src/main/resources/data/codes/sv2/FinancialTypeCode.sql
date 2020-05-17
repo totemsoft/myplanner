@@ -311,7 +311,7 @@ INSERT INTO FinancialMapSV2 ( ac_num, FinancialTypeID, FinancialCodeID ) VALUES 
 INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 89, 'FHF', 'FH Faulding Company Ltd', 1005 );
 INSERT INTO FinancialMapSV2 ( ac_num, FinancialTypeID, FinancialCodeID ) VALUES ( '2400800', 1005, 89 );
 
-INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 90, 'FPS', 'Fiducian Portfolio Services Lt', 1005 );
+INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 90, 'FPS', 'Portfolio Services Lt', 1005 );
 INSERT INTO FinancialMapSV2 ( ac_num, FinancialTypeID, FinancialCodeID ) VALUES ( '2400810', 1005, 90 );
 
 INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 91, 'FOA', 'Foodland Associated Ltd', 1005 );
@@ -1058,37 +1058,37 @@ INSERT INTO FinancialType ( FinancialTypeID, FinancialTypeDesc, ObjectTypeID ) V
 INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 1, '', 'Unit Trusts (Internal)', 1010 );
 INSERT INTO FinancialMapSV2 ( ac_num, FinancialTypeID, FinancialCodeID ) VALUES ( '248', 1010, 1 );
 
-INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 2, 'SP1', 'Fiducian Capital Safe Fund', 1010 );
+INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 2, 'SP1', 'Capital Safe Fund', 1010 );
 INSERT INTO FinancialMapSV2 ( ac_num, FinancialTypeID, FinancialCodeID ) VALUES ( '2480000', 1010, 2 );
 
-INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 3, 'SF1', 'Fiducian Capital Stable Fund', 1010 );
+INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 3, 'SF1', 'Capital Stable Fund', 1010 );
 INSERT INTO FinancialMapSV2 ( ac_num, FinancialTypeID, FinancialCodeID ) VALUES ( '2480010', 1010, 3 );
 
-INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 4, 'BF1', 'Fiducian Balanced Fund', 1010 );
+INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 4, 'BF1', 'Balanced Fund', 1010 );
 INSERT INTO FinancialMapSV2 ( ac_num, FinancialTypeID, FinancialCodeID ) VALUES ( '2480020', 1010, 4 );
 
-INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 5, 'GF1', 'Fiducian Growth Fund', 1010 );
+INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 5, 'GF1', 'Growth Fund', 1010 );
 INSERT INTO FinancialMapSV2 ( ac_num, FinancialTypeID, FinancialCodeID ) VALUES ( '2480030', 1010, 5 );
 
-INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 6, 'AE1', 'Fiducian Australian Share Fund', 1010 );
+INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 6, 'AE1', 'Australian Share Fund', 1010 );
 INSERT INTO FinancialMapSV2 ( ac_num, FinancialTypeID, FinancialCodeID ) VALUES ( '2480040', 1010, 6 );
 
-INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 7, 'SC3', 'Fiducian Smaller Co Share Fund', 1010 );
+INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 7, 'SC3', 'Smaller Co Share Fund', 1010 );
 INSERT INTO FinancialMapSV2 ( ac_num, FinancialTypeID, FinancialCodeID ) VALUES ( '2480050', 1010, 7 );
 
-INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 8, 'IE1', 'Fiducian International Shares', 1010 );
+INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 8, 'IE1', 'International Shares', 1010 );
 INSERT INTO FinancialMapSV2 ( ac_num, FinancialTypeID, FinancialCodeID ) VALUES ( '2480060', 1010, 8 );
 
---INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 9, 'IE1', 'Fiducian International Shares', 1010 );
+--INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 9, 'IE1', 'International Shares', 1010 );
 --INSERT INTO FinancialMapSV2 ( ac_num, FinancialTypeID, FinancialCodeID ) VALUES ( '2480060', 1010, 9 );
 
 INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 10, 'IE6', 'Fid Glo Smller Cos & Emerg Mkt', 1010 );
 INSERT INTO FinancialMapSV2 ( ac_num, FinancialTypeID, FinancialCodeID ) VALUES ( '2480070', 1010, 10 );
 
-INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 11, 'TF1', 'Fiducian Technology Fund', 1010 );
+INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 11, 'TF1', 'Technology Fund', 1010 );
 INSERT INTO FinancialMapSV2 ( ac_num, FinancialTypeID, FinancialCodeID ) VALUES ( '2480080', 1010, 11 );
 
-INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 12, 'PS1', 'Fiducian Prop. Securities Fund', 1010 );
+INSERT INTO FinancialCode ( FinancialCodeID, FinancialCode, FinancialCodeDesc, FinancialTypeID ) VALUES ( 12, 'PS1', 'Prop. Securities Fund', 1010 );
 INSERT INTO FinancialMapSV2 ( ac_num, FinancialTypeID, FinancialCodeID ) VALUES ( '2480090', 1010, 12 );
 
 

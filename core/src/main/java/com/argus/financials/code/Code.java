@@ -6,6 +6,8 @@
 
 package com.argus.financials.code;
 
+import java.io.Serializable;
+
 /**
  * 
  * @author valeri chibaev
@@ -17,6 +19,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.service.ServiceAware;
 
 /*
  * In Swing 1.1.1 and later, you can place HTML in your labels to get a
@@ -31,7 +36,10 @@ import java.util.Set;
  * 
  */
 
-public abstract class Code implements java.io.Serializable {
+public abstract class Code
+    extends ServiceAware
+    implements Serializable//, ICode
+{
 
     public final static String NONE = "";
 

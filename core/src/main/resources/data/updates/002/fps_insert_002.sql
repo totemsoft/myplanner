@@ -1015,7 +1015,7 @@ DELETE FROM Institution
 GO
 
 INSERT Institution (InstitutionID, InstitutionName)
-VALUES (1, 'Fiducian portofolio services')
+VALUES (1, 'portofolio services')
 
 
 

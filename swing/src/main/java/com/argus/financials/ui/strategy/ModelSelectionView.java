@@ -15,13 +15,13 @@ import java.util.Vector;
 
 import com.argus.financials.code.FinancialType;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.strategy.Strategy;
 import com.argus.financials.swing.SwingUtil;
+import com.argus.financials.ui.AbstractPanel;
 import com.argus.format.LimitedPlainDocument;
 import com.argus.util.ReferenceCode;
 
-public class ModelSelectionView extends javax.swing.JPanel {
+public class ModelSelectionView extends AbstractPanel {
 
     public static final int CANCEL_OPTION = javax.swing.JOptionPane.CANCEL_OPTION;
 
@@ -261,7 +261,7 @@ public class ModelSelectionView extends javax.swing.JPanel {
 
         try {
             view.updateView(strategy);
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
 
@@ -319,11 +319,11 @@ public class ModelSelectionView extends javax.swing.JPanel {
 
     }
 
-    public void updateView(Strategy strategy) throws com.argus.financials.service.client.ServiceException {
+    public void updateView(Strategy strategy) throws com.argus.financials.api.ServiceException {
         if (strategy == null)
             return;
 
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
         if (person == null)
             return;
 
@@ -334,8 +334,7 @@ public class ModelSelectionView extends javax.swing.JPanel {
                     items));
         }
 
-        Object[] items2 = FinancialType.getFinancialTypes(strategy
-                .getStrategyTypeID());
+        Object[] items2 = financialService.findFinancialTypes(strategy.getStrategyTypeID());
         if (items2 != null) {
             // items.add( 0, ReferenceCode.CODE_NONE ); // already there
             jComboBoxFinancialTypes

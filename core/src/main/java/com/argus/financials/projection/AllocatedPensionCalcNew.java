@@ -15,12 +15,14 @@ package com.argus.financials.projection;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.argus.beans.format.CurrencyLabelGenerator;
+import com.argus.financials.api.APConstants;
+import com.argus.financials.api.code.FinancialTypeID;
 import com.argus.financials.bean.RegularExpense;
 import com.argus.financials.bean.RegularIncome;
+import com.argus.financials.chart.APGraphViewNew;
+import com.argus.financials.chart.IGraphView;
 import com.argus.financials.code.APRelationshipCode;
 import com.argus.financials.code.DeathBenefitCode;
-import com.argus.financials.code.FinancialTypeID;
 import com.argus.financials.code.FrequencyCode;
 import com.argus.financials.code.GeneralTaxExemptionCode;
 import com.argus.financials.code.IReportFields;
@@ -32,7 +34,6 @@ import com.argus.financials.code.SelectedAnnualPensionCode;
 import com.argus.financials.code.SelectedAnnualPensionCodeID;
 import com.argus.financials.code.SexCode;
 import com.argus.financials.etc.BadArgumentException;
-import com.argus.financials.projection.data.APConstants;
 import com.argus.financials.projection.data.LifeExpectancy;
 import com.argus.financials.projection.data.PensionValuation;
 import com.argus.financials.report.ReportFields;
@@ -40,6 +41,7 @@ import com.argus.financials.report.Reportable;
 import com.argus.financials.swing.table.UpdateableTableModel;
 import com.argus.financials.swing.table.UpdateableTableRow;
 import com.argus.financials.tax.au.ITaxConstants;
+import com.argus.format.CurrencyLabelGenerator;
 import com.argus.format.Percent;
 import com.argus.io.JPEGFileFilter;
 import com.argus.util.DateTimeUtils;
@@ -168,14 +170,14 @@ public final class AllocatedPensionCalcNew extends ETPCalcNew implements
                 setGeneralTaxExemptionOptionID(new Integer(value));
             else
                 setGeneralTaxExemptionOptionID(new GeneralTaxExemptionCode()
-                        .getCode(value).getCodeIDInteger());
+                        .getCode(value).getCodeId());
 
         } else if (property.equals(DEATH_BENEFIT)) {
             if (getNumberInstance().isValid(value))
                 setDeathBenefitID(new Integer(value));
             else
                 setDeathBenefitID(new DeathBenefitCode().getCode(value)
-                        .getCodeIDInteger());
+                        .getCodeId());
 
         } else if (property.equals(PENSION_FREQUENCY)) {
             if (getNumberInstance().isValid(value))
@@ -197,7 +199,7 @@ public final class AllocatedPensionCalcNew extends ETPCalcNew implements
                 setSelectedAnnualPensionType(new Integer(value));
             else
                 setSelectedAnnualPensionType(new SelectedAnnualPensionCode()
-                        .getCode(value).getCodeIDInteger());
+                        .getCode(value).getCodeId());
 
         } else if (property.equals(OTHER_VALUE)) {
             setOtherValue(getCurrencyInstance().getBigDecimalValue(value));
@@ -217,7 +219,7 @@ public final class AllocatedPensionCalcNew extends ETPCalcNew implements
                 setRelationshipID(new Integer(value));
             else
                 setRelationshipID(new APRelationshipCode().getCode(value)
-                        .getCodeIDInteger());
+                        .getCodeId());
 
         } else if (property.equals(PARTNER_SEX_CODE)) {
             if (getNumberInstance().isValid(value))
@@ -1556,7 +1558,7 @@ public final class AllocatedPensionCalcNew extends ETPCalcNew implements
                     .getStartDate()));
             income.setTaxable(true);
             income.setOwnerCodeID(OwnerCode.CLIENT);
-            income.setFinancialTypeID(FinancialTypeID.INCOME_RETIREMENT);
+            income.setFinancialTypeId(FinancialTypeID.INCOME_RETIREMENT);
             income.setRegularTaxType(ITaxConstants.I_OTHER_PENSIONS);
             financials.add(income);
         }
@@ -1592,7 +1594,7 @@ public final class AllocatedPensionCalcNew extends ETPCalcNew implements
                     .getEndOfFinancialYearDate(dates[i]));
             expense.setTaxable(true);
             expense.setOwnerCodeID(OwnerCode.CLIENT);
-            expense.setFinancialTypeID(FinancialTypeID.EXPENSE_OTHER);
+            expense.setFinancialTypeId(FinancialTypeID.EXPENSE_OTHER);
             expense.setRegularTaxType(ITaxConstants.D_GENERAL);
             financials.add(expense);
         }
@@ -1631,9 +1633,7 @@ public final class AllocatedPensionCalcNew extends ETPCalcNew implements
 
     public void initializeReportData(ReportFields reportFields)
             throws Exception {
-        initializeReportData(reportFields,
-                com.argus.financials.service.ServiceLocator.getInstance()
-                        .getClientPerson());
+        initializeReportData(reportFields, clientService);
 
     }
 
@@ -1715,7 +1715,7 @@ public final class AllocatedPensionCalcNew extends ETPCalcNew implements
 
         values.add("Death Benefit Option");
         values.add(new DeathBenefitCode().getCode(getDeathBenefitID())
-                .getCodeDesc());
+                .getDescription());
         row = new UpdateableTableRow(values, columClasses);
         utm.addRow(row);
         values.clear();
@@ -1728,7 +1728,7 @@ public final class AllocatedPensionCalcNew extends ETPCalcNew implements
 
         values.add("Pension Payment Option");
         values.add(new SelectedAnnualPensionCode().getCode(
-                getSelectedAnnualPensionType()).getCodeDesc());
+                getSelectedAnnualPensionType()).getDescription());
         row = new UpdateableTableRow(values, columClasses);
         utm.addRow(row);
         values.clear();
@@ -1889,7 +1889,7 @@ public final class AllocatedPensionCalcNew extends ETPCalcNew implements
         reportFields.setValue(IReportFields.AP_Projection, utm);
 
         // Initialize graph function
-        com.argus.financials.GraphView graphView = new APGraphViewNew();
+        IGraphView graphView = new APGraphViewNew();
         // SwingUtils.setDefaultFont( graphView );
         graphView.setPreferredSize(new java.awt.Dimension(700, 500));
 

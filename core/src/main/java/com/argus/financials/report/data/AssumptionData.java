@@ -98,8 +98,8 @@ public class AssumptionData extends BaseData {
         LumpSumRequiredAtRetirement = money.toString(a
                 .getLumpSumRequiredAtRetirement());
 
-        DebtRepayment = a.getDebtRepayment() ? BooleanCode.rcYES.getCodeDesc()
-                : BooleanCode.rcNO.getCodeDesc();
+        DebtRepayment = a.getDebtRepayment() ? BooleanCode.rcYES.getDescription()
+                : BooleanCode.rcNO.getDescription();
         InvestmentStrategy = a.getInvestmentStrategyDesc();
 
     }

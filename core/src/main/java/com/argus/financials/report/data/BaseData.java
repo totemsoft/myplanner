@@ -6,6 +6,10 @@
 
 package com.argus.financials.report.data;
 
+import java.math.BigDecimal;
+
+import com.argus.financials.service.PersonService;
+import com.argus.financials.service.ServiceAware;
 import com.argus.io.ImageUtils;
 
 /**
@@ -13,13 +17,11 @@ import com.argus.io.ImageUtils;
  * @author valeri chibaev
  */
 
-public class BaseData extends java.lang.Object implements java.io.Serializable {
-    // serialver -classpath . com.argus.activex.data.BaseData
+public class BaseData
+    extends ServiceAware
+    implements java.io.Serializable {
 
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
-    // static final long serialVersionUID = -8045055121179967923L;
+    static final long serialVersionUID = -8045055121179967923L;
 
     public static final String STRING_EMPTY = "";
 
@@ -29,7 +31,7 @@ public class BaseData extends java.lang.Object implements java.io.Serializable {
 
     static final String STRING_ZERO_DOLLAR = "$0.00";
 
-    static final java.math.BigDecimal ZERO = new java.math.BigDecimal(0);
+    static final BigDecimal ZERO = BigDecimal.ZERO;
 
     protected static com.argus.format.Currency currency;
 
@@ -74,10 +76,6 @@ public class BaseData extends java.lang.Object implements java.io.Serializable {
 
     private boolean modified = false;
 
-    /** Creates a new instance of BaseData */
-    protected BaseData() {
-    }
-
     // originally defined on AbstractBase
     protected boolean equals(Object value1, Object value2) {
         return (value1 == null && value2 == null)
@@ -94,7 +92,7 @@ public class BaseData extends java.lang.Object implements java.io.Serializable {
             return;
 
         modified = value;
-        // do notification if nessesary
+        // do notification if necessary
 
     }
 
@@ -102,8 +100,7 @@ public class BaseData extends java.lang.Object implements java.io.Serializable {
         modified = false;
     }
 
-    public void init(com.argus.financials.service.PersonService person)
-            throws Exception {
+    public void init(PersonService person) throws Exception {
         if (person == null)
             clear();
     }

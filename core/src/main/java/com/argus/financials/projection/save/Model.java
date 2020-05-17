@@ -14,18 +14,15 @@ package com.argus.financials.projection.save;
 
 import java.util.Vector;
 
-import com.argus.financials.bean.ObjectTypeConstant;
+import com.argus.financials.api.bean.IFPSAssignableObject;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.etc.DuplicateException;
 import com.argus.financials.etc.FPSAssignableObject;
 import com.argus.financials.etc.ModelTitleRestrictionException;
 
 public class Model extends FPSAssignableObject {
 
-    public static final Model NONE;
-    static {
-        NONE = new Model();
-        NONE.title = "None";
-    }
+    public static final Model NONE = new Model("None");
 
     private ModelCollection owner;
 
@@ -51,6 +48,10 @@ public class Model extends FPSAssignableObject {
     /** Creates new Model */
     public Model() {
         super();
+    }
+
+    public Model(String title) {
+        this.title = title;
     }
 
     public Model(Integer ownerPrimaryKeyID) {
@@ -101,7 +102,8 @@ public class Model extends FPSAssignableObject {
     /**
      * Assignable methods
      */
-    public void assign(FPSAssignableObject value) throws ClassCastException {
+    @Override
+    public void assign(IFPSAssignableObject value) throws ClassCastException {
 
         super.assign(value);
 
@@ -234,12 +236,6 @@ public class Model extends FPSAssignableObject {
             return;
 
         data = value;
-
-        // if (DEBUG) System.out.print( "********************* " );
-        // if (DEBUG) System.out.print( toString() );
-        // if (DEBUG) System.out.println( " *********************" );
-        // if (DEBUG) System.out.println( data );
-        // if (DEBUG) System.out.println();
 
         setModified(true);
 

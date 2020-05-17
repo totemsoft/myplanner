@@ -6,6 +6,9 @@
 
 package com.argus.financials.ui.financials;
 
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.code.FinancialTypeEnum;
+
 /**
  * 
  * @author valeri chibaev
@@ -14,8 +17,6 @@ package com.argus.financials.ui.financials;
 
 import com.argus.financials.bean.Regular;
 import com.argus.financials.bean.TaxOffset;
-import com.argus.financials.code.FinancialTypeID;
-import com.argus.financials.code.InvalidCodeException;
 import com.argus.util.ReferenceCode;
 
 public class AddTaxOffsetView extends AddRegularView {
@@ -77,18 +78,15 @@ public class AddTaxOffsetView extends AddRegularView {
         if (jComboBoxType.getSelectedIndex() <= 0)
             msg += "Tax Offset Type is required.\n";
         else {
-            ReferenceCode refCode = (ReferenceCode) jComboBoxType
-                    .getSelectedItem();
-            if (FinancialTypeID.TAXOFFSET_LOW_INCOME.equals(refCode
-                    .getCodeIDInteger()))
+            ReferenceCode refCode = (ReferenceCode) jComboBoxType.getSelectedItem();
+            Integer financialTypeID = refCode.getCodeId();
+            if (financialTypeID != null && financialTypeID == FinancialTypeEnum.TAXOFFSET_LOW_INCOME.getId())
                 msg += "Tip!\n\n"
-                        + "The dollar amount of the Low Income Tax Offset is automatically\n"
-                        + "calculated in the Tax Analysis Module for qualifying Individuals.\n"
-                        + "You are not required to enter any details here.\n"
-                        + "Please select another Tax Offset or press Cancel.\n"
-                // + "\n"
-                // + " Scot Andrews\n"
-                // + " Assistant Manager Technical Services\n"
+                    + "The dollar amount of the Low Income Tax Offset is automatically\n"
+                    + "calculated in the Tax Analysis Module for qualifying Individuals.\n"
+                    + "You are not required to enter any details here.\n"
+                    + "Please select another Tax Offset or press Cancel.\n"
+                 // + "\n\tAssistant Manager Technical Services\n"
                 ;
         }
 
@@ -125,7 +123,7 @@ public class AddTaxOffsetView extends AddRegularView {
     }
 
     public String getTitle() {
-        return RC_TAX_OFFSET.getCodeDesc();
+        return RC_TAX_OFFSET.getDescription();
     }
 
 }

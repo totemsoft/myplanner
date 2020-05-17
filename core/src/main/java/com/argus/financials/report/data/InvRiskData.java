@@ -11,23 +11,16 @@
  */
 package com.argus.financials.report.data;
 
-/**
- * 
- * @author shibaevv
- * @version
- */
-
-import com.argus.financials.bean.LinkObjectTypeConstant;
-import com.argus.financials.code.FinancialTypeID;
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.code.LinkObjectTypeConstant;
 import com.argus.financials.code.InvestmentStrategyData;
 import com.argus.financials.etc.GrowthRate;
 import com.argus.financials.etc.Survey;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.client.ObjectNotFoundException;
 
 public class InvRiskData // extends BaseData
         extends com.argus.financials.bean.AbstractBase implements
-        FinancialTypeID, com.argus.financials.report.Reportable,
+        com.argus.financials.report.Reportable,
         javax.swing.event.ChangeListener {
     private static final String STRING_EMPTY = "";
 
@@ -427,7 +420,7 @@ public class InvRiskData // extends BaseData
                 throws java.io.IOException {
             if (survey != null) {
                 this.survey = survey;
-                this.surveyID = survey.getPrimaryKeyID();
+                this.surveyID = survey.getId();
                 this.investmentStrategyCodeID = survey.getRiskProfileID();
             }
 
@@ -568,9 +561,7 @@ public class InvRiskData // extends BaseData
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields)
             throws java.io.IOException {
-        initializeReportData(reportFields,
-                com.argus.financials.service.ServiceLocator.getInstance()
-                        .getClientPerson());
+        initializeReportData(reportFields, clientService);
     }
 
     public void initializeReportData(
@@ -579,8 +570,7 @@ public class InvRiskData // extends BaseData
             throws java.io.IOException {
         if (person != null) {
             // we have to initialize ReportFields with the client person
-            reportFields.initialize(com.argus.financials.service.ServiceLocator
-                    .getInstance().getClientPerson());
+            reportFields.initialize(clientService);
             // and we use the "parameter" person object to set the name for this
             // risk profile report,
             // because it can be the client or client's partner

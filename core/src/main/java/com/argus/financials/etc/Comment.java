@@ -6,13 +6,8 @@
 
 package com.argus.financials.etc;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
-
-import com.argus.financials.bean.ObjectTypeConstant;
+import com.argus.financials.api.bean.IFPSAssignableObject;
+import com.argus.financials.api.code.ObjectTypeConstant;
 
 public class Comment extends FPSAssignableObject {
 
@@ -36,7 +31,8 @@ public class Comment extends FPSAssignableObject {
     /**
      * Assignable methods
      */
-    public void assign(FPSAssignableObject value) throws ClassCastException {
+    @Override
+    public void assign(IFPSAssignableObject value) throws ClassCastException {
 
         super.assign(value);
 
@@ -53,7 +49,7 @@ public class Comment extends FPSAssignableObject {
     /**
      * helper methods
      */
-    protected void clear() {
+    public void clear() {
         super.clear();
 
         commentText = null;

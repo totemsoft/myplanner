@@ -435,7 +435,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="com.fiducian.javabeans.FDateChooser" name="jTextFieldPurchaseDate">
+        <Component class="com.argus.beans.FDateChooser" name="jTextFieldPurchaseDate">
           <Properties>
             <Property name="inputVerifier" type="javax.swing.InputVerifier" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="DateInputVerifier.getInstance()" type="code"/>
@@ -469,7 +469,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="com.fiducian.javabeans.FDateChooser" name="jTextFieldPriceDate">
+        <Component class="com.argus.beans.FDateChooser" name="jTextFieldPriceDate">
           <Properties>
             <Property name="inputVerifier" type="javax.swing.InputVerifier" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="DateInputVerifier.getInstance()" type="code"/>
@@ -754,7 +754,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="com.fiducian.javabeans.FDateChooser" name="jTextFieldContributionsStartDate">
+        <Component class="com.argus.beans.FDateChooser" name="jTextFieldContributionsStartDate">
           <Properties>
             <Property name="inputVerifier" type="javax.swing.InputVerifier" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="DateInputVerifier.getInstance()" type="code"/>
@@ -788,7 +788,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="com.fiducian.javabeans.FDateChooser" name="jTextFieldContributionsEndDate">
+        <Component class="com.argus.beans.FDateChooser" name="jTextFieldContributionsEndDate">
           <Properties>
             <Property name="inputVerifier" type="javax.swing.InputVerifier" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="DateInputVerifier.getInstance()" type="code"/>
@@ -882,7 +882,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="com.fiducian.javabeans.FDateChooser" name="jTextFieldDrawdownsStartDate">
+        <Component class="com.argus.beans.FDateChooser" name="jTextFieldDrawdownsStartDate">
           <Properties>
             <Property name="inputVerifier" type="javax.swing.InputVerifier" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="DateInputVerifier.getInstance()" type="code"/>
@@ -916,7 +916,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="com.fiducian.javabeans.FDateChooser" name="jTextFieldDrawdownsEndDate">
+        <Component class="com.argus.beans.FDateChooser" name="jTextFieldDrawdownsEndDate">
           <Properties>
             <Property name="inputVerifier" type="javax.swing.InputVerifier" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="DateInputVerifier.getInstance()" type="code"/>

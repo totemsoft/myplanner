@@ -1,0 +1,54 @@
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+
+application:
+  env: local
+
+# LOGGING
+logging:
+  #config: classpath:log4j.xml
+  file: myplanner.log
+  level:
+    root: INFO
+    org.springframework.web: WARN
+    org.hibernate: WARN
+    #*: DEBUG
+
+spring:
+  # IDENTITY (ContextIdApplicationContextInitializer)
+  application:
+    index: 1
+    name: MyPlanner
+
+# DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+  datasource:
+    driver-class-name: net.sourceforge.jtds.jdbc.Driver
+    #url: jdbc:jtds:sqlserver://192.168.56.101:1433/MyPlanner
+    #username: sa
+    #password: superuser
+    url: jdbc:jtds:sqlserver://jms-sqlserver-ex.cfdvijddkwak.ap-southeast-2.rds.amazonaws.com:1433/MyPlanner
+    username: xcelerate
+    password: Passw0rd
+    initial-size: 1
+    max-active: 8
+    max-idle: 4
+    min-idle: 0
+# Number of ms to wait before throwing an exception if no connection is available
+    max-wait: 5000
+    min-evictable-idle-time-millis: 1000
+    schema: dbo
+    name: jdbc/DataSource_myplanner
+    test-on-borrow: true
+    test-on-return: false
+    test-while-idle: false
+    validation-query: select 1 from DBVersion
+
+# JPA (JpaBaseConfiguration, HibernateJpaAutoConfiguration)
+  jpa:
+    show-sql: true
+    database: SQL_SERVER
+    hibernate:
+      naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
+    properties:
+      hibernate.dialect: org.hibernate.dialect.SQLServer2008Dialect
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false

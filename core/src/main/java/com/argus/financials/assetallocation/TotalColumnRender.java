@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @author shibaevv
  * 
  * @see com.argus.financials.ui.assetallocation.AssetAllocationView
- * @see com.argus.financials.ui.assetallocation.AssetAllocationTableModel
+ * @see com.argus.financials.ui.assetallocation.ui.assetallocation.AssetAllocationTableModel
  */
 public class TotalColumnRender extends DefaultTableCellRenderer {
     private int _horizontal_alignment = JLabel.LEFT;

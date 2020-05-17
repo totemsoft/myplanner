@@ -22,9 +22,10 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import com.argus.beans.BasePanel;
-import com.argus.beans.MessageSentEvent;
-import com.argus.financials.code.InvalidCodeException;
+import com.argus.bean.BasePanel;
+import com.argus.bean.MessageSentEvent;
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.ServiceException;
 import com.argus.financials.code.ModelType;
 import com.argus.financials.config.ViewSettings;
 import com.argus.financials.config.WordSettings;
@@ -34,17 +35,18 @@ import com.argus.financials.etc.ModelTitleRestrictionException;
 import com.argus.financials.projection.GeneralTaxCalculatorNew;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.report.ReportFields;
+import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.tax.au.ITaxConstants;
 import com.argus.financials.ui.BaseView;
 import com.argus.financials.ui.FinancialPlannerApp;
 import com.argus.financials.ui.IMenuCommand;
 
-public class PAYGView extends BasePanel implements ActionEventID,
-        com.argus.financials.swing.ICloseDialog {
+public class PAYGView
+    extends BasePanel
+    implements ActionEventID, com.argus.financials.swing.ICloseDialog
+{
 
     private static PAYGView view;
 
@@ -53,6 +55,11 @@ public class PAYGView extends BasePanel implements ActionEventID,
     private String defaultTitle = "PAYG Calculator";
 
     private boolean newModel;
+
+    private static ClientService clientService;
+    public static void setClientService(ClientService clientService) {
+        PAYGView.clientService = clientService;
+    }
 
     public Integer getDefaultType() {
         return ModelType.PAYG_CALC;
@@ -210,9 +217,9 @@ public class PAYGView extends BasePanel implements ActionEventID,
 
     private void checkAvailabilty() {
         jButtonSave
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
+                .setEnabled(clientService != null);
         jButtonSaveAs
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
+                .setEnabled(clientService != null);
         jButtonDelete.setEnabled(jButtonSave.isEnabled());
 
     }
@@ -246,41 +253,41 @@ public class PAYGView extends BasePanel implements ActionEventID,
         jLabel31 = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         IncomeReceived = new javax.swing.JPanel();
-        fTextField13 = new com.argus.beans.FTextField();
-        fTextField14 = new com.argus.beans.FTextField();
-        fTextField15 = new com.argus.beans.FTextField();
-        fTextField38 = new com.argus.beans.FTextField();
-        fTextField16 = new com.argus.beans.FTextField();
-        fTextField17 = new com.argus.beans.FTextField();
+        fTextField13 = new com.argus.bean.FTextField();
+        fTextField14 = new com.argus.bean.FTextField();
+        fTextField15 = new com.argus.bean.FTextField();
+        fTextField38 = new com.argus.bean.FTextField();
+        fTextField16 = new com.argus.bean.FTextField();
+        fTextField17 = new com.argus.bean.FTextField();
         jLabel25 = new javax.swing.JLabel();
-        fTextField18 = new com.argus.beans.FTextField();
-        fTextField19 = new com.argus.beans.FTextField();
-        fTextField20 = new com.argus.beans.FTextField();
-        fTextField21 = new com.argus.beans.FTextField();
-        fTextField22 = new com.argus.beans.FTextField();
-        fTextField23 = new com.argus.beans.FTextField();
-        fTextField24 = new com.argus.beans.FTextField();
+        fTextField18 = new com.argus.bean.FTextField();
+        fTextField19 = new com.argus.bean.FTextField();
+        fTextField20 = new com.argus.bean.FTextField();
+        fTextField21 = new com.argus.bean.FTextField();
+        fTextField22 = new com.argus.bean.FTextField();
+        fTextField23 = new com.argus.bean.FTextField();
+        fTextField24 = new com.argus.bean.FTextField();
         jLabel33 = new javax.swing.JLabel();
         jLabel35 = new javax.swing.JLabel();
-        fTextField8 = new com.argus.beans.FTextField();
+        fTextField8 = new com.argus.bean.FTextField();
         IncomeTaxWithHeld = new javax.swing.JPanel();
-        fTextField1 = new com.argus.beans.FTextField();
-        fTextField2 = new com.argus.beans.FTextField();
-        fTextField3 = new com.argus.beans.FTextField();
+        fTextField1 = new com.argus.bean.FTextField();
+        fTextField2 = new com.argus.bean.FTextField();
+        fTextField3 = new com.argus.bean.FTextField();
         jLabel46 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jLabel23 = new javax.swing.JLabel();
-        fTextField4 = new com.argus.beans.FTextField();
-        fTextField5 = new com.argus.beans.FTextField();
-        fTextField6 = new com.argus.beans.FTextField();
+        fTextField4 = new com.argus.bean.FTextField();
+        fTextField5 = new com.argus.bean.FTextField();
+        fTextField6 = new com.argus.bean.FTextField();
         jLabel22 = new javax.swing.JLabel();
-        fTextField7 = new com.argus.beans.FTextField();
+        fTextField7 = new com.argus.bean.FTextField();
         jLabel27 = new javax.swing.JLabel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
-        fTextField9 = new com.argus.beans.FTextField();
+        fTextField9 = new com.argus.bean.FTextField();
         jLabel34 = new javax.swing.JLabel();
-        fTextField10 = new com.argus.beans.FTextField();
+        fTextField10 = new com.argus.bean.FTextField();
         DummyLeft = new javax.swing.JPanel();
         RightPanel = new javax.swing.JPanel();
         Personal = new javax.swing.JPanel();
@@ -291,20 +298,20 @@ public class PAYGView extends BasePanel implements ActionEventID,
         jLabel39 = new javax.swing.JLabel();
         jLabel44 = new javax.swing.JLabel();
         PersonalValues = new javax.swing.JPanel();
-        fComboBox1 = new com.argus.beans.FComboBox();
-        fComboBox2 = new com.argus.beans.FComboBox();
-        fTextField34 = new com.argus.beans.FTextField();
-        fTextField35 = new com.argus.beans.FTextField();
-        fTextField36 = new com.argus.beans.FTextField();
+        fComboBox1 = new com.argus.bean.FComboBox();
+        fComboBox2 = new com.argus.bean.FComboBox();
+        fTextField34 = new com.argus.bean.FTextField();
+        fTextField35 = new com.argus.bean.FTextField();
+        fTextField36 = new com.argus.bean.FTextField();
         Deductions = new javax.swing.JPanel();
         DeductionsLabel = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         DeductionsAmount = new javax.swing.JPanel();
-        fTextField26 = new com.argus.beans.FTextField();
-        fTextField27 = new com.argus.beans.FTextField();
-        fTextField28 = new com.argus.beans.FTextField();
+        fTextField26 = new com.argus.bean.FTextField();
+        fTextField27 = new com.argus.bean.FTextField();
+        fTextField28 = new com.argus.bean.FTextField();
         Rebates = new javax.swing.JPanel();
         RebatesLabel = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
@@ -312,10 +319,10 @@ public class PAYGView extends BasePanel implements ActionEventID,
         jLabel43 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         RebatesAmount = new javax.swing.JPanel();
-        fTextField25 = new com.argus.beans.FTextField();
-        fTextField29 = new com.argus.beans.FTextField();
-        fTextField12 = new com.argus.beans.FTextField();
-        fTextField37 = new com.argus.beans.FTextField();
+        fTextField25 = new com.argus.bean.FTextField();
+        fTextField29 = new com.argus.bean.FTextField();
+        fTextField12 = new com.argus.bean.FTextField();
+        fTextField37 = new com.argus.bean.FTextField();
         Tax = new javax.swing.JPanel();
         TaxLabel = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
@@ -325,12 +332,12 @@ public class PAYGView extends BasePanel implements ActionEventID,
         jLabel40 = new javax.swing.JLabel();
         jLabel41 = new javax.swing.JLabel();
         TaxAmount = new javax.swing.JPanel();
-        fTextField30 = new com.argus.beans.FTextField();
-        fTextField31 = new com.argus.beans.FTextField();
-        fTextField32 = new com.argus.beans.FTextField();
-        fTextField33 = new com.argus.beans.FTextField();
+        fTextField30 = new com.argus.bean.FTextField();
+        fTextField31 = new com.argus.bean.FTextField();
+        fTextField32 = new com.argus.bean.FTextField();
+        fTextField33 = new com.argus.bean.FTextField();
         jLabel42 = new javax.swing.JLabel();
-        fTextField11 = new com.argus.beans.FTextField();
+        fTextField11 = new com.argus.bean.FTextField();
         DummyRight = new javax.swing.JPanel();
         jPanelControls = new javax.swing.JPanel();
         jPanelCloseSave = new javax.swing.JPanel();
@@ -1096,9 +1103,9 @@ public class PAYGView extends BasePanel implements ActionEventID,
                 // ModelCollection models = null;
                 java.util.Vector models = null;
                 try {
-                    models = ServiceLocator.getInstance().getClientPerson()
+                    models = clientService
                             .getModels(ModelType.PAYG_CALC);
-                } catch (com.argus.financials.service.client.ServiceException e) {
+                } catch (com.argus.financials.api.ServiceException e) {
                     e.printStackTrace(System.err);
                     return;
                 }
@@ -1165,7 +1172,7 @@ public class PAYGView extends BasePanel implements ActionEventID,
         }
 
         try {
-            saveView(ServiceLocator.getInstance().getClientPerson());
+            saveView(clientService);
         } catch (Exception e) {
             e.printStackTrace(System.err);
             return;
@@ -1196,7 +1203,7 @@ public class PAYGView extends BasePanel implements ActionEventID,
         boolean exists = PAYGView.exists();
 
         PAYGView view = PAYGView.getInstance();
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
         view.model = model;
 
         // Initialize parameters for new model
@@ -1262,7 +1269,7 @@ public class PAYGView extends BasePanel implements ActionEventID,
         try {
             ReportFields.generateReport(
                     SwingUtilities.windowForComponent(this),
-                    getReportData(ServiceLocator.getInstance().getClientPerson()),
+                    getReportData(clientService),
                     getDefaultReport());
 
         } catch (java.io.IOException e) {
@@ -1304,27 +1311,27 @@ public class PAYGView extends BasePanel implements ActionEventID,
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.argus.beans.FTextField fTextField38;
+    private com.argus.bean.FTextField fTextField38;
 
-    private com.argus.beans.FTextField fTextField37;
+    private com.argus.bean.FTextField fTextField37;
 
-    private com.argus.beans.FTextField fTextField36;
+    private com.argus.bean.FTextField fTextField36;
 
     private javax.swing.JPanel PersonalValues;
 
-    private com.argus.beans.FTextField fTextField35;
+    private com.argus.bean.FTextField fTextField35;
 
     private javax.swing.JPanel Personal;
 
-    private com.argus.beans.FTextField fTextField34;
+    private com.argus.bean.FTextField fTextField34;
 
-    private com.argus.beans.FTextField fTextField33;
+    private com.argus.bean.FTextField fTextField33;
 
-    private com.argus.beans.FTextField fTextField32;
+    private com.argus.bean.FTextField fTextField32;
 
-    private com.argus.beans.FTextField fTextField31;
+    private com.argus.bean.FTextField fTextField31;
 
-    private com.argus.beans.FTextField fTextField30;
+    private com.argus.bean.FTextField fTextField30;
 
     private javax.swing.JLabel jLabel39;
 
@@ -1348,25 +1355,25 @@ public class PAYGView extends BasePanel implements ActionEventID,
 
     private javax.swing.JLabel jLabel30;
 
-    private com.argus.beans.FTextField fTextField29;
+    private com.argus.bean.FTextField fTextField29;
 
-    private com.argus.beans.FTextField fTextField28;
+    private com.argus.bean.FTextField fTextField28;
 
-    private com.argus.beans.FTextField fTextField27;
+    private com.argus.bean.FTextField fTextField27;
 
-    private com.argus.beans.FTextField fTextField26;
+    private com.argus.bean.FTextField fTextField26;
 
-    private com.argus.beans.FTextField fTextField25;
+    private com.argus.bean.FTextField fTextField25;
 
-    private com.argus.beans.FTextField fTextField24;
+    private com.argus.bean.FTextField fTextField24;
 
-    private com.argus.beans.FTextField fTextField23;
+    private com.argus.bean.FTextField fTextField23;
 
-    private com.argus.beans.FTextField fTextField22;
+    private com.argus.bean.FTextField fTextField22;
 
-    private com.argus.beans.FTextField fTextField21;
+    private com.argus.bean.FTextField fTextField21;
 
-    private com.argus.beans.FTextField fTextField20;
+    private com.argus.bean.FTextField fTextField20;
 
     private javax.swing.JPanel Rebates;
 
@@ -1408,27 +1415,27 @@ public class PAYGView extends BasePanel implements ActionEventID,
 
     private javax.swing.JPanel TaxAmount;
 
-    private com.argus.beans.FTextField fTextField19;
+    private com.argus.bean.FTextField fTextField19;
 
-    private com.argus.beans.FTextField fTextField18;
+    private com.argus.bean.FTextField fTextField18;
 
     private javax.swing.ButtonGroup bgCalculateTax;
 
-    private com.argus.beans.FTextField fTextField17;
+    private com.argus.bean.FTextField fTextField17;
 
-    private com.argus.beans.FTextField fTextField16;
+    private com.argus.bean.FTextField fTextField16;
 
-    private com.argus.beans.FTextField fTextField15;
+    private com.argus.bean.FTextField fTextField15;
 
-    private com.argus.beans.FTextField fTextField14;
+    private com.argus.bean.FTextField fTextField14;
 
-    private com.argus.beans.FTextField fTextField13;
+    private com.argus.bean.FTextField fTextField13;
 
-    private com.argus.beans.FTextField fTextField12;
+    private com.argus.bean.FTextField fTextField12;
 
-    private com.argus.beans.FTextField fTextField11;
+    private com.argus.bean.FTextField fTextField11;
 
-    private com.argus.beans.FTextField fTextField10;
+    private com.argus.bean.FTextField fTextField10;
 
     private javax.swing.JButton jClearAll;
 
@@ -1436,39 +1443,39 @@ public class PAYGView extends BasePanel implements ActionEventID,
 
     private javax.swing.JLabel jLabel18;
 
-    private com.argus.beans.FTextField fTextField9;
+    private com.argus.bean.FTextField fTextField9;
 
     private javax.swing.JLabel jLabel17;
 
-    private com.argus.beans.FTextField fTextField8;
+    private com.argus.bean.FTextField fTextField8;
 
     private javax.swing.JLabel jLabel16;
 
-    private com.argus.beans.FTextField fTextField7;
+    private com.argus.bean.FTextField fTextField7;
 
     private javax.swing.JLabel jLabel15;
 
-    private com.argus.beans.FTextField fTextField6;
+    private com.argus.bean.FTextField fTextField6;
 
     private javax.swing.JLabel jLabel14;
 
-    private com.argus.beans.FTextField fTextField5;
+    private com.argus.bean.FTextField fTextField5;
 
     private javax.swing.JLabel jLabel13;
 
-    private com.argus.beans.FTextField fTextField4;
+    private com.argus.bean.FTextField fTextField4;
 
-    private com.argus.beans.FTextField fTextField3;
+    private com.argus.bean.FTextField fTextField3;
 
     private javax.swing.JLabel jLabel12;
 
     private javax.swing.JPanel RebatesLabel;
 
-    private com.argus.beans.FTextField fTextField2;
+    private com.argus.bean.FTextField fTextField2;
 
     private javax.swing.JLabel jLabel11;
 
-    private com.argus.beans.FTextField fTextField1;
+    private com.argus.bean.FTextField fTextField1;
 
     private javax.swing.JLabel jLabel10;
 
@@ -1478,11 +1485,11 @@ public class PAYGView extends BasePanel implements ActionEventID,
 
     private javax.swing.JPanel DummyLeft;
 
-    private com.argus.beans.FComboBox fComboBox2;
+    private com.argus.bean.FComboBox fComboBox2;
 
     private javax.swing.JPanel DeductionsAmount;
 
-    private com.argus.beans.FComboBox fComboBox1;
+    private com.argus.bean.FComboBox fComboBox1;
 
     private javax.swing.JButton jButtonSaveAs;
 
@@ -1560,14 +1567,14 @@ public class PAYGView extends BasePanel implements ActionEventID,
         am.put(DATA_REMOVE, new AbstractAction() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
-                PersonService person = ServiceLocator.getInstance().getClientPerson();
+                PersonService person = clientService;
                 if (person == null)
                     return;
 
                 try {
                     person.removeModel(getModel());
                     person.storeModels();
-                } catch (com.argus.financials.service.client.ServiceException e) {
+                } catch (com.argus.financials.api.ServiceException e) {
                     e.printStackTrace();
                     return;
                 }

@@ -6,6 +6,8 @@
 
 package com.argus.financials.bean;
 
+import com.argus.financials.api.code.ObjectTypeConstant;
+
 /**
  * 
  * @author valeri chibaev
@@ -18,15 +20,9 @@ import com.argus.util.ReferenceCode;
 
 public class IncomeStream extends AssetSuperannuation {
 
-    // serialver -classpath . com.argus.financial.IncomeStream
-
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 3868513980021044262L;
 
-    public static final Integer OBJECT_TYPE_ID = new Integer(
-            ObjectTypeConstant.INCOME_STREAM);
+    public static final Integer OBJECT_TYPE_ID = ObjectTypeConstant.INCOME_STREAM;
 
     public Integer getObjectTypeID() {
         return OBJECT_TYPE_ID;
@@ -48,8 +44,8 @@ public class IncomeStream extends AssetSuperannuation {
     public void setFundTypeID(Integer value) {
         super.setFundTypeID(value);
 
-        if (FundType.rcPENSION.getCodeIDInteger().equals(getFundTypeID()))
-            setFinancialTypeID(INCOMESTREAM_PENSION_ACCOUNT);
+        if (FundType.rcPENSION.getCodeId().equals(getFundTypeID()))
+            setFinancialTypeId(INCOMESTREAM_PENSION_ACCOUNT);
         else
             // if (
             // FundType.rcANNUITY.getCodeIDInteger().equals( getFundTypeID() )
@@ -58,7 +54,7 @@ public class IncomeStream extends AssetSuperannuation {
             // getFundTypeID() ) ||
             // FundType.rcANNUITY_LONG.getCodeIDInteger().equals(
             // getFundTypeID() ) )
-            setFinancialTypeID(INCOMESTREAM_ANNUITY_POLICY);
+            setFinancialTypeId(INCOMESTREAM_ANNUITY_POLICY);
 
     }
 
@@ -95,12 +91,8 @@ public class IncomeStream extends AssetSuperannuation {
             r = (RegularIncome) regulars.get(GROSS_INCOME);
             if (r == null) {
                 r = generateIncome(type);
-                r.setFinancialTypeID(INCOME_RETIREMENT);
-                // if (DEBUG) r.setFinancialDesc( r.getFinancialDesc() + " (" +
-                // sGROSS_INCOME + ")" );
-
+                r.setFinancialTypeId(INCOME_RETIREMENT);
                 regulars.put(GROSS_INCOME, r);
-
             }
             r.setStartDate(getStartDate());
             r.setEndDate(getEndDate());
@@ -114,12 +106,8 @@ public class IncomeStream extends AssetSuperannuation {
             r = (RegularIncome) regulars.get(PENSION_PAYMENT);
             if (r == null) {
                 r = generateIncome(type);
-                r.setFinancialTypeID(INCOME_RETIREMENT);
-                // if (DEBUG) r.setFinancialDesc( r.getFinancialDesc() + " (" +
-                // sPENSION_PAYMENT + ")" );
-
+                r.setFinancialTypeId(INCOME_RETIREMENT);
                 regulars.put(PENSION_PAYMENT, r);
-
             }
             r.setStartDate(getStartDate());
             r.setEndDate(getEndDate());
@@ -133,12 +121,8 @@ public class IncomeStream extends AssetSuperannuation {
             r = (TaxOffset) regulars.get(PENSION_REBATE);
             if (r == null) {
                 r = generateTaxOffset(type);
-                r.setFinancialTypeID(TAXOFFSET_SUPER);
-                // if (DEBUG) r.setFinancialDesc( r.getFinancialDesc() + " (" +
-                // sPENSION_REBATE + ")" );
-
+                r.setFinancialTypeId(TAXOFFSET_SUPER);
                 regulars.put(PENSION_REBATE, r);
-
             }
             r.setStartDate(getStartDate());
             r.setEndDate(getEndDate());
@@ -153,12 +137,8 @@ public class IncomeStream extends AssetSuperannuation {
             if (r == null) {
                 r = generateIncome(type);
                 r.setTaxable(false);
-                r.setFinancialTypeID(INCOME_OTHER_TAX_FREE);
-                // if (DEBUG) r.setFinancialDesc( r.getFinancialDesc() + " (" +
-                // sTAXFREE_INCOME + ")" );
-
+                r.setFinancialTypeId(INCOME_OTHER_TAX_FREE);
                 regulars.put(TAXFREE_INCOME, r);
-
             }
             r.setStartDate(getStartDate());
             r.setEndDate(getEndDate());

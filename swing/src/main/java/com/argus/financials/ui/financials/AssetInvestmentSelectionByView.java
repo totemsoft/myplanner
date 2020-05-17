@@ -19,10 +19,6 @@ import com.argus.financials.swing.SwingUtil;
  */
 public class AssetInvestmentSelectionByView extends javax.swing.JPanel {
 
-    /** Creates new form AssetInvestmentSelectionView */
-    /*
-     * public AssetInvestmentSelectionByView() { initComponents(); }
-     */
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

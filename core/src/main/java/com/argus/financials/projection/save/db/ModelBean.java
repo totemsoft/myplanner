@@ -17,14 +17,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.argus.financials.bean.ObjectTypeConstant;
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.bean.db.AbstractPersistable;
-import com.argus.financials.bean.db.FPSLinkObject;
 import com.argus.financials.etc.DuplicateException;
 import com.argus.financials.etc.ModelTitleRestrictionException;
-import com.argus.financials.io.IOUtils2;
 import com.argus.financials.projection.save.Model;
-import com.argus.financials.service.client.ObjectNotFoundException;
+import com.argus.io.IOUtils2;
 import com.argus.util.StringUtils;
 
 public class ModelBean extends AbstractPersistable {
@@ -88,7 +87,7 @@ public class ModelBean extends AbstractPersistable {
 
     public void load(Connection con) throws SQLException,
             ObjectNotFoundException {
-        load(getPrimaryKeyID(), con);
+        load(getId(), con);
     }
 
     public void load(Integer primaryKeyID, Connection con) throws SQLException,
@@ -117,10 +116,12 @@ public class ModelBean extends AbstractPersistable {
 
             // has to be last (to be safe), we are not using primaryKeyID for
             // other queries
-            setPrimaryKeyID(primaryKeyID);
+            setId(primaryKeyID);
 
         } finally {
             close(rs, sql);
+            if (newConnection && con != null)
+                con.close();
         }
 
     }
@@ -130,8 +131,8 @@ public class ModelBean extends AbstractPersistable {
         int i = 0;
 
         Integer modelID = (Integer) rs.getObject(++i);
-        if (!equals(getPrimaryKeyID(), modelID))
-            setPrimaryKeyID(modelID);
+        if (!equals(getId(), modelID))
+            setId(modelID);
 
         // Model table
         setTypeID((Integer) rs.getObject(++i));
@@ -182,7 +183,7 @@ public class ModelBean extends AbstractPersistable {
         PreparedStatement sql = null;
 
         try {
-            if (getPrimaryKeyID() == null || getPrimaryKeyID().intValue() < 0) {
+            if (getId() == null || getId().intValue() < 0) {
 
                 primaryKeyID = getNewObjectID(getObjectTypeID(), con);
 
@@ -203,13 +204,13 @@ public class ModelBean extends AbstractPersistable {
 
                 sql.executeUpdate();
 
-                setPrimaryKeyID(new Integer(primaryKeyID));
+                setId(new Integer(primaryKeyID));
 
                 int linkID = setLink(getLinkObjectTypeID(1), con);
 
             } else {
 
-                primaryKeyID = getPrimaryKeyID().intValue();
+                primaryKeyID = getId().intValue();
 
                 // do update on Comment table
                 sql = con
@@ -246,8 +247,8 @@ public class ModelBean extends AbstractPersistable {
     public void remove(Connection con) throws SQLException {
 
         // remove/disable link only: DbID.PERSON_2_MODEL
-        int linkID = FPSLinkObject.getInstance().unlink(getOwnerPrimaryKeyID(),
-                getPrimaryKeyID(), getLinkObjectTypeID(1), con);
+        int linkID = linkObjectDao.unlink(getOwnerId(),
+                getId(), getLinkObjectTypeID(1), con);
 
     }
 
@@ -278,20 +279,20 @@ public class ModelBean extends AbstractPersistable {
         getModel().setModified(value);
     }
 
-    public Integer getPrimaryKeyID() {
-        return getModel().getPrimaryKeyID();
+    public Integer getId() {
+        return getModel().getId();
     }
 
-    public void setPrimaryKeyID(Integer value) {
-        getModel().setPrimaryKeyID(value);
+    public void setId(Integer value) {
+        getModel().setId(value);
     }
 
     public Integer getOwnerPrimaryKeyID() {
-        return getModel().getOwnerPrimaryKeyID();
+        return getModel().getOwnerId();
     }
 
     public void setOwnerPrimaryKeyID(Integer value) {
-        getModel().setOwnerPrimaryKeyID(value);
+        getModel().setOwnerId(value);
     }
 
     public Integer getTypeID() {

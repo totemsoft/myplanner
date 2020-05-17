@@ -6,13 +6,9 @@
 
 package com.argus.financials.bean;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
-
-import com.argus.financials.code.InvalidCodeException;
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.bean.IFPSAssignableObject;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.etc.FPSAssignableObject;
 
 public class FinancialGoal extends FPSAssignableObject {
@@ -53,7 +49,8 @@ public class FinancialGoal extends FPSAssignableObject {
     /**
      * Assignable methods
      */
-    public void assign(FPSAssignableObject value) throws ClassCastException {
+    @Override
+    public void assign(IFPSAssignableObject value) throws ClassCastException {
 
         super.assign(value);
 
@@ -77,7 +74,7 @@ public class FinancialGoal extends FPSAssignableObject {
     /**
      * helper methods
      */
-    protected void clear() {
+    public void clear() {
         super.clear();
 
         goalCodeID = null;

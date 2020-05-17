@@ -14,6 +14,9 @@ package com.argus.financials.strategy.model;
 
 import javax.swing.SwingUtilities;
 
+import com.argus.financials.api.code.CodeComparator;
+import com.argus.financials.api.code.FinancialClassID;
+import com.argus.financials.api.service.FinancialService;
 import com.argus.financials.bean.Asset;
 import com.argus.financials.bean.Assets;
 import com.argus.financials.bean.Financial;
@@ -23,18 +26,15 @@ import com.argus.financials.bean.Liability;
 import com.argus.financials.bean.Regular;
 import com.argus.financials.bean.RegularExpense;
 import com.argus.financials.bean.RegularIncome;
-import com.argus.financials.code.BaseCodeComparator;
 import com.argus.financials.code.FinancialClass;
-import com.argus.financials.code.FinancialClassID;
 import com.argus.financials.config.FPSLocale;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.swing.table.TreeTableModel;
+import com.argus.swing.table.TreeTableModel;
 import com.argus.util.ReferenceCode;
 
-public class FinancialDataModel extends BaseDataModel implements
-        FinancialClassID {
-    // cd /D D:\projects\Financial Planner\ant\build\classes
-    // serialver -classpath . com.argus.strategy.model.FinancialDataModel
+public class FinancialDataModel
+    extends BaseDataModel
+    implements FinancialClassID {
 
     // Compatible changes include adding or removing a method or a field.
     // Incompatible changes include changing an object's hierarchy or
@@ -57,6 +57,16 @@ public class FinancialDataModel extends BaseDataModel implements
     public static final int OWNER = 3;
 
     private static final int AMOUNT_TOTAL = 0;
+
+    private static PersonService personService;
+    public static void setPersonService(PersonService personService) {
+        FinancialDataModel.personService = personService;
+    }
+
+    private static FinancialService financialService;
+    public static void setFinancialService(FinancialService financialService) {
+        FinancialDataModel.financialService = financialService;
+    }
 
     protected int getCountTotal() {
         return 1;
@@ -276,14 +286,9 @@ public class FinancialDataModel extends BaseDataModel implements
      * 
      */
     public class Node extends BaseNode {
-        // serialver -classpath . com.argus.strategy.model.FinancialDataModel
 
-        // Compatible changes include adding or removing a method or a field.
-        // Incompatible changes include changing an object's hierarchy or
-        // removing the implementation of the Serializable interface.
         static final long serialVersionUID = -2394538978779543828L;
 
-        //
         private FinancialTotals totals;
 
         protected Node(Object object) {
@@ -402,19 +407,19 @@ public class FinancialDataModel extends BaseDataModel implements
 
             }
 
-            Integer objID = financial.getPrimaryKeyID(); // can be negative
+            Integer objID = financial.getId(); // can be negative
                                                             // (not saved)
             if (objID.intValue() > 0) // restored
                 return;
 
             // add new Financial entry
             if (details == null)
-                details = new java.util.TreeMap(new BaseCodeComparator());
+                details = new java.util.TreeMap(new CodeComparator());
 
             java.util.Map map = (java.util.Map) details.get(financial
                     .getObjectTypeID());
             if (map == null) {
-                map = new java.util.TreeMap(new BaseCodeComparator());
+                map = new java.util.TreeMap(new CodeComparator());
                 details.put(financial.getObjectTypeID(), map);
             }
 
@@ -423,8 +428,8 @@ public class FinancialDataModel extends BaseDataModel implements
             financial.setCountryCodeID(FPSLocale.getInstance()
                     .getCountryCodeID());
 
-            if (!map.containsKey(financial.getPrimaryKeyID()))
-                map.put(financial.getPrimaryKeyID(), financial);
+            if (!map.containsKey(financial.getId()))
+                map.put(financial.getId(), financial);
 
         }
 
@@ -435,20 +440,20 @@ public class FinancialDataModel extends BaseDataModel implements
                 return null;
 
             financial = (Financial) financial.clone();
-            financial.setPrimaryKeyID(null);
+            financial.setId(null);
 
             // add new Financial entry
             if (details == null)
-                details = new java.util.TreeMap(new BaseCodeComparator());
+                details = new java.util.TreeMap(new CodeComparator());
 
             java.util.Map map = (java.util.Map) details.get(financial
                     .getObjectTypeID());
             if (map == null) {
-                map = new java.util.TreeMap(new BaseCodeComparator());
+                map = new java.util.TreeMap(new CodeComparator());
                 details.put(financial.getObjectTypeID(), map);
             }
 
-            map.put(financial.getPrimaryKeyID(), financial);
+            map.put(financial.getId(), financial);
             return financial;
 
         }
@@ -553,7 +558,7 @@ public class FinancialDataModel extends BaseDataModel implements
             if (map == null)
                 return;
 
-            Integer objID = financial.getPrimaryKeyID(); // can be negative
+            Integer objID = financial.getId(); // can be negative
                                                             // (not saved)
             if (objID == null)
                 return;
@@ -818,17 +823,12 @@ public class FinancialDataModel extends BaseDataModel implements
 
     }
 
-    public java.util.Map reload(PersonService person) throws com.argus.financials.service.client.ServiceException {
-
-        if (person == null)
+    public java.util.Map reload(Integer personId) throws com.argus.financials.api.ServiceException {
+        if (personId == null) {
             return null;
-
+        }
         // get ALL current financial data (null means ALL object types, financial)
-        person.setFinancials(null, null); // reset all data
-        details = person.getFinancials();
-
-        return reload(details);
-
+        return reload(financialService.findFinancials(personId, null));
     }
 
     public java.util.Map reload(java.util.Map financials) {

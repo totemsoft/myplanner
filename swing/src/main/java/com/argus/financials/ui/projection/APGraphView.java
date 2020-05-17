@@ -14,7 +14,7 @@ package com.argus.financials.ui.projection;
 
 import com.klg.jclass.chart.JCChart;
 
-public class APGraphView extends com.argus.financials.GraphView {
+public class APGraphView extends com.argus.financials.chart.GraphView {
 
     /** Creates new StrategyResultView */
     public APGraphView() {

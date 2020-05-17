@@ -6,25 +6,17 @@
 
 package com.argus.financials.ui;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
-
-import com.argus.financials.bean.ObjectTypeConstant;
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.code.AddressCode;
 import com.argus.financials.code.ContactMediaCode;
 import com.argus.financials.code.InsolvencyRiskCode;
-import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.StatusCode;
 import com.argus.financials.code.WillChangeCode;
 import com.argus.financials.code.WillStatusCode;
 import com.argus.financials.service.PersonService;
 
 public class PersonEstateView extends javax.swing.JPanel {
-
-    private static final boolean DEBUG = true;
 
     private NameView executorName;
 
@@ -381,7 +373,7 @@ public class PersonEstateView extends javax.swing.JPanel {
 
     // private Estate estate;
 
-    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.api.ServiceException {
         /*
          * // display estate info Estate estate = ( (ClientService) person
          * ).getEstate();
@@ -402,7 +394,7 @@ public class PersonEstateView extends javax.swing.JPanel {
          */
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException,
+    public void saveView(PersonService person) throws com.argus.financials.api.ServiceException,
             InvalidCodeException {
         /*
          * // save estate info
@@ -422,7 +414,7 @@ public class PersonEstateView extends javax.swing.JPanel {
          * executorFax.saveView( null ); executor.setFax( (ContactMedia)
          * executorFax.getObject() );
          * 
-         * if ( executor.getPrimaryKeyID() == null ) ( (ClientService) person
+         * if ( executor.getId() == null ) ( (ClientService) person
          * ).setExecutor( executor );
          */
     }

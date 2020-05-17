@@ -24,17 +24,20 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellEditor;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.api.bean.IClientView;
+import com.argus.financials.api.bean.UserPreferences;
 import com.argus.financials.config.PropertySourceManager;
 import com.argus.financials.config.ViewSettings;
-import com.argus.financials.domain.hibernate.view.ClientView;
 import com.argus.financials.exchange.ExportData;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.client.ServiceException;
-import com.argus.financials.service.client.UserService;
+import com.argus.financials.service.ClientService;
 import com.argus.financials.swing.SwingUtil;
+import com.argus.financials.ui.AbstractPanel;
 import com.argus.financials.ui.CheckBoxList;
 
-public class ExportImportManagerApp extends javax.swing.JPanel {
+public class ExportImportManagerApp
+    extends AbstractPanel
+{
 
     public static final String DEVELOPER = "Developer";
 
@@ -45,6 +48,15 @@ public class ExportImportManagerApp extends javax.swing.JPanel {
     private CheckBoxList sqlList;
 
     private java.awt.CardLayout cardLayout;
+
+    private static ClientService clientService;
+    private static UserPreferences userPreferences;
+    public static void setClientService(ClientService clientService) {
+        ExportImportManagerApp.clientService = clientService;
+    }
+    public static void setUserPreferences(UserPreferences userPreferences) {
+        ExportImportManagerApp.userPreferences = userPreferences;
+    }
 
     /** Creates new form UpdateManager */
     public ExportImportManagerApp(String cardName) {
@@ -453,10 +465,8 @@ public class ExportImportManagerApp extends javax.swing.JPanel {
 
         if (exportData == null)
             exportData = new ExportData(
-                    com.argus.financials.service.ServiceLocator.getInstance()
-                            .getUserPersonID(),
-                    com.argus.financials.service.ServiceLocator.getInstance()
-                            .getClientPersonID());
+                (Integer) userPreferences.getUser().getId().intValue(),
+                clientService.getId());
 
         exportData.open(fileName);
 
@@ -640,12 +650,11 @@ public class ExportImportManagerApp extends javax.swing.JPanel {
 
         private void init() throws ServiceException {
             Map<String, Object> criteria = new HashMap<String, Object>();
-            UserService userService = ServiceLocator.getInstance().getUserService();
-            List<ClientView> clients = userService.findClients(criteria, 0, -1);
+            List<? extends IClientView> clients = userService.findClients(criteria, 0, -1);
             int size = clients == null ? 0 : clients.size();
             Map users = new TreeMap();
             for (int i = 0; i < size; i++) {
-                ClientView c = clients.get(i);
+                IClientView c = clients.get(i);
                 DefaultMutableTreeNode u = (DefaultMutableTreeNode) users.get(c.getOwnerShortName());
                 if (u == null) {
                     u = new CheckBoxTreeNode(c.getOwnerShortName());

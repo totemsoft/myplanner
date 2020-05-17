@@ -6,6 +6,8 @@
 
 package com.argus.financials.report.data;
 
+import com.argus.financials.api.APConstants;
+
 /**
  * 
  * @author shibaevv
@@ -17,10 +19,8 @@ import com.argus.financials.code.FrequencyCode;
 import com.argus.financials.code.SelectedAnnualPensionCode;
 import com.argus.financials.code.SexCode;
 import com.argus.financials.projection.AllocatedPensionCalcNew;
-import com.argus.financials.projection.data.APConstants;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.format.Percent;
 import com.argus.util.DateTimeUtils;
 
@@ -152,7 +152,7 @@ public class AllocatedPensionData extends ClientPersonData {
         client = new Client();
         adviser = new Adviser();
         partner = new Partner();
-        adviser.FullName = ServiceLocator.getInstance().getUserPreferences().getUser().getFullName();
+        adviser.FullName = userPreferences.getUser().getFullName();
 
         if (calc.getIsClient() == null || calc.getIsClient().booleanValue()) {
             client.FullName = calc.getClientName();
@@ -231,7 +231,7 @@ public class AllocatedPensionData extends ClientPersonData {
         allocatedPension.apData.netEarningRate = Percent.getPercentInstance()
                 .toString(calc.getNetEarningRate());
         allocatedPension.apData.selectedAnnualPensionType = new SelectedAnnualPensionCode()
-                .getCode(calc.getSelectedAnnualPensionType()).getCodeDesc();
+                .getCode(calc.getSelectedAnnualPensionType()).getDescription();
         if (APConstants.OTHER.equals(calc.getSelectedAnnualPensionType()))
             allocatedPension.apData.selectedAnnualPensionAmount = money
                     .roundToTen(calc.getOtherValue()).toString();
@@ -246,7 +246,7 @@ public class AllocatedPensionData extends ClientPersonData {
         allocatedPension.apData.minAmount = money.roundToTen(
                 calc.getAnnualMinimumAmount()).toString();
         allocatedPension.apData.DeathBenefitOption = new DeathBenefitCode()
-                .getCode(calc.getDeathBenefitID()).getCodeDesc();
+                .getCode(calc.getDeathBenefitID()).getDescription();
         allocatedPension.apData.netEarningRateType = (calc.getFlatRate() != null && calc
                 .getFlatRate().booleanValue()) ? "Flat" : "Variable";
 

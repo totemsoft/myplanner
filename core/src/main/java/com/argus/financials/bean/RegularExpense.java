@@ -6,6 +6,9 @@
 
 package com.argus.financials.bean;
 
+import com.argus.financials.api.code.FinancialTypeEnum;
+import com.argus.financials.api.code.ObjectTypeConstant;
+
 /**
  * 
  * @author valeri chibaev
@@ -13,18 +16,13 @@ package com.argus.financials.bean;
  */
 
 import com.argus.financials.code.FrequencyCode;
+import com.argus.financials.tax.au.ITaxConstants;
 
 public class RegularExpense extends Regular {
 
-    // serialver -classpath . com.argus.financial.RegularExpense
-
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 4975995616063665382L;
 
-    public static final Integer OBJECT_TYPE_ID = new Integer(
-            ObjectTypeConstant.REGULAR_EXPENSE);
+    public static final Integer OBJECT_TYPE_ID = ObjectTypeConstant.REGULAR_EXPENSE;
 
     public Integer getObjectTypeID() {
         return OBJECT_TYPE_ID;
@@ -46,7 +44,7 @@ public class RegularExpense extends Regular {
                 && EXPENSE_SAVING_INVESTMENT.equals(getFinancialTypeID())
                 && getAsset() != null)
             return getFinancialTypeDesc() + " FROM: " + getAsset()
-                    + (DISPLAY_PKID ? "(" + getPrimaryKeyID() + ")" : "");
+                    + (DISPLAY_PKID ? "(" + getId() + ")" : "");
 
         return super.toString();
     }
@@ -117,32 +115,29 @@ public class RegularExpense extends Regular {
 
     public String getRegularTaxType() {
         String taxType = super.getRegularTaxType();
-
         if (taxType == null) {
             taxType = getRegularTaxType(getFinancialTypeID());
             setRegularTaxType(taxType);
         }
-
         return taxType;
+    }
 
+    public static String getRegularTaxType(FinancialTypeEnum financialType) {
+        return getRegularTaxType(financialType.getId());
     }
 
     public static String getRegularTaxType(Integer financialTypeID) {
-        String taxType = null;
-
-        if (EXPENSE_GENERAL.equals(financialTypeID))
-            taxType = com.argus.financials.tax.au.ITaxConstants.D_GENERAL;
-        else if (EXPENSE_SAVING_INVESTMENT.equals(financialTypeID))
-            taxType = com.argus.financials.tax.au.ITaxConstants.D_GENERAL;
-        else if (EXPENSE_HOLIDAY.equals(financialTypeID))
-            taxType = com.argus.financials.tax.au.ITaxConstants.D_GENERAL;
-        else if (EXPENSE_EDUCATION.equals(financialTypeID))
-            taxType = com.argus.financials.tax.au.ITaxConstants.D_GENERAL;
-        else if (EXPENSE_OTHER.equals(financialTypeID))
-            taxType = com.argus.financials.tax.au.ITaxConstants.D_GENERAL;
-
-        return taxType;
-
+        if (FinancialTypeEnum.EXPENSE_GENERAL.getId() == financialTypeID)
+            return ITaxConstants.D_GENERAL;
+        if (FinancialTypeEnum.EXPENSE_SAVING_INVESTMENT.getId() == financialTypeID)
+            return ITaxConstants.D_GENERAL;
+        if (FinancialTypeEnum.EXPENSE_HOLIDAY.getId() == financialTypeID)
+            return ITaxConstants.D_GENERAL;
+        if (FinancialTypeEnum.EXPENSE_EDUCATION.getId() == financialTypeID)
+            return ITaxConstants.D_GENERAL;
+        if (FinancialTypeEnum.EXPENSE_OTHER.getId() == financialTypeID)
+            return ITaxConstants.D_GENERAL;
+        return null;
     }
 
 }

@@ -16,16 +16,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.api.code.CodeComparator;
 import com.argus.financials.etc.Contact;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.client.ServiceException;
 
 public class Advisers extends BaseCode {
 
-    private static Collection codes = new TreeSet(new BaseCodeComparator());
+    private static Collection codes = new TreeSet(new CodeComparator());
 
     public static final Contact NONE = new Contact() {
-        public Integer getPrimaryKeyID() {
+        public Integer getId() {
             return new Integer(0);
         }
 
@@ -52,7 +52,7 @@ public class Advisers extends BaseCode {
         codes.add(NONE);
 
         try {
-            List<Contact> l = ServiceLocator.getInstance().getUtilityService().findUsers(); // ALL
+            List<Contact> l = utilityService.findUsers(); // ALL
             if (l == null)
                 return;
 
@@ -73,7 +73,7 @@ public class Advisers extends BaseCode {
         Iterator iter = getCodes().iterator();
         while (iter.hasNext()) {
             Contact c = (Contact) iter.next();
-            if (primaryKey.equals(c.getPrimaryKeyID()))
+            if (primaryKey.equals(c.getId()))
                 return c;
         }
 

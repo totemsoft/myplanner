@@ -245,12 +245,12 @@ public class HealthStatusView extends javax.swing.JPanel {
     }
 
     public void updateView(com.argus.financials.service.PersonService person)
-            throws com.argus.financials.service.client.ServiceException {
+            throws com.argus.financials.api.ServiceException {
     }
 
     public void saveView(com.argus.financials.service.PersonService person)
-            throws com.argus.financials.service.client.ServiceException,
-            com.argus.financials.code.InvalidCodeException {
+            throws com.argus.financials.api.ServiceException,
+            com.argus.financials.api.InvalidCodeException {
     }
 
     public void clearView() {

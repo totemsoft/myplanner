@@ -6,12 +6,7 @@
 
 package com.argus.financials.model;
 
-/**
- *
- * @author  Valeri Shibaev
- */
-
-import com.argus.financials.utils.RateUtils;
+import com.argus.util.RateUtils;
 
 public class IncomeTableModel extends javax.swing.table.DefaultTableModel {
     

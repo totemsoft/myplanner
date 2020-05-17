@@ -18,8 +18,8 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
+import com.argus.financials.api.ObjectNotFoundException;
 import com.argus.financials.bean.db.AbstractPersistable;
-import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.financials.swing.table.UpdateableTableModel;
 import com.argus.util.KeyValue;
 
@@ -101,6 +101,12 @@ public class DataConverter extends AbstractPersistable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            try {
+                if (con != null)
+                    con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return tm;
@@ -156,6 +162,12 @@ public class DataConverter extends AbstractPersistable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            try {
+                if (con != null)
+                    con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return tm;
@@ -201,6 +213,12 @@ public class DataConverter extends AbstractPersistable {
             try {
                 if (stmt != null)
                     stmt.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (con != null)
+                    con.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -297,6 +315,12 @@ public class DataConverter extends AbstractPersistable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            try {
+                if (con != null)
+                    con.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return status;
@@ -352,6 +376,12 @@ public class DataConverter extends AbstractPersistable {
             try {
                 if (pstmt != null)
                     pstmt.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            try {
+                if (con != null)
+                    con.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }

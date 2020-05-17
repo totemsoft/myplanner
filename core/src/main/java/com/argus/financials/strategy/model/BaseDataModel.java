@@ -16,24 +16,22 @@ import java.io.Serializable;
 import java.util.logging.Logger;
 
 import com.argus.financials.bean.AbstractBase;
-import com.argus.financials.swing.table.AbstractTreeTableModel;
-import com.argus.financials.swing.table.MergeSort;
-import com.argus.financials.swing.table.TreeTableModel;
 import com.argus.format.Currency;
 import com.argus.format.Percent;
+import com.argus.swing.table.AbstractTreeTableModel;
+import com.argus.swing.table.MergeSort;
+import com.argus.swing.table.TreeTableModel;
 import com.argus.util.ReferenceCode;
 
 public abstract class BaseDataModel extends AbstractTreeTableModel implements
         javax.swing.event.ChangeListener {
-    // serialver -classpath . com.argus.strategy.model.BaseDataModel
 
     // Compatible changes include adding or removing a method or a field.
     // Incompatible changes include changing an object's hierarchy or
     // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 6891372027270185711L;
 
-    private static final Logger LOG = Logger.getLogger(BaseDataModel.class
-            .getName());
+    private static final transient Logger LOG = Logger.getLogger(BaseDataModel.class.getName());
 
     // tree table columns
     public static final int TREE_ITEM_NAME = 0;
@@ -226,14 +224,9 @@ public abstract class BaseDataModel extends AbstractTreeTableModel implements
      */
     private static int refCount = 0;
 
-    public abstract class BaseNode implements java.util.Comparator,
-            Serializable {
-        // serialver -classpath .
-        // com.argus.strategy.model.BaseDataModel$BaseNode
+    public abstract class BaseNode
+        implements java.util.Comparator, Serializable {
 
-        // Compatible changes include adding or removing a method or a field.
-        // Incompatible changes include changing an object's hierarchy or
-        // removing the implementation of the Serializable interface.
         static final long serialVersionUID = 9059901894089630991L;
 
         // Parent BaseNode of the receiver.
@@ -260,12 +253,7 @@ public abstract class BaseDataModel extends AbstractTreeTableModel implements
         }
 
         protected void finalize() throws Throwable {
-
-            // if (DEBUG) System.out.println( getClass().getName() + "
-            // finalized, id=" + id );
-
             super.finalize();
-
         }
 
         public String toString() {
@@ -467,16 +455,12 @@ public abstract class BaseDataModel extends AbstractTreeTableModel implements
 
         // try to compare String representation of this node and passed obj
         public BaseNode find(Object obj) {
-            // if (DEBUG) System.out.println( obj.toString() );
             if (children == null || obj == null || obj.toString() == null)
                 return null;
 
             java.util.Iterator iter = children.iterator();
             while (iter.hasNext()) {
                 BaseNode node = (BaseNode) iter.next();
-                // if (DEBUG) System.out.println( "\t" + node.toString() );
-                // if ( node != null && obj.toString().equals( node.toString() )
-                // )
                 if (compare(obj, node.getObject()) == 0)
                     return node;
             }

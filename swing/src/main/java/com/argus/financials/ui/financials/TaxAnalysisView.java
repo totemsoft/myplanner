@@ -123,7 +123,7 @@ public class TaxAnalysisView extends com.argus.financials.ui.BaseView implements
     }
 
     private void init(PersonService person, java.util.Map financials, String prefix)
-            throws com.argus.financials.service.client.ServiceException {
+            throws com.argus.financials.api.ServiceException {
 
         // taxAnalysisData = new TaxAnalysisData( null, assumptions, prefix );
         // taxAnalysisData.addChangeListener( this ); // update table/chart
@@ -198,10 +198,6 @@ public class TaxAnalysisView extends com.argus.financials.ui.BaseView implements
      **************************************************************************/
     public void stateChanged(javax.swing.event.ChangeEvent changeEvent) {
 
-        if (DEBUG)
-            System.out
-                    .println("TaxAnalysisView::stateChanged() " + changeEvent);
-
         if (changeEvent.getSource() != taxAnalysisData)
             return; // throw ???
 
@@ -251,7 +247,7 @@ public class TaxAnalysisView extends com.argus.financials.ui.BaseView implements
     protected void doRefresh(java.awt.event.ActionEvent evt) {
         try {
             taxAnalysisData.update();
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
     }
@@ -263,11 +259,11 @@ public class TaxAnalysisView extends com.argus.financials.ui.BaseView implements
     }
 
     public void updateView(PersonService person) throws java.io.IOException {
-        updateView(person, person.getFinancials(), ReportFields.CURRENT_PREFIX);
+        updateView(person, person.findFinancials(), ReportFields.CURRENT_PREFIX);
     }
 
     public void updateView(PersonService person, java.util.Map financials,
-            String prefix) throws com.argus.financials.service.client.ServiceException {
+            String prefix) throws com.argus.financials.api.ServiceException {
         init(person, financials, prefix);
     }
 

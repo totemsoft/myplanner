@@ -6,6 +6,9 @@
 
 package com.argus.financials.bean;
 
+import com.argus.financials.api.bean.IFPSAssignableObject;
+import com.argus.financials.api.code.ObjectTypeConstant;
+
 /**
  * 
  * @author valeri chibaev
@@ -13,21 +16,14 @@ package com.argus.financials.bean;
  */
 
 import com.argus.financials.code.FrequencyCode;
-import com.argus.financials.etc.FPSAssignableObject;
-import com.argus.financials.utils.RateUtils;
 import com.argus.util.DateTimeUtils;
+import com.argus.util.RateUtils;
 
 public class Liability extends Regular {
 
-    // serialver -classpath . com.argus.financial.Liability
-
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 3623694497636426532L;
 
-    public static final Integer OBJECT_TYPE_ID = new Integer(
-            ObjectTypeConstant.LIABILITY);
+    public static final Integer OBJECT_TYPE_ID = ObjectTypeConstant.LIABILITY;
 
     private String accountNumber;
 
@@ -52,7 +48,7 @@ public class Liability extends Regular {
     /**
      * Assignable methods
      */
-    public void assign(FPSAssignableObject value) throws ClassCastException {
+    public void assign(IFPSAssignableObject value) throws ClassCastException {
 
         super.assign(value);
 
@@ -70,7 +66,7 @@ public class Liability extends Regular {
     /**
      * helper methods
      */
-    protected void clear() {
+    public void clear() {
         super.clear();
 
         accountNumber = null;
@@ -93,12 +89,9 @@ public class Liability extends Regular {
             r = (RegularExpense) regulars.get(TOTAL_EXPENSE);
             if (r == null) {
                 r = generateExpense(type);
-                r.setFinancialTypeID(EXPENSE_GENERAL); // EXPENSE_OTHER
-                // if (DEBUG) r.setFinancialDesc( r.getFinancialDesc() + " (" +
-                // sTOTAL_EXPENSE + ")" );
+                r.setFinancialTypeId(EXPENSE_GENERAL); // EXPENSE_OTHER
                 r.setLiability(this);
                 regulars.put(TOTAL_EXPENSE, r);
-
             }
             r.setStartDate(getStartDate());
             r.setEndDate(getEndDate());

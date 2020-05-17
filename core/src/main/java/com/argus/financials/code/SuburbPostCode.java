@@ -15,8 +15,6 @@ package com.argus.financials.code;
 import java.util.Map;
 import java.util.TreeSet;
 
-import com.argus.financials.service.ServiceLocator;
-
 public class SuburbPostCode extends Code {
 
     public final static String VALUE_NONE = "";// null;//
@@ -49,10 +47,9 @@ public class SuburbPostCode extends Code {
 
     private static void initCodeMap(Integer countryCodeID) {
         try {
-            codeMap = ServiceLocator.getInstance().getUtilityService().getPostCodes(
-                    countryCodeID);
+            codeMap = utilityService.getPostCodes(countryCodeID);
             countryID = countryCodeID;
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             countryID = null;
             e.printStackTrace();
         }

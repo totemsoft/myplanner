@@ -43,14 +43,11 @@ public class OwnerCode extends Code {
 
     private static Map codeMap;
 
-    static {
+    protected Map getCodeMap() {
         if (codeMap == null) {
             codeMap = new TreeMap();
             initCodeMap();
         }
-    }
-
-    protected Map getCodeMap() {
         return codeMap;
     }
 

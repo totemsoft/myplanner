@@ -14,11 +14,6 @@ package com.argus.financials.bean;
 
 public class FinancialTotals implements java.io.Serializable {
 
-    // serialver -classpath . com.argus.financial.FinancialTotals
-
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = -7982249500608673193L;
 
     private java.math.BigDecimal[] totals;

@@ -1,7 +1,7 @@
 --
 -- add new column
 --
-ALTER TABLE LicenseeRecord ADD FiducianReference VARCHAR(128)
+ALTER TABLE LicenseeRecord ADD Reference VARCHAR(128)
 
 --------------------------------------------------------------
 -- add/update financial types for superannuation
@@ -65,7 +65,7 @@ INSERT Institution (InstitutionID, InstitutionName) VALUES (	15	, 'Arab Bank Aus
 INSERT Institution (InstitutionID, InstitutionName) VALUES (	16	, 'Bank of Cyprus Australia Pty Limited' );
 INSERT Institution (InstitutionID, InstitutionName) VALUES (	17	, 'Bank of Tokyo - Mitsubishi (Australia) Ltd' );
 INSERT Institution (InstitutionID, InstitutionName) VALUES (	18	, 'BankWest (the trading name of Bank of Western Australia Limited, a foreign subsidiary bank following its sale to Bank of Scotland in December 1995)' );
-INSERT Institution (InstitutionID, InstitutionName) VALUES (	19	, 'Citibank Pty Limited (a subsidiary of Citibank N.A.)' );
+INSERT Institution (InstitutionID, InstitutionName) VALUES (	19	, 'Citibank Ptyï¿½Limited (a subsidiary of Citibank N.A.)' );
 INSERT Institution (InstitutionID, InstitutionName) VALUES (	20	, 'HSBC Bank Australia Limited' );
 INSERT Institution (InstitutionID, InstitutionName) VALUES (	21	, 'IBJ Australia Bank Limited' );
 INSERT Institution (InstitutionID, InstitutionName) VALUES (	22	, 'ING Bank (Australia) Limited' );

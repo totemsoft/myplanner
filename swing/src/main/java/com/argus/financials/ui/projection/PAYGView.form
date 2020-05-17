@@ -223,7 +223,7 @@
                     <Property name="verticalGap" type="int" value="3"/>
                   </Layout>
                   <SubComponents>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField13">
+                    <Container class="com.argus.beans.FTextField" name="fTextField13">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -233,7 +233,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField14">
+                    <Container class="com.argus.beans.FTextField" name="fTextField14">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="horizontalAlignment" type="int" value="4"/>
@@ -245,7 +245,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField15">
+                    <Container class="com.argus.beans.FTextField" name="fTextField15">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="horizontalAlignment" type="int" value="4"/>
@@ -257,7 +257,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField38">
+                    <Container class="com.argus.beans.FTextField" name="fTextField38">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="horizontalAlignment" type="int" value="4"/>
@@ -269,14 +269,14 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField16">
+                    <Container class="com.argus.beans.FTextField" name="fTextField16">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField17">
+                    <Container class="com.argus.beans.FTextField" name="fTextField17">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
@@ -288,49 +288,49 @@
                         <Property name="text" type="java.lang.String" value=" "/>
                       </Properties>
                     </Component>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField18">
+                    <Container class="com.argus.beans.FTextField" name="fTextField18">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField19">
+                    <Container class="com.argus.beans.FTextField" name="fTextField19">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField20">
+                    <Container class="com.argus.beans.FTextField" name="fTextField20">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField21">
+                    <Container class="com.argus.beans.FTextField" name="fTextField21">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField22">
+                    <Container class="com.argus.beans.FTextField" name="fTextField22">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField23">
+                    <Container class="com.argus.beans.FTextField" name="fTextField23">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField24">
+                    <Container class="com.argus.beans.FTextField" name="fTextField24">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
@@ -347,7 +347,7 @@
                         <Property name="text" type="java.lang.String" value=" "/>
                       </Properties>
                     </Component>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField8">
+                    <Container class="com.argus.beans.FTextField" name="fTextField8">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="horizontalAlignment" type="int" value="4"/>
@@ -390,7 +390,7 @@
                     <Property name="verticalGap" type="int" value="3"/>
                   </Layout>
                   <SubComponents>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField1">
+                    <Container class="com.argus.beans.FTextField" name="fTextField1">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                         <Property name="nextFocusableComponent" type="java.awt.Component" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -400,14 +400,14 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField2">
+                    <Container class="com.argus.beans.FTextField" name="fTextField2">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField3">
+                    <Container class="com.argus.beans.FTextField" name="fTextField3">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
@@ -442,21 +442,21 @@
                         <Property name="text" type="java.lang.String" value=" "/>
                       </Properties>
                     </Component>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField4">
+                    <Container class="com.argus.beans.FTextField" name="fTextField4">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField5">
+                    <Container class="com.argus.beans.FTextField" name="fTextField5">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField6">
+                    <Container class="com.argus.beans.FTextField" name="fTextField6">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
@@ -468,7 +468,7 @@
                         <Property name="text" type="java.lang.String" value=" "/>
                       </Properties>
                     </Component>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField7">
+                    <Container class="com.argus.beans.FTextField" name="fTextField7">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
@@ -490,7 +490,7 @@
                         <Property name="text" type="java.lang.String" value=" "/>
                       </Properties>
                     </Component>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField9">
+                    <Container class="com.argus.beans.FTextField" name="fTextField9">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
@@ -502,7 +502,7 @@
                         <Property name="text" type="java.lang.String" value=" "/>
                       </Properties>
                     </Component>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField10">
+                    <Container class="com.argus.beans.FTextField" name="fTextField10">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="horizontalAlignment" type="int" value="4"/>
@@ -638,7 +638,7 @@
                     <Property name="rows" type="int" value="5"/>
                   </Layout>
                   <SubComponents>
-                    <Component class="com.fiducian.javabeans.FComboBox" name="fComboBox1">
+                    <Component class="com.argus.beans.FComboBox" name="fComboBox1">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="2">
@@ -648,7 +648,7 @@
                         </Property>
                       </Properties>
                     </Component>
-                    <Component class="com.fiducian.javabeans.FComboBox" name="fComboBox2">
+                    <Component class="com.argus.beans.FComboBox" name="fComboBox2">
                       <Properties>
                         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                           <StringArray count="4">
@@ -668,14 +668,14 @@
                         <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value=""/>
                       </AuxValues>
                     </Component>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField34">
+                    <Container class="com.argus.beans.FTextField" name="fTextField34">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField35">
+                    <Container class="com.argus.beans.FTextField" name="fTextField35">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="horizontalAlignment" type="int" value="4"/>
@@ -684,7 +684,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField36">
+                    <Container class="com.argus.beans.FTextField" name="fTextField36">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
@@ -781,21 +781,21 @@
                     <Property name="rows" type="int" value="3"/>
                   </Layout>
                   <SubComponents>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField26">
+                    <Container class="com.argus.beans.FTextField" name="fTextField26">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField27">
+                    <Container class="com.argus.beans.FTextField" name="fTextField27">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField28">
+                    <Container class="com.argus.beans.FTextField" name="fTextField28">
                       <Properties>
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
@@ -898,7 +898,7 @@
                     <Property name="rows" type="int" value="4"/>
                   </Layout>
                   <SubComponents>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField25">
+                    <Container class="com.argus.beans.FTextField" name="fTextField25">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="horizontalAlignment" type="int" value="4"/>
@@ -910,7 +910,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField29">
+                    <Container class="com.argus.beans.FTextField" name="fTextField29">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="horizontalAlignment" type="int" value="4"/>
@@ -922,7 +922,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField12">
+                    <Container class="com.argus.beans.FTextField" name="fTextField12">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="horizontalAlignment" type="int" value="4"/>
@@ -934,7 +934,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField37">
+                    <Container class="com.argus.beans.FTextField" name="fTextField37">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="horizontalAlignment" type="int" value="4"/>
@@ -1054,7 +1054,7 @@
                     <Property name="rows" type="int" value="6"/>
                   </Layout>
                   <SubComponents>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField30">
+                    <Container class="com.argus.beans.FTextField" name="fTextField30">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="horizontalAlignment" type="int" value="4"/>
@@ -1066,7 +1066,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField31">
+                    <Container class="com.argus.beans.FTextField" name="fTextField31">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="horizontalAlignment" type="int" value="4"/>
@@ -1078,7 +1078,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField32">
+                    <Container class="com.argus.beans.FTextField" name="fTextField32">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="horizontalAlignment" type="int" value="4"/>
@@ -1090,7 +1090,7 @@
 
                       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout"/>
                     </Container>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField33">
+                    <Container class="com.argus.beans.FTextField" name="fTextField33">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="horizontalAlignment" type="int" value="4"/>
@@ -1107,7 +1107,7 @@
                         <Property name="horizontalAlignment" type="int" value="4"/>
                       </Properties>
                     </Component>
-                    <Container class="com.fiducian.javabeans.FTextField" name="fTextField11">
+                    <Container class="com.argus.beans.FTextField" name="fTextField11">
                       <Properties>
                         <Property name="editable" type="boolean" value="false"/>
                         <Property name="horizontalAlignment" type="int" value="4"/>

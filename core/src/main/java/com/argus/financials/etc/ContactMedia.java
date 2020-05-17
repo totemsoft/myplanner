@@ -6,6 +6,8 @@
 
 package com.argus.financials.etc;
 
+import com.argus.financials.api.bean.IFPSAssignableObject;
+
 /**
  * 
  * @author valeri chibaev
@@ -59,7 +61,8 @@ public class ContactMedia extends FPSAssignableObject {
     /**
      * Assignable
      */
-    public void assign(FPSAssignableObject value) throws ClassCastException {
+    @Override
+    public void assign(IFPSAssignableObject value) throws ClassCastException {
 
         super.assign(value);
 
@@ -81,7 +84,7 @@ public class ContactMedia extends FPSAssignableObject {
     /**
      * helper methods
      */
-    protected void clear() {
+    public void clear() {
         super.clear();
 
         contactMediaCodeID = null;

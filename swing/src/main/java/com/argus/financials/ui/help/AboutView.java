@@ -15,11 +15,12 @@ import java.util.Properties;
 import javax.swing.ImageIcon;
 
 import com.argus.financials.config.ViewSettings;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.swing.SwingUtil;
+import com.argus.financials.ui.AbstractPanel;
+import com.argus.financials.ui.FinancialPlannerApp;
 import com.argus.financials.ui.IMenuCommand;
 
-public class AboutView extends javax.swing.JPanel {
+public class AboutView extends AbstractPanel {
 
     private static final String UNKNOWN = "???";
 
@@ -38,12 +39,9 @@ public class AboutView extends javax.swing.JPanel {
         jLabelImage.setIcon(new ImageIcon(getClass().getResource(
                 "/image/art.gif")));
 
-        setProperty(DATABASE_SERVER_VERSION,
-                ServiceLocator.getInstance().getDBServerVersion());
-        setProperty(DATABASE_VERSION,
-                ServiceLocator.getInstance().getDBVersion());
-        setProperty(APPLICATION_VERSION,
-                ServiceLocator.APP_VERSION);
+        setProperty(DATABASE_SERVER_VERSION, utilityService.getDBServerVersion());
+        setProperty(DATABASE_VERSION, utilityService.getDBVersion());
+        setProperty(APPLICATION_VERSION, FinancialPlannerApp.APP_VERSION);
     }
 
     /**

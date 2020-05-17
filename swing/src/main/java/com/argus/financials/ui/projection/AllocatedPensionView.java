@@ -20,6 +20,8 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.api.bean.IPerson;
 import com.argus.financials.code.FrequencyCode;
 import com.argus.financials.code.InvestmentStrategyCode;
 import com.argus.financials.code.ModelTypeID;
@@ -27,7 +29,6 @@ import com.argus.financials.code.PaymentType;
 import com.argus.financials.code.ReversionaryCode;
 import com.argus.financials.code.SexCode;
 import com.argus.financials.config.ViewSettings;
-import com.argus.financials.etc.PersonName;
 import com.argus.financials.projection.AllocatedPensionCalc;
 import com.argus.financials.projection.CurrentPositionComment;
 import com.argus.financials.projection.DocumentNames;
@@ -36,7 +37,6 @@ import com.argus.financials.projection.MoneyCalc;
 import com.argus.financials.projection.TaxUtils;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.DateInputVerifier;
 import com.argus.financials.swing.PercentInputVerifier;
@@ -68,11 +68,11 @@ public class AllocatedPensionView extends ETPRolloverView {
     }
 
     public Integer getDefaultType() {
-        return ModelTypeID.rcALLOCATED_PENSION.getCodeIDInteger();
+        return ModelTypeID.rcALLOCATED_PENSION.getCodeId();
     }
 
     public String getDefaultTitle() {
-        return ModelTypeID.rcALLOCATED_PENSION.getCodeDesc();
+        return ModelTypeID.rcALLOCATED_PENSION.getDescription();
     }
 
     private void initComponents2() {
@@ -1542,7 +1542,7 @@ public class AllocatedPensionView extends ETPRolloverView {
         warn = false;
     }
 
-    public void updateView(com.argus.financials.service.PersonService person)
+    public void updateView(PersonService person)
             throws ServiceException {
 
         super.updateView(person);
@@ -1557,11 +1557,10 @@ public class AllocatedPensionView extends ETPRolloverView {
             // partner
             PersonService partner = ((ClientService) person).getPartner(false);
             if (partner != null) {
-                PersonName personName = partner.getPersonName();
-                ((AllocatedPensionCalc) etpCalc)
-                        .setPartnerDateOfBirth(personName.getDateOfBirth());
-                ((AllocatedPensionCalc) etpCalc).setPartnerSexCodeID(personName
-                        .getSexCodeID());
+                AllocatedPensionCalc apCalc = (AllocatedPensionCalc) etpCalc;
+                IPerson personName = partner.getPersonName();
+                apCalc.setPartnerDateOfBirth(personName.getDateOfBirth());
+                apCalc.setPartnerSexCodeID(personName.getSex().getId().intValue());
             }
 
         } finally {

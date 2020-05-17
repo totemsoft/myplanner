@@ -15,13 +15,13 @@ package com.argus.financials.projection;
 
 import java.math.BigDecimal;
 
+import com.argus.financials.api.ETPConstants;
+import com.argus.financials.api.code.FinancialTypeID;
 import com.argus.financials.bean.RegularExpense;
 import com.argus.financials.bean.RegularIncome;
-import com.argus.financials.code.FinancialTypeID;
 import com.argus.financials.code.FrequencyCode;
 import com.argus.financials.code.ModelType;
 import com.argus.financials.code.OwnerCode;
-import com.argus.financials.projection.data.ETPConstants;
 import com.argus.financials.swing.table.UpdateableTableModel;
 import com.argus.financials.swing.table.UpdateableTableRow;
 import com.argus.financials.tax.au.ITaxConstants;
@@ -1698,7 +1698,7 @@ public class ETPCalcNew extends MoneyCalc implements
     private RegularIncome newIncome(String desc, java.math.BigDecimal amount,
             boolean taxable)
             throws com.argus.financials.bean.NegativeAmountException,
-            com.argus.financials.code.InvalidCodeException {
+            com.argus.financials.api.InvalidCodeException {
         if (amount == null || amount.doubleValue() == 0.)
             return null;
 
@@ -1710,7 +1710,7 @@ public class ETPCalcNew extends MoneyCalc implements
         income.setStartDate(getCalculationDate());
         income.setEndDate(income.getStartDate());
         income.setOwnerCodeID(OwnerCode.CLIENT);
-        income.setFinancialTypeID(FinancialTypeID.INCOME_RETIREMENT);
+        income.setFinancialTypeId(FinancialTypeID.INCOME_RETIREMENT);
         income.setRegularTaxType(ITaxConstants.I_OTHER_PENSIONS);
 
         return income;
@@ -1718,7 +1718,7 @@ public class ETPCalcNew extends MoneyCalc implements
 
     private java.util.Collection getGeneratedIncomes(String desc)
             throws com.argus.financials.bean.NegativeAmountException,
-            com.argus.financials.code.InvalidCodeException {
+            com.argus.financials.api.InvalidCodeException {
         java.util.Collection incomes = new java.util.ArrayList();
         if (getOption() == ROLLOVER_ALL) {
 
@@ -1812,7 +1812,7 @@ public class ETPCalcNew extends MoneyCalc implements
     private RegularExpense newExpense(String desc, java.math.BigDecimal amount,
             boolean taxable)
             throws com.argus.financials.bean.NegativeAmountException,
-            com.argus.financials.code.InvalidCodeException {
+            com.argus.financials.api.InvalidCodeException {
         if (amount == null || amount.doubleValue() == 0.)
             return null;
 
@@ -1825,7 +1825,7 @@ public class ETPCalcNew extends MoneyCalc implements
         expense.setEndDate(DateTimeUtils.getEndOfFinancialYearDate(expense
                 .getStartDate()));
         expense.setOwnerCodeID(OwnerCode.CLIENT);
-        expense.setFinancialTypeID(FinancialTypeID.EXPENSE_OTHER);
+        expense.setFinancialTypeId(FinancialTypeID.EXPENSE_OTHER);
         expense.setRegularTaxType(ITaxConstants.D_GENERAL);
 
         return expense;
@@ -1833,7 +1833,7 @@ public class ETPCalcNew extends MoneyCalc implements
 
     private java.util.Collection getGeneratedExpenses(String desc)
             throws com.argus.financials.bean.NegativeAmountException,
-            com.argus.financials.code.InvalidCodeException {
+            com.argus.financials.api.InvalidCodeException {
         java.util.Collection expenses = new java.util.ArrayList();
 
         java.util.Collection incomes = new java.util.ArrayList();
@@ -1904,9 +1904,7 @@ public class ETPCalcNew extends MoneyCalc implements
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields)
             throws Exception {
-        initializeReportData(reportFields,
-                com.argus.financials.service.ServiceLocator.getInstance()
-                        .getClientPerson());
+        initializeReportData(reportFields, clientService);
 
     }
 

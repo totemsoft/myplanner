@@ -27,19 +27,21 @@ import java.awt.Cursor;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import com.argus.financials.bean.LinkObjectTypeConstant;
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.api.code.LinkObjectTypeConstant;
 import com.argus.financials.config.ViewSettings;
 import com.argus.financials.config.WordSettings;
 import com.argus.financials.etc.Survey;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.report.data.InvRiskData;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.client.ObjectNotFoundException;
-import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.SwingUtil;
+import com.argus.financials.ui.AbstractPanel;
 
-public class InvRisk extends javax.swing.JPanel implements
+public class InvRisk
+    extends AbstractPanel
+    implements
         com.argus.financials.ui.Viewable, javax.swing.event.ChangeListener {
     // for report
     protected static InvRisk view;
@@ -374,7 +376,7 @@ public class InvRisk extends javax.swing.JPanel implements
                         view.getClass().getName()), true, true, true);
 
         try {
-            view.updateView(ServiceLocator.getInstance().getClientPerson());
+            view.updateView(clientService);
         } catch (ServiceException e) {
             e.printStackTrace(System.err);
         }

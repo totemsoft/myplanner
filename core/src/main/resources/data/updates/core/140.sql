@@ -1,7 +1,3 @@
---------------------------------------------------------------
--- create survey/questions/answers
---------------------------------------------------------------
-#ifdef MSSQL
 CREATE PROCEDURE [dbo].[sp_temp]
  AS 
 
@@ -693,24 +689,27 @@ If you held assets managed by professional fund managers, what reasons do you th
  VALUES ('Half Yearly.', 	2, @QuestionID)
  INSERT QuestionAnswer (QuestionAnswerDesc, QuestionAnswerScore, QuestionID)
  VALUES ('Yearly.', 		3, @QuestionID)
-
-#endif MSSQL
 ;	-- HAS TO BE LAST IN SP (to indicate end of sql statement to execute)
 
-#ifdef MSSQL
-	EXECUTE [dbo].[sp_temp]
-#endif MSSQL
+EXECUTE [dbo].[sp_temp]
 GO
 
-#ifdef MSSQL
-	DROP PROCEDURE [dbo].[sp_temp]
-#endif MSSQL
+DROP PROCEDURE [dbo].[sp_temp]
 GO
 
-
+-- The query uses non-ANSI outer join operators ("*=" or "=*").
+-- To run this query without modification, please set the compatibility level for current database to 80,
+-- using the SET COMPATIBILITY_LEVEL option of ALTER DATABASE.
+-- It is strongly recommended to rewrite the query using ANSI outer join operators (LEFT OUTER JOIN, RIGHT OUTER JOIN).
+-- In the future versions of SQL Server, non-ANSI join operators will not be supported even in backward-compatibility modes.
+--
+-- Can not find survey: 10003 for Owner: 9997
+-- DECLARE @LinkID int
+-- EXEC sp_create_Link @LinkID OUTPUT, 9997, 10003, 1024
 
 --
 -- this should be the last statement in any update script
 --
 INSERT INTO DBVersion (CurrentVersion, PreviousVersion)
 VALUES ('FPS.01.40', 'FPS.01.39');
+

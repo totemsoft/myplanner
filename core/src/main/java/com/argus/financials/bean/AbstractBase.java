@@ -8,6 +8,8 @@ import javax.swing.event.ChangeListener;
 
 import org.apache.log4j.Logger;
 
+import com.argus.financials.api.bean.IBase;
+import com.argus.financials.service.ServiceAware;
 import com.argus.format.Currency;
 
 /**
@@ -16,26 +18,23 @@ import com.argus.format.Currency;
  * @version
  */
 
-public abstract class AbstractBase extends Object implements java.io.Serializable,
-        javax.swing.event.ChangeListener {
+public abstract class AbstractBase
+    extends ServiceAware
+    implements IBase<Integer>, java.io.Serializable, javax.swing.event.ChangeListener {
 
     /** serialVersionUID */
     private static final long serialVersionUID = -3720308501036851309L;
 
     /** Logger. */
-    protected final Logger LOG = Logger.getLogger(getClass());
+    protected final transient Logger LOG = Logger.getLogger(getClass());
 
     protected static Currency curr = Currency.getCurrencyInstance();
 
     public static final int MONEY_SCALE = 4;
 
-    private Integer primaryKeyID;
+    private Integer id;
 
     private boolean modified = false;
-
-    protected AbstractBase() {
-
-    }
 
     /***************************************************************************
      * javax.swing.event.ChangeListener
@@ -103,19 +102,18 @@ public abstract class AbstractBase extends Object implements java.io.Serializabl
     /***************************************************************************
      * helper methods
      */
-    protected void clear() {
-        // primaryKeyID = null;
+    public void clear() {
+        // id = null;
         // modified = false;
 
         modified = true;
     }
 
     public boolean equals(Object obj) {
-        if (obj instanceof AbstractBase)
-            return getPrimaryKeyID() != null
-                    && ((AbstractBase) obj).getPrimaryKeyID() != null
-                    && equals(getPrimaryKeyID(), ((AbstractBase) obj)
-                            .getPrimaryKeyID());
+        if (obj instanceof AbstractBase) {
+            AbstractBase other = (AbstractBase) obj;
+            return id != null && other.id != null && equals(id, other.id);
+        }
         return super.equals(obj);
     }
 
@@ -135,31 +133,11 @@ public abstract class AbstractBase extends Object implements java.io.Serializabl
         return s == null || s.trim().length() == 0;
     }
 
-    public static Object createNewInstance(Integer objectTypeID,
-            Class[] parameterTypes, Object[] initargs) {
-        // get Class types for this object id (XXXBean)
-        Class objClass = com.argus.financials.bean.db.ObjectClass
-                .getObjectClass(objectTypeID);
-        try {
-            return objClass.getConstructor(parameterTypes)
-                    .newInstance(initargs);
-        } catch (Exception e) {
-            System.err.println("-----> No constructor found for objectTypeID: "
-                    + objectTypeID + " <-----");
-            // e.printStackTrace( System.err );
-            return null;
-        }
-    }
-
-    public static Object createNewInstance(Integer objectTypeID) {
-        return createNewInstance(objectTypeID, null, null);
-    }
-
     /***************************************************************************
      * get/set methods
      */
     public boolean isModified() {
-        return modified || primaryKeyID == null;
+        return modified || id == null;
     }
 
     public void setModified(boolean value) {
@@ -168,15 +146,18 @@ public abstract class AbstractBase extends Object implements java.io.Serializabl
             notifyChangeListeners();
     }
 
-    public Integer getPrimaryKeyID() {
-        return primaryKeyID;
+    /**
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
     }
 
-    public void setPrimaryKeyID(Integer value) {
-        if (equals(primaryKeyID, value))
+    public void setId(Integer value) {
+        if (equals(id, value))
             return;
 
-        primaryKeyID = value;
+        id = value;
         // we load new data into this object (this is not a modification)
         // modified = true;
     }

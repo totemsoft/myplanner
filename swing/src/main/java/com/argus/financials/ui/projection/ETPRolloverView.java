@@ -22,34 +22,36 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.api.bean.IPerson;
 import com.argus.financials.code.ETPType;
-import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.ModelTypeID;
 import com.argus.financials.config.ViewSettings;
 import com.argus.financials.etc.ActionEventID;
 import com.argus.financials.etc.DuplicateException;
 import com.argus.financials.etc.ModelTitleRestrictionException;
-import com.argus.financials.etc.PersonName;
-import com.argus.financials.io.IOUtils2;
 import com.argus.financials.projection.DocumentNames;
 import com.argus.financials.projection.DocumentUtils;
 import com.argus.financials.projection.ETPCalc;
 import com.argus.financials.projection.MoneyCalc;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.DateInputVerifier;
 import com.argus.financials.swing.PercentInputVerifier;
 import com.argus.financials.swing.SwingUtil;
+import com.argus.financials.ui.AbstractPanel;
 import com.argus.financials.ui.FinancialPlannerApp;
 import com.argus.financials.ui.IMenuCommand;
 import com.argus.format.Currency;
 import com.argus.format.Percent;
+import com.argus.io.IOUtils2;
 import com.argus.util.DateTimeUtils;
 
-public class ETPRolloverView extends javax.swing.JPanel implements
+public class ETPRolloverView
+    extends AbstractPanel
+    implements
         javax.swing.event.ChangeListener, ActionEventID {
 
     protected static final Dimension NAME_DIM = new java.awt.Dimension(160, 17);
@@ -76,11 +78,11 @@ public class ETPRolloverView extends javax.swing.JPanel implements
     }
 
     public Integer getDefaultType() {
-        return ModelTypeID.rcETP_ROLLOVER.getCodeIDInteger();
+        return ModelTypeID.rcETP_ROLLOVER.getCodeId();
     }
 
     public String getDefaultTitle() {
-        return ModelTypeID.rcETP_ROLLOVER.getCodeDesc();
+        return ModelTypeID.rcETP_ROLLOVER.getDescription();
     }
 
     protected Model getModel() {
@@ -1115,7 +1117,7 @@ public class ETPRolloverView extends javax.swing.JPanel implements
 
     public void updateView(String modelTitle) throws java.io.IOException {
 
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
         Model m = person == null ? null : person.getModel(getDefaultType(),
                 modelTitle);
 
@@ -1147,7 +1149,7 @@ public class ETPRolloverView extends javax.swing.JPanel implements
 
     }
 
-    public void updateView(com.argus.financials.service.PersonService person)
+    public void updateView(PersonService person)
             throws ServiceException {
 
         // load data from person, e.g. DOB
@@ -1161,9 +1163,9 @@ public class ETPRolloverView extends javax.swing.JPanel implements
 
             clearView();
 
-            PersonName personName = person.getPersonName();
+            IPerson personName = person.getPersonName();
             etpCalc.setDateOfBirth(personName.getDateOfBirth());
-            etpCalc.setSexCodeID(personName.getSexCodeID());
+            etpCalc.setSexCodeID(personName.getSex().getId().intValue());
 
         } finally {
             updateEditable();
@@ -1197,7 +1199,7 @@ public class ETPRolloverView extends javax.swing.JPanel implements
         }
 
         try {
-            saveView(ServiceLocator.getInstance().getClientPerson());
+            saveView(clientService);
         } catch (Exception e) {
             e.printStackTrace(System.err);
             return;
@@ -1398,7 +1400,7 @@ public class ETPRolloverView extends javax.swing.JPanel implements
     protected void updateComponents() {
         // enable/disable save option
         jButtonSave
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
+                .setEnabled(clientService != null);
 
     }
 
@@ -1422,7 +1424,7 @@ public class ETPRolloverView extends javax.swing.JPanel implements
         am.put(DATA_REMOVE, new AbstractAction() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
-                PersonService person = ServiceLocator.getInstance().getClientPerson();
+                PersonService person = clientService;
                 if (person == null)
                     return;
 
@@ -1432,7 +1434,7 @@ public class ETPRolloverView extends javax.swing.JPanel implements
                 try {
                     person.removeModel(getModel());
                     person.storeModels();
-                } catch (com.argus.financials.service.client.ServiceException e) {
+                } catch (com.argus.financials.api.ServiceException e) {
                     e.printStackTrace();
                     return;
                 }

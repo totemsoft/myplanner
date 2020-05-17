@@ -25,13 +25,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
-import com.argus.beans.format.CurrencyLabelGenerator;
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.api.bean.IMaritalCode;
+import com.argus.financials.api.bean.IPerson;
+import com.argus.financials.api.code.FinancialClassID;
 import com.argus.financials.bean.Financial;
 import com.argus.financials.bean.FinancialGoal;
-import com.argus.financials.code.FinancialClassID;
-import com.argus.financials.code.InvalidCodeException;
+import com.argus.financials.chart.StrategyResultView;
 import com.argus.financials.code.InvestmentStrategyCode;
-import com.argus.financials.code.MaritalCode;
 import com.argus.financials.code.ModelType;
 import com.argus.financials.code.ModelTypeID;
 import com.argus.financials.code.OwnerCode;
@@ -41,8 +43,6 @@ import com.argus.financials.config.WordSettings;
 import com.argus.financials.etc.ActionEventID;
 import com.argus.financials.etc.DuplicateException;
 import com.argus.financials.etc.ModelTitleRestrictionException;
-import com.argus.financials.etc.PersonName;
-import com.argus.financials.io.IOUtils2;
 import com.argus.financials.projection.AssetAllocationView;
 import com.argus.financials.projection.AssetGrowthLinked;
 import com.argus.financials.projection.CurrentPositionCalc;
@@ -50,26 +50,28 @@ import com.argus.financials.projection.CurrentPositionComment;
 import com.argus.financials.projection.DocumentNames;
 import com.argus.financials.projection.DocumentUtils;
 import com.argus.financials.projection.MoneyCalc;
-import com.argus.financials.projection.StrategyResultView;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.DateInputVerifier;
 import com.argus.financials.swing.PercentInputVerifier;
 import com.argus.financials.swing.SwingUtil;
+import com.argus.financials.ui.AbstractPanel;
 import com.argus.financials.ui.BaseView;
 import com.argus.financials.ui.FinancialPlannerApp;
 import com.argus.format.Currency;
+import com.argus.format.CurrencyLabelGenerator;
 import com.argus.format.Number2;
 import com.argus.format.Percent;
+import com.argus.io.IOUtils2;
 import com.argus.swing.SwingUtils;
 import com.argus.util.DateTimeUtils;
 
-public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
+public class SnapEntryView
+    extends AbstractPanel
+    implements ActionEventID,
         javax.swing.event.ChangeListener, com.argus.financials.swing.ICloseDialog,
         FinancialClassID {
 
@@ -89,11 +91,11 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
     private Currency curr = MoneyCalc.getCurrencyInstance();
 
     public Integer getDefaultType() {
-        return ModelTypeID.rcCURRENT_POSITION_CALC.getCodeIDInteger();
+        return ModelTypeID.rcCURRENT_POSITION_CALC.getCodeId();
     }
 
     public String getDefaultTitle() {
-        return ModelTypeID.rcCURRENT_POSITION_CALC.getCodeDesc();
+        return ModelTypeID.rcCURRENT_POSITION_CALC.getDescription();
     }
 
     //
@@ -122,11 +124,11 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
         if (model.getOwner() != null)
             return model;
 
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
         if (person != null) {
             try {
                 model.setOwner(person.getModels());
-            } catch (com.argus.financials.service.client.ServiceException e) {
+            } catch (com.argus.financials.api.ServiceException e) {
                 e.printStackTrace(System.err);
             }
         }
@@ -207,9 +209,9 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
         updateEditable();
 
         jButtonSave
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
+                .setEnabled(clientService != null);
         jButtonSaveAs
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
+                .setEnabled(clientService != null);
         jButtonDelete.setEnabled(jButtonSave.isEnabled());
         setActionMap();
 
@@ -356,14 +358,14 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
         jRadioButtonJoint = new javax.swing.JRadioButton();
         jPanelClient = new javax.swing.JPanel();
         jLabelClientDOB = new javax.swing.JLabel();
-        jTextFieldClientDOB = new com.argus.beans.FDateChooser();
+        jTextFieldClientDOB = new com.argus.bean.FDateChooser();
         jLabelClientAge = new javax.swing.JLabel();
         jTextFieldClientAge = new javax.swing.JTextField();
         jRadioButtonClientMale = new javax.swing.JRadioButton();
         jRadioButtonClientFemale = new javax.swing.JRadioButton();
         jPanelPartner = new javax.swing.JPanel();
         jLabelPartnerDOB = new javax.swing.JLabel();
-        jTextFieldPartnerDOB = new com.argus.beans.FDateChooser();
+        jTextFieldPartnerDOB = new com.argus.bean.FDateChooser();
         jLabelPartnerAge = new javax.swing.JLabel();
         jTextFieldPartnerAge = new javax.swing.JTextField();
         jRadioButtonPartnerMale = new javax.swing.JRadioButton();
@@ -1760,7 +1762,7 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
 
     private javax.swing.JRadioButton jRadioButtonSingle;
 
-    private com.argus.beans.FDateChooser jTextFieldClientDOB;
+    private com.argus.bean.FDateChooser jTextFieldClientDOB;
 
     private javax.swing.JLabel jLabelRequiredIncomePartial;
 
@@ -1818,7 +1820,7 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
 
     private javax.swing.JTextField jTextFieldResidualRequired;
 
-    private com.argus.beans.FDateChooser jTextFieldPartnerDOB;
+    private com.argus.bean.FDateChooser jTextFieldPartnerDOB;
 
     private javax.swing.JTextField jTextFieldClientTaxRate;
 
@@ -1863,7 +1865,7 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
      */
     public void updateView(String modelTitle) throws Exception {
 
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
         Model m = person == null ? null : person.getModel(getDefaultType(), modelTitle);
 
         updateView(m);
@@ -1879,12 +1881,12 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
         // doClear(null);
 
         if (m == null) {
-            updateView(ServiceLocator.getInstance().getClientPerson());
+            updateView(clientService);
         } else {
             // use copy of model
-            Integer id = m.getPrimaryKeyID();
+            Integer id = m.getId();
             m = new Model(m);
-            m.setPrimaryKeyID(id);
+            m.setId(id);
 
             try {
                 snapshotCalc.disableUpdate();
@@ -1938,7 +1940,7 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
         }
 
         try {
-            saveView(ServiceLocator.getInstance().getClientPerson());
+            saveView(clientService);
         } catch (Exception e) {
             e.printStackTrace(System.err);
             return;
@@ -1968,16 +1970,14 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
             snapshotCalc.doUpdate();
             updateEditable();
             if (person != null) {
-                PersonName personName = person.getPersonName();
+                IPerson personName = person.getPersonName();
                 snapshotCalc.setDateOfBirth(personName.getDateOfBirth());
-                snapshotCalc.setSexCodeID(personName.getSexCodeID());
+                snapshotCalc.setSexCodeID(personName.getSex().getId());
                 // FinancialGoal
                 FinancialGoal fg = person.getFinancialGoal();
                 if (fg != null) {
                     Integer n = fg.getTargetAge();
-                    snapshotCalc
-                            .setClientTargetAge(n == null ? (int) MoneyCalc.UNKNOWN_VALUE
-                                    : n.intValue());
+                    snapshotCalc.setClientTargetAge(n == null ? (int) MoneyCalc.UNKNOWN_VALUE : n.intValue());
 
                     java.math.BigDecimal amount = fg.getTargetIncome();
                     snapshotCalc.setSpendValue(amount == null ? 0. : amount
@@ -1998,7 +1998,7 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
                     snapshotCalc.setResidualValue(0.);
                 }
 
-                if (MaritalCode.isSingle(personName.getMaritalCodeID())) {
+                if (IMaritalCode.isSingle(personName.getMarital().getId())) {
                     snapshotCalc.setSingle(true);
                 } else {
                     // client
@@ -2011,8 +2011,7 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
                         personName = partner.getPersonName();
                         snapshotCalc.setPartnerDateOfBirth(personName
                                 .getDateOfBirth());
-                        snapshotCalc.setPartnerSexCodeID(personName
-                                .getSexCodeID());
+                        snapshotCalc.setPartnerSexCodeID(personName.getSex().getId());
                     }
                     // FinancialGoal
                     fg = partner == null ? null : partner.getFinancialGoal();
@@ -2040,7 +2039,7 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
 
                 }
 
-                updateFinancials(person.getFinancials());
+                updateFinancials(person.findFinancials());
 
             }
         }
@@ -2294,9 +2293,9 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
 
         // enable/disable save option
         jButtonSave
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
+                .setEnabled(clientService != null);
         jButtonSaveAs
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
+                .setEnabled(clientService != null);
         jButtonReport.setEnabled(ready);
 
     }
@@ -2418,7 +2417,7 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
         try {
             ReportFields.generateReport(
                     SwingUtilities.windowForComponent(this),
-                    getReportData(ServiceLocator.getInstance().getClientPerson()),
+                    getReportData(clientService),
                     getDefaultReport());
 
         } catch (Exception e) {
@@ -2447,14 +2446,14 @@ public class SnapEntryView extends javax.swing.JPanel implements ActionEventID,
         am.put(DATA_REMOVE, new AbstractAction() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
-                PersonService person = ServiceLocator.getInstance().getClientPerson();
+                PersonService person = clientService;
                 if (person == null)
                     return;
 
                 try {
                     person.removeModel(getModel());
                     person.storeModels();
-                } catch (com.argus.financials.service.client.ServiceException e) {
+                } catch (com.argus.financials.api.ServiceException e) {
                     e.printStackTrace();
                     return;
                 }

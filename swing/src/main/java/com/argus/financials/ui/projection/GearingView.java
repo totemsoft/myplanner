@@ -23,39 +23,41 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
-import com.argus.beans.format.CurrencyLabelGenerator;
-import com.argus.beans.format.NumberLabelGenerator;
-import com.argus.beans.format.PercentLabelGenerator;
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.chart.GearingGraphView;
 import com.argus.financials.code.GearingType;
-import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.InvestmentStrategyCode;
 import com.argus.financials.code.ModelTypeID;
 import com.argus.financials.config.ViewSettings;
 import com.argus.financials.etc.ActionEventID;
 import com.argus.financials.etc.DuplicateException;
 import com.argus.financials.etc.ModelTitleRestrictionException;
-import com.argus.financials.io.IOUtils2;
 import com.argus.financials.projection.DocumentNames;
 import com.argus.financials.projection.DocumentUtils;
 import com.argus.financials.projection.GearingCalc;
 import com.argus.financials.projection.GearingCalc2;
-import com.argus.financials.projection.GearingGraphView;
 import com.argus.financials.projection.MoneyCalc;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.PercentInputVerifier;
 import com.argus.financials.swing.SwingUtil;
+import com.argus.financials.ui.AbstractPanel;
 import com.argus.financials.ui.FinancialPlannerApp;
 import com.argus.format.Currency;
+import com.argus.format.CurrencyLabelGenerator;
 import com.argus.format.Number2;
+import com.argus.format.NumberLabelGenerator;
 import com.argus.format.Percent;
+import com.argus.format.PercentLabelGenerator;
+import com.argus.io.IOUtils2;
 import com.argus.swing.SwingUtils;
 import com.klg.jclass.chart.JCLineStyle;
 
-public class GearingView extends javax.swing.JPanel implements ActionEventID,
+public class GearingView
+    extends AbstractPanel
+    implements ActionEventID,
         javax.swing.event.ChangeListener {
 
     private static final int RESULT_PAGE_ID = 1;
@@ -92,11 +94,11 @@ public class GearingView extends javax.swing.JPanel implements ActionEventID,
     }
 
     public Integer getDefaultType() {
-        return ModelTypeID.rcINVESTMENT_GEARING.getCodeIDInteger();
+        return ModelTypeID.rcINVESTMENT_GEARING.getCodeId();
     }
 
     public String getDefaultTitle() {
-        return ModelTypeID.rcINVESTMENT_GEARING.getCodeDesc();
+        return ModelTypeID.rcINVESTMENT_GEARING.getDescription();
     }
 
     private Model getModel() {
@@ -104,11 +106,11 @@ public class GearingView extends javax.swing.JPanel implements ActionEventID,
         if (model.getOwner() != null)
             return model;
 
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
         if (person != null) {
             try {
                 model.setOwner(person.getModels());
-            } catch (com.argus.financials.service.client.ServiceException e) {
+            } catch (com.argus.financials.api.ServiceException e) {
                 e.printStackTrace(System.err);
             }
         }
@@ -199,7 +201,7 @@ public class GearingView extends javax.swing.JPanel implements ActionEventID,
 
         jButtonNext.setEnabled(add && jTabbedPane.getSelectedIndex() == 0);
         jButtonSave
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
+                .setEnabled(clientService != null);
 
     }
 
@@ -1621,7 +1623,7 @@ public class GearingView extends javax.swing.JPanel implements ActionEventID,
 
     public void updateView(String modelTitle) throws java.io.IOException {
 
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
         Model m = person == null ? null : person.getModel(getDefaultType(),
                 modelTitle);
 
@@ -1711,7 +1713,7 @@ public class GearingView extends javax.swing.JPanel implements ActionEventID,
         }
 
         try {
-            saveView(ServiceLocator.getInstance().getClientPerson());
+            saveView(clientService);
         } catch (Exception e) {
             e.printStackTrace(System.err); // ( e.getMessage() );
             return;
@@ -1955,7 +1957,7 @@ public class GearingView extends javax.swing.JPanel implements ActionEventID,
         am.put(DATA_REMOVE, new AbstractAction() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
-                PersonService person = ServiceLocator.getInstance().getClientPerson();
+                PersonService person = clientService;
                 if (person == null)
                     return;
 
@@ -1965,7 +1967,7 @@ public class GearingView extends javax.swing.JPanel implements ActionEventID,
                 try {
                     person.removeModel(getModel());
                     person.storeModels();
-                } catch (com.argus.financials.service.client.ServiceException e) {
+                } catch (com.argus.financials.api.ServiceException e) {
                     e.printStackTrace();
                     return;
                 }

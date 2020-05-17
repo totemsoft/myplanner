@@ -9,6 +9,8 @@ package com.argus.financials.code;
 import java.util.Collection;
 import java.util.TreeSet;
 
+import com.argus.financials.api.code.CodeComparator;
+
 public class APRelationshipCode extends BaseCode implements
         APRelationshipCodeID {
     private static Collection codes;

@@ -6,6 +6,10 @@
 
 package com.argus.financials.ui.financials;
 
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.bean.ICode;
+import com.argus.financials.api.code.FinancialTypeEnum;
+
 /**
  * 
  * @author valeri chibaev
@@ -16,10 +20,8 @@ import com.argus.financials.bean.IncomeStream;
 import com.argus.financials.bean.db.ApirPicBean;
 import com.argus.financials.bean.db.IressAssetNameBean;
 import com.argus.financials.code.FinancialServiceCode;
-import com.argus.financials.code.FinancialTypeID;
 import com.argus.financials.code.FrequencyCode;
 import com.argus.financials.code.FundType;
-import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.OwnerCode;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.DateInputVerifier;
@@ -85,17 +87,17 @@ public class AddIncomeStreamsView extends AddAssetView // javax.swing.JPanel
 
     public int getDefaultFinancialTypeID(String source) {
         if (source.equals(ApirPicBean.DATABASE_TABLE_NAME))
-            return SUPERANNUATION_LISTED_UNIT_TRUST;
+            return FinancialTypeEnum.SUPERANNUATION_LISTED_UNIT_TRUST.getId();
         if (source.equals(IressAssetNameBean.DATABASE_TABLE_NAME))
-            return INVESTMENT_LISTED_SHARES; // 4 = Listed Shares
-        return FinancialTypeID.UNDEFINED;
+            return FinancialTypeEnum.INVESTMENT_LISTED_SHARES.getId(); // 4 = Listed Shares
+        return FinancialTypeEnum.UNDEFINED.getId();
     }
 
     public String getDefaultFinancialTypeDesc(String source) {
         if (source.equals(ApirPicBean.DATABASE_TABLE_NAME))
-            return STRING_LISTED_UNIT_TRUST;
+            return FinancialTypeEnum.SUPERANNUATION_LISTED_UNIT_TRUST.getDesc();
         if (source.equals(IressAssetNameBean.DATABASE_TABLE_NAME))
-            return STRING_LISTED_SHARES;
+            return FinancialTypeEnum.INVESTMENT_LISTED_SHARES.getDesc();
         return "";
     }
 
@@ -192,11 +194,11 @@ public class AddIncomeStreamsView extends AddAssetView // javax.swing.JPanel
         jLabelCurrentValue = new javax.swing.JLabel();
         jTextFieldCurrentValue = new javax.swing.JTextField();
         jLabelPriceDate = new javax.swing.JLabel();
-        jTextFieldPriceDate = new com.argus.beans.FDateChooser();
+        jTextFieldPriceDate = new com.argus.bean.FDateChooser();
         jLabelPurchaseDate = new javax.swing.JLabel();
-        jTextFieldPurchaseDate = new com.argus.beans.FDateChooser();
+        jTextFieldPurchaseDate = new com.argus.bean.FDateChooser();
         jLabelMaturityDate = new javax.swing.JLabel();
-        jTextFieldMaturityDate = new com.argus.beans.FDateChooser();
+        jTextFieldMaturityDate = new com.argus.bean.FDateChooser();
         jPanelPerformance = new javax.swing.JPanel();
         jLabelEarnings = new javax.swing.JLabel();
         jTextFieldEarnings = new javax.swing.JTextField();
@@ -932,7 +934,7 @@ public class AddIncomeStreamsView extends AddAssetView // javax.swing.JPanel
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabelFrequency;
 
-    private com.argus.beans.FDateChooser jTextFieldPurchaseDate;
+    private com.argus.bean.FDateChooser jTextFieldPurchaseDate;
 
     private javax.swing.JLabel jLabelIndexation;
 
@@ -1002,7 +1004,7 @@ public class AddIncomeStreamsView extends AddAssetView // javax.swing.JPanel
 
     private javax.swing.JLabel jLabelOwnerCode;
 
-    private com.argus.beans.FDateChooser jTextFieldPriceDate;
+    private com.argus.bean.FDateChooser jTextFieldPriceDate;
 
     private javax.swing.JTextField jTextFieldCurrentValue;
 
@@ -1028,7 +1030,7 @@ public class AddIncomeStreamsView extends AddAssetView // javax.swing.JPanel
 
     private javax.swing.JLabel jLabelPurchaseCost;
 
-    private com.argus.beans.FDateChooser jTextFieldMaturityDate;
+    private com.argus.bean.FDateChooser jTextFieldMaturityDate;
 
     private javax.swing.JTextField jTextFieldEarnings;
 
@@ -1065,7 +1067,7 @@ public class AddIncomeStreamsView extends AddAssetView // javax.swing.JPanel
     }
 
     public String getTitle() {
-        return RC_INCOME_STREAM.getCodeDesc();
+        return RC_INCOME_STREAM.getDescription();
     }
 
     public boolean updateView() {
@@ -1080,14 +1082,14 @@ public class AddIncomeStreamsView extends AddAssetView // javax.swing.JPanel
         IncomeStream incomeStream = getIncomeStream();
 
         // ReferenceCode financialType = incomeStream.getFinancialType();
-        ReferenceCode financialCode = incomeStream.getFinancialCode();
+        ICode financialCode = incomeStream.getFinancialCode();
         old_FinancialCode = financialCode;
 
         jTextFieldAssetInvestmentCode.setText(financialCode == null ? null
                 : financialCode.getCode());
         // jTextFieldAssetInvestmentCode.updateUI();
         jTextFieldAssetInvestmentName.setText(financialCode == null ? null
-                : financialCode.getCodeDesc());
+                : financialCode.getDescription());
         // jTextFieldAssetInvestmentName.updateUI();
 
         // jTextFieldCapitalGrowth.setText( number.toString(
@@ -1238,14 +1240,14 @@ public class AddIncomeStreamsView extends AddAssetView // javax.swing.JPanel
 
         ReferenceCode refCode = (ReferenceCode) jComboBoxFundType
                 .getSelectedItem();
-        incomeStream.setFundTypeID(refCode.getCodeIDInteger());
+        incomeStream.setFundTypeID(refCode.getCodeId());
 
         try {
             updateFinancialCode(incomeStream, jTextFieldAssetInvestmentName
                     .getText().trim(), jTextFieldAssetInvestmentCode.getText()
                     .trim());
 
-        } catch (java.sql.SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace(System.err);
             throw new InvalidCodeException(e.getMessage());
         }
@@ -1281,7 +1283,7 @@ public class AddIncomeStreamsView extends AddAssetView // javax.swing.JPanel
                 .getBigDecimalValue(jTextFieldOngoingFee.getText()));
 
         refCode = (ReferenceCode) jComboBoxFrequency.getSelectedItem();
-        incomeStream.setFrequencyCodeID(refCode.getCodeIDInteger());
+        incomeStream.setFrequencyCodeID(refCode.getCodeId());
 
         incomeStream.setStartDate(DateTimeUtils
                 .getSqlDate(jTextFieldPurchaseDate.getText()));

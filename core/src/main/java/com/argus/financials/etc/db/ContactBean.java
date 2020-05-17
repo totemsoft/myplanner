@@ -17,20 +17,26 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.argus.financials.bean.DbConstant;
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.bean.DbConstant;
+import com.argus.financials.api.dao.LinkObjectDao;
+import com.argus.financials.api.dao.OccupationDao;
 import com.argus.financials.bean.db.AbstractPersistable;
-import com.argus.financials.bean.db.FPSLinkObject;
 import com.argus.financials.code.AddressCode;
 import com.argus.financials.code.ContactMediaCode;
-import com.argus.financials.etc.Address;
+import com.argus.financials.domain.hibernate.Occupation;
+import com.argus.financials.etc.AddressDto;
 import com.argus.financials.etc.Contact;
 import com.argus.financials.etc.ContactMedia;
-import com.argus.financials.etc.Occupation;
-import com.argus.financials.service.client.ObjectNotFoundException;
 
 public class ContactBean extends AbstractPersistable {
 
-    private int contactLinkID = FPSLinkObject.LINK_NOT_FOUND;
+    protected transient static OccupationDao occupationDao;
+    public static void setOccupationDao(OccupationDao occupationDao) {
+        ContactBean.occupationDao = occupationDao;
+    }
+
+    private int contactLinkID = LinkObjectDao.LINK_NOT_FOUND;
 
     // has to be instanciated in top level (final) derived class
     protected Contact contact; // aggregation
@@ -108,19 +114,17 @@ public class ContactBean extends AbstractPersistable {
     /**
      * IPersistable methods
      */
-    public void load(Connection con) throws SQLException,
-            ObjectNotFoundException {
-        load(getPrimaryKeyID(), con);
+    public void load(Connection con) throws SQLException, ObjectNotFoundException {
+        load(getId(), con);
     }
 
-    public void load(Integer primaryKeyID, Connection con) throws SQLException,
-            ObjectNotFoundException {
+    public void load(Integer primaryKeyID, Connection con) throws SQLException, ObjectNotFoundException {
 
         PreparedStatement sql = null;
         ResultSet rs = null;
 
         try {
-            setPrimaryKeyID(primaryKeyID);
+            setId(primaryKeyID);
 
             // has to be first, or we have to close rs/sql before
             loadAddress(con);
@@ -156,38 +160,34 @@ public class ContactBean extends AbstractPersistable {
     }
 
     public void load(ResultSet rs) throws SQLException {
-
-        PersonNameAddressBean pnab = new PersonNameAddressBean();
-        pnab.setPersonName(getContact().getName());
-        pnab.load(rs);
-
+        Contact contact = getContact();
+        //
+        personDao.load(rs, contact.getName());
         // load occupation
         Integer id = (Integer) rs.getObject("po_PersonID");
         if (id != null) {
-            if (getContact().getOccupation() == null)
-                getContact().setOccupation(new Occupation(id.intValue()));
-            new OccupationBean(getContact().getOccupation()).load(rs);
+            if (contact.getOccupation() == null)
+                contact.setOccupation(new Occupation(id));
+            occupationDao.load(contact.getOccupation(), rs);
         }
-
         // RelationshipFinancial table (via Link table)
         // getContact().setContactCodeID( getContactCodeID() );
-
     }
 
     // check if this contact person already exists in Person table (e.g.
     // Partner)
-    // in CLIENT !!! ( use find() return PersonID(s) to setPrimaryKeyID() )
+    // in CLIENT !!! ( use find() return PersonID(s) to setId() )
     public int store(Connection con) throws SQLException {
 
         if (!isModified())
-            return getPrimaryKeyID().intValue();
+            return getId().intValue();
 
         int i = 0;
         PreparedStatement sql = null;
         Integer contactCodeID = getContact().getContactCodeID();
 
         try {
-            if (getPrimaryKeyID() == null) {
+            if (getId() == null) {
 
                 // insert into Object table new PersonID
                 int contactID = getNewObjectID(DbConstant.PERSON, con);
@@ -205,12 +205,12 @@ public class ContactBean extends AbstractPersistable {
                 sql.setObject(++i, getContact().getName().getTitleCodeID(),
                         java.sql.Types.INTEGER);
                 sql.setString(++i, getContact().getName().getSurname());
-                sql.setString(++i, getContact().getName().getFirstName());
-                sql.setString(++i, getContact().getName().getOtherGivenNames());
+                sql.setString(++i, getContact().getName().getFirstname());
+                sql.setString(++i, getContact().getName().getOtherNames());
 
                 sql.executeUpdate();
 
-                setPrimaryKeyID(new Integer(contactID));
+                setId(new Integer(contactID));
 
                 // person.setLinkedPerson( PERSON_2_PERSON, CONTACT,
                 // PERSON_2_RELATIONSHIP_FINANCE, con );
@@ -218,7 +218,7 @@ public class ContactBean extends AbstractPersistable {
                 int linkID = setLink(getLinkObjectTypeID(1), // DbID.PERSON_2_PERSON,
                         getObjectTypeID(), getLinkObjectTypeID(2), // DbID.PERSON_2_RELATIONSHIP_FINANCE,
                         con);
-                contactLinkID = FPSLinkObject.getInstance().link(
+                contactLinkID = linkObjectDao.link(
                         new Integer(linkID), contactCodeID, // can be null !!!
                         DbConstant.PERSON_2_RELATIONSHIP, con);
 
@@ -235,17 +235,17 @@ public class ContactBean extends AbstractPersistable {
                 sql.setObject(++i, getContact().getName().getTitleCodeID(),
                         java.sql.Types.INTEGER);
                 sql.setString(++i, getContact().getName().getSurname());
-                sql.setString(++i, getContact().getName().getFirstName());
-                sql.setString(++i, getContact().getName().getOtherGivenNames());
+                sql.setString(++i, getContact().getName().getFirstname());
+                sql.setString(++i, getContact().getName().getOtherNames());
 
-                sql.setInt(++i, getPrimaryKeyID().intValue());
+                sql.setInt(++i, getId().intValue());
 
                 sql.executeUpdate();
                 sql.close();
 
                 // update ContactCode link
-                if (getContactLinkID(con) != FPSLinkObject.LINK_NOT_FOUND) {
-                    FPSLinkObject.getInstance().updateLinkForObject2(
+                if (getContactLinkID(con) != LinkObjectDao.LINK_NOT_FOUND) {
+                    linkObjectDao.updateLinkForObject2(
                             new Integer(contactLinkID), contactCodeID, con);
                 }
 
@@ -258,48 +258,48 @@ public class ContactBean extends AbstractPersistable {
         // store occupation
         Occupation o = getContact().getOccupation();
         if (o != null && o.isModified()) {
-            o.setOwnerPrimaryKeyID(getPrimaryKeyID());
-            new OccupationBean(o).store(con);
+            o.setOwnerId(getId());
+            occupationDao.store(o, con);
         }
 
         // store address
-        Address a = getContact().getAddress();
+        AddressDto a = getContact().getAddress();
         if (a != null && a.isModified()) {
-            a.setOwnerPrimaryKeyID(getPrimaryKeyID());
+            a.setOwnerId(getId());
             new AddressBean(a, DbConstant.PERSON_2_ADDRESS).store(con);
         }
 
         // store phone/fax
         ContactMedia cm = getContact().getPhone();
         if (cm != null && cm.isModified()) {
-            cm.setOwnerPrimaryKeyID(getPrimaryKeyID());
+            cm.setOwnerId(getId());
             new ContactMediaBean(cm, DbConstant.PERSON_2_CONTACT_MEDIA)
                     .store(con);
         }
 
         cm = getContact().getMobile();
         if (cm != null && cm.isModified()) {
-            cm.setOwnerPrimaryKeyID(getPrimaryKeyID());
+            cm.setOwnerId(getId());
             new ContactMediaBean(cm, DbConstant.PERSON_2_CONTACT_MEDIA)
                     .store(con);
         }
 
         cm = getContact().getFax();
         if (cm != null && cm.isModified()) {
-            cm.setOwnerPrimaryKeyID(getPrimaryKeyID());
+            cm.setOwnerId(getId());
             new ContactMediaBean(cm, DbConstant.PERSON_2_CONTACT_MEDIA)
                     .store(con);
         }
 
         cm = getContact().getEMail();
         if (cm != null && cm.isModified()) {
-            cm.setOwnerPrimaryKeyID(getPrimaryKeyID());
+            cm.setOwnerId(getId());
             new ContactMediaBean(cm, DbConstant.PERSON_2_CONTACT_MEDIA)
                     .store(con);
         }
 
         setModified(false);
-        return getPrimaryKeyID().intValue();
+        return getId().intValue();
 
     }
 
@@ -308,9 +308,9 @@ public class ContactBean extends AbstractPersistable {
 
         // remove link only: DbID.PERSON_2_PERSON
         // remove link this contact to person
-        int linkID = FPSLinkObject.getInstance().unlink(
-                getOwnerPrimaryKeyID().intValue(),
-                getPrimaryKeyID().intValue(), getLinkObjectTypeID(1), con);
+        int linkID = linkObjectDao.unlink(
+                getOwnerId().intValue(),
+                getId().intValue(), getLinkObjectTypeID(1), con);
 
     }
 
@@ -331,7 +331,7 @@ public class ContactBean extends AbstractPersistable {
 
             int i = 0;
             sql.setInt(++i, AddressCode.RESIDENTIAL.intValue());
-            sql.setInt(++i, getPrimaryKeyID().intValue());
+            sql.setInt(++i, getId().intValue());
             sql.setInt(++i, DbConstant.PERSON_2_ADDRESS);
 
             rs = sql.executeQuery();
@@ -341,7 +341,7 @@ public class ContactBean extends AbstractPersistable {
 
             if (getContact().getAddress() == null)
                 getContact().setAddress(
-                        new Address(getPrimaryKeyID().intValue()));
+                        new AddressDto(getId().intValue()));
             new AddressBean(getContact().getAddress(),
                     DbConstant.PERSON_2_ADDRESS).load(rs);
 
@@ -356,7 +356,7 @@ public class ContactBean extends AbstractPersistable {
         PreparedStatement sql = null;
         ResultSet rs = null;
 
-        int personID = getPrimaryKeyID().intValue();
+        int personID = getId().intValue();
 
         try {
             sql = con
@@ -403,7 +403,7 @@ public class ContactBean extends AbstractPersistable {
 
     private Integer getContactCodeID(Connection con) throws SQLException {
 
-        if (getOwnerPrimaryKeyID() == null)
+        if (getOwnerId() == null)
             return null;
 
         PreparedStatement sql = null;
@@ -427,8 +427,8 @@ public class ContactBean extends AbstractPersistable {
             int i = 0;
             sql.setInt(++i, DbConstant.CONTACT); // 11
             sql.setInt(++i, DbConstant.PERSON_2_RELATIONSHIP_FINANCE); // 
-            sql.setInt(++i, getOwnerPrimaryKeyID().intValue());
-            sql.setInt(++i, getPrimaryKeyID().intValue());
+            sql.setInt(++i, getOwnerId().intValue());
+            sql.setInt(++i, getId().intValue());
             sql.setInt(++i, DbConstant.PERSON_2_PERSON); // 
             sql.setInt(++i, DbConstant.PERSON_2_RELATIONSHIP); // 
 
@@ -454,23 +454,23 @@ public class ContactBean extends AbstractPersistable {
      */
     private int getContactLinkID(Connection con) throws SQLException {
 
-        if (contactLinkID == FPSLinkObject.LINK_NOT_FOUND) {
+        if (contactLinkID == LinkObjectDao.LINK_NOT_FOUND) {
 
-            int linkID = FPSLinkObject.getInstance().getLinkID(
-                    getOwnerPrimaryKeyID(), getPrimaryKeyID(),
+            int linkID = linkObjectDao.getLinkID(
+                    getOwnerId(), getId(),
                     DbConstant.PERSON_2_PERSON, con);
 
-            if (linkID == FPSLinkObject.LINK_NOT_FOUND)
+            if (linkID == LinkObjectDao.LINK_NOT_FOUND)
                 return linkID;
 
-            linkID = FPSLinkObject.getInstance().getLinkID(linkID,
+            linkID = linkObjectDao.getLinkID(linkID,
                     DbConstant.CONTACT,
                     DbConstant.PERSON_2_RELATIONSHIP_FINANCE, con);
 
-            if (linkID == FPSLinkObject.LINK_NOT_FOUND)
+            if (linkID == LinkObjectDao.LINK_NOT_FOUND)
                 return linkID;
 
-            contactLinkID = FPSLinkObject.getInstance().getLinkID(linkID, 0, // == 0
+            contactLinkID = linkObjectDao.getLinkID(linkID, 0, // == 0
                                                                                 // do
                                                                                 // not
                                                                                 // use
@@ -491,7 +491,7 @@ public class ContactBean extends AbstractPersistable {
 
     public void setContact(Contact value) {
         contact = value;
-        contactLinkID = FPSLinkObject.LINK_NOT_FOUND;
+        contactLinkID = LinkObjectDao.LINK_NOT_FOUND;
     }
 
     public boolean isModified() {
@@ -502,20 +502,20 @@ public class ContactBean extends AbstractPersistable {
         getContact().setModified(value);
     }
 
-    public Integer getPrimaryKeyID() {
-        return getContact().getPrimaryKeyID();
+    public Integer getId() {
+        return getContact().getId();
     }
 
-    public void setPrimaryKeyID(Integer value) {
-        getContact().setPrimaryKeyID(value);
+    public void setId(Integer value) {
+        getContact().setId(value);
     }
 
-    public Integer getOwnerPrimaryKeyID() {
-        return getContact().getOwnerPrimaryKeyID();
+    public Integer getOwnerId() {
+        return getContact().getOwnerId();
     }
 
-    public void setOwnerPrimaryKeyID(Integer value) {
-        getContact().setOwnerPrimaryKeyID(value);
+    public void setOwnerId(Integer value) {
+        getContact().setOwnerId(value);
     }
 
 }

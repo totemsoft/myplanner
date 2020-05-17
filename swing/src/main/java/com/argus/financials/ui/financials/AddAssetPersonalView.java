@@ -6,6 +6,9 @@
 
 package com.argus.financials.ui.financials;
 
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.bean.ICode;
+
 /**
  * 
  * @author valeri chibaev
@@ -13,8 +16,6 @@ package com.argus.financials.ui.financials;
  */
 
 import com.argus.financials.bean.AssetPersonal;
-import com.argus.financials.code.FinancialType;
-import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.OwnerCode;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.DateInputVerifier;
@@ -71,8 +72,7 @@ public class AddAssetPersonalView extends AddFinancialView {
 
         jPanelName = new javax.swing.JPanel();
         jLabelType = new javax.swing.JLabel();
-        jComboBoxType = new javax.swing.JComboBox(FinancialType
-                .getFinancialTypes(getObjectType()));
+        jComboBoxType = new javax.swing.JComboBox(financialService.findFinancialTypes(getObjectType()));
         jLabelOwnerCode = new javax.swing.JLabel();
         jComboBoxOwnerCode = new javax.swing.JComboBox(OWNERS);
         jLabelDesc = new javax.swing.JLabel();
@@ -81,7 +81,7 @@ public class AddAssetPersonalView extends AddFinancialView {
         jLabelPurchaseCost = new javax.swing.JLabel();
         jTextFieldPurchaseCost = new javax.swing.JTextField();
         jLabelStartDate = new javax.swing.JLabel();
-        jTextFieldStartDate = new com.argus.beans.FDateChooser();
+        jTextFieldStartDate = new com.argus.bean.FDateChooser();
         jLabelInsured = new javax.swing.JLabel();
         jCheckBoxInsured = new javax.swing.JCheckBox();
         jLabelReplacementValue = new javax.swing.JLabel();
@@ -323,7 +323,7 @@ public class AddAssetPersonalView extends AddFinancialView {
 
     private javax.swing.JLabel jLabelCapitalGrowth11;
 
-    private com.argus.beans.FDateChooser jTextFieldStartDate;
+    private com.argus.bean.FDateChooser jTextFieldStartDate;
 
     private javax.swing.JTextField jTextFieldPurchaseCost;
 
@@ -358,7 +358,7 @@ public class AddAssetPersonalView extends AddFinancialView {
 
         AssetPersonal assetPersonal = getAssetPersonal();
 
-        ReferenceCode refCode = assetPersonal.getFinancialType();
+        ICode refCode = assetPersonal.getFinancialType();
         jComboBoxType.setSelectedItem(refCode);
 
         jTextFieldDesc.setText(assetPersonal.getFinancialDesc());
@@ -466,7 +466,7 @@ public class AddAssetPersonalView extends AddFinancialView {
     }
 
     public String getTitle() {
-        return RC_ASSET_PERSONAL.getCodeDesc();
+        return RC_ASSET_PERSONAL.getDescription();
     }
 
 }

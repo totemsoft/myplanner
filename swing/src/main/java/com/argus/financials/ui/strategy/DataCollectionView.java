@@ -49,8 +49,6 @@ import com.argus.financials.ui.financials.WealthView;
 public class DataCollectionView extends javax.swing.JPanel implements
         com.argus.financials.swing.IReset {
 
-    private static boolean DEBUG = false;
-
     private PersonService person;
 
     private StrategyGroupData sgData;
@@ -66,12 +64,8 @@ public class DataCollectionView extends javax.swing.JPanel implements
 
     /** Creates new form DataCollectionView */
     public DataCollectionView() {
-        FPSLocale r = com.argus.financials.config.FPSLocale.getInstance();
-        DEBUG = Boolean.valueOf(System.getProperty("DEBUG")).booleanValue();
-
         initComponents();
         initComponents2();
-
     }
 
     public void setListener(java.util.EventListener listener) {
@@ -131,7 +125,7 @@ public class DataCollectionView extends javax.swing.JPanel implements
     }
 
     private void setRoot(PersonService person, DataCollectionModel value)
-            throws com.argus.financials.service.client.ServiceException {
+            throws com.argus.financials.api.ServiceException {
 
         jScrollPaneTree.setViewportView(null);
 

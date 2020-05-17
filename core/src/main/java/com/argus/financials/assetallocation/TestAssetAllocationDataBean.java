@@ -6,8 +6,6 @@
 
 package com.argus.financials.assetallocation;
 
-import com.argus.financials.bean.db.AssetAllocationDataBean;
-
 /**
  * 
  * @author shibaevv

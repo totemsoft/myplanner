@@ -1,3 +1,6 @@
+USE MyPlanner
+GO
+
 IF EXISTS (SELECT name 
 	   FROM   sysobjects 
 	   WHERE  name = N'sp_init_object' 

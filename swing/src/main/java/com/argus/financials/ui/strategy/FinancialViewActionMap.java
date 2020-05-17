@@ -20,6 +20,7 @@ import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
@@ -27,12 +28,13 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.tree.TreePath;
 
+import com.argus.financials.api.ServiceException;
 import com.argus.financials.bean.Assumptions;
 import com.argus.financials.bean.Financial;
 import com.argus.financials.config.ViewSettings;
 import com.argus.financials.report.ReportFields;
+import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.strategy.model.FinancialDataModel;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.swing.table.JTreeTable;
@@ -50,7 +52,7 @@ import com.argus.util.ReferenceCode;
  * 
  */
 
-class FinancialViewActionMap
+public class FinancialViewActionMap
     extends ActionMap
     implements IMenuCommand
 {
@@ -62,6 +64,11 @@ class FinancialViewActionMap
 
     // Model for the JTreeTable.
     protected FinancialDataModel model;
+
+    private static ClientService clientService;
+    public static void setClientService(ClientService clientService) {
+        FinancialViewActionMap.clientService = clientService;
+    }
 
     FinancialViewActionMap(Component parent, JTreeTable treeTable)
     {
@@ -83,15 +90,15 @@ class FinancialViewActionMap
     /***************************************************************************
      * 
      **************************************************************************/
-    void setRoot(PersonService person, ReferenceCode root)
-        throws com.argus.financials.service.client.ServiceException 
+    void setRoot(Integer personId, ReferenceCode root)
+        throws ServiceException 
     {
         model = new FinancialDataModel();
         model.setRoot(root);
         treeTable.setModel(model);
         
         // load financial data
-        model.reload(person);
+        model.reload(personId);
     }
     
     /***************************************************************************
@@ -118,7 +125,7 @@ class FinancialViewActionMap
             public void actionPerformed(ActionEvent evt) {
                 try {
                     removeFinancial(getCurrentCollectionNode());
-                } catch (com.argus.financials.service.client.ServiceException e) {
+                } catch (ServiceException e) {
                     e.printStackTrace(System.err);
                 }
             }
@@ -160,17 +167,17 @@ class FinancialViewActionMap
     /***************************************************************************
      * 
      **************************************************************************/
-    void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    void updateView(PersonService person) throws ServiceException {
         this.person = person;
     }
 
-    void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    void saveView(PersonService person) throws ServiceException {
         // if ( currentPerson != person )
         // throw new com.argus.financials.service.ServiceException( "!!! BUG!!! Wrong PersonService..." );
 
         // save collection data (can be modified)
-        person.setFinancials(null, model.getDetails()); // if rmi used
-        person.storeFinancials();
+        Map financials = model.getDetails();
+        person.storeFinancials(financials, person.getFinancialGoal());
 
     }
 
@@ -181,7 +188,7 @@ class FinancialViewActionMap
         if (parentNode == null || !parentNode.isFinancialGroup())
             return;
 
-        int objectTypeID = ((ReferenceCode) parentNode.getObject()).getCodeID();
+        int objectTypeID = ((ReferenceCode) parentNode.getObject()).getId();
         AddFinancialView view = AddFinancialView
                 .getAddFinancialView(objectTypeID);
         if (view == null)
@@ -225,7 +232,7 @@ class FinancialViewActionMap
     }
 
     private void removeFinancial(FinancialDataModel.Node node)
-            throws com.argus.financials.service.client.ServiceException {
+            throws ServiceException {
         if (node == null || !node.isFinancial())
             return;
 
@@ -314,7 +321,7 @@ class FinancialViewActionMap
             // System.out.println( "3 doCashFlow: " + System.currentTimeMillis()
             // );
 
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (ServiceException e) {
             e.printStackTrace(System.err);
         }
 
@@ -355,8 +362,8 @@ class FinancialViewActionMap
         try {
             if (assetAllocationView == null)
                 assetAllocationView = new CurrentAssetAllocationView();
-            assetAllocationView.updateView(ServiceLocator.getInstance()
-                    .getClientPerson());
+            assetAllocationView.updateView(
+                    clientService);
 
             SwingUtil.add2Frame(assetAllocationView,
                     (java.awt.event.FocusListener[]) null,

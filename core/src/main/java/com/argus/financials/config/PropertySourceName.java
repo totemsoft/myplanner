@@ -14,9 +14,6 @@ package com.argus.financials.config;
 
 public interface PropertySourceName {
 
-    // user has to be prompted for value
-    public static final String UNDEFINED_PROPERTY = "<???>";
-
     public static final String SOURCE_NAME_PROPERTY = "SOURCE_NAME";
 
     // user specific properties

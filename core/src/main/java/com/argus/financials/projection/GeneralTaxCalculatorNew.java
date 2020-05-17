@@ -6,20 +6,19 @@
 
 package com.argus.financials.projection;
 
-/**
- * 
- * @version
- */
-
-import com.argus.beans.AbstractComponentModel;
-import com.argus.beans.MessageSent;
+import com.argus.bean.AbstractComponentModel;
+import com.argus.bean.MessageSent;
+import com.argus.financials.report.Reportable;
+import com.argus.financials.service.ClientService;
 import com.argus.financials.swing.table.UpdateableTableModel;
 import com.argus.financials.swing.table.UpdateableTableRow;
 import com.argus.financials.tax.au.ITaxConstants;
 import com.argus.financials.tax.au.TaxContainer;
 
-public class GeneralTaxCalculatorNew extends AbstractComponentModel implements
-        com.argus.financials.report.Reportable {
+public class GeneralTaxCalculatorNew
+    extends AbstractComponentModel
+    implements Reportable
+{
 
     /**
      * Taxable items as interim by-products of calculation
@@ -167,8 +166,9 @@ public class GeneralTaxCalculatorNew extends AbstractComponentModel implements
 
     public static final String DATE_1900 = "01/01/1900";
 
-    /** Creates new GeneralTaxCalculator */
-    public GeneralTaxCalculatorNew() {
+    private static ClientService clientService;
+    public static void setClientService(ClientService clientService) {
+        GeneralTaxCalculatorNew.clientService = clientService;
     }
 
     public boolean validate(String whoIsChanged) {
@@ -766,9 +766,7 @@ public class GeneralTaxCalculatorNew extends AbstractComponentModel implements
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields)
             throws java.io.IOException {
-        initializeReportData(reportFields,
-                com.argus.financials.service.ServiceLocator.getInstance()
-                        .getClientPerson());
+        initializeReportData(reportFields, clientService);
     }
 
     public void initializeReportData(

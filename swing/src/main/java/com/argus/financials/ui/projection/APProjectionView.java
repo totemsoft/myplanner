@@ -18,11 +18,11 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
-import com.argus.beans.format.CurrencyLabelGenerator;
-import com.argus.financials.projection.APGraphViewNew;
+import com.argus.financials.chart.APGraphViewNew;
 import com.argus.financials.projection.AllocatedPensionCalcNew;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.format.Currency;
+import com.argus.format.CurrencyLabelGenerator;
 import com.argus.swing.SwingUtils;
 
 public class APProjectionView extends javax.swing.JPanel {

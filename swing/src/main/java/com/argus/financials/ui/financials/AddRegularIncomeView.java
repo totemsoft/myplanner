@@ -6,6 +6,8 @@
 
 package com.argus.financials.ui.financials;
 
+import com.argus.financials.api.InvalidCodeException;
+
 /**
  * 
  * @author valeri chibaev
@@ -14,7 +16,6 @@ package com.argus.financials.ui.financials;
 
 import com.argus.financials.bean.Regular;
 import com.argus.financials.bean.RegularIncome;
-import com.argus.financials.code.InvalidCodeException;
 
 public class AddRegularIncomeView extends AddRegularView {
 
@@ -105,7 +106,7 @@ public class AddRegularIncomeView extends AddRegularView {
     }
 
     public String getTitle() {
-        return RC_REGULAR_INCOME.getCodeDesc();
+        return RC_REGULAR_INCOME.getDescription();
     }
 
 }

@@ -6,6 +6,12 @@
 
 package com.argus.financials.ui.financials;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.argus.financials.api.bean.ICode;
+import com.argus.financials.api.bean.hibernate.FinancialCode;
+import com.argus.financials.api.code.FinancialTypeEnum;
+
 /**
  * 
  * @author valeri chibaev
@@ -17,11 +23,8 @@ import com.argus.financials.bean.Asset;
 import com.argus.financials.bean.Financial;
 import com.argus.financials.bean.db.ApirPicBean;
 import com.argus.financials.bean.db.AssetAllocationBean;
-import com.argus.financials.bean.db.FinancialCodeBean;
 import com.argus.financials.bean.db.SharePriceDataBean;
 import com.argus.financials.bean.db.UnitPriceDataBean;
-import com.argus.financials.code.FinancialType;
-import com.argus.financials.code.FinancialTypeID;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.io.IOUtils;
 import com.argus.util.ReferenceCode;
@@ -30,21 +33,19 @@ public abstract class AddAssetView extends AddFinancialView
 // implements UpdateUnitSharePriceData
 {
     public static final String UNITS = "UNITS";
-
     public static final String UNIT_PRICE = "UNIT_PRICE";
-
     public static final String UNIT_PRICE_DATE = "UNIT_PRICE_DATE";
-
     public static final String CURRENT_VALUE = "CURRENT_VALUE";
 
     // remember old FinancialCode, needed to decided if we need to create a new
     // FinancialCode
-    protected ReferenceCode old_FinancialCode = null;
+    protected ICode old_FinancialCode = null;
 
     protected boolean updated_by_search = false;
 
     /** Creates a new instance of AddAssetView */
     protected AddAssetView() {
+        //super();
     }
 
     public abstract int getDefaultFinancialTypeID(String source);
@@ -134,7 +135,7 @@ public abstract class AddAssetView extends AddFinancialView
      */
     protected void updateInputFields(AvailableInvestmentsTableRow row) {
 
-        int financialTypeID = getDefaultFinancialTypeID(row.origin);
+        int financialTypeId = getDefaultFinancialTypeID(row.origin);
         String financialTypeDesc = getDefaultFinancialTypeDesc(row.origin);
 
         String investmentName = row.description;// .trim();
@@ -149,20 +150,18 @@ public abstract class AddAssetView extends AddFinancialView
         // check if we have an entry in the "FinancialCode" table, if not create
         // one
         int financialCodeID = checkFinancialCode(investmentCode,
-                financialTypeID, investmentName);
+                financialTypeId, investmentName);
 
         // update current price fields
-        updateCurrentUnitsSharesPriceFields(row.code, financialTypeID);
+        updateCurrentUnitsSharesPriceFields(row.code, financialTypeId);
 
         Financial f = getFinancial();
-        f.setFinancialType(FinancialType.getFinancialType(getObjectType(),
-                new Integer(financialTypeID)));
+        f.setFinancialTypeId(financialTypeId);
 
         // store old FinancialCode
         old_FinancialCode = f.getFinancialCode();
         // update FinancialCode
-        f.setFinancialCode(new ReferenceCode(new Integer(financialCodeID),
-                investmentCode, investmentName));
+        f.setFinancialCode(new FinancialCode(financialCodeID, investmentCode, investmentName, financialTypeId));
 
     }
 
@@ -279,7 +278,7 @@ public abstract class AddAssetView extends AddFinancialView
             setClosePrice(new java.math.BigDecimal(unitSharePrice
                     .getClosePrice()));
 
-        } catch (java.sql.SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace(System.err);
         }
 
@@ -289,63 +288,25 @@ public abstract class AddAssetView extends AddFinancialView
      * The methode looks up for a "FinacialCode" in the "FinancialCode" table,
      * if it does not find an entry, it creates a new one.
      * 
-     * @param investmentCode -
-     *            financial code
-     * @param financialTypeID -
-     *            financial type id
-     * @param description -
-     *            financial code description
+     * @param investmentCode - financial code
+     * @param financialTypeId - financial type id
+     * @param description - financial code description
      * @return the corresponding financial code id
      */
-    protected int checkFinancialCode(String investmentCode,
-            int financialTypeID, String description) {
+    protected int checkFinancialCode(String investmentCode, int financialTypeId, String description) {
         try {
-            FinancialCodeBean financialCodeBean = new FinancialCodeBean();
-
+            FinancialCode financialCode = financialService.findByFinancialCode(investmentCode);
             // do we have an entry in the "FinancialCode" table
-            // if(
-            // !financialCodeBean.findByFinancialCodeDescAndFinancialTypeIdAndFinancialCode(
-            // description, "" + financialTypeID, investmentCode ) )
-            if (investmentCode != null
-                    && !financialCodeBean.findByFinancialCode(investmentCode)) { // we
-                                                                                    // don't
-                                                                                    // have
-                                                                                    // an
-                                                                                    // entry
-                                                                                    // for
-                                                                                    // the
-                                                                                    // current
-                                                                                    // unit/share
-                                                                                    // name,
-                                                                                    // create
-                                                                                    // one
-
-                // financialCodeBean.setFinancialTypeID ( financialTypeID );
-                financialCodeBean.setFinancialTypeID(-1); // -1 = <NULL> entry
-                                                            // in database
-                                                            // column
-                financialCodeBean.setFinancialCode(investmentCode);
-                financialCodeBean.setFinancialCodeDesc(description);
-
-                financialCodeBean.create();
-
-                // add new financial code
-                FinancialType.addFinancialCode(
-                        // getObjectType(),
-                        new Integer(0),
-                        // new Integer( financialCodeBean.getFinancialTypeID()
-                        // ),
-                        new Integer(FinancialTypeID.UNDEFINED),
-                        new ReferenceCode(financialCodeBean
-                                .getFinancialCodeID(), financialCodeBean
-                                .getFinancialCode(), financialCodeBean
-                                .getFinancialCodeDesc()));
-
+            if (financialCode == null) {
+                financialCode = new FinancialCode();
+                // financialCodeBean.setFinancialTypeId(financialTypeId);
+                financialCode.setFinancialTypeId(-1); // -1 = <NULL> entry in database column
+                financialCode.setCode(investmentCode);
+                financialCode.setDescription(description);
+                financialService.save(financialCode);
             }
-
-            return financialCodeBean.getFinancialCodeID();
-
-        } catch (java.sql.SQLException e) {
+            return financialCode.getId();
+        } catch (Exception e) {
             e.printStackTrace(System.err);
             return 0;
         }
@@ -356,53 +317,29 @@ public abstract class AddAssetView extends AddFinancialView
      * The methode looks up for a "FinacialCodeDesc" in the "FinancialCode"
      * table, if it does not find an entry, it creates a new one.
      * 
-     * @param investmentCode -
-     *            financial code
-     * @param financialTypeID -
-     *            financial type id
-     * @param description -
-     *            financial code description
+     * @param investmentCode - financial code
+     * @param financialTypeID - financial type id
+     * @param description - financial code description
      * @return the corresponding financial code id
      */
-    private int checkFinancialCodeDesc(String investmentCode,
-            int financialTypeID, String description) {
+    private int checkFinancialCodeDesc(String investmentCode, int financialTypeId, String description) {
         try {
-            FinancialCodeBean financialCodeBean = new FinancialCodeBean();
-
+            FinancialCode financialCode = financialService.findByFinancialCodeDesc(description);
             // do we have an entry in the "FinancialCode" table
-            if (!financialCodeBean.findByFinancialCodeDesc(description)) {
-                // we don't have an entry for the current unit/share name,
-                // create one
-                // financialCodeBean.setFinancialTypeID ( financialTypeID );
-                financialCodeBean.setFinancialTypeID(-1); // -1 = <NULL> entry
-                                                            // in database
-                                                            // column
-                financialCodeBean.setFinancialCode(investmentCode);
-                financialCodeBean.setFinancialCodeDesc(description);
-
-                financialCodeBean.create();
-
-                // add new financial code
-                FinancialType.addFinancialCode(
-                        // getObjectType(),
-                        new Integer(0),
-                        // new Integer( financialCodeBean.getFinancialTypeID()
-                        // ),
-                        new Integer(FinancialTypeID.UNDEFINED),
-                        new ReferenceCode(financialCodeBean
-                                .getFinancialCodeID(), financialCodeBean
-                                .getFinancialCode(), financialCodeBean
-                                .getFinancialCodeDesc()));
-
+            if (financialCode == null) {
+                financialCode = new FinancialCode();
+                // we don't have an entry for the current unit/share name, create one
+                // financialCode.setFinancialTypeID (financialTypeId);
+                financialCode.setFinancialTypeId(-1); // -1 = <NULL> entry in database column
+                financialCode.setCode(investmentCode);
+                financialCode.setDescription(description);
+                financialService.save(financialCode);
             }
-
-            return financialCodeBean.getFinancialCodeID();
-
-        } catch (java.sql.SQLException e) {
+            return financialCode.getId();
+        } catch (Exception e) {
             e.printStackTrace(System.err);
             return 0;
         }
-
     }
 
     /**
@@ -418,8 +355,8 @@ public abstract class AddAssetView extends AddFinancialView
         UnitSharePrice unitSharePrice = null;
 
         // in which table? (check origin)
-        if (financialTypeID == SUPERANNUATION_LISTED_UNIT_TRUST
-                || financialTypeID == SUPERANNUATION_LISTED_UNIT_TRUSTS) {
+        if (financialTypeID == FinancialTypeEnum.SUPERANNUATION_LISTED_UNIT_TRUST.getId()
+         || financialTypeID == FinancialTypeEnum.SUPERANNUATION_LISTED_UNIT_TRUSTS.getId()) {
             // apir-pic table (units)
             // get unit price and price date from database table
             // "unit-price-data"
@@ -434,7 +371,7 @@ public abstract class AddAssetView extends AddFinancialView
         try {
             // find unit/share in database
             unitSharePrice.findUnitShareByCode(financialCode);
-        } catch (java.sql.SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace(System.err);
             return null;
         }
@@ -443,23 +380,19 @@ public abstract class AddAssetView extends AddFinancialView
     }
 
     protected void updateFinancialCode(Asset asset, String investmentName,
-            String investmentCode) throws java.sql.SQLException {
+            String investmentCode) throws Exception {
 
-        Integer financialTypeID = asset.getFinancialTypeID();
+        Integer financialTypeId = asset.getFinancialTypeID();
 
         // has the investment name (asset name) and investment code changed,
         // the user could have searched for a new investment or changed the
         // asset name!?!
         if (investmentName != null && investmentCode != null) {
             // do we have a new name ?
-            if (!investmentName.equals(old_FinancialCode == null ? null
-                    : old_FinancialCode.getCodeDesc())) {
+            if (!investmentName.equals(old_FinancialCode == null ? null : old_FinancialCode.getDescription())) {
                 // than we should have a new investment code too
-                if (investmentCode != null
-                        && investmentCode.length() > 0
-                        && !investmentCode
-                                .equals(old_FinancialCode == null ? null
-                                        : old_FinancialCode.getCode())) {
+                if (investmentCode != null && investmentCode.length() > 0
+                        && !investmentCode.equals(old_FinancialCode == null ? null : old_FinancialCode.getCode())) {
                     // yes, we have a new investment code too
                 } else {
                     /*
@@ -485,64 +418,28 @@ public abstract class AddAssetView extends AddFinancialView
 
         // BEGIN: check/create investment code, when necessary
         // do we have an investment code?
-        if (investmentCode == null || investmentCode.length() <= 0) {
+        if (StringUtils.isBlank(investmentCode)) {
             // no, than create a new one
             String crc32 = createCRC32(investmentName);
             // investmentCode = "#<CRC32>"
             investmentCode = "#" + crc32;
-        } // end if
+        }
         // END: check/create investment code, when necessary
 
-        if (investmentCode != null && investmentCode.length() > 0) { // investmentName.length()
-                                                                        // > 0 )
-                                                                        // {
-            FinancialCodeBean financialCodeBean = new FinancialCodeBean();
-
-            // boolean found =
-            // financialCodeBean.findByFinancialCodeDescAndFinancialTypeId(
-            // investmentName, financialTypeID );
-            boolean found = financialCodeBean
-                    .findByFinancialCode(investmentCode);
-
-            ReferenceCode financialCode;
-            if (found) {
-
-                financialCodeBean.setFinancialTypeID(-1); // -1 = <NULL> entry
-                                                            // in database
-                                                            // column
-                financialCodeBean.store();
-
-                financialCode = FinancialType.getFinancialCode(getObjectType(),
-                        new Integer(FinancialTypeID.UNDEFINED), new Integer(
-                                financialCodeBean.getFinancialCodeID()));
-
+        if (StringUtils.isNotBlank(investmentCode)) {
+            FinancialCode financialCode = financialService.findByFinancialCode(investmentCode);
+            if (financialCode == null) {
+                financialCode = new FinancialCode();
+                financialCode.setFinancialTypeId(-1); // -1 = <NULL> entry in database column
                 financialCode.setCode(investmentCode);
-
-            } else {
-
-                financialCodeBean.setFinancialTypeID(-1); // -1 = <NULL> entry
-                                                            // in database
-                                                            // column
-                financialCodeBean.setFinancialCode(investmentCode);
-                financialCodeBean.setFinancialCodeDesc(investmentName);
-
-                financialCodeBean.create();
-
-                financialCode = new ReferenceCode(financialCodeBean
-                        .getFinancialCodeID(), investmentCode, investmentName);
-                FinancialType.addFinancialCode(getObjectType(), new Integer(
-                        FinancialTypeID.UNDEFINED), financialCode);
-
+                financialCode.setDescription(investmentName);
+                financialService.save(financialCode);
             }
-
-            // asset.setFinancialTypeID( financialTypeID );
-
+            // asset.setFinancialTypeID(financialTypeId);
             // update old FinancialCode
             old_FinancialCode = financialCode;
             asset.setFinancialCode(financialCode);
-
         }
-
     }
 
     /**
@@ -593,7 +490,7 @@ public abstract class AddAssetView extends AddFinancialView
                 try {
                     AssetAllocationBean aab = new AssetAllocationBean();
                     aab.delete(aaid);
-                } catch (java.sql.SQLException e) {
+                } catch (Exception e) {
                     e.printStackTrace(System.err);
                 }
             } // end if

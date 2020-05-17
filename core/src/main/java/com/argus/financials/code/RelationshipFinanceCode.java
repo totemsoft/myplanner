@@ -15,6 +15,7 @@ package com.argus.financials.code;
 import java.util.Collection;
 import java.util.TreeSet;
 
+import com.argus.financials.api.code.CodeComparator;
 import com.argus.util.ReferenceCode;
 
 public class RelationshipFinanceCode extends BaseCode {

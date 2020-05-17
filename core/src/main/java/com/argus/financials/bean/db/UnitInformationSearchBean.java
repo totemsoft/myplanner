@@ -13,13 +13,16 @@ import java.sql.SQLException;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.argus.dao.SQLHelper;
 import com.argus.financials.assetinvestment.AvailableInvestmentsTableRow;
 
 /**
  * UnitInformationSearchBean is responsible for the search of units which match
  * given keywords. The beans operates on three database tables at the same time
- * to collect all neccessary data, these tables are: "manager-data",
- * "product-information" and "apir-pic".
+ * to collect all neccessary data, these tables are: "manager_data",
+ * "product_information" and "apir_pic".
  * <P>
  * </P>
  * The following SQL statement is used: <BR>
@@ -27,10 +30,10 @@ import com.argus.financials.assetinvestment.AvailableInvestmentsTableRow;
  * 
  * <PRE>
  * 
- * SELECT b.code, b.[full-name], a.[full-name] AS Institution, c.[apir-pic] FROM
- * [manager-data] a, [product-information] b, [apir-pic] c
+ * SELECT b.code, b.[full_name], a.[full_name] AS Institution, c.[apir_pic] FROM
+ * [manager_data] a, [product_information] b, [apir_pic] c
  * 
- * WHERE a.code = b.[manager-code] AND b.code = c.code AND b.[full-name] LIKE
+ * WHERE a.code = b.[manager_code] AND b.code = c.code AND b.[full_name] LIKE
  * '%Questor%'
  * 
  * </PRE>
@@ -42,13 +45,18 @@ import com.argus.financials.assetinvestment.AvailableInvestmentsTableRow;
 
 public class UnitInformationSearchBean {
 
-    public static final String MANAGER_DATA_DATABASE_TABLE_NAME = "manager-data";
+    public static final String MANAGER_DATA_DATABASE_TABLE_NAME = ManagerDataBean.DATABASE_TABLE_NAME;
 
-    public static final String PRODUCT_INFORMATION_DATABASE_TABLE_NAME = "product-information";
+    public static final String PRODUCT_INFORMATION_DATABASE_TABLE_NAME = ProductInformationBean.DATABASE_TABLE_NAME;
 
-    public static final String APIR_PIC_DATABASE_TABLE_NAME = "apir-pic";
+    public static final String APIR_PIC_DATABASE_TABLE_NAME = ApirPicBean.DATABASE_TABLE_NAME;
 
     private static final String SEARCH_OPERATOR = "AND";
+
+    private transient static SQLHelper sqlHelper;
+    public static void setSqlHelper(SQLHelper sqlHelper) {
+        UnitInformationSearchBean.sqlHelper = sqlHelper;
+    }
 
     // bean properties
     private int code; // length: 4
@@ -77,46 +85,46 @@ public class UnitInformationSearchBean {
     }
 
     /**
-     * Loads an entry. The "apir-pic" column is used for identification. The
+     * Loads an entry. The "apir_pic" column is used for identification. The
      * first matching entry will be loaded.
      * 
-     * @param apir_pic_id -
-     *            use the apir-pic column as identifier
+     * @param apir_pic_id _
+     *            use the apir_pic column as identifier
      * @return true = found an entry
      */
     public boolean findByApirPic(String apir_pic_id)
             throws java.sql.SQLException {
-        return this.findByColumnName("c.[apir-pic]", apir_pic_id);
+        return this.findByColumnName("c.[apir_pic]", apir_pic_id);
     }
 
     /**
-     * Search in the "three tables" for all rows whose "full-name" (asset name)
+     * Search in the "three tables" for all rows whose "full_name" (asset name)
      * contains one of the keywords as part of any word in the column. The
-     * returned Vector is sorted by the column "full-name".
+     * returned Vector is sorted by the column "full_name".
      * 
-     * @param keywords -
+     * @param keywords _
      *            the keywords which are used for the search
      * @return a java.util.Vector which contains all rows that match the search
      *         criteria
      */
     public Vector findByKeywordsSearchDescription(String keywords)
             throws java.sql.SQLException {
-        return this.findByKeywordsSearch(keywords, "b.[full-name]");
+        return this.findByKeywordsSearch(keywords, "b.[full_name]");
     }
 
     /**
-     * Search in the "three tables" for all rows whose "apir-pic" contains one
+     * Search in the "three tables" for all rows whose "apir_pic" contains one
      * of the keywords as part of any word in the column. The returned Vector is
-     * sorted by the column "apir-pic".
+     * sorted by the column "apir_pic".
      * 
-     * @param keywords -
+     * @param keywords _
      *            the keywords which are used for the search
      * @return a java.util.Vector which contains all rows that match the search
      *         criteria
      */
     public Vector findByKeywordsSearchInvestmentCode(String keywords)
             throws java.sql.SQLException {
-        return this.findByKeywordsSearch(keywords, "c.[apir-pic]");
+        return this.findByKeywordsSearch(keywords, "c.[apir_pic]");
     }
 
     /**
@@ -125,72 +133,59 @@ public class UnitInformationSearchBean {
      * word in the column. The returned Vector is sorted by the given column
      * name.
      * 
-     * @param keywords -
+     * @param keywords _
      *            the keywords which are used for the search
      * @return a java.util.Vector which contains all rows that match the search
      *         criteria
      */
-    private Vector findByKeywordsSearch(String keywords, String column_name)
-            throws java.sql.SQLException {
+    private Vector findByKeywordsSearch(String keywords, String column_name) throws java.sql.SQLException {
+        if (StringUtils.isBlank(keywords) || StringUtils.isBlank(column_name))
+            return new Vector();
+
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        StringTokenizer keywords_StringTokenizer = null;
+        StringBuffer sql = new StringBuffer();
+        StringTokenizer tok = null;
         int token_count = 0;
         int number_of_tokens = 0;
 
-        Vector table_rows = new Vector(INITIAL_VECTOR_SIZE,
-                INITIAL_VECTOR_GROWTH_SIZE);
-
-        if (keywords == null || (keywords = keywords.trim()).length() == 0)
-            return new Vector();
-        if (column_name == null
-                || (column_name = column_name.trim()).length() == 0)
-            return new Vector();
-
+        Vector table_rows = new Vector(INITIAL_VECTOR_SIZE, INITIAL_VECTOR_GROWTH_SIZE);
+        column_name = column_name.trim();
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // check if we have some keywords
             if (keywords != null && keywords.length() > 0) {
                 // split keywords String into tokens (single keywords)
-                keywords_StringTokenizer = new StringTokenizer(keywords);
-                number_of_tokens = keywords_StringTokenizer.countTokens();
+                tok = new StringTokenizer(keywords);
+                number_of_tokens = tok.countTokens();
 
                 // build pstmt query
-                pstmt_StringBuffer.append("SELECT DISTINCT ");
-                pstmt_StringBuffer
-                        .append("b.code, b.[full-name], a.[full-name] AS institution, c.[apir-pic] ");
-
-                pstmt_StringBuffer.append("FROM ["
-                        + MANAGER_DATA_DATABASE_TABLE_NAME + "] a, ");
-                pstmt_StringBuffer.append("["
-                        + PRODUCT_INFORMATION_DATABASE_TABLE_NAME + "] b, ");
-                pstmt_StringBuffer.append("[" + APIR_PIC_DATABASE_TABLE_NAME
-                        + "] c ");
-
-                pstmt_StringBuffer.append("WHERE ");
-                pstmt_StringBuffer
-                        .append("a.code = b.[manager-code] AND b.code = c.code AND ");
-
+                sql.append("SELECT DISTINCT ");
+                sql.append("b.code, b.[full_name], a.[full_name] AS institution, c.[apir_pic] ");
+                sql.append("FROM [" + MANAGER_DATA_DATABASE_TABLE_NAME + "] a, ");
+                sql.append("[" + PRODUCT_INFORMATION_DATABASE_TABLE_NAME + "] b, ");
+                sql.append("[" + APIR_PIC_DATABASE_TABLE_NAME + "] c ");
+                sql.append("WHERE ");
+                sql.append("a.code = b.[manager_code] AND b.code = c.code AND ");
                 // add all tokens (single keywords) to the query
-                while (keywords_StringTokenizer.hasMoreTokens()) {
+                sql.append("(");
+                while (tok.hasMoreTokens()) {
                     // do we need to add "AND "?
                     if (token_count > 0 && token_count < number_of_tokens) {
-                        pstmt_StringBuffer.append(SEARCH_OPERATOR + " ");
+                        sql.append(SEARCH_OPERATOR + " ");
                     }
-
-                    pstmt_StringBuffer.append("(" + column_name + " LIKE '%"
-                            + keywords_StringTokenizer.nextToken() + "%') ");
+                    sql.append(column_name + " LIKE '%" + tok.nextToken() + "%' ");
                     token_count++;
                 }
+                sql.append(") ");
                 // order by description
-                pstmt_StringBuffer.append("ORDER BY " + column_name + " ");
+                sql.append("ORDER BY " + column_name);
 
                 // set and execute query
-                pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
+                pstmt = con.prepareStatement(sql.toString());
                 rs = pstmt.executeQuery();
 
                 // have we any result?
@@ -201,9 +196,9 @@ public class UnitInformationSearchBean {
                     // fill it with data
                     table_row.origin = checkString(APIR_PIC_DATABASE_TABLE_NAME);
                     table_row.investmentCode = checkString(rs
-                            .getString("apir-pic"));
+                            .getString("apir_pic"));
                     table_row.description = checkString(rs
-                            .getString("full-name"));
+                            .getString("full_name"));
                     table_row.code = checkString(rs.getString("code"));
                     table_row.institution = checkString(rs
                             .getString("institution"));
@@ -212,14 +207,14 @@ public class UnitInformationSearchBean {
                 }
             }
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(rs, pstmt);
+            sqlHelper.close(rs, pstmt, con);
         }
 
         return table_rows;
@@ -229,9 +224,9 @@ public class UnitInformationSearchBean {
      * Loads an entry. The given column name and id is used for identification.
      * The first matching (column contains id) entry will be loaded.
      * 
-     * @param column_name -
+     * @param column_name _
      *            the column name for the search
-     * @param id -
+     * @param id _
      *            the identification
      * @return true = found an entry
      */
@@ -245,12 +240,12 @@ public class UnitInformationSearchBean {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build pstmt query
             pstmt_StringBuffer.append("SELECT DISTINCT ");
             pstmt_StringBuffer
-                    .append("b.code, b.[full-name], a.[full-name] AS institution, c.[apir-pic] ");
+                    .append("b.code, b.[full_name], a.[full_name] AS institution, c.[apir_pic] ");
 
             pstmt_StringBuffer.append("FROM ["
                     + MANAGER_DATA_DATABASE_TABLE_NAME + "] a, ");
@@ -261,7 +256,7 @@ public class UnitInformationSearchBean {
 
             pstmt_StringBuffer.append("WHERE ");
             pstmt_StringBuffer
-                    .append("a.code = b.[manager-code] AND b.code = c.code AND");
+                    .append("a.code = b.[manager_code] AND b.code = c.code AND");
             pstmt_StringBuffer.append(column_name + " = ? ");
 
             // set and execute query
@@ -274,22 +269,22 @@ public class UnitInformationSearchBean {
             // do we have any result?
             if (rs.next()) {
                 // get the data
-                this.apir_pic = rs.getString("apir-pic");
-                this.full_name = rs.getString("full-name");
+                this.apir_pic = rs.getString("apir_pic");
+                this.full_name = rs.getString("full_name");
                 this.institution = rs.getString("institution");
                 this.code = rs.getInt("code");
                 found = true;
             }
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
 
         return found;
@@ -311,47 +306,6 @@ public class UnitInformationSearchBean {
         }
 
         return str_to_return;
-    }
-
-    /**
-     * Closes a given ResultSet and PreparedStatement.
-     * 
-     * @param rs -
-     *            the ResultSet to close
-     * @param pstmt -
-     *            the PreparedStatement to close
-     */
-    private void closeRsSql(ResultSet rs, PreparedStatement pstmt) {
-        try {
-            if (rs != null)
-                rs.close();
-            if (pstmt != null)
-                pstmt.close();
-        } catch (java.sql.SQLException e) {
-            // do nothing here
-        }
-    }
-
-    /**
-     * Prints the SQLException's messages, SQLStates and ErrorCode to System.err
-     * 
-     * @param extends -
-     *            a SQLException
-     */
-    private void printSQLException(java.sql.SQLException e) {
-        System.err.println("\n--- SQLException caught ---\n");
-
-        while (e != null) {
-            e.printStackTrace(System.err);
-
-            System.err.println("Message:   " + e.getMessage());
-            System.err.println("SQLState:  " + e.getSQLState());
-            System.err.println("ErrorCode: " + e.getErrorCode());
-
-            e = e.getNextException();
-
-        }
-
     }
 
     /*

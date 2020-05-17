@@ -15,32 +15,24 @@ package com.argus.financials.projection.data;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.service.ServiceAware;
 
-public class Parameters {
+public class Parameters
+    extends ServiceAware
+{
 
-    private static java.util.Map map;
+    private static Map map = new HashMap();
 
-    static {
-        if (map == null) {
-            map = new HashMap();
-            load();
-        }
-    }
-
+    /**
+     * load other values from db (Parameters table)
+     */
     private static void load() {
-        map.clear();
-
-        /**
-         * load other values from db (Parameters table)
-         */
         try {
-            Map paramMap = ServiceLocator.getInstance().getUtilityService()
-                    .getParameters(null);
+            Map paramMap = utilityService.getParameters(null);
             if (paramMap == null)
                 return;
             map.putAll(paramMap);
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace();
         }
 
@@ -53,6 +45,10 @@ public class Parameters {
      * get
      */
     public static Object getValue(String name) {
+        if (map == null) {
+            map = new HashMap();
+            load();
+        }
         return map.get(name);
     }
 

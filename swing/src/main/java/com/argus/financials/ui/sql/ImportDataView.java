@@ -22,13 +22,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import com.argus.beans.AbstractComponentModel;
-import com.argus.beans.FTable;
-import com.argus.beans.FTextArea;
-import com.argus.beans.FTextField;
-import com.argus.beans.MessageSent;
-import com.argus.beans.MessageSentEvent;
-import com.argus.beans.WizardContentHandler;
+import com.argus.bean.AbstractComponentModel;
+import com.argus.bean.FTable;
+import com.argus.bean.FTextArea;
+import com.argus.bean.FTextField;
+import com.argus.bean.MessageSent;
+import com.argus.bean.MessageSentEvent;
+import com.argus.bean.WizardContentHandler;
 import com.argus.financials.exchange.ExportData;
 import com.argus.financials.swing.ICloseDialog;
 import com.argus.financials.swing.SwingUtil;
@@ -38,7 +38,7 @@ import com.argus.swing.SplashWindow;
 import com.argus.swing.SwingUtils;
 import com.argus.util.KeyValue;
 
-public class ImportDataView extends com.argus.beans.BasePanel implements
+public class ImportDataView extends com.argus.bean.BasePanel implements
         ICloseDialog {
 
     private final static String XML = "xml";
@@ -157,17 +157,17 @@ public class ImportDataView extends com.argus.beans.BasePanel implements
         jPanelStep1 = new javax.swing.JPanel();
         textFieldStep1 = new FTextField();
         ((FTextField) textFieldStep1)
-                .setFieldType(com.argus.beans.FTextField.ANY);
+                .setFieldType(com.argus.bean.FTextField.ANY);
         jButtonStep1 = new javax.swing.JButton();
         jPanelStep2 = new javax.swing.JPanel();
         jScrollPaneStep2 = new javax.swing.JScrollPane();
-        tableStep2 = new com.argus.beans.FTable();
+        tableStep2 = new com.argus.bean.FTable();
         jPanelStep3 = new javax.swing.JPanel();
         jScrollPaneDetailsStep3 = new javax.swing.JScrollPane();
-        textAreaDetailsStep3 = new com.argus.beans.FTextArea();
+        textAreaDetailsStep3 = new com.argus.bean.FTextArea();
         jPanelStep4 = new javax.swing.JPanel();
         jScrollPaneDetailsStep4 = new javax.swing.JScrollPane();
-        textAreaDetailsStep4 = new com.argus.beans.FTextArea();
+        textAreaDetailsStep4 = new com.argus.bean.FTextArea();
         jSeparatorHorizontal = new javax.swing.JSeparator();
         jPanelControls = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();

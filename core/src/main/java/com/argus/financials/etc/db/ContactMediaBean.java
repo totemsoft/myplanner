@@ -17,11 +17,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.argus.financials.bean.DbConstant;
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.bean.DbConstant;
 import com.argus.financials.bean.db.AbstractPersistable;
-import com.argus.financials.bean.db.FPSLinkObject;
 import com.argus.financials.etc.ContactMedia;
-import com.argus.financials.service.client.ObjectNotFoundException;
 
 public class ContactMediaBean extends AbstractPersistable {
 
@@ -41,7 +40,7 @@ public class ContactMediaBean extends AbstractPersistable {
      */
     public void load(Connection con) throws SQLException,
             ObjectNotFoundException {
-        load(getPrimaryKeyID(), con);
+        load(getId(), con);
     }
 
     public void load(Integer primaryKeyID, Connection con) throws SQLException,
@@ -65,13 +64,13 @@ public class ContactMediaBean extends AbstractPersistable {
                 throw new ObjectNotFoundException(
                         "Can not find ContactMedia ID: " + primaryKeyID);
 
-            setPrimaryKeyID(primaryKeyID);
+            setId(primaryKeyID);
 
             load(rs);
 
         } finally {
             rs.close();
-            if (newConnection && (con != null))
+            if (newConnection && con != null)
                 con.close();
         }
 
@@ -79,7 +78,7 @@ public class ContactMediaBean extends AbstractPersistable {
 
     public void load(ResultSet rs) throws SQLException {
 
-        setPrimaryKeyID((Integer) rs.getObject("ContactMediaID"));
+        setId((Integer) rs.getObject("ContactMediaID"));
         getContactMedia().setContactMediaCodeID(
                 (Integer) rs.getObject("ContactMediaCodeID"));
         getContactMedia().setValue1(rs.getString("Value1"));
@@ -100,9 +99,9 @@ public class ContactMediaBean extends AbstractPersistable {
         int i = 0;
         PreparedStatement sql;
 
-        if (getPrimaryKeyID() == null) {
+        if (getId() == null) {
 
-            setPrimaryKeyID(new Integer(getNewObjectID(
+            setId(new Integer(getNewObjectID(
                     DbConstant.CONTACT_MEDIA, con)));
 
             // do insert into ADDRESS table
@@ -111,7 +110,7 @@ public class ContactMediaBean extends AbstractPersistable {
                             + " (ContactMediaID,ContactMediaCodeID,Value1,Value2,ContactMediaDesc)"
                             + " VALUES" + " (?,?,?,?,?)");
 
-            sql.setInt(++i, getPrimaryKeyID().intValue());
+            sql.setInt(++i, getId().intValue());
             sql.setObject(++i, getContactMedia().getContactMediaCodeID(),
                     java.sql.Types.INTEGER);
             sql.setString(++i, getContactMedia().getValue1());
@@ -121,8 +120,8 @@ public class ContactMediaBean extends AbstractPersistable {
             sql.executeUpdate();
 
             // then create link
-            FPSLinkObject.getInstance().link(getOwnerPrimaryKeyID(),
-                    getPrimaryKeyID(), linkObjectTypeID, con);
+            linkObjectDao.link(getOwnerId(),
+                    getId(), linkObjectTypeID, con);
 
         } else {
 
@@ -135,14 +134,14 @@ public class ContactMediaBean extends AbstractPersistable {
             sql.setString(++i, getContactMedia().getValue2());
             sql.setString(++i, getContactMedia().getDesc());
 
-            sql.setInt(++i, getPrimaryKeyID().intValue());
+            sql.setInt(++i, getId().intValue());
 
             sql.executeUpdate();
 
         }
 
         setModified(false);
-        return getPrimaryKeyID().intValue();
+        return getId().intValue();
     }
 
     public Integer find() throws SQLException {
@@ -174,20 +173,20 @@ public class ContactMediaBean extends AbstractPersistable {
         getContactMedia().setModified(value);
     }
 
-    public Integer getPrimaryKeyID() {
-        return getContactMedia().getPrimaryKeyID();
+    public Integer getId() {
+        return getContactMedia().getId();
     }
 
-    public void setPrimaryKeyID(Integer value) {
-        getContactMedia().setPrimaryKeyID(value);
+    public void setId(Integer value) {
+        getContactMedia().setId(value);
     }
 
     public Integer getOwnerPrimaryKeyID() {
-        return getContactMedia().getOwnerPrimaryKeyID();
+        return getContactMedia().getOwnerId();
     }
 
     public void setOwnerPrimaryKeyID(Integer value) {
-        getContactMedia().setOwnerPrimaryKeyID(value);
+        getContactMedia().setOwnerId(value);
     }
 
     public Integer getContactMediaCodeID() {

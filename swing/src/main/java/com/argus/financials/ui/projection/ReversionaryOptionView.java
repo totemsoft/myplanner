@@ -10,11 +10,11 @@ import java.math.BigDecimal;
 
 import javax.swing.JComboBox;
 
+import com.argus.financials.api.ETPConstants;
 import com.argus.financials.code.APRelationshipCode;
 import com.argus.financials.code.SexCode;
 import com.argus.financials.projection.AllocatedPensionCalcNew;
 import com.argus.financials.projection.MoneyCalc;
-import com.argus.financials.projection.data.ETPConstants;
 import com.argus.financials.projection.data.LifeExpectancy;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.format.Number2;
@@ -66,7 +66,7 @@ public class ReversionaryOptionView extends javax.swing.JPanel implements
         jComboBoxSpouse = new javax.swing.JComboBox(new APRelationshipCode()
                 .getCodes().toArray());
         jTextFieldName = new javax.swing.JTextField();
-        jTextFieldDOB = new com.argus.beans.FDateChooser();
+        jTextFieldDOB = new com.argus.bean.FDateChooser();
         jComboBoxSex = new JComboBox(new SexCode().getCodeDescriptions());
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -140,9 +140,9 @@ public class ReversionaryOptionView extends javax.swing.JPanel implements
         jPanel1.add(jTextFieldName, gridBagConstraints);
 
         jTextFieldDOB
-                .addFormDataChangedListener(new com.argus.beans.FormDataChangedListener() {
+                .addFormDataChangedListener(new com.argus.bean.FormDataChangedListener() {
                     public void formDataChanged(
-                            com.argus.beans.FormDataChangedEvent evt) {
+                            com.argus.bean.FormDataChangedEvent evt) {
                         jTextFieldDOBFormDataChanged(evt);
                     }
                 });
@@ -235,7 +235,7 @@ public class ReversionaryOptionView extends javax.swing.JPanel implements
     }// GEN-END:initComponents
 
     private void jTextFieldDOBFormDataChanged(
-            com.argus.beans.FormDataChangedEvent evt) {// GEN-FIRST:event_jTextFieldDOBFormDataChanged
+            com.argus.bean.FormDataChangedEvent evt) {// GEN-FIRST:event_jTextFieldDOBFormDataChanged
         // Add your handling code here:
         if (isClient)
             apCalc.setPartnerDOB(getDOB());
@@ -294,7 +294,7 @@ public class ReversionaryOptionView extends javax.swing.JPanel implements
 
     private javax.swing.JButton jButtonOK;
 
-    private com.argus.beans.FDateChooser jTextFieldDOB;
+    private com.argus.bean.FDateChooser jTextFieldDOB;
 
     private javax.swing.JLabel jLabel7;
 
@@ -340,7 +340,7 @@ public class ReversionaryOptionView extends javax.swing.JPanel implements
      */
     public Integer getRelationshipID() {
         return ((ReferenceCode) jComboBoxSpouse.getSelectedItem())
-                .getCodeIDInteger();
+                .getCodeId();
     }
 
     public void setRelationshipID(Integer value) {

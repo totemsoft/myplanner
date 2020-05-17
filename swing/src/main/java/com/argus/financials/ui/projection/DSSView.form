@@ -147,7 +147,7 @@
                         </Constraint>
                       </Constraints>
                     </Component>
-                    <Component class="com.fiducian.javabeans.FDateChooser" name="jTextFieldClientDOB">
+                    <Component class="com.argus.beans.FDateChooser" name="jTextFieldClientDOB">
                       <Properties>
                         <Property name="inputVerifier" type="javax.swing.InputVerifier" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                           <Connection code="DateInputVerifier.getInstance()" type="code"/>
@@ -200,7 +200,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Component class="com.fiducian.javabeans.FDateChooser" name="jTextFieldClientCalculationDate">
+                    <Component class="com.argus.beans.FDateChooser" name="jTextFieldClientCalculationDate">
                       <Properties>
                         <Property name="inputVerifier" type="javax.swing.InputVerifier" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                           <Connection code="DateInputVerifier.getInstance()" type="code"/>
@@ -476,7 +476,7 @@
                         </Constraint>
                       </Constraints>
                     </Component>
-                    <Component class="com.fiducian.javabeans.FDateChooser" name="jTextFieldPartnerDOB">
+                    <Component class="com.argus.beans.FDateChooser" name="jTextFieldPartnerDOB">
                       <Properties>
                         <Property name="inputVerifier" type="javax.swing.InputVerifier" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                           <Connection code="DateInputVerifier.getInstance()" type="code"/>
@@ -526,7 +526,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Component class="com.fiducian.javabeans.FDateChooser" name="jTextFieldPartnerCalculationDate">
+                    <Component class="com.argus.beans.FDateChooser" name="jTextFieldPartnerCalculationDate">
                       <Properties>
                         <Property name="inputVerifier" type="javax.swing.InputVerifier" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                           <Connection code="DateInputVerifier.getInstance()" type="code"/>

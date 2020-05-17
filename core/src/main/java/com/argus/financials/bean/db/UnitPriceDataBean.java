@@ -11,12 +11,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.argus.dao.SQLHelper;
 import com.argus.financials.assetinvestment.UnitSharePrice;
 import com.argus.util.DateTimeUtils;
 
 /**
  * UnitPriceDataBean is responsible for load and store information form the
- * database table "apir-pic".
+ * database table "apir_pic".
  * 
  * @author shibaevv
  * @version 0.01
@@ -26,7 +27,12 @@ import com.argus.util.DateTimeUtils;
  */
 public class UnitPriceDataBean implements UnitSharePrice {
 
-    public static final String DATABASE_TABLE_NAME = "unit-price-data";
+    public static final String DATABASE_TABLE_NAME = "unit_price_data";
+
+    private transient static SQLHelper sqlHelper;
+    public static void setSqlHelper(SQLHelper sqlHelper) {
+        UnitPriceDataBean.sqlHelper = sqlHelper;
+    }
 
     // bean properties
     private String identifier; // length: 3
@@ -65,7 +71,7 @@ public class UnitPriceDataBean implements UnitSharePrice {
     }
 
     /**
-     * Creates a new entry in the "apir-pic" table. The properties for the new
+     * Creates a new entry in the "apir_pic" table. The properties for the new
      * entry must be set before creating a new entry.
      */
     public void create() throws java.sql.SQLException {
@@ -76,13 +82,13 @@ public class UnitPriceDataBean implements UnitSharePrice {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("INSERT INTO ");
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
             pstmt_StringBuffer
-                    .append("(identifier, code, [price-date], [entry-price], [exit-price]) ");
+                    .append("(identifier, code, [price_date], [entry_price], [exit_price]) ");
             pstmt_StringBuffer.append("VALUES ( ?, ?, ?, ?, ? )");
 
             // set and execute query
@@ -98,19 +104,19 @@ public class UnitPriceDataBean implements UnitSharePrice {
             status = pstmt.executeUpdate();
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
     }
 
     /**
-     * Stores an entry in the "apir-pic" table. The properties for the entry
+     * Stores an entry in the "apir_pic" table. The properties for the entry
      * must be set before storing it.
      */
     public void store() throws java.sql.SQLException {
@@ -121,16 +127,16 @@ public class UnitPriceDataBean implements UnitSharePrice {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("UPDATE ");
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
             pstmt_StringBuffer.append("SET ");
             pstmt_StringBuffer.append("identifier = ?, ");
-            pstmt_StringBuffer.append("[price-date] = ?, ");
-            pstmt_StringBuffer.append("[entry-price] = ?, ");
-            pstmt_StringBuffer.append("[exit-price] = ?  ");
+            pstmt_StringBuffer.append("[price_date] = ?, ");
+            pstmt_StringBuffer.append("[entry_price] = ?, ");
+            pstmt_StringBuffer.append("[exit_price] = ?  ");
             // pstmt_StringBuffer.append ( "id = ? " );
             pstmt_StringBuffer.append("WHERE code = ? ");
 
@@ -147,22 +153,22 @@ public class UnitPriceDataBean implements UnitSharePrice {
             status = pstmt.executeUpdate();
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
     }
 
     /**
-     * Loads an entry from the "unit-price-data" table. The "code" column is
+     * Loads an entry from the "unit_price_data" table. The "code" column is
      * used for identification. The first matching entry will be loaded.
      * 
-     * @param code_id -
+     * @param code_id _
      *            use the code column as identifier
      * @return true = found an entry
      */
@@ -175,16 +181,16 @@ public class UnitPriceDataBean implements UnitSharePrice {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
             pstmt_StringBuffer.append("FROM ");
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
             pstmt_StringBuffer.append("WHERE [code] = ? ");
-            pstmt_StringBuffer.append("AND [price-date] = ");
+            pstmt_StringBuffer.append("AND [price_date] = ");
             pstmt_StringBuffer.append("(");
-            pstmt_StringBuffer.append("SELECT max([price-date]) ");
+            pstmt_StringBuffer.append("SELECT max([price_date]) ");
             pstmt_StringBuffer.append("FROM ");
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
             pstmt_StringBuffer.append("WHERE [code] = ? ");
@@ -213,49 +219,49 @@ public class UnitPriceDataBean implements UnitSharePrice {
                 // get the data
                 this.identifier = rs.getString("identifier");
                 this.code = rs.getInt("code");
-                // this.price_date = rs.getString ( "price-date" );
-                setPriceDate2(rs.getDate("price-date"));
-                this.entry_price = rs.getDouble("entry-price");
-                this.exit_price = rs.getDouble("exit-price");
+                // this.price_date = rs.getString ( "price_date" );
+                setPriceDate2(rs.getDate("price_date"));
+                this.entry_price = rs.getDouble("entry_price");
+                this.exit_price = rs.getDouble("exit_price");
                 this.id = rs.getString("id");
             }
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
 
         return found;
     }
 
     /**
-     * Loads an entry from the "unit-price-data" table. The "code" column is
+     * Loads an entry from the "unit_price_data" table. The "code" column is
      * used for identification. The first matching entry will be loaded.
      * 
-     * @param code_id -
+     * @param code_id _
      *            use the code column as identifier
      * @return true = found an entry
      */
     public boolean findByApirPic(String id) throws java.sql.SQLException {
-        return findByColumnName("apir-pic", id, "");
+        return findByColumnName("apir_pic", id, "");
     }
 
     /**
-     * Loads an entry from the "unit-price-data" table. The given column name
+     * Loads an entry from the "unit_price_data" table. The given column name
      * and id is used for identification. The first matching (column contains
      * id) entry will be loaded.
      * 
-     * @param column_name -
+     * @param column_name _
      *            the column name for the search
-     * @param id -
+     * @param id _
      *            the identification
-     * @param add_sql_str -
+     * @param add_sql_str _
      *            additional sql statment for example: ORDER BY ...
      * @return true = found an entry
      */
@@ -269,7 +275,7 @@ public class UnitPriceDataBean implements UnitSharePrice {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
@@ -293,24 +299,24 @@ public class UnitPriceDataBean implements UnitSharePrice {
                 // get the data
                 this.identifier = rs.getString("identifier");
                 this.code = rs.getInt("code");
-                // this.price_date = rs.getString ( "price-date" );
-                setPriceDate2(rs.getDate("price-date"));
-                this.entry_price = rs.getDouble("entry-price");
-                this.exit_price = rs.getDouble("exit-price");
+                // this.price_date = rs.getString ( "price_date" );
+                setPriceDate2(rs.getDate("price_date"));
+                this.entry_price = rs.getDouble("entry_price");
+                this.exit_price = rs.getDouble("exit_price");
                 this.id = rs.getString("id");
 
                 found = true;
             }
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
 
         return found;
@@ -332,47 +338,6 @@ public class UnitPriceDataBean implements UnitSharePrice {
         }
 
         return str_to_return;
-    }
-
-    /**
-     * Closes a given ResultSet and PreparedStatement.
-     * 
-     * @param rs -
-     *            the ResultSet to close
-     * @param pstmt -
-     *            the PreparedStatement to close
-     */
-    private void closeRsSql(ResultSet rs, PreparedStatement pstmt) {
-        try {
-            if (rs != null)
-                rs.close();
-            if (pstmt != null)
-                pstmt.close();
-        } catch (java.sql.SQLException e) {
-            // do nothing here
-        }
-    }
-
-    /**
-     * Prints the SQLException's messages, SQLStates and ErrorCode to System.err
-     * 
-     * @param extends -
-     *            a SQLException
-     */
-    private void printSQLException(java.sql.SQLException e) {
-        System.err.println("\n--- SQLException caught ---\n");
-
-        while (e != null) {
-            e.printStackTrace(System.err);
-
-            System.err.println("Message:   " + e.getMessage());
-            System.err.println("SQLState:  " + e.getSQLState());
-            System.err.println("ErrorCode: " + e.getErrorCode());
-
-            e = e.getNextException();
-
-        }
-
     }
 
     /*

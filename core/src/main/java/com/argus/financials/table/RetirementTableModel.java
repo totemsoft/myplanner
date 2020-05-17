@@ -52,12 +52,9 @@ public class RetirementTableModel extends FinancialTableModel {
                 .getRetirementDate(), assumptions.getDisplayModeRetirement());
         int[] displayColumns2 = new int[displayColumns.length + 1];
 
-        // if (DEBUG) System.out.println( "RetirementTableModel" );
         displayColumns2[0] = 0; // first column = name, others = years
         for (int i = 0; i < displayColumns.length; i++) {
             displayColumns2[i + 1] = displayColumns[i] + 1;
-            // if (DEBUG) System.out.println( "\t" + displayColumns[i] + " -> "
-            // + displayColumns2[i+1] );
         }
 
         return displayColumns2;

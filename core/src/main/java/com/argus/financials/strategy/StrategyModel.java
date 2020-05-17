@@ -20,12 +20,6 @@ import com.argus.util.ReferenceCode;
 
 public class StrategyModel extends AbstractBase {
 
-    // cd /D D:\projects\Financial Planner\ant\build\classes
-    // serialver -classpath . com.argus.strategy.StrategyModel
-
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 855443041940320086L;
 
     public static final String NEW_MODEL = "New Model ...";
@@ -81,7 +75,7 @@ public class StrategyModel extends AbstractBase {
     public ReferenceCode getReferenceCode() {
         if (refCode == null) {
             refCode = new ReferenceCode();
-            refCode.setCodeDesc(getTitle());
+            refCode.setDescription(getTitle());
         }
         return refCode;
     }
@@ -103,7 +97,7 @@ public class StrategyModel extends AbstractBase {
      * 
      */
     public Integer getModelPrimaryKeyID() {
-        return getModel() == null ? null : getModel().getPrimaryKeyID();
+        return getModel() == null ? null : getModel().getId();
     }
 
     public String getModelTitle() {
@@ -118,19 +112,19 @@ public class StrategyModel extends AbstractBase {
      * 
      */
     public String getTitle() {
-        if (refCode == null || refCode.getCodeDesc() == null)
+        if (refCode == null || refCode.getDescription() == null)
             return getModelTitle();
-        return refCode.getCodeDesc();
+        return refCode.getDescription();
     }
 
     public void setTitle(String value) {
         if (refCode == null)
             refCode = new ReferenceCode();
 
-        if (equals(refCode.getCodeDesc(), value))
+        if (equals(refCode.getDescription(), value))
             return;
 
-        refCode.setCodeDesc(value);
+        refCode.setDescription(value);
         setModified(true);
     }
 

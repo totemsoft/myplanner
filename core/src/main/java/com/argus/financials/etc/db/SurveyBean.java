@@ -17,11 +17,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.argus.financials.bean.ObjectTypeConstant;
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.bean.db.AbstractPersistable;
-import com.argus.financials.bean.db.FPSLinkObject;
 import com.argus.financials.etc.Survey;
-import com.argus.financials.service.client.ObjectNotFoundException;
 
 public class SurveyBean extends AbstractPersistable {
 
@@ -79,7 +78,7 @@ public class SurveyBean extends AbstractPersistable {
      */
     public void load(Connection con) throws SQLException,
             ObjectNotFoundException {
-        load(getPrimaryKeyID(), con);
+        load(getId(), con);
     }
 
     public void load(Integer primaryKeyID, Connection con) throws SQLException,
@@ -109,13 +108,13 @@ public class SurveyBean extends AbstractPersistable {
 
             int i = 0;
             sql.setInt(++i, primaryKeyID.intValue()); //10003
-            sql.setInt(++i, getOwnerPrimaryKeyID().intValue()); //10013
+            sql.setInt(++i, getOwnerId().intValue()); //10013
             sql.setInt(++i, getLinkObjectTypeID(1)); //1024
             rs = sql.executeQuery();
 
             if (!rs.next())
                 throw new ObjectNotFoundException(
-                    "Can not find survey: " + primaryKeyID + " for Owner: " + getOwnerPrimaryKeyID());
+                    "Can not find survey: " + primaryKeyID + " for Owner: " + getOwnerId());
 
             setSurveyTitle(rs.getString("SurveyTitle"));
 
@@ -132,11 +131,11 @@ public class SurveyBean extends AbstractPersistable {
             setQuestionAnswers(con);
 
             // has to be last (to be safe)
-            setPrimaryKeyID(primaryKeyID);
+            setId(primaryKeyID);
 
             // get SelectedRiskProfile
-            int for_person_survey_linkID = FPSLinkObject.getInstance()
-                    .getLinkID(getOwnerPrimaryKeyID(), // e.g. PersonID
+            int for_person_survey_linkID = linkObjectDao
+                    .getLinkID(getOwnerId(), // e.g. PersonID
                             primaryKeyID, // e.g. SurveyID
                             getLinkObjectTypeID(1), // e.g. PERSON_2_SURVEY
                             con);
@@ -157,6 +156,8 @@ public class SurveyBean extends AbstractPersistable {
             }
         } finally {
             close(rs, sql);
+            if (newConnection && con != null)
+                con.close();
         }
 
         setModified(false);
@@ -274,9 +275,9 @@ public class SurveyBean extends AbstractPersistable {
             return 0;
 
         // get link (PersonSurveyID)
-        linkID = FPSLinkObject.getInstance().getLinkID(getOwnerPrimaryKeyID(), // e.g.
+        linkID = linkObjectDao.getLinkID(getOwnerId(), // e.g.
                                                                                 // PersonID
-                getPrimaryKeyID(), // e.g. SurveyID
+                getId(), // e.g. SurveyID
                 getLinkObjectTypeID(1), // e.g. PERSON_2_SURVEY
                 con);
 
@@ -287,9 +288,9 @@ public class SurveyBean extends AbstractPersistable {
         }
 
         if (linkID <= 0)
-            linkID = FPSLinkObject.getInstance().link(getOwnerPrimaryKeyID(), // e.g.
+            linkID = linkObjectDao.link(getOwnerId(), // e.g.
                                                                                 // PersonID
-                    getPrimaryKeyID(), // e.g. SurveyID
+                    getId(), // e.g. SurveyID
                     getLinkObjectTypeID(1), // e.g. PERSON_2_SURVEY
                     false, // create new link (this survey is modified or not
                             // saved yet)
@@ -379,9 +380,9 @@ public class SurveyBean extends AbstractPersistable {
     }
 
     public void remove(Connection con) throws SQLException {
-        FPSLinkObject.getInstance().unlink(getOwnerPrimaryKeyID(), // e.g.
+        linkObjectDao.unlink(getOwnerId(), // e.g.
                                                                     // PersonID
-                getPrimaryKeyID(), // e.g. SurveyID
+                getId(), // e.g. SurveyID
                 getLinkObjectTypeID(1), // e.g. PERSON_2_SURVEY
                 con);
     }
@@ -419,12 +420,12 @@ public class SurveyBean extends AbstractPersistable {
         return getSurvey().isReady();
     }
 
-    public Integer getPrimaryKeyID() {
-        return getSurvey().getPrimaryKeyID();
+    public Integer getId() {
+        return getSurvey().getId();
     }
 
-    public void setPrimaryKeyID(Integer value) {
-        getSurvey().setPrimaryKeyID(value);
+    public void setId(Integer value) {
+        getSurvey().setId(value);
     }
 
     public Integer getOwnerPrimaryKeyID() {

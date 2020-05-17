@@ -64,7 +64,7 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="com.fiducian.javabeans.FDateChooser" name="jTextFieldDOB">
+        <Component class="com.argus.beans.FDateChooser" name="jTextFieldDOB">
           <Properties>
             <Property name="inputVerifier" type="javax.swing.InputVerifier" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="new DateInputVerifier()" type="code"/>

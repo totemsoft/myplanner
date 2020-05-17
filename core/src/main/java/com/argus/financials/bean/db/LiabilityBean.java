@@ -11,11 +11,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.code.LinkObjectTypeConstant;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.bean.Financial;
 import com.argus.financials.bean.Liability;
-import com.argus.financials.bean.LinkObjectTypeConstant;
-import com.argus.financials.bean.ObjectTypeConstant;
-import com.argus.financials.service.client.ObjectNotFoundException;
 
 public class LiabilityBean extends RegularBean {
 
@@ -87,7 +87,7 @@ public class LiabilityBean extends RegularBean {
 
             // has to be last (to be safe), we are not using primaryKeyID for
             // other queries
-            setPrimaryKeyID(primaryKeyID);
+            setId(primaryKeyID);
 
         } finally {
             close(rs, sql);
@@ -117,7 +117,7 @@ public class LiabilityBean extends RegularBean {
         PreparedStatement sql = null;
 
         try {
-            if (getPrimaryKeyID() == null || getPrimaryKeyID().intValue() < 0) {
+            if (getId() == null || getId().intValue() < 0) {
 
                 // do insert into Liability table
                 sql = con.prepareStatement("INSERT INTO Liability"
@@ -136,11 +136,11 @@ public class LiabilityBean extends RegularBean {
                 sql.executeUpdate();
 
                 // then create link
-                FPSLinkObject.getInstance().link(
-                        getOwnerPrimaryKeyID().intValue(), primaryKeyID,
+                linkObjectDao.link(
+                        getOwnerId().intValue(), primaryKeyID,
                         getLinkObjectTypeID(), con);
 
-                setPrimaryKeyID(new Integer(primaryKeyID));
+                setId(new Integer(primaryKeyID));
 
             } else {
 

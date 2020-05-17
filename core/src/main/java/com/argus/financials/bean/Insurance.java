@@ -6,13 +6,7 @@
 
 package com.argus.financials.bean;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
-
-import com.argus.financials.etc.FPSAssignableObject;
+import com.argus.financials.api.bean.IFPSAssignableObject;
 
 public class Insurance extends RegularExpense {
 
@@ -24,7 +18,7 @@ public class Insurance extends RegularExpense {
     /**
      * Assignable methods
      */
-    public void assign(FPSAssignableObject value) throws ClassCastException {
+    public void assign(IFPSAssignableObject value) throws ClassCastException {
 
         super.assign(value);
 
@@ -41,7 +35,7 @@ public class Insurance extends RegularExpense {
     /**
      * helper methods
      */
-    protected void clear() {
+    public void clear() {
         super.clear();
 
         // maturityDate = null;

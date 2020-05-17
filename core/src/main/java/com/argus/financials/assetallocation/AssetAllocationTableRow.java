@@ -14,9 +14,9 @@ import com.argus.math.FormatedBigDecimal;
  * @author shibaevv
  * @version
  * 
- * @see com.argus.financials.assetallocation.AssetAllocationTableModel
- * @see com.argus.financials.assetallocation.CurrentAssetAllocationTableModel
- * @see com.argus.financials.assetallocation.NewAssetAllocationTableModel
+ * @see com.argus.financials.ui.assetallocation.AssetAllocationTableModel
+ * @see com.argus.financials.ui.assetallocation.CurrentAssetAllocationTableModel
+ * @see com.argus.financials.ui.assetallocation.NewAssetAllocationTableModel
  */
 public class AssetAllocationTableRow {
 

@@ -6,6 +6,8 @@
 
 package com.argus.financials.bean;
 
+import com.argus.financials.api.code.FinancialClassID;
+
 /**
  * 
  * @author valeri chibaev
@@ -13,15 +15,9 @@ package com.argus.financials.bean;
  */
 
 import com.argus.financials.code.BaseCodes;
-import com.argus.financials.code.FinancialClassID;
 
 public class Financials extends BaseCodes implements FinancialClassID {
-    // cd /D D:\projects\Financial Planner\ant\build\classes
-    // serialver -classpath . com.argus.financial.Financials
 
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 8343200002344089487L;
 
     /** Creates new Financials collection */
@@ -83,95 +79,54 @@ public class Financials extends BaseCodes implements FinancialClassID {
                     continue;
 
                 try {
-
-                    // if (DEBUG) System.out.println( "\nOriginal Financial: " +
-                    // f );
-
                     if (f instanceof Asset) {
-
                         Asset a2; // copy asset
                         if (!assetMap.containsKey(f)) {
                             // store asset, copy asset
                             a2 = (Asset) f.clone();
                             if (resetPK)
-                                a2.setPrimaryKeyID(null);
-                            // if (DEBUG) System.out.println( "\tCloned Asset: "
-                            // + a2 );
+                                a2.setId(null);
                             assetMap.put(f, a2);
                         } else {
                             a2 = (Asset) assetMap.get(f);
-                            // if (DEBUG) System.out.println( "\tAlready Cloned
-                            // Asset: " + a2 );
                         }
-
-                        // if (DEBUG) System.out.println( "\t\tAssetAllocation:
-                        // " + a2.getAssetAllocation().getInCash() + ", " +
-                        // a2.getAssetAllocation().getAssetAllocationID() );
-
                         f = a2;
-
                     } else if (f instanceof Liability) {
-
                         f = (Financial) f.clone();
                         if (resetPK)
-                            f.setPrimaryKeyID(null);
-                        // if (DEBUG) System.out.println( "\tCloned Liability: "
-                        // + f );
-
+                            f.setId(null);
                     } else if (f instanceof Regular) { // Income, Expence,
                                                         // TaxOffset
 
                         // first get original asset (if any)
                         Integer aid = ((Regular) f).getAssetID();
-                        // if (DEBUG) System.out.println( "\tAssociated AssetID:
-                        // " + aid );
-
                         Asset a = ((Regular) f).getAsset(assets);
-                        // if (DEBUG) System.out.println( "\tAssociated Asset: "
-                        // + a );
-
                         // clone this regular
                         f = (Financial) f.clone();
                         if (resetPK)
-                            f.setPrimaryKeyID(null);
-                        // if (DEBUG) System.out.println( "\tCloned Regular: " +
-                        // f );
-
+                            f.setId(null);
                         if (a != null) {
                             Asset a2; // copy asset
                             if (!assetMap.containsKey(a)) {
                                 // store asset, copy asset
                                 a2 = (Asset) a.clone();
                                 if (resetPK)
-                                    a2.setPrimaryKeyID(null);
-                                // if (DEBUG) System.out.println( "\t\tCloned
-                                // Associated Asset: " + a2 );
+                                    a2.setId(null);
                                 assetMap.put(a, a2);
                             } else {
                                 a2 = (Asset) assetMap.get(a);
-                                // if (DEBUG) System.out.println( "\t\tAlready
-                                // Cloned Associated Asset: " + a2 );
                             }
-
                             ((Regular) f).setAsset(a2);
-
                         }
-
                     }
-
                 } catch (java.lang.CloneNotSupportedException e) {
                     e.printStackTrace(System.err);
                     return null;
                 }
-
-                newMap.put(f.getPrimaryKeyID(), f);
-
+                newMap.put(f.getId(), f);
             }
-
         }
-
         return newFinancials;
-
     }
 
     /***************************************************************************
@@ -317,11 +272,11 @@ public class Financials extends BaseCodes implements FinancialClassID {
 
                 Integer objectTypeID = r.getObjectTypeID();
                 if (ICashFlow.OBJECT_TYPE_INCOME.equals(objectTypeID))
-                    incomes.put(r.getPrimaryKeyID(), r);
+                    incomes.put(r.getId(), r);
                 else if (ICashFlow.OBJECT_TYPE_EXPENSE.equals(objectTypeID))
-                    expenses.put(r.getPrimaryKeyID(), r);
+                    expenses.put(r.getId(), r);
                 else if (ICashFlow.OBJECT_TAX_OFFSET.equals(objectTypeID))
-                    offsets.put(r.getPrimaryKeyID(), r);
+                    offsets.put(r.getId(), r);
             }
 
         }
@@ -340,14 +295,10 @@ public class Financials extends BaseCodes implements FinancialClassID {
             } else if (obj instanceof Financial) {
                 Financial f = (Financial) obj;
                 if (f != null && f.isGenerated()) {
-                    // if (DEBUG) System.out.println( "\t*** REMOVED: " + f );
                     iter.remove();
                 }
-
             }
-
         }
-
     }
 
     public static void removeGeneratedData(java.util.Collection c) {
@@ -358,12 +309,9 @@ public class Financials extends BaseCodes implements FinancialClassID {
         while (iter.hasNext()) {
             Financial f = (Financial) iter.next();
             if (f != null && f.isGenerated()) {
-                // if (DEBUG) System.out.println( "\t***** REMOVED: " + f );
                 iter.remove();
             }
-
         }
-
     }
 
     private static void removeGeneratedData(java.util.Map incomes,

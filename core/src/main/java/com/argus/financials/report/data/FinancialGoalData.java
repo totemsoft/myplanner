@@ -6,6 +6,10 @@
 
 package com.argus.financials.report.data;
 
+import com.argus.financials.api.bean.IPerson;
+import com.argus.financials.bean.FinancialGoal;
+import com.argus.financials.service.PersonService;
+
 /**
  * 
  * @author valeri chibaev
@@ -42,14 +46,15 @@ public class FinancialGoalData extends BaseData {
 
     }
 
-    public void init(com.argus.financials.service.PersonService person)
-            throws com.argus.financials.service.client.ServiceException {
+    public void init(PersonService person)
+            throws com.argus.financials.api.ServiceException {
 
         if (person == null)
             return;
 
-        com.argus.financials.bean.FinancialGoal financialGoal = person
-                .getFinancialGoal();
+        IPerson personName = person.getPersonName();
+
+        FinancialGoal financialGoal = person.getFinancialGoal();
         if (financialGoal == null) {
             clear();
             return;
@@ -58,15 +63,12 @@ public class FinancialGoalData extends BaseData {
         Integer targetAge = financialGoal.getTargetAge();
         TargetAge = targetAge == null ? "" : targetAge.toString();
 
-        java.util.Date targetDate = financialGoal.getTargetDate(person
-                .getDateOfBirth());
+        java.util.Date targetDate = financialGoal.getTargetDate(personName.getDateOfBirth());
         TargetDate = targetDate == null ? "" : com.argus.util.DateTimeUtils
                 .formatAsSHORT(targetDate);
 
-        Integer yearsToTargetAge = financialGoal.getYearsToTargetAge(person
-                .getDateOfBirth());
-        YearsToTargetAge = yearsToTargetAge == null ? "" : yearsToTargetAge
-                .toString();
+        Integer yearsToTargetAge = financialGoal.getYearsToTargetAge(personName.getDateOfBirth());
+        YearsToTargetAge = yearsToTargetAge == null ? "" : yearsToTargetAge.toString();
 
         TargetIncome = financialGoal.getTargetIncome() == null ? "0" : currency
                 .toString(financialGoal.getTargetIncome());

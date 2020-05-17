@@ -8,8 +8,8 @@ package com.argus.financials.report;
 
 import javax.swing.JFileChooser;
 
-import com.argus.financials.config.FPSLocale;
 import com.argus.financials.config.WordSettings;
+import com.argus.io.IOUtils;
 import com.argus.swing.SwingUtils;
 
 public class ReportWriter {
@@ -51,8 +51,7 @@ public class ReportWriter {
         jFileChooser.setDialogTitle("Save Report as ...");
 
         // user.home User's home directory
-        jFileChooser.setCurrentDirectory(new java.io.File(FPSLocale
-                .getHomeDirectory()));
+        jFileChooser.setCurrentDirectory(new java.io.File(IOUtils.getHomeDirectory()));
         jFileChooser.setSelectedFile(null);
 
         if (jFileChooser.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)

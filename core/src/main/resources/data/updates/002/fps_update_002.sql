@@ -1,7 +1,7 @@
 ------------------------------------------------------------------
 --	to keep track of db updates				--
 --	version control	(XXX.01.01)				--
---		XXX - client org code	(e.g. FID = Fiducian)	--
+--		XXX - client org code --
 --		01 - major version number			--
 --		01 - minor version number			--
 ------------------------------------------------------------------

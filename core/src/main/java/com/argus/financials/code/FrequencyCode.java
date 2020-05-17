@@ -15,7 +15,6 @@ package com.argus.financials.code;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.argus.financials.service.ServiceLocator;
 import com.argus.util.IFrequencyCode;
 import com.argus.util.ReferenceCode;
 
@@ -61,14 +60,11 @@ public class FrequencyCode extends Code implements IFrequencyCode {
 
     private static Map codeMap;
 
-    static {
+    protected Map getCodeMap() {
         if (codeMap == null) {
             codeMap = new TreeMap();
             initCodeMap();
         }
-    }
-
-    protected Map getCodeMap() {
         return codeMap;
     }
 
@@ -77,12 +73,11 @@ public class FrequencyCode extends Code implements IFrequencyCode {
         codeMap.put(NONE, VALUE_NONE);
 
         try {
-            Map map = ServiceLocator.getInstance().getUtilityService().getCodes(
-                    "FrequencyCode");
+            Map map = utilityService.getCodes("FrequencyCode");
             if (map == null)
                 return;
             codeMap.putAll(map);
-        } catch (com.argus.financials.service.client.ServiceException re) {
+        } catch (com.argus.financials.api.ServiceException re) {
         }
     }
 

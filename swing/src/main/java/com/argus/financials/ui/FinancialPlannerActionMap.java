@@ -27,18 +27,17 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import com.argus.financials.api.bean.IMaritalCode;
+import com.argus.financials.api.bean.IUser;
+import com.argus.financials.api.bean.UserPreferences;
+import com.argus.financials.api.service.UserService;
 import com.argus.financials.code.AdviserTypeCode;
-import com.argus.financials.code.MaritalCode;
 import com.argus.financials.config.FPSLocale;
 import com.argus.financials.config.PropertySourceManager;
 import com.argus.financials.config.ViewSettings;
-import com.argus.financials.domain.hibernate.User;
 import com.argus.financials.etc.ActionEventID;
-import com.argus.financials.io.ErrorView;
-import com.argus.financials.io.OutputView;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.service.ClientService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.ui.financials.FinancialView2;
 import com.argus.financials.ui.help.AboutView;
@@ -61,6 +60,9 @@ import com.argus.financials.ui.projection.SnapEntryView;
 import com.argus.financials.ui.sql.ExportDataView;
 import com.argus.financials.ui.sql.ImportDataView;
 import com.argus.financials.ui.strategy.StrategyCreatorView2;
+import com.argus.io.ErrorView;
+import com.argus.io.IOUtils;
+import com.argus.io.OutputView;
 import com.argus.swing.SwingUtils;
 import com.argus.util.DateTimeUtils;
 
@@ -69,7 +71,7 @@ import com.argus.util.DateTimeUtils;
  * 
  */
 
-class FinancialPlannerActionMap
+public class FinancialPlannerActionMap
     extends ActionMap
     implements ActionEventID, IMenuCommand
 {
@@ -81,7 +83,18 @@ class FinancialPlannerActionMap
 
     private static JDialog errorView;
 
-    // private static LicenseKey license_key = null;
+    private static ClientService clientService;
+    private static UserPreferences userPreferences;
+    private static UserService userService;
+    public static void setClientService(ClientService clientService) {
+        FinancialPlannerActionMap.clientService = clientService;
+    }
+    public static void setUserPreferences(UserPreferences userPreferences) {
+        FinancialPlannerActionMap.userPreferences = userPreferences;
+    }
+    public static void setUserService(UserService userService) {
+        FinancialPlannerActionMap.userService = userService;
+    }
 
     FinancialPlannerActionMap(Frame app, FocusListener focusListener, String config)
         throws IOException
@@ -90,10 +103,8 @@ class FinancialPlannerActionMap
         this.focusListeners = new FocusListener[] {focusListener};
 
         // set System.out, System.err
-        if (!FPSLocale.isDevelopment()) {
-            setOutputView();
-            setErrorView();
-        }
+        //setOutputView();
+        //setErrorView();
 
         PropertySourceManager.getInstance().load(config);
 
@@ -182,21 +193,18 @@ class FinancialPlannerActionMap
             }
         });
     
-        if (!FPSLocale.isDevelopment()) {
-            put(SYSTEM_OUT, new AbstractAction(SYSTEM_OUT.getSecond().toString()) {
-                public void actionPerformed(ActionEvent evt) {
-                    if (outputView != null)
-                        outputView.setVisible(true);
-                }
-            });
-        
-            put(SYSTEM_ERR, new AbstractAction(SYSTEM_ERR.getSecond().toString()) {
-                public void actionPerformed(ActionEvent evt) {
-                    if (errorView != null)
-                        errorView.setVisible(true);
-                }
-            });
-        }
+//        put(SYSTEM_OUT, new AbstractAction(SYSTEM_OUT.getSecond().toString()) {
+//            public void actionPerformed(ActionEvent evt) {
+//                if (outputView != null)
+//                    outputView.setVisible(true);
+//            }
+//        });    
+//        put(SYSTEM_ERR, new AbstractAction(SYSTEM_ERR.getSecond().toString()) {
+//            public void actionPerformed(ActionEvent evt) {
+//                if (errorView != null)
+//                    errorView.setVisible(true);
+//            }
+//        });
     
         // look-and-feel
         UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
@@ -222,8 +230,7 @@ class FinancialPlannerActionMap
     
         put(DOWNLOAD_UPDATE, new AbstractAction(DOWNLOAD_UPDATE.getSecond().toString()) {
             public void actionPerformed(ActionEvent evt) {
-                displayWWW(FPSLocale.getInstance().getUpdateDownloadURL()
-                        + ServiceLocator.APP_VERSION);
+                displayWWW(FPSLocale.getInstance().getUpdateDownloadURL() + FinancialPlannerApp.APP_VERSION);
             }
         });
         put(PLAN_TRACKER, new AbstractAction(PLAN_TRACKER.getSecond().toString()) {
@@ -233,7 +240,7 @@ class FinancialPlannerActionMap
         });
         put(CLIENT_DETAILS, new AbstractAction(CLIENT_DETAILS.getSecond().toString()) {
             public void actionPerformed(ActionEvent evt) {
-                displayClient(ServiceLocator.getInstance().getClientPersonID());
+                displayClient(clientService.getId());
             }
         });
 
@@ -245,7 +252,7 @@ class FinancialPlannerActionMap
     
         put(FINANCIALS, new AbstractAction(FINANCIALS.getSecond().toString()) {
             public void actionPerformed(ActionEvent evt) {
-                FinancialView2.display(ServiceLocator.getInstance().getClientPerson(), focusListeners);
+                FinancialView2.display(clientService, focusListeners);
             }
         });
     
@@ -472,8 +479,8 @@ class FinancialPlannerActionMap
             return;
 
         String fileName = FPSLocale.getInstance().getLogDir() + File.separator
-                + FPSLocale.getUserName()
-                + "_" + FPSLocale.getHostName() + "_"
+                + IOUtils.getUserName()
+                + "_" + IOUtils.getHostName() + "_"
                 + DateTimeUtils.getCurentDateTime() + "_out" + ".log";
         System.out.println("OutputView=" + fileName);
         
@@ -498,8 +505,8 @@ class FinancialPlannerActionMap
             return;
 
         String fileName = FPSLocale.getInstance().getLogDir() + File.separator
-                + FPSLocale.getUserName()
-                + "_" + FPSLocale.getHostName() +
+                + IOUtils.getUserName()
+                + "_" + IOUtils.getHostName() +
                 // "_" + DateTime.getCurentDateTime() +
                 // "_err" +
                 ".log";
@@ -543,7 +550,7 @@ class FinancialPlannerActionMap
 
         try {
             view.updateView(null);
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
             return;
         }
@@ -583,7 +590,7 @@ class FinancialPlannerActionMap
 
         try {
             // new client will be created
-            Integer newClientID = ServiceLocator.getInstance().createClient();
+            Integer newClientID = userService.persist(null).intValue();
 
             // close all visible forms (visible = false)
             SwingUtil.closeAll();
@@ -753,15 +760,16 @@ class FinancialPlannerActionMap
     public void updateAccessability() {
 
         try {
-            User user = ServiceLocator.getInstance().getUserPreferences().getUser();
+            IUser user = userPreferences.getUser();
             Integer userTypeId = user == null ? null : user.getTypeId();
 
             boolean adminPerson = AdviserTypeCode.isAdminPerson(userTypeId);
-            boolean supportPerson = AdviserTypeCode.isSupportPerson(userTypeId);
+            //boolean supportPerson = AdviserTypeCode.isSupportPerson(userTypeId);
 
-            ClientService client = ServiceLocator.getInstance().getClientPerson();
-            boolean isClient = client != null;
-            boolean isSingle = isClient && MaritalCode.isSingle(client.getPersonName().getMaritalCodeID());
+            IMaritalCode marital = clientService != null ? clientService.getPersonName().getMarital() : null;
+
+            boolean isClient = clientService != null;
+            boolean isSingle = isClient && IMaritalCode.isSingle(marital == null ? null : marital.getId());
 
             get(IMenuCommand.EXPORT).setEnabled(isClient);
             get(IMenuCommand.IMPORT).setEnabled(true);
@@ -776,9 +784,9 @@ class FinancialPlannerActionMap
             get(IMenuCommand.STRATEGY_DESINER).setEnabled(isClient);
 
             get(IMenuCommand.PLAN_WIZARD).setEnabled(isClient);
-            get(IMenuCommand.PLAN_TEMPLATE_WIZARD).setEnabled(adminPerson);
+            get(IMenuCommand.PLAN_TEMPLATE_WIZARD).setEnabled(adminPerson || isClient);
 
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
 

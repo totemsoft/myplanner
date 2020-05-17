@@ -14,16 +14,17 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-import com.argus.financials.assetallocation.AssetAllocationTableModel;
 import com.argus.financials.assetallocation.TotalColumnRender;
-import com.argus.financials.assetallocation.TotalPercentColumnRender;
+import com.argus.financials.ui.AbstractPanel;
 import com.argus.format.DecimalField;
 
 /**
  * 
  * @author shibaevv
  */
-public abstract class AssetAllocationView extends javax.swing.JPanel {
+public abstract class AssetAllocationView
+    extends AbstractPanel
+{
 
     protected static final String STRING_EMPTY = "";
 
@@ -32,10 +33,6 @@ public abstract class AssetAllocationView extends javax.swing.JPanel {
     protected static final String STRING_ZERO_PERCENT = "0.00%";
 
     protected static final String STRING_ZERO_DOLLAR = "$0.00";
-
-    /** Creates a new instance of AssetAllocationView */
-    public AssetAllocationView() {
-    }
 
     /**
      * Sets the column size for one columns.
@@ -74,9 +71,6 @@ public abstract class AssetAllocationView extends javax.swing.JPanel {
 
         DefaultTableModel tm = (DefaultTableModel) jtable.getModel();
         // tm.setDataVector( rowData, getColumnNames() );
-
-        // if (!DEBUG) setColumnWidth( jTableCashFlow, ID, 0, 0, 0 );
-        // else setColumnWidth( jTableCashFlow, ID, 50, 50, 50 );
 
         setColumnWidth(jtable, AssetAllocationTableModel.COLUMN_NAME, 1000,
                 225, 200);

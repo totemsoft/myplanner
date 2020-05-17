@@ -26,12 +26,6 @@ import com.argus.util.ReferenceCode;
 
 public class Strategy extends AbstractBase {
 
-    // cd /D D:\projects\Financial Planner\ant\build\classes
-    // serialver -classpath . com.argus.strategy.Strategy
-
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 3310315389054817122L;
 
     public static final String NEW_STRATEGY = "New Strategy ...";
@@ -80,15 +74,15 @@ public class Strategy extends AbstractBase {
     }
 
     public Integer getStrategyTypeID() {
-        return refCode.getCodeIDInteger();
+        return refCode.getCodeId();
     }
 
     public String getStrategyTitle() {
-        return refCode.getCodeDesc();
+        return refCode.getDescription();
     }
 
     public String getCodeDescription() {
-        return refCode.getCodeDesc();
+        return refCode.getDescription();
     }
 
     public java.math.BigDecimal getGoalAmount() {
@@ -122,7 +116,7 @@ public class Strategy extends AbstractBase {
                     result[i++] = new StrategyModel((Model) iter.next());
             }
 
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
 
@@ -150,7 +144,7 @@ public class Strategy extends AbstractBase {
 
             }
 
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err); // ( e.getMessage() );
         }
 

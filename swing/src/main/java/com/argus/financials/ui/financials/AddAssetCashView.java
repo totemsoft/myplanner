@@ -6,6 +6,9 @@
 
 package com.argus.financials.ui.financials;
 
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.code.FinancialTypeEnum;
+
 /**
  * 
  * @author valeri chibaev
@@ -14,9 +17,7 @@ package com.argus.financials.ui.financials;
 import com.argus.financials.bean.AssetCash;
 import com.argus.financials.bean.NegativeAmountException;
 import com.argus.financials.code.FinancialServiceCode;
-import com.argus.financials.code.FinancialType;
 import com.argus.financials.code.Institution;
-import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.OwnerCode;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.DateInputVerifier;
@@ -75,8 +76,7 @@ public class AddAssetCashView extends AddFinancialView {
 
         jPanelName = new javax.swing.JPanel();
         jLabelAssetType = new javax.swing.JLabel();
-        jComboBoxAssetType = new javax.swing.JComboBox(FinancialType
-                .getFinancialTypes(getObjectType()));
+        jComboBoxAssetType = new javax.swing.JComboBox(financialService.findFinancialTypes(getObjectType()));
         jLabelInstitution = new javax.swing.JLabel();
         jComboBoxInstitution = new javax.swing.JComboBox(new Institution()
                 .getCodeDescriptions());
@@ -93,9 +93,9 @@ public class AddAssetCashView extends AddFinancialView {
         jLabelAmount = new javax.swing.JLabel();
         jTextFieldAmount = new javax.swing.JTextField();
         jLabelPurchaseDate = new javax.swing.JLabel();
-        jTextFieldPurchaseDate = new com.argus.beans.FDateChooser();
+        jTextFieldPurchaseDate = new com.argus.bean.FDateChooser();
         jLabelMaturityDate = new javax.swing.JLabel();
-        jTextFieldMaturityDate = new com.argus.beans.FDateChooser();
+        jTextFieldMaturityDate = new com.argus.bean.FDateChooser();
         jPanelPerfomance = new javax.swing.JPanel();
         jLabelIncomeRate = new javax.swing.JLabel();
         jTextFieldIncomeRate = new javax.swing.JTextField();
@@ -107,17 +107,17 @@ public class AddAssetCashView extends AddFinancialView {
         jLabelContributionIndexation = new javax.swing.JLabel();
         jTextFieldContributionIndexation = new javax.swing.JTextField();
         jLabelContributionsStartDate = new javax.swing.JLabel();
-        jTextFieldContributionsStartDate = new com.argus.beans.FDateChooser();
+        jTextFieldContributionsStartDate = new com.argus.bean.FDateChooser();
         jLabelContributionsEndDate = new javax.swing.JLabel();
-        jTextFieldContributionsEndDate = new com.argus.beans.FDateChooser();
+        jTextFieldContributionsEndDate = new com.argus.bean.FDateChooser();
         jLabelAnnualDrawdowns = new javax.swing.JLabel();
         jTextFieldAnnualDrawdowns = new javax.swing.JTextField();
         jLabelDrawdownIndexation = new javax.swing.JLabel();
         jTextFieldDrawdownIndexation = new javax.swing.JTextField();
         jLabelDrawdownsStartDate = new javax.swing.JLabel();
-        jTextFieldDrawdownsStartDate = new com.argus.beans.FDateChooser();
+        jTextFieldDrawdownsStartDate = new com.argus.bean.FDateChooser();
         jLabelDrawdownsEndDate = new javax.swing.JLabel();
-        jTextFieldDrawdownsEndDate = new com.argus.beans.FDateChooser();
+        jTextFieldDrawdownsEndDate = new com.argus.bean.FDateChooser();
         jPanelFees = new javax.swing.JPanel();
         jLabelUpfrontFee = new javax.swing.JLabel();
         jTextFieldUpfrontFee = new javax.swing.JTextField();
@@ -595,7 +595,7 @@ public class AddAssetCashView extends AddFinancialView {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.argus.beans.FDateChooser jTextFieldPurchaseDate;
+    private com.argus.bean.FDateChooser jTextFieldPurchaseDate;
 
     private javax.swing.JComboBox jComboBoxAssetType;
 
@@ -627,7 +627,7 @@ public class AddAssetCashView extends AddFinancialView {
 
     private javax.swing.JTextField jTextFieldOngoingFee;
 
-    private com.argus.beans.FDateChooser jTextFieldContributionsStartDate;
+    private com.argus.bean.FDateChooser jTextFieldContributionsStartDate;
 
     private javax.swing.JLabel jLabelDrawdownsStartDate;
 
@@ -637,9 +637,9 @@ public class AddAssetCashView extends AddFinancialView {
 
     private javax.swing.JLabel jLabelContributionIndexation;
 
-    private com.argus.beans.FDateChooser jTextFieldDrawdownsEndDate;
+    private com.argus.bean.FDateChooser jTextFieldDrawdownsEndDate;
 
-    private com.argus.beans.FDateChooser jTextFieldDrawdownsStartDate;
+    private com.argus.bean.FDateChooser jTextFieldDrawdownsStartDate;
 
     private javax.swing.JPanel jPanelValue;
 
@@ -651,7 +651,7 @@ public class AddAssetCashView extends AddFinancialView {
 
     private javax.swing.JLabel jLabelAccountNumber;
 
-    private com.argus.beans.FDateChooser jTextFieldContributionsEndDate;
+    private com.argus.bean.FDateChooser jTextFieldContributionsEndDate;
 
     private javax.swing.JTextField jTextFieldDesc;
 
@@ -667,7 +667,7 @@ public class AddAssetCashView extends AddFinancialView {
 
     private javax.swing.JLabel jLabelContributionsEndDate;
 
-    private com.argus.beans.FDateChooser jTextFieldMaturityDate;
+    private com.argus.bean.FDateChooser jTextFieldMaturityDate;
 
     private javax.swing.JLabel jLabelAssetType;
 
@@ -768,9 +768,9 @@ public class AddAssetCashView extends AddFinancialView {
         else {
             ReferenceCode refCode = (ReferenceCode) jComboBoxAssetType
                     .getSelectedItem();
-            Integer financialTypeID = refCode.getCodeIDInteger();
-            if ((financialTypeID.intValue() == TERM_DEPOSIT)
-                    || (financialTypeID.intValue() == FIXED_DEPOSITS))
+            Integer financialTypeID = refCode.getCodeId();
+            if (financialTypeID == FinancialTypeEnum.TERM_DEPOSIT.getId()
+                    || financialTypeID == FinancialTypeEnum.FIXED_DEPOSITS.getId())
                 if (DateTimeUtils.getSqlDate(jTextFieldMaturityDate.getText()) == null)
                     msg += "Asset Type is entered without a maturity date.\n";
         }
@@ -886,7 +886,7 @@ public class AddAssetCashView extends AddFinancialView {
     }
 
     public String getTitle() {
-        return RC_ASSET_CASH.getCodeDesc();
+        return RC_ASSET_CASH.getDescription();
     }
 
 }

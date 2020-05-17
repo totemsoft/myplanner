@@ -6,13 +6,14 @@
 
 package com.argus.financials.tree;
 
+import com.argus.financials.api.code.FinancialClassID;
+
 /**
  * 
  * @author valeric
  */
 
 import com.argus.financials.code.FinancialClass;
-import com.argus.financials.code.FinancialClassID;
 import com.argus.financials.config.PropertySourceManager;
 import com.argus.financials.table.FinancialTableModel2;
 
@@ -22,7 +23,7 @@ public class TreeModelTest extends javax.swing.JFrame {
 
     /** Creates new form TreeModelTest */
     public TreeModelTest(java.util.Map financials)
-            throws com.argus.financials.service.client.ServiceException {
+            throws com.argus.financials.api.ServiceException {
         initComponents();
 
         FinancialTreeStructure fts = new FinancialTreeStructure();
@@ -145,7 +146,7 @@ public class TreeModelTest extends javax.swing.JFrame {
      * @param args
      *            the command line arguments
      */
-    static void main(String args[]) throws com.argus.financials.service.client.ServiceException {
+    static void main(String args[]) throws com.argus.financials.api.ServiceException {
         try {
             PropertySourceManager.getInstance().load("force.properties");
         } catch (Exception e) {

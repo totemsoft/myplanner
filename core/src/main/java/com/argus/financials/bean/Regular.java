@@ -6,6 +6,9 @@
 
 package com.argus.financials.bean;
 
+import com.argus.financials.api.bean.IFPSAssignableObject;
+import com.argus.financials.api.code.ObjectTypeConstant;
+
 /**
  * 
  * @author valeri chibaev
@@ -13,22 +16,12 @@ package com.argus.financials.bean;
  */
 
 import com.argus.financials.code.FrequencyCode;
-import com.argus.financials.etc.FPSAssignableObject;
 
 public abstract class Regular extends Financial {
-    // cd /D D:\projects\Financial Planner\ant\build\classes
-    // serialver -classpath . com.argus.financial.Regular
 
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 4642764639941230126L;
 
-    // stream classdesc serialVersionUID=4642764639941230126 local class
-    // serialVersionUID=-5698539117912191463
-
-    public static final Integer OBJECT_TYPE_ID = new Integer(
-            ObjectTypeConstant.REGULAR);
+    public static final Integer OBJECT_TYPE_ID = ObjectTypeConstant.REGULAR;
 
     private java.math.BigDecimal regularAmount;
 
@@ -92,7 +85,7 @@ public abstract class Regular extends Financial {
     /**
      * Assignable methods
      */
-    public void assign(FPSAssignableObject value) throws ClassCastException {
+    public void assign(IFPSAssignableObject value) throws ClassCastException {
 
         super.assign(value);
 
@@ -119,7 +112,7 @@ public abstract class Regular extends Financial {
     /**
      * helper methods
      */
-    protected void clear() {
+    public void clear() {
         super.clear();
 
         regularAmount = null;
@@ -150,13 +143,7 @@ public abstract class Regular extends Financial {
         // getAsset().project( year, inflation, temp );
 
         Financial af = getAssociatedFinancial();
-        // if (DEBUG) System.out.println( "\t" + toString() + ",
-        // AssociatedFinancial: " + af );
-        // if (DEBUG) System.out.println( "\t" + toString() + ", temp: " + temp
-        // );
         temp = af.project(year, inflation, temp);
-        // if (DEBUG) System.out.println( "\t" + toString() + ", projected: " +
-        // temp );
 
         // get Regular from temp Asset/Liability
         Regular r = temp.getRegular(generatedType);
@@ -311,7 +298,7 @@ public abstract class Regular extends Financial {
             return null;
         if (asset instanceof Integer)
             return (Integer) asset;
-        return ((Asset) asset).getPrimaryKeyID();
+        return ((Asset) asset).getId();
     }
 
     public void setAssetID(Integer value) {
@@ -323,7 +310,7 @@ public abstract class Regular extends Financial {
     }
 
     public Integer getLiabilityID() {
-        return liability == null ? liabilityID : liability.getPrimaryKeyID();
+        return liability == null ? liabilityID : liability.getId();
     }
 
     public Liability getLiability() {

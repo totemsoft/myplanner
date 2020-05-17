@@ -17,12 +17,12 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
-import com.argus.beans.AbstractComponentModel;
-import com.argus.beans.FTable;
-import com.argus.beans.FTextField;
-import com.argus.beans.MessageSent;
-import com.argus.beans.MessageSentEvent;
-import com.argus.beans.WizardContentHandler;
+import com.argus.bean.AbstractComponentModel;
+import com.argus.bean.FTable;
+import com.argus.bean.FTextField;
+import com.argus.bean.MessageSent;
+import com.argus.bean.MessageSentEvent;
+import com.argus.bean.WizardContentHandler;
 import com.argus.financials.assetinvestment.AvailableInvestmentsTableRow;
 import com.argus.financials.exchange.AssetProcessor;
 import com.argus.financials.swing.ICloseDialog;
@@ -31,7 +31,7 @@ import com.argus.financials.ui.financials.AssetInvestmentSelectionByView;
 import com.argus.swing.SplashWindow;
 import com.argus.util.KeyValue;
 
-public class AssetDeleteView extends com.argus.beans.BasePanel implements
+public class AssetDeleteView extends com.argus.bean.BasePanel implements
         ICloseDialog {
 
     private static final String WIZARD = "Wizard";
@@ -138,13 +138,13 @@ public class AssetDeleteView extends com.argus.beans.BasePanel implements
         jLabel2 = new javax.swing.JLabel();
         textFieldDeleteAssetStep1 = new FTextField();
         ((FTextField) textFieldDeleteAssetStep1)
-                .setFieldType(com.argus.beans.FTextField.ANY);
+                .setFieldType(com.argus.bean.FTextField.ANY);
         jButtonDeleteAssetStep1 = new javax.swing.JButton();
         jPanelStep2 = new javax.swing.JPanel();
         jPanelStep2text = new javax.swing.JPanel();
         jLabelStep2text = new javax.swing.JLabel();
         jScrollPaneStep2 = new javax.swing.JScrollPane();
-        tableStep2 = new com.argus.beans.FTable();
+        tableStep2 = new com.argus.bean.FTable();
         jSeparatorHorizontal = new javax.swing.JSeparator();
         jPanelControls = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();

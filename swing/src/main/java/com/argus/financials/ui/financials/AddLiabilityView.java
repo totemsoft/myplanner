@@ -6,6 +6,9 @@
 
 package com.argus.financials.ui.financials;
 
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.bean.ICode;
+
 /**
  * 
  * @author valeri chibaev
@@ -13,10 +16,8 @@ package com.argus.financials.ui.financials;
  */
 
 import com.argus.financials.bean.Liability;
-import com.argus.financials.code.FinancialType;
 import com.argus.financials.code.FrequencyCode;
 import com.argus.financials.code.Institution;
-import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.OwnerCode;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.DateInputVerifier;
@@ -74,8 +75,7 @@ public class AddLiabilityView extends AddFinancialView {
 
         jPanelName = new javax.swing.JPanel();
         jLabelType = new javax.swing.JLabel();
-        jComboBoxType = new javax.swing.JComboBox(FinancialType
-                .getFinancialTypes(getObjectType()));
+        jComboBoxType = new javax.swing.JComboBox(financialService.findFinancialTypes(getObjectType()));
         jLabelInstitution = new javax.swing.JLabel();
         jComboBoxInstitution = new javax.swing.JComboBox(new Institution()
                 .getCodeDescriptions());
@@ -89,9 +89,9 @@ public class AddLiabilityView extends AddFinancialView {
         jLabelRepaymentAmount = new javax.swing.JLabel();
         jTextFieldRepaymentAmount = new javax.swing.JTextField();
         jLabelStartDate = new javax.swing.JLabel();
-        jTextFieldStartDate = new com.argus.beans.FDateChooser();
+        jTextFieldStartDate = new com.argus.bean.FDateChooser();
         jLabelEndDate = new javax.swing.JLabel();
-        jTextFieldEndDate = new com.argus.beans.FDateChooser();
+        jTextFieldEndDate = new com.argus.bean.FDateChooser();
         jLabelInterestRate = new javax.swing.JLabel();
         jTextFieldInterestRate = new javax.swing.JTextField();
         jLabelRepaymentFrequency = new javax.swing.JLabel();
@@ -348,7 +348,7 @@ public class AddLiabilityView extends AddFinancialView {
 
     private javax.swing.JTextField jTextFieldDesc;
 
-    private com.argus.beans.FDateChooser jTextFieldEndDate;
+    private com.argus.bean.FDateChooser jTextFieldEndDate;
 
     private javax.swing.JLabel jLabelDesc;
 
@@ -358,7 +358,7 @@ public class AddLiabilityView extends AddFinancialView {
 
     private javax.swing.JComboBox jComboBoxInstitution;
 
-    private com.argus.beans.FDateChooser jTextFieldStartDate;
+    private com.argus.bean.FDateChooser jTextFieldStartDate;
 
     private javax.swing.JLabel jLabelAmount;
 
@@ -400,7 +400,7 @@ public class AddLiabilityView extends AddFinancialView {
 
         Liability liability = getLiability();
 
-        ReferenceCode refCode = liability.getFinancialType();
+        ICode refCode = liability.getFinancialType();
         jComboBoxType.setSelectedItem(refCode);
 
         Integer id = liability.getInstitutionID();
@@ -520,7 +520,7 @@ public class AddLiabilityView extends AddFinancialView {
         liability.setRegularAmount(amount);
 
         refCode = (ReferenceCode) jComboBoxRepaymentFrequency.getSelectedItem();
-        liability.setFrequencyCodeID(refCode.getCodeIDInteger());
+        liability.setFrequencyCodeID(refCode.getCodeId());
 
         Double d = percent.getDoubleValue(jTextFieldInterestRate.getText());
         liability.setInterestRate(d);
@@ -544,7 +544,7 @@ public class AddLiabilityView extends AddFinancialView {
     }
 
     public String getTitle() {
-        return RC_LIABILITY.getCodeDesc();
+        return RC_LIABILITY.getDescription();
     }
 
 }

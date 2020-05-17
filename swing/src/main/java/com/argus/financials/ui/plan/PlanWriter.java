@@ -46,9 +46,10 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.tree.TreePath;
 
-import com.argus.activex.wordreport.WordReportJava2COM;
+import com.argus.activex.wordreport.IWordReport;
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.api.bean.DbConstant;
 import com.argus.financials.code.ModelTypeID;
-import com.argus.financials.config.FPSLocale;
 import com.argus.financials.config.ViewSettings;
 import com.argus.financials.config.WordSettings;
 import com.argus.financials.projection.save.Model;
@@ -57,22 +58,27 @@ import com.argus.financials.report.ReportException;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.strategy.StrategyGroup;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.swing.table.JTreeTable;
-import com.argus.financials.swing.table.TreeTableModel;
 import com.argus.financials.ui.BaseView;
 import com.argus.financials.ui.CheckBoxList;
 import com.argus.financials.ui.data.PlanWriterData;
+import com.argus.io.IOUtils;
 import com.argus.swing.SplashWindow;
 import com.argus.swing.SwingUtils;
+import com.argus.swing.table.TreeTableModel;
 import com.argus.util.ReferenceCode;
 
-public class PlanWriter extends BaseView implements
-        TreeSelectionListener,
-        ListSelectionListener
+public class PlanWriter extends BaseView
+    implements TreeSelectionListener, ListSelectionListener
 {
+
+    private static IWordReport report;
+    public static void setReport(IWordReport report) {
+        PlanWriter.report = report;
+    }
+
     private static PlanWriter view;
 
     private boolean thisCTOR = false;
@@ -118,21 +124,12 @@ public class PlanWriter extends BaseView implements
         return view != null;
     }
 
-    public static PlanWriter getInstance() {
-        if (view == null)
-            view = new PlanWriter();
-        return view;
-    }
-
     public String getDefaultTitle() {
         return "Plan Writer";
     }
 
     /** Creates new form PlanWriter */
     private PlanWriter() {
-        FPSLocale r = com.argus.financials.config.FPSLocale.getInstance();
-        DEBUG = Boolean.valueOf(System.getProperty("DEBUG")).booleanValue();
-
         thisCTOR = true;
         initComponents();
         jPanelDetails.setLayout(new javax.swing.BoxLayout(jPanelDetails,
@@ -160,7 +157,7 @@ public class PlanWriter extends BaseView implements
             java.util.Collection plans = null;
             try {
                 plans = person.getPlans(null);
-            } catch (com.argus.financials.service.client.ServiceException e) {
+            } catch (com.argus.financials.api.ServiceException e) {
                 e.printStackTrace(System.err);
             }
             clientPlans = plans == null || plans.size() == 0 ? new java.util.Vector()
@@ -182,8 +179,8 @@ public class PlanWriter extends BaseView implements
         if (templatePlans == null && person != null) {
             java.util.Collection plans = null;
             try {
-                plans = person.getPlans(PersonService.TEMPLATE_PLAN);
-            } catch (com.argus.financials.service.client.ServiceException e) {
+                plans = person.getPlans(DbConstant.TEMPLATE_PLAN);
+            } catch (com.argus.financials.api.ServiceException e) {
                 e.printStackTrace(System.err);
             }
             templatePlans = plans == null || plans.size() == 0 ? new java.util.Vector()
@@ -201,7 +198,7 @@ public class PlanWriter extends BaseView implements
         clientPlans = null;
 
         setModified(false);
-        updateView(ServiceLocator.getInstance().getClientPerson());
+        updateView(clientService);
 
         SwingUtil.setVisible(this, true);
 
@@ -512,10 +509,6 @@ public class PlanWriter extends BaseView implements
 
             if (evt.getValueIsAdjusting())
                 return;
-            if (DEBUG)
-                System.out.println("PWTemplateComboBoxModel::valueChanged\n"
-                        + props);
-
         }
 
         public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -761,9 +754,6 @@ public class PlanWriter extends BaseView implements
             if (props == null || cbs == null)
                 return;
 
-            if (DEBUG)
-                System.out.println("before: " + props);
-
             if (add) {
 
                 java.util.Collection nodes = model.getSelectedChildren();
@@ -777,8 +767,6 @@ public class PlanWriter extends BaseView implements
                             .next();
 
                     String value = node.getCanonicalPath();
-                    if (DEBUG)
-                        System.out.println("value:" + value);
 
                     boolean found = false;
                     java.util.Iterator iter2 = cbs.iterator();
@@ -786,8 +774,6 @@ public class PlanWriter extends BaseView implements
                         String cbvalue = ((JComponent) iter2.next())
                                 .getToolTipText().trim();
                         if (cbvalue.equalsIgnoreCase(value)) {
-                            if (DEBUG)
-                                System.out.println("\talready exists.");
                             found = true;
                             break;
                         }
@@ -797,8 +783,6 @@ public class PlanWriter extends BaseView implements
                     if (!found) {
                         int key = ++size;
                         props.setProperty("" + key, node.getRelativePath());
-                        if (DEBUG)
-                            System.out.println("\t" + key + "=" + value);
                     }
 
                 }
@@ -826,9 +810,6 @@ public class PlanWriter extends BaseView implements
                 }
 
             }
-
-            if (DEBUG)
-                System.out.println("after: " + props);
 
         }
 
@@ -1314,7 +1295,7 @@ public class PlanWriter extends BaseView implements
 
         if (selectedValue instanceof ReferenceCode) { // plan list
             ReferenceCode newPlan = (ReferenceCode) selectedValue;
-            SwingUtil.setTitle(this, newPlan.getCodeDesc());
+            SwingUtil.setTitle(this, newPlan.getDescription());
         }
 
     }// GEN-LAST:event_jListPlansValueChanged
@@ -1419,21 +1400,20 @@ public class PlanWriter extends BaseView implements
     }// GEN-LAST:event_jRadioButtonPlainItemStateChanged
 
     public static void display(java.awt.event.FocusListener[] listeners) {
-
-        boolean exists = exists();
-
-        PlanWriter view = getInstance();
-        if (!exists) {
-            SwingUtil.add2Frame(view, listeners,
+        try {
+            if (!exists()) {
+                view = new PlanWriter();
+                SwingUtil.add2Frame(view, listeners,
                     view.getDefaultTitle(),
                     ViewSettings.getInstance().getViewImage(view.getClass().getName()),
                     true, true, false);
+            }
+            view.openPlan(WordSettings.getInstance().getPlanTemplateDirectory());
+            SwingUtil.setVisible(view, true);
+        } catch (ServiceException e) {
+            view = null;
+            SwingUtil.showError(e);
         }
-
-        view.openPlan(WordSettings.getInstance().getPlanTemplateDirectory());
-
-        SwingUtil.setVisible(view, true);
-
     }
 
     // overrite Container method to allow design time UI development
@@ -1587,37 +1567,30 @@ public class PlanWriter extends BaseView implements
         if (jFileChooser.showOpenDialog(SwingUtil.getJFrame(this)) != JFileChooser.APPROVE_OPTION)
             return;
 
-        String dir = jFileChooser.getSelectedFile().getPath();
-        openPlan(dir);
-
+        try {
+            openPlan(jFileChooser.getSelectedFile().getPath());
+        } catch (ServiceException e) {
+            SwingUtil.showError(e);
+        }
     }
 
-    private void openPlan(String dir) {
-
-        if (!new java.io.File(dir).exists()) {
-            java.lang.System.err.println("Directory does not exists: " + dir);
-            return;
+    private void openPlan(String dir) throws ServiceException {
+        File d = new File(dir);
+        if (!d.exists()) {
+            throw new ServiceException("Directory does not exists: " + IOUtils.getCanonicalPath(d));
         }
-
-        if (DEBUG)
-            System.out.println("You chose to open this directory: "
-                    + dir);
 
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         try {
             // initialize tree/document
             uninitialize();
-
             setRootPath(dir);
-
             initialize();
-
         } catch (Exception e) {
             e.printStackTrace(System.err);
         } finally {
             setCursor(null);
         }
-
     }
 
     private void canGenerate(boolean checked) 
@@ -1679,8 +1652,7 @@ public class PlanWriter extends BaseView implements
 
                     try {
                         splash.setStringPainted("Initialising Word ... ");
-                        WordReportJava2COM word = new WordReportJava2COM();
-                        word.setTemplate(WordSettings.getInstance().getTemplateDocument());
+                        report.setTemplate(WordSettings.getInstance().getTemplateDocument());
 
                         try {
                             splash.setStringPainted("Adding Documents...   Please Wait...");
@@ -1709,19 +1681,19 @@ public class PlanWriter extends BaseView implements
 
                             }
 
-                            word.setSubReport(fileNames);
+                            report.setSubReport(fileNames);
 
                             splash.setStringPainted("Initializing Data..  Please Wait..");
 
                             PlanWriterData data = new PlanWriterData();
                             data.setPlan(model.getPlan());
-                            data.initializeReportData(rf, ServiceLocator.getInstance().getClientPerson());
+                            data.initializeReportData(rf, clientService);
 
-                            word.setData(rf.getValues());
+                            report.setData(rf.getValues());
 
                             splash.setStringPainted("Running report..  Please Wait..");
 
-                            word.run();
+                            report.run();
                             
                         } finally {
                             splash.close();
@@ -1995,7 +1967,7 @@ public class PlanWriter extends BaseView implements
 
         // create new
         ReferenceCode plan = new ReferenceCode(PlanWriterModel.NONE_PLAN);
-        plan.setCodeDesc(planDesc);
+        plan.setDescription(planDesc);
 
         getPlans().add(plan);
         jListPlans.setListData(getPlans());
@@ -2027,11 +1999,11 @@ public class PlanWriter extends BaseView implements
         try {
             person.storePlan(plan, null);
 
-            SwingUtil.setTitle(this, plan.getCodeDesc());
+            SwingUtil.setTitle(this, plan.getDescription());
 
             setModified(false);
 
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
             return;
         }
@@ -2094,12 +2066,12 @@ public class PlanWriter extends BaseView implements
 
         ReferenceCode plan = model.getPlan();
         if (JOptionPane.showConfirmDialog(this,
-                "Do You want to delete this plan?\n" + plan.getCodeDesc(),
+                "Do You want to delete this plan?\n" + plan.getDescription(),
                 "Delete Plan Dialog", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION)
             return;
 
         try {
-            if (plan.getCodeID() > 0)
+            if (plan.getId() > 0)
                 person.deletePlan(plan, null);
             // UnInitialize();
         } catch (Exception e) {

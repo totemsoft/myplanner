@@ -18,16 +18,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.argus.financials.bean.DbConstant;
-import com.argus.financials.bean.db.FPSLinkObject;
-import com.argus.financials.etc.Address;
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.bean.DbConstant;
+import com.argus.financials.api.dao.LinkObjectDao;
+import com.argus.financials.etc.AddressDto;
 import com.argus.financials.etc.Dependent;
-import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.util.DateTimeUtils;
 
 public class DependentBean extends ContactBean {
 
-    private int relationshipLinkID = FPSLinkObject.LINK_NOT_FOUND;
+    private int relationshipLinkID = LinkObjectDao.LINK_NOT_FOUND;
 
     protected DependentBean() {
         setObjectTypeID(DbConstant.DEPENDENT);
@@ -48,7 +48,7 @@ public class DependentBean extends ContactBean {
         ResultSet rs = null;
 
         try {
-            setPrimaryKeyID(primaryKeyID);
+            setId(primaryKeyID);
 
             // has to be first, or we have to close rs/sql before
             loadAddress(con);
@@ -76,36 +76,34 @@ public class DependentBean extends ContactBean {
     }
 
     public void load(ResultSet rs) throws SQLException {
-
+        Dependent dependent = getDependent();
         // Person table
-        setPrimaryKeyID(new Integer(rs.getInt("PersonID")));
-        getDependent().setSupportToAge((Integer) rs.getObject("SupportToAge"));
+        setId(rs.getInt("PersonID"));
+        dependent.setSupportToAge((Integer) rs.getObject("SupportToAge"));
 
-        PersonNameAddressBean pnab = new PersonNameAddressBean();
-        pnab.setPersonName(getDependent().getName());
-        pnab.load(rs);
+        personDao.load(rs, dependent.getName());
 
-        getDependent().setDobCountryID((Integer) rs.getObject("DOBCountryID"));
+        dependent.setDobCountryID((Integer) rs.getObject("DOBCountryID"));
 
         // RelationshipFinancial table (via Link table)
-        // getDependent().setRelationshipCodeID( getRelationshipCodeID() );
+        //dependent.setRelationshipCodeID( getRelationshipCodeID() );
 
     }
 
     // check if this dependent person already exists in Person table (e.g.
     // Partner)
-    // in PERSON !!! ( use find() return PersonID(s) to setPrimaryKeyID() )
+    // in PERSON !!! ( use find() return PersonID(s) to setId() )
     public int store(Connection con) throws SQLException {
 
         if (!isModified())
-            return getPrimaryKeyID().intValue();
+            return getId().intValue();
 
         int i = 0;
         PreparedStatement sql = null;
         Integer relationshipCodeID = getDependent().getRelationshipCodeID();
 
         try {
-            if (getPrimaryKeyID() == null) {
+            if (getId() == null) {
 
                 // insert into Object table new PersonID
                 int dependentID = getNewObjectID(DbConstant.PERSON, con);
@@ -123,9 +121,9 @@ public class DependentBean extends ContactBean {
                 sql.setObject(++i, getDependent().getName().getTitleCodeID(),
                         java.sql.Types.INTEGER);
                 sql.setString(++i, getDependent().getName().getSurname());
-                sql.setString(++i, getDependent().getName().getFirstName());
+                sql.setString(++i, getDependent().getName().getFirstname());
                 sql.setString(++i, getDependent().getName()
-                        .getOtherGivenNames());
+                        .getOtherNames());
                 if (getDependent().getDateOfBirth() == null)
                     sql.setNull(++i, java.sql.Types.VARCHAR);
                 else
@@ -139,7 +137,7 @@ public class DependentBean extends ContactBean {
                 sql.executeUpdate();
                 sql.close();
 
-                setPrimaryKeyID(new Integer(dependentID));
+                setId(new Integer(dependentID));
 
                 // person.setLinkedPerson( PERSON_2_PERSON, DEPENDENT,
                 // PERSON_2_RELATIONSHIP_FINANCE, con );
@@ -149,19 +147,9 @@ public class DependentBean extends ContactBean {
                                                                     // DbID.PERSON_2_RELATIONSHIP_FINANCE,
                         con);
 
-                relationshipLinkID = FPSLinkObject.getInstance().link(
-                        new Integer(linkID), relationshipCodeID, // can be
-                                                                    // null !!!
+                relationshipLinkID = linkObjectDao.link(
+                        new Integer(linkID), relationshipCodeID, // can be null !!!
                         DbConstant.PERSON_2_RELATIONSHIP, con);
-
-                // if (DEBUG) System.out.println( "------------>INSERT OwnerPK:
-                // " + getOwnerPrimaryKeyID() + ", PK: " + getPrimaryKeyID() );
-                // if (DEBUG) System.out.println( "------------>INSERT
-                // relationshipLinkID: " + relationshipLinkID + ",
-                // relationshipCodeID: " + relationshipCodeID + ", " + new
-                // RelationshipCode().getCodeDescription( relationshipCodeID )
-                // );
-
             } else {
                 if (getDependent().getName().isModified()) {
 
@@ -180,9 +168,9 @@ public class DependentBean extends ContactBean {
                     sql
                             .setString(++i, getDependent().getName()
                                     .getSurname());
-                    sql.setString(++i, getDependent().getName().getFirstName());
+                    sql.setString(++i, getDependent().getName().getFirstname());
                     sql.setString(++i, getDependent().getName()
-                            .getOtherGivenNames());
+                            .getOtherNames());
 
                     if (getDependent().getDateOfBirth() == null)
                         sql.setNull(++i, java.sql.Types.VARCHAR);
@@ -194,7 +182,7 @@ public class DependentBean extends ContactBean {
                     sql.setObject(++i, getDependent().getDobCountryID(),
                             java.sql.Types.INTEGER);
 
-                    sql.setInt(++i, getPrimaryKeyID().intValue());
+                    sql.setInt(++i, getId().intValue());
 
                     sql.executeUpdate();
                     sql.close();
@@ -202,33 +190,25 @@ public class DependentBean extends ContactBean {
                 }
 
                 // update relationshipCode link
-                if (getRelationshipLinkID(con) != FPSLinkObject.LINK_NOT_FOUND) {
-                    FPSLinkObject.getInstance().updateLinkForObject2(
+                if (getRelationshipLinkID(con) != LinkObjectDao.LINK_NOT_FOUND) {
+                    linkObjectDao.updateLinkForObject2(
                             new Integer(relationshipLinkID),
                             relationshipCodeID, con);
                 }
-
-                // if (DEBUG) System.out.println( "------------>UPDATE OwnerPK:
-                // " + getOwnerPrimaryKeyID() + ", PK: " + getPrimaryKeyID() );
-                // if (DEBUG) System.out.println( "------------>UPDATE
-                // relationshipLinkID: " + relationshipLinkID + ",
-                // relationshipCodeID: " + relationshipCodeID + ", " + new
-                // RelationshipCode().getCodeDescription( relationshipCodeID )
-                // );
             }
         } finally {
             close(null, sql);
         }
 
         // store address
-        Address a = getDependent().getAddress();
+        AddressDto a = getDependent().getAddress();
         if (a != null && a.isModified()) {
-            a.setOwnerPrimaryKeyID(getPrimaryKeyID());
+            a.setOwnerId(getId());
             new AddressBean(a, DbConstant.PERSON_2_ADDRESS).store(con);
         }
 
         setModified(false);
-        return getPrimaryKeyID().intValue();
+        return getId().intValue();
 
     }
 
@@ -236,8 +216,8 @@ public class DependentBean extends ContactBean {
     // PersonID - if found
     public Integer find() throws SQLException {
 
-        if (getPrimaryKeyID() != null)
-            return getPrimaryKeyID();
+        if (getId() != null)
+            return getId();
 
         // check if this person known as not dependent (e.g. partner)
         Connection con = getConnection();
@@ -251,8 +231,8 @@ public class DependentBean extends ContactBean {
 
             // ??? what if IS NULL ???
             sql.setString(1, getDependent().getName().getSurname());
-            sql.setString(2, getDependent().getName().getFirstName());
-            sql.setString(3, getDependent().getName().getOtherGivenNames());
+            sql.setString(2, getDependent().getName().getFirstname());
+            sql.setString(3, getDependent().getName().getOtherNames());
 
             rs = sql.executeQuery();
 
@@ -263,6 +243,8 @@ public class DependentBean extends ContactBean {
 
         } finally {
             close(rs, sql);
+            if (con != null)
+                con.close();
         }
 
     }
@@ -293,21 +275,16 @@ public class DependentBean extends ContactBean {
             int i = 0;
             sql.setInt(++i, DbConstant.DEPENDENT); // 10
             sql.setInt(++i, DbConstant.PERSON_2_RELATIONSHIP_FINANCE); // 
-            sql.setInt(++i, getOwnerPrimaryKeyID().intValue());
-            sql.setInt(++i, getPrimaryKeyID().intValue());
+            sql.setInt(++i, getOwnerId().intValue());
+            sql.setInt(++i, getId().intValue());
             sql.setInt(++i, DbConstant.PERSON_2_PERSON); // 
             sql.setInt(++i, DbConstant.PERSON_2_RELATIONSHIP); // 
 
             rs = sql.executeQuery();
-            // if (DEBUG) System.out.println( "------------> OwnerPK: " +
-            // getOwnerPrimaryKeyID() + ", PK: " + getPrimaryKeyID() );
             if (!rs.next())
                 return null;
 
             Integer relationshipCodeID = (Integer) rs.getObject("ObjectID2");
-            // if (DEBUG) System.out.println( "------------> RelationshipCodeID:
-            // " + relationshipCodeID + ", " + new
-            // RelationshipCode().getCodeDescription( relationshipCodeID ) );
             if (rs.next())
                 throw new SQLException(
                         "------------> More than one RelationshipCodeID");
@@ -325,21 +302,21 @@ public class DependentBean extends ContactBean {
      */
     private int getRelationshipLinkID(Connection con) throws SQLException {
 
-        if (relationshipLinkID == FPSLinkObject.LINK_NOT_FOUND) {
+        if (relationshipLinkID == LinkObjectDao.LINK_NOT_FOUND) {
 
-            int linkID = FPSLinkObject.getInstance().getLinkID(
-                    getOwnerPrimaryKeyID(), getPrimaryKeyID(),
+            int linkID = linkObjectDao.getLinkID(
+                    getOwnerId(), getId(),
                     DbConstant.PERSON_2_PERSON, con);
-            if (linkID == FPSLinkObject.LINK_NOT_FOUND)
+            if (linkID == LinkObjectDao.LINK_NOT_FOUND)
                 return linkID;
 
-            linkID = FPSLinkObject.getInstance().getLinkID(linkID,
+            linkID = linkObjectDao.getLinkID(linkID,
                     DbConstant.DEPENDENT,
                     DbConstant.PERSON_2_RELATIONSHIP_FINANCE, con);
-            if (linkID == FPSLinkObject.LINK_NOT_FOUND)
+            if (linkID == LinkObjectDao.LINK_NOT_FOUND)
                 return linkID;
 
-            relationshipLinkID = FPSLinkObject.getInstance().getLinkID(linkID,
+            relationshipLinkID = linkObjectDao.getLinkID(linkID,
                     0, // == 0 do not use
                     DbConstant.PERSON_2_RELATIONSHIP, con);
 
@@ -358,16 +335,16 @@ public class DependentBean extends ContactBean {
 
     public void setDependent(Dependent value) {
         setContact(value);
-        relationshipLinkID = FPSLinkObject.LINK_NOT_FOUND;
+        relationshipLinkID = LinkObjectDao.LINK_NOT_FOUND;
     }
 
-    public void setPrimaryKeyID(Integer value) {
-        super.setPrimaryKeyID(value);
-        relationshipLinkID = FPSLinkObject.LINK_NOT_FOUND;
+    public void setId(Integer value) {
+        super.setId(value);
+        relationshipLinkID = LinkObjectDao.LINK_NOT_FOUND;
     }
 
-    public void setOwnerPrimaryKeyID(Integer value) {
-        super.setOwnerPrimaryKeyID(value);
-        relationshipLinkID = FPSLinkObject.LINK_NOT_FOUND;
+    public void setOwnerId(Integer value) {
+        super.setOwnerId(value);
+        relationshipLinkID = LinkObjectDao.LINK_NOT_FOUND;
     }
 }

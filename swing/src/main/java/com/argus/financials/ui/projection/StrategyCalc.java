@@ -6,6 +6,8 @@
 
 package com.argus.financials.ui.projection;
 
+import com.argus.financials.api.code.FinancialClassID;
+
 /**
  * 
  * @author valeri chibaev
@@ -13,7 +15,6 @@ package com.argus.financials.ui.projection;
 
 import com.argus.financials.bean.Assumptions;
 import com.argus.financials.bean.Financial;
-import com.argus.financials.code.FinancialClassID;
 import com.argus.financials.code.IReportFields;
 import com.argus.financials.code.ModelType;
 import com.argus.financials.projection.MoneyCalc;
@@ -21,7 +22,6 @@ import com.argus.financials.report.ReportFields;
 import com.argus.financials.report.Reportable;
 import com.argus.financials.report.data.TaxAnalysisData;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.strategy.Recommendation;
 import com.argus.financials.strategy.StrategyFinancial;
 import com.argus.financials.strategy.model.DataCollectionModel;
@@ -59,8 +59,8 @@ public class StrategyCalc extends MoneyCalc implements Reportable {
      **************************************************************************/
     public void initializeReportData(ReportFields reportFields)
             throws Exception {
-        initializeReportData(reportFields, ServiceLocator.getInstance()
-                .getClientPerson());
+        initializeReportData(reportFields, 
+                clientService);
     }
 
     public void initializeReportData(ReportFields reportFields, PersonService person)
@@ -86,7 +86,7 @@ public class StrategyCalc extends MoneyCalc implements Reportable {
         Assumptions cashFlowAssumptions = sgd.getCashFlowAssumptions();
         Assumptions wealthAssumptions = sgd.getWealthAssumptions();
         Assumptions taxAssumptions = new Assumptions(
-                person == null ? ServiceLocator.getInstance().getClientPerson()
+                person == null ? clientService
                         : person);
 
         // //////////////////////////////////////////////////////////////////////
@@ -137,7 +137,7 @@ public class StrategyCalc extends MoneyCalc implements Reportable {
         // ASSET ALLOCATION //
         // //////////////////////////////////////////////////////////////////////
         AssetAllocationData aad = new AssetAllocationData();
-        aad.init(ServiceLocator.getInstance().getClientPerson(), cm
+        aad.init(clientService, cm
                 .getFinancials(), rm.getFinancials());
         aad.initializeReportData(reportFields, null);
 

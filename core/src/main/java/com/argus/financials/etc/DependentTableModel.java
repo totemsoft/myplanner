@@ -11,6 +11,7 @@ import java.util.Date;
 
 import javax.swing.table.AbstractTableModel;
 
+import com.argus.financials.api.bean.PersonName;
 import com.argus.financials.swing.table.ISmartTableModel;
 import com.argus.financials.swing.table.ISmartTableRow;
 import com.argus.util.DateUtils;
@@ -207,7 +208,7 @@ public class DependentTableModel extends AbstractTableModel
                     if (dependent != null) {
                         // get name
                         PersonName pn = dependent.getName();
-                        String first_name = pn.getFirstName();
+                        String first_name = pn.getFirstname();
                         String age = pn.getAge() == null ? "<ADVISER AGE UNKNOWN>"
                                 : pn.getAge().toString();
 

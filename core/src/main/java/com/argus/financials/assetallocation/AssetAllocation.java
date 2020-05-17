@@ -11,19 +11,9 @@ package com.argus.financials.assetallocation;
  * @author shibaevv
  * @version
  */
-public class AssetAllocation implements java.io.Serializable,
-        java.lang.Cloneable {
-    // cd /D D:\projects\Financial Planner\ant\build\classes
-    // serialver -classpath .
-    // com.argus.financial.assetallocation.AssetAllocation
+public class AssetAllocation implements java.io.Serializable, java.lang.Cloneable {
 
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
-    static final long serialVersionUID = -4334040362429877270L; // local class
-
-    // static final long serialVersionUID = 4492000584253160306L; // stream
-    // classdesc
+    static final long serialVersionUID = -4334040362429877270L;
 
     public Integer assetAllocationID; // = new Integer( -1 );
 
@@ -53,7 +43,7 @@ public class AssetAllocation implements java.io.Serializable,
         return super.clone();
     }
 
-    public Integer getPrimaryKeyID() {
+    public Integer getId() {
         return this.assetAllocationID;
     }
 
@@ -93,7 +83,7 @@ public class AssetAllocation implements java.io.Serializable,
         return this.include;
     }
 
-    public void setPrimaryKeyID(Integer value) {
+    public void setId(Integer value) {
         this.assetAllocationID = value;
     }
 

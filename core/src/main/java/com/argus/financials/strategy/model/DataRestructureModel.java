@@ -19,6 +19,7 @@ import com.argus.financials.bean.FinancialTotals;
 import com.argus.financials.bean.Financials;
 import com.argus.financials.bean.ICashFlow;
 import com.argus.financials.bean.Liability;
+import com.argus.financials.bean.db.ObjectClass;
 import com.argus.financials.code.FinancialClass;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.service.PersonService;
@@ -27,16 +28,11 @@ import com.argus.financials.strategy.Strategy;
 import com.argus.financials.strategy.StrategyFinancial;
 import com.argus.financials.strategy.StrategyGroup;
 import com.argus.financials.strategy.StrategyModel;
-import com.argus.financials.swing.table.TreeTableModel;
+import com.argus.swing.table.TreeTableModel;
 import com.argus.util.ReferenceCode;
 
 public class DataRestructureModel extends DataCollectionModel {
-    // cd /D D:\projects\Financial Planner\ant\build\classes
-    // serialver -classpath . com.argus.strategy.model.DataRestructureModel
 
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = -730026119010213844L;
 
     public static final String MODEL_NAME = "Projected Quick View (with restructured financials)";
@@ -213,7 +209,7 @@ public class DataRestructureModel extends DataCollectionModel {
             if (_node.isRecommendationSourceFinancial())
                 return true;
 
-            Integer id = _node.getFinancialObject().getPrimaryKeyID();
+            Integer id = _node.getFinancialObject().getId();
             if (id == null || id.intValue() <= 0) // copy of recommendation
                                                     // Destination
                 return false;
@@ -275,7 +271,7 @@ public class DataRestructureModel extends DataCollectionModel {
                 if (_node.isRecommendationFinancial())
                     return null;
 
-                Integer id = _node.getFinancialObject().getPrimaryKeyID();
+                Integer id = _node.getFinancialObject().getId();
                 if (id == null || id.intValue() <= 0) // copy of
                                                         // recommendation
                                                         // Destination
@@ -367,7 +363,7 @@ public class DataRestructureModel extends DataCollectionModel {
         while (iter.hasNext()) {
             Node2 n = (Node2) iter.next();
             if (n.isStrategy()
-                    && n.getStrategyObject().getReferenceCode().getCodeID() == objectTypeID)
+                    && n.getStrategyObject().getReferenceCode().getId() == objectTypeID)
                 return n;
         }
 
@@ -375,7 +371,7 @@ public class DataRestructureModel extends DataCollectionModel {
         while (iter.hasNext()) {
             Node2 n = (Node2) iter.next();
             if (n.isStrategy()
-                    && n.getStrategyObject().getReferenceCode().getCodeID() == objectTypeID)
+                    && n.getStrategyObject().getReferenceCode().getId() == objectTypeID)
                 return n;
         }
 
@@ -392,7 +388,7 @@ public class DataRestructureModel extends DataCollectionModel {
                 return null; // ???
         }
 
-        int objectTypeID = item.getCodeID();
+        int objectTypeID = item.getId();
 
         try {
             // new recommendation (with empty source node)
@@ -403,9 +399,8 @@ public class DataRestructureModel extends DataCollectionModel {
             }
 
             // new strategy financial
-            Financial f = (Financial) Financial.createNewInstance(new Integer(
-                    -1 * objectTypeID));
-            f.setFinancialDesc(item.getCodeDesc());
+            Financial f = ObjectClass.createNewInstance(-1 * objectTypeID);
+            f.setFinancialDesc(item.getDescription());
             return (Node2) node.addChild(f); // add to selected node
 
         } finally {
@@ -454,12 +449,7 @@ public class DataRestructureModel extends DataCollectionModel {
      * 
      **************************************************************************/
     public class Node2 extends Node1 {
-        // serialver -classpath .
-        // com.argus.strategy.model.DataRestructureModel$Node2
 
-        // Compatible changes include adding or removing a method or a field.
-        // Incompatible changes include changing an object's hierarchy or
-        // removing the implementation of the Serializable interface.
         static final long serialVersionUID = 4498783635361069976L;
 
         protected Node2(Object object) {
@@ -610,7 +600,7 @@ public class DataRestructureModel extends DataCollectionModel {
                 // System.out.println( "\taa.getInCash()=" + aa.getInCash() + ",
                 // " + aa.getAssetAllocationID() );
 
-                map.put(f.getPrimaryKeyID(), f);
+                map.put(f.getId(), f);
             }
 
             return map;
@@ -621,9 +611,8 @@ public class DataRestructureModel extends DataCollectionModel {
         // financials of this node))
         public Financial createStrategyModelFinancial() {
             int objectTypeID = (((Strategy) parent.object).getReferenceCode())
-                    .getCodeID();
-            Financial f = (Financial) Financial.createNewInstance(new Integer(
-                    -objectTypeID));
+                    .getId();
+            Financial f = ObjectClass.createNewInstance(-1 * objectTypeID);
 
             if (isStrategyModel()) {
 
@@ -910,7 +899,7 @@ public class DataRestructureModel extends DataCollectionModel {
 
     }
 
-    public java.util.Map reload(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public java.util.Map reload(PersonService person) throws com.argus.financials.api.ServiceException {
         return null; // do nothing, restore as serialized object
     }
 
@@ -1010,18 +999,18 @@ public class DataRestructureModel extends DataCollectionModel {
 
                 ReferenceCode refCode = ((Strategy) node.object)
                         .getReferenceCode();
-                if (ASSET_CASH.equals(refCode.getCodeIDInteger()))
+                if (ASSET_CASH.equals(refCode.getCodeId()))
                     _cash.putAll(m);
                 else if (ASSET_SUPERANNUATION
-                        .equals(refCode.getCodeIDInteger()))
+                        .equals(refCode.getCodeId()))
                     _super.putAll(m);
-                else if (ASSET_INVESTMENT.equals(refCode.getCodeIDInteger()))
+                else if (ASSET_INVESTMENT.equals(refCode.getCodeId()))
                     _investment.putAll(m);
-                else if (ASSET_PERSONAL.equals(refCode.getCodeIDInteger()))
+                else if (ASSET_PERSONAL.equals(refCode.getCodeId()))
                     _personal.putAll(m);
-                else if (ASSET_INCOME_STREAM.equals(refCode.getCodeIDInteger()))
+                else if (ASSET_INCOME_STREAM.equals(refCode.getCodeId()))
                     _incomeStream.putAll(m);
-                else if (LIABILITY.equals(refCode.getCodeIDInteger()))
+                else if (LIABILITY.equals(refCode.getCodeId()))
                     _liability.putAll(m);
                 else {
                     System.err
@@ -1063,13 +1052,13 @@ public class DataRestructureModel extends DataCollectionModel {
                 ReferenceCode refCode = ((Strategy) node.object)
                         .getReferenceCode();
                 if (ICashFlow.OBJECT_TYPE_INCOME.equals(refCode
-                        .getCodeIDInteger()))
+                        .getCodeId()))
                     incomes.putAll(m);
                 else if (ICashFlow.OBJECT_TYPE_EXPENSE.equals(refCode
-                        .getCodeIDInteger()))
+                        .getCodeId()))
                     expenses.putAll(m);
                 else if (ICashFlow.OBJECT_TAX_OFFSET.equals(refCode
-                        .getCodeIDInteger()))
+                        .getCodeId()))
                     offsets.putAll(m);
                 else {
                     System.err
@@ -1111,9 +1100,9 @@ public class DataRestructureModel extends DataCollectionModel {
                     continue;
 
                 // cache PK
-                Integer id = f2.getPrimaryKeyID();
+                Integer id = f2.getId();
                 // and reset PK
-                f2.setPrimaryKeyID(null);
+                f2.setId(null);
 
                 Integer objectTypeID = f2.getObjectTypeID();
 
@@ -1129,11 +1118,6 @@ public class DataRestructureModel extends DataCollectionModel {
                 if (balance == null || balance.doubleValue() == 0.)
                     continue;
 
-                // if (DEBUG)
-                // if ( f2 instanceof Liability ) {
-                // System.out.println( "Add : " + f2 + ", balance: " +
-                // f2.getBalanceAmount() + ", objectTypeID: " + objectTypeID );
-                // }
                 BaseNode dest = getStrategyNode(objectTypeID);
                 if (dest == null)
                     continue;
@@ -1169,9 +1153,9 @@ public class DataRestructureModel extends DataCollectionModel {
             Financial f = node.getFinancialObject();
 
             if (ICashFlow.OBJECT_TYPE_INCOME.equals(f.getObjectTypeID()))
-                incomes.put(f.getPrimaryKeyID(), f);
+                incomes.put(f.getId(), f);
             else if (ICashFlow.OBJECT_TYPE_EXPENSE.equals(f.getObjectTypeID()))
-                expenses.put(f.getPrimaryKeyID(), f);
+                expenses.put(f.getId(), f);
             // else if ( ICashFlow.OBJECT_TAX_OFFSET.equals(
             // refCode.getCodeIDInteger() ) )
             // offsets.putAll( m );

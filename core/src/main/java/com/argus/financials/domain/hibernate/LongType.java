@@ -10,9 +10,12 @@ import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.usertype.UserType;
 
-public class LongType implements UserType {
+public class LongType implements UserType, Serializable {
 
-    /* (non-Javadoc)
+    /** serialVersionUID */
+	private static final long serialVersionUID = -7970464050046601185L;
+
+	/* (non-Javadoc)
      * @see org.hibernate.usertype.UserType#assemble(java.io.Serializable, java.lang.Object)
      */
     public Object assemble(Serializable cached, Object owner) throws HibernateException

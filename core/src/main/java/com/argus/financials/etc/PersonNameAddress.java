@@ -6,6 +6,9 @@
 
 package com.argus.financials.etc;
 
+import com.argus.financials.api.bean.IFPSAssignableObject;
+import com.argus.financials.api.bean.PersonName;
+
 /**
  * 
  * @author valeri chibaev
@@ -18,7 +21,7 @@ public class PersonNameAddress extends FPSAssignableObject {
 
     protected PersonName name = new PersonName();
 
-    protected Address address = new Address();
+    protected AddressDto address = new AddressDto();
 
     /** Creates new PersonNameAddress */
     public PersonNameAddress() {
@@ -42,13 +45,13 @@ public class PersonNameAddress extends FPSAssignableObject {
     /**
      * Assignable methods
      */
-    public void assign(FPSAssignableObject value) throws ClassCastException {
+    @Override
+    public void assign(IFPSAssignableObject value) throws ClassCastException {
 
         super.assign(value);
 
         if (!(this instanceof PersonNameAddress))
-            throw new ClassCastException("This is not a "
-                    + this.getClass().getName());
+            throw new ClassCastException("This is not a " + this.getClass().getName());
 
         PersonNameAddress pna = (PersonNameAddress) value;
 
@@ -62,7 +65,7 @@ public class PersonNameAddress extends FPSAssignableObject {
     /**
      * helper methods
      */
-    protected void clear() {
+    public void clear() {
 
         super.clear();
 
@@ -94,10 +97,10 @@ public class PersonNameAddress extends FPSAssignableObject {
         address.setModified(value);
     }
 
-    public void setPrimaryKeyID(Integer value) {
-        super.setPrimaryKeyID(value);
+    public void setId(Integer value) {
+        super.setId(value);
 
-        address.setOwnerPrimaryKeyID(value);
+        address.setOwnerId(value);
     }
 
     public PersonName getName() {
@@ -110,13 +113,13 @@ public class PersonNameAddress extends FPSAssignableObject {
         name = value;
     }
 
-    public Address getAddress() {
+    public AddressDto getAddress() {
         if (address == null)
-            address = new Address();
+            address = new AddressDto();
         return address;
     }
 
-    public void setAddress(Address value) {
+    public void setAddress(AddressDto value) {
         address = value;
     }
 

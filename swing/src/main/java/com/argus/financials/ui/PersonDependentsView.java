@@ -26,16 +26,15 @@ import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-import com.argus.financials.bean.ObjectTypeConstant;
+import com.argus.financials.api.bean.PersonName;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.code.AddressCode;
 import com.argus.financials.code.CountryCode;
 import com.argus.financials.code.RelationshipCode;
-import com.argus.financials.etc.Address;
+import com.argus.financials.etc.AddressDto;
 import com.argus.financials.etc.Dependent;
-import com.argus.financials.etc.PersonName;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.swing.DateInputVerifier;
 import com.argus.financials.swing.IntegerInputVerifier;
 import com.argus.financials.swing.SwingUtil;
@@ -49,6 +48,11 @@ public class PersonDependentsView extends TableEditView {
     private NameView name;
 
     private AddressView dependentAddressView;
+
+    private static ClientService clientService;
+    public static void setClientService(ClientService clientService) {
+        PersonDependentsView.clientService = clientService;
+    }
 
     /** Creates new PersonDependentsView2 */
     public PersonDependentsView() {
@@ -70,7 +74,7 @@ public class PersonDependentsView extends TableEditView {
     private void initComponents() {
         jPanelPersonDetails = new javax.swing.JPanel();
         jLabelDateOfBirth = new javax.swing.JLabel();
-        jTextFieldDateOfBirth = new com.argus.beans.FDateChooser();
+        jTextFieldDateOfBirth = new com.argus.bean.FDateChooser();
         jLabelSupportToAge = new javax.swing.JLabel();
         jTextFieldSupportToAge = new javax.swing.JTextField();
         jLabelAge = new javax.swing.JLabel();
@@ -254,7 +258,7 @@ public class PersonDependentsView extends TableEditView {
     private javax.swing.JLabel jLabelAge;
     private javax.swing.JLabel jLabelSupportToAge;
     private javax.swing.JTextField jTextFieldAge;
-    private com.argus.beans.FDateChooser jTextFieldDateOfBirth;
+    private com.argus.bean.FDateChooser jTextFieldDateOfBirth;
     private javax.swing.JTextField jTextFieldSupportToAge;
     private javax.swing.JLabel jLabelRelationship;
     private javax.swing.JComboBox jComboBoxRelationship;
@@ -283,8 +287,7 @@ public class PersonDependentsView extends TableEditView {
 
             set.addAll(details.entrySet());
 
-            Address clientAddress = ServiceLocator.getInstance()
-                    .getClientPerson().getResidentialAddress();
+            AddressDto clientAddress = clientService.getResidentialAddress();
 
             int i = 0;
             // allocate matrix
@@ -297,10 +300,10 @@ public class PersonDependentsView extends TableEditView {
                 if (d == null)
                     continue;
 
-                Address dependentAddress = d.getAddress();
+                AddressDto dependentAddress = d.getAddress();
                 // same as client
-                if (clientAddress.getPrimaryKeyID().equals(
-                        dependentAddress.getParentAddressID()))
+                if (clientAddress.getId().equals(
+                        dependentAddress.getParentAddressId()))
                     clientAddress.addChangeListener(dependentAddress);
 
                 rowData[i++] = d.getData();
@@ -328,7 +331,7 @@ public class PersonDependentsView extends TableEditView {
         return new Integer(ObjectTypeConstant.PERSON);
     }
 
-    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.api.ServiceException {
         // new: same as partner
         this.person = person;
 
@@ -345,7 +348,7 @@ public class PersonDependentsView extends TableEditView {
 
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.api.ServiceException {
 
         person.setDependents((TreeMap) details);
 
@@ -394,7 +397,7 @@ public class PersonDependentsView extends TableEditView {
 
     }
 
-    protected void display(Object obj) throws com.argus.financials.service.client.ServiceException {
+    protected void display(Object obj) throws com.argus.financials.api.ServiceException {
 
         SwingUtil.setEnabled(jTextFieldAge, false);
 
@@ -408,7 +411,7 @@ public class PersonDependentsView extends TableEditView {
         name.setObject(d.getName());
 
         // address
-        Address dependentAddress = d.getAddress();
+        AddressDto dependentAddress = d.getAddress();
         dependentAddressView.setObject(dependentAddress);
         dependentAddress.addChangeListener(dependentAddressView); // add new
                                                                     // selected
@@ -420,7 +423,7 @@ public class PersonDependentsView extends TableEditView {
         else
             jTextFieldDateOfBirth.setText(DateTimeUtils.asString(dob, null));
 
-        Double age = d.getName().getAge();
+        Number age = d.getName().getAge();
         jTextFieldAge.setText(age == null ? null : "" + age.intValue());
 
         Integer supportToAge = d.getSupportToAge();
@@ -485,7 +488,7 @@ public class PersonDependentsView extends TableEditView {
 
     }
 
-    private void save(Object obj) throws com.argus.financials.service.client.ServiceException {
+    private void save(Object obj) throws com.argus.financials.api.ServiceException {
         Number2 number = Number2.getNumberInstance();
 
         Dependent d = (Dependent) obj;
@@ -496,7 +499,7 @@ public class PersonDependentsView extends TableEditView {
 
         // dependentAddressView
         dependentAddressView.saveView(null);
-        d.setAddress((Address) dependentAddressView.getObject());
+        d.setAddress((AddressDto) dependentAddressView.getObject());
 
         java.sql.Date dob = DateTimeUtils.getSqlDate(jTextFieldDateOfBirth
                 .getText());
@@ -538,7 +541,7 @@ public class PersonDependentsView extends TableEditView {
                 pp = ((ClientService) person).getPartner(false);
             } catch (java.lang.ClassCastException e) {
                 // partner view => we need to get the client
-                pp = (PersonService) (ServiceLocator.getInstance().getClientPerson());
+                pp = (PersonService) (clientService);
             }
 
             // get partner's dependents
@@ -554,9 +557,8 @@ public class PersonDependentsView extends TableEditView {
                     Dependent new_dep = new Dependent();
 
                     new_dep.assign(dep);
-                    new_dep.setPrimaryKeyID(null);
-                    new_dep.setOwnerPrimaryKeyID((Integer) this.person
-                            .getPrimaryKey());
+                    new_dep.setId(null);
+                    new_dep.setOwnerId(person.getId());
 
                     details.put(objID, new_dep);
 
@@ -566,7 +568,7 @@ public class PersonDependentsView extends TableEditView {
                 }
                 ((DefaultTableModel) jTable.getModel()).fireTableDataChanged();
             } // end if
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         } catch (java.lang.NullPointerException e) {
             e.printStackTrace(System.err);
@@ -578,7 +580,7 @@ public class PersonDependentsView extends TableEditView {
             try {
                 person.setDependents(new TreeMap());
                 updateView(person);
-            } catch (com.argus.financials.service.client.ServiceException e) {
+            } catch (com.argus.financials.api.ServiceException e) {
                 e.printStackTrace(System.err);
             }
         }

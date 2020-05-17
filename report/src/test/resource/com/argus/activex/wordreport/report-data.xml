@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportData DateMedium="2006-03-21" Time="08:40:00">
+	<Adviser FirstName="John" FamilyName="Scott"/>
+	<Client FirstName="Valera" FullName="Mr. Valera Shibaev" MaritalCode="Married" Age="40" Resident="Yes" StateofHealth="Good">
+		<ResidentialAddress StreetNumber="135/208-226 Pacific Highway" StreetNumber2="" Suburb="Hornsby" State="NSW" Postcode="2077" Country="Australia"/>
+		<Occupation OccupationName="Senior Developer"/>
+		<Employer LegalName="Argus Software P/L"/>
+		<Dependents>
+			<Dependent FullName="Child 1" DOB="1998-12-12" Age="7" Sex="Male"/>
+			<Dependent FullName="Child 2" DOB="1994-12-12" Age="12" Sex="Female"/>
+			<Dependent FullName="Child 3" DOB="1990-12-12" Age="15" Sex="Male"/>
+		</Dependents>
+	</Client>
+	<Partner FirstName="N." FullName="Mrs. N." MaritalCode="Married" Age="35" Resident="Yes" StateofHealth="Good">
+		<ResidentialAddress StreetNumber="135/208-226 Pacific Highway" StreetNumber2="" Suburb="Hornsby" State="NSW" Postcode="2077" Country="Australia"/>
+		<Occupation OccupationName="Civil Engineer"/>
+	</Partner>
+</ReportData>

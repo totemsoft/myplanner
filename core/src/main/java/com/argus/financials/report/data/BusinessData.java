@@ -6,7 +6,7 @@
 
 package com.argus.financials.report.data;
 
-import com.argus.financials.service.BusinessService;
+import com.argus.financials.api.bean.IBusiness;
 
 /**
  * 
@@ -36,7 +36,7 @@ public class BusinessData extends BaseData {
         if (person == null)
             return;
 
-        BusinessService b = person.getEmployerBusiness();
+        IBusiness b = person.getEmployerBusiness();
         if (b == null) {
             clear();
 

@@ -12,11 +12,11 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import com.argus.financials.assetallocation.AssetAllocationTableModel;
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.api.code.LinkObjectTypeConstant;
 import com.argus.financials.assetallocation.AssetAllocationTableRow;
-import com.argus.financials.assetallocation.CurrentAssetAllocationTableModel;
 import com.argus.financials.assetallocation.IAssetAllocation;
-import com.argus.financials.bean.LinkObjectTypeConstant;
 import com.argus.financials.code.InvestmentStrategyData;
 import com.argus.financials.config.WordSettings;
 import com.argus.financials.etc.GrowthRate;
@@ -24,8 +24,6 @@ import com.argus.financials.etc.Survey;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.financials.strategy.model.DataCollectionModel;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.ui.data.AssetAllocationData;
@@ -74,8 +72,7 @@ public class CurrentAssetAllocationView extends AssetAllocationView implements
         createCharts();
 
         try {
-            displayRiskProfileAssetAllocation(ServiceLocator.getInstance()
-                    .getClientPerson());
+            displayRiskProfileAssetAllocation(clientService);
             updateRecommendedChart();
         } catch (Exception e) {
             e.printStackTrace(System.err);
@@ -233,17 +230,17 @@ public class CurrentAssetAllocationView extends AssetAllocationView implements
      * @param person -
      *            a person object
      */
-    public void updateView(com.argus.financials.service.PersonService person)
-            throws com.argus.financials.service.client.ServiceException {
+    public void updateView(PersonService person)
+            throws ServiceException {
         // we don't use a DataCollectionModel
         // !!! ATTENTION: SETING _dcm = null is IMPORTANT FOR saveView() methode
         // !!!
         this._dcm = null;
         // get the financials and keep them, required for report generating
-        this._financials = person.getFinancials();
+        this._financials = person.findFinancials();
 
         // save current financials
-        person.storeFinancials();
+        person.storeFinancials(this._financials, person.getFinancialGoal());
 
         // update pie chart
         displayRiskProfileAssetAllocation(person);
@@ -258,14 +255,13 @@ public class CurrentAssetAllocationView extends AssetAllocationView implements
     }
 
     public void updateView(java.util.Map financials)
-            throws com.argus.financials.service.client.ServiceException {
+            throws ServiceException {
         this._dcm = null;
         // get the financials and keep them, required for report generating
         this._financials = financials;
 
         // update pie chart
-        displayRiskProfileAssetAllocation(ServiceLocator.getInstance()
-                .getClientPerson());
+        displayRiskProfileAssetAllocation(clientService);
         updateRecommendedChart();
 
         ((CurrentAssetAllocationTableModel) jTableAssetAllocation.getModel())
@@ -275,13 +271,12 @@ public class CurrentAssetAllocationView extends AssetAllocationView implements
     }
 
     public void updateView(DataCollectionModel dcm)
-            throws com.argus.financials.service.client.ServiceException {
+            throws ServiceException {
         this._dcm = dcm;
         this._financials = null;
 
         // update pie chart
-        displayRiskProfileAssetAllocation(ServiceLocator.getInstance()
-                .getClientPerson());
+        displayRiskProfileAssetAllocation(clientService);
         updateRecommendedChart();
 
         ((CurrentAssetAllocationTableModel) jTableAssetAllocation.getModel())
@@ -297,21 +292,18 @@ public class CurrentAssetAllocationView extends AssetAllocationView implements
      * @param person -
      *            a client
      */
-    private void displayRiskProfileAssetAllocation(
-            com.argus.financials.service.PersonService person)
-            throws com.argus.financials.service.client.ServiceException {
+    private void displayRiskProfileAssetAllocation(PersonService person) throws ServiceException {
         Integer surveyID = null;
         Integer investmentStrategyCodeID = null;
         String investmentStrategyName = "";
 
         try {
-            surveyID = person
-                    .getSurveyID(LinkObjectTypeConstant.SURVEY_2_RISKPROFILE);
+            surveyID = person.getSurveyID(LinkObjectTypeConstant.SURVEY_2_RISKPROFILE);
             // System.out.println( "surveyID: " + surveyID );
         } catch (ObjectNotFoundException e) {
             // ignore that exception, it's raised when we don't have a survey id
             // e.printStackTrace(System.err);
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (ServiceException e) {
             e.printStackTrace(System.err);
         }
 
@@ -442,9 +434,9 @@ public class CurrentAssetAllocationView extends AssetAllocationView implements
             } else {
                 // the view was populated by updateView(PersonService), so we need to
                 // store the person's financials
-                tm.saveModel(ServiceLocator.getInstance().getClientPerson());
+                tm.saveModel(clientService);
             }
-        } catch (Exception e) { // com.argus.financials.service.ServiceException e) {
+        } catch (Exception e) { // ServiceException e) {
             e.printStackTrace(System.err);
         }
     }
@@ -795,7 +787,7 @@ public class CurrentAssetAllocationView extends AssetAllocationView implements
             // allocation and generate a report
             saveView();
 
-            ClientService cp = ServiceLocator.getInstance().getClientPerson();
+            ClientService cp = clientService;
             _data = new AssetAllocationData();
 
             if (_financials != null)

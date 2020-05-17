@@ -27,6 +27,7 @@ import com.argus.financials.projection.save.ModelCollection;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
+import com.argus.financials.service.ServiceAware;
 import com.argus.financials.strategy.StrategyGroup;
 import com.argus.financials.ui.plan.PlanWriterModel;
 import com.argus.financials.ui.projection.MortgageCalc;
@@ -34,8 +35,8 @@ import com.argus.financials.ui.projection.StrategyCalc;
 import com.argus.util.ReferenceCode;
 
 public class PlanWriterData
-// extends com.argus.util.BaseObject
-        implements com.argus.financials.report.Reportable {
+    extends ServiceAware
+    implements com.argus.financials.report.Reportable {
 
     public PlanWriterData() {
     }
@@ -56,9 +57,7 @@ public class PlanWriterData
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields)
             throws Exception {
-        initializeReportData(reportFields,
-                com.argus.financials.service.ServiceLocator.getInstance()
-                        .getClientPerson());
+        initializeReportData(reportFields, clientService);
     }
 
     public void initializeReportData(

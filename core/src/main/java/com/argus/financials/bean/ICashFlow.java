@@ -6,6 +6,8 @@
 
 package com.argus.financials.bean;
 
+import com.argus.financials.api.code.ObjectTypeConstant;
+
 /**
  * 
  * @author valeri chibaev

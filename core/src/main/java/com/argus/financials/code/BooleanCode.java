@@ -15,6 +15,7 @@ package com.argus.financials.code;
 import java.util.Collection;
 import java.util.TreeSet;
 
+import com.argus.financials.api.code.CodeComparator;
 import com.argus.util.ReferenceCode;
 
 public class BooleanCode extends BaseCode {
@@ -36,11 +37,13 @@ public class BooleanCode extends BaseCode {
     }
 
     private void initCodes() {
-
         codes.add(CODE_NONE);
-
         codes.add(rcNO);
         codes.add(rcYES);
+    }
+
+    public static ReferenceCode convert(boolean b) {
+        return b ? rcYES : rcNO;
     }
 
 }

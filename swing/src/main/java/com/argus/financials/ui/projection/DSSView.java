@@ -26,14 +26,18 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.api.bean.IMaritalCode;
+import com.argus.financials.api.bean.IPerson;
+import com.argus.financials.api.code.FinancialClassID;
 import com.argus.financials.bean.AssetInvestment;
 import com.argus.financials.bean.AssetPersonal;
 import com.argus.financials.bean.AssetSuperannuation;
 import com.argus.financials.bean.Financial;
 import com.argus.financials.code.BenefitTypeCode;
-import com.argus.financials.code.FinancialClassID;
+import com.argus.financials.code.Code;
 import com.argus.financials.code.FrequencyCode;
-import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.MaritalCode;
 import com.argus.financials.code.ModelType;
 import com.argus.financials.code.ModelTypeID;
@@ -43,7 +47,6 @@ import com.argus.financials.config.WordSettings;
 import com.argus.financials.etc.ActionEventID;
 import com.argus.financials.etc.DuplicateException;
 import com.argus.financials.etc.ModelTitleRestrictionException;
-import com.argus.financials.io.IOUtils2;
 import com.argus.financials.projection.AllocatedPensionCalc;
 import com.argus.financials.projection.DSSCalc2;
 import com.argus.financials.projection.DocumentNames;
@@ -55,12 +58,11 @@ import com.argus.financials.report.ReportFields;
 import com.argus.financials.report.data.DSSData;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.DateInputVerifier;
 import com.argus.financials.swing.NameInputVerifier;
 import com.argus.financials.swing.SwingUtil;
+import com.argus.financials.ui.AbstractPanel;
 import com.argus.financials.ui.BaseView;
 import com.argus.financials.ui.CheckBoxList;
 import com.argus.financials.ui.FinancialPlannerApp;
@@ -68,10 +70,12 @@ import com.argus.financials.ui.IMenuCommand;
 import com.argus.financials.ui.ListSelection;
 import com.argus.format.Currency;
 import com.argus.format.Percent;
+import com.argus.io.IOUtils2;
 import com.argus.swing.SwingUtils;
 import com.argus.util.DateTimeUtils;
 
-public class DSSView extends javax.swing.JPanel implements ActionEventID,
+public class DSSView extends AbstractPanel
+    implements ActionEventID,
         javax.swing.event.ChangeListener, com.argus.financials.swing.ICloseDialog,
         FinancialClassID {
 
@@ -112,11 +116,11 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
     }
 
     public Integer getDefaultType() {
-        return ModelTypeID.rcSOCIAL_SECURITY_CALC.getCodeIDInteger();
+        return ModelTypeID.rcSOCIAL_SECURITY_CALC.getCodeId();
     }
 
     public String getDefaultTitle() {
-        return ModelTypeID.rcSOCIAL_SECURITY_CALC.getCodeDesc();
+        return ModelTypeID.rcSOCIAL_SECURITY_CALC.getDescription();
     }
 
     private Model getModel() {
@@ -124,11 +128,11 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
         if (model.getOwner() != null)
             return model;
 
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
         if (person != null) {
             try {
                 model.setOwner(person.getModels());
-            } catch (com.argus.financials.service.client.ServiceException e) {
+            } catch (com.argus.financials.api.ServiceException e) {
                 e.printStackTrace(System.err);
             }
         }
@@ -201,10 +205,8 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
 
         }
 
-        jButtonSave
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
-        jButtonSaveAs
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
+        jButtonSave.setEnabled(clientService != null);
+        jButtonSaveAs.setEnabled(clientService != null);
         jButtonDelete.setEnabled(jButtonSave.isEnabled());
         setActionMap();
 
@@ -387,10 +389,8 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
     }
 
     protected void updateComponents() {
-        jButtonSave
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
-        jButtonSaveAs
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
+        jButtonSave.setEnabled(clientService != null);
+        jButtonSaveAs.setEnabled(clientService != null);
         if (jTabbedPane.getSelectedIndex() == 0)
             jButtonNext.setEnabled(dssCalc2.isReady());
         SwingUtil
@@ -424,21 +424,21 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jTextFieldClientName = new javax.swing.JTextField();
-        jTextFieldClientDOB = new com.argus.beans.FDateChooser();
+        jTextFieldClientDOB = new com.argus.bean.FDateChooser();
         jPanelClientSex = new javax.swing.JPanel();
         jRadioButtonClientMale = new javax.swing.JRadioButton();
         jRadioButtonClientFemale = new javax.swing.JRadioButton();
-        jTextFieldClientCalculationDate = new com.argus.beans.FDateChooser();
+        jTextFieldClientCalculationDate = new com.argus.bean.FDateChooser();
         jComboBoxClientMaritalStatus = new javax.swing.JComboBox();
         MaritalCode mc = new MaritalCode();
         jComboBoxClientMaritalStatus.addItem(mc
-                .getCodeDescription(MaritalCode.VALUE_NONE));
+                .getCodeDescription(Code.VALUE_NONE));
         jComboBoxClientMaritalStatus.addItem(mc
-                .getCodeDescription(MaritalCode.PARTNERED));
+                .getCodeDescription(IMaritalCode.PARTNERED));
         jComboBoxClientMaritalStatus.addItem(mc
-                .getCodeDescription(MaritalCode.SINGLE));
+                .getCodeDescription(IMaritalCode.SINGLE));
         jComboBoxClientMaritalStatus.addItem(mc
-                .getCodeDescription(MaritalCode.SEPARATED_HEALTH));
+                .getCodeDescription(IMaritalCode.SEPARATED_HEALTH));
         jComboBoxClientBenefitType = new javax.swing.JComboBox();
         jCheckBoxClientNC = new javax.swing.JCheckBox();
         jCheckBoxClientHO = new javax.swing.JCheckBox();
@@ -457,11 +457,11 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jTextFieldPartnerName = new javax.swing.JTextField();
-        jTextFieldPartnerDOB = new com.argus.beans.FDateChooser();
+        jTextFieldPartnerDOB = new com.argus.bean.FDateChooser();
         jPanelPartnerSex = new javax.swing.JPanel();
         jRadioButtonPartnerMale = new javax.swing.JRadioButton();
         jRadioButtonPartnerFemale = new javax.swing.JRadioButton();
-        jTextFieldPartnerCalculationDate = new com.argus.beans.FDateChooser();
+        jTextFieldPartnerCalculationDate = new com.argus.bean.FDateChooser();
         jComboBoxPartnerBenefitType = new javax.swing.JComboBox();
         jScrollPanePartner = new javax.swing.JScrollPane();
         jTextAreaPartnerEC = new javax.swing.JTextArea();
@@ -2714,7 +2714,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
 
         // update status of partner's inputfields
         if (dssCalc2.getMaritalStatus() != null
-                && dssCalc2.getMaritalStatus().equals(MaritalCode.SINGLE)) {
+                && dssCalc2.getMaritalStatus().equals(IMaritalCode.SINGLE)) {
             this.changeStatusOfPartnerInputFields(false);
         } else {
             this.changeStatusOfPartnerInputFields(true);
@@ -2974,7 +2974,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
 
     private javax.swing.JPanel jPanelClientResults;
 
-    private com.argus.beans.FDateChooser jTextFieldPartnerCalculationDate;
+    private com.argus.bean.FDateChooser jTextFieldPartnerCalculationDate;
 
     private javax.swing.JScrollPane jScrollPanePartner;
 
@@ -3130,7 +3130,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
 
     private javax.swing.JTextField jTextFieldSavingsIPartner;
 
-    private com.argus.beans.FDateChooser jTextFieldClientCalculationDate;
+    private com.argus.bean.FDateChooser jTextFieldClientCalculationDate;
 
     private javax.swing.JLabel jLabelSavingsPartner;
 
@@ -3184,9 +3184,9 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
 
     private javax.swing.JLabel jLabelAssets;
 
-    private com.argus.beans.FDateChooser jTextFieldPartnerDOB;
+    private com.argus.bean.FDateChooser jTextFieldPartnerDOB;
 
-    private com.argus.beans.FDateChooser jTextFieldClientDOB;
+    private com.argus.bean.FDateChooser jTextFieldClientDOB;
 
     private javax.swing.JComboBox jComboBoxPartnerBenefitType;
 
@@ -3374,7 +3374,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
             msg += "Benefit Type is required.\n";
 
         if (marital_code_id != null
-                && !marital_code_id.equals(MaritalCode.SINGLE)) {
+                && !marital_code_id.equals(IMaritalCode.SINGLE)) {
             // Married or anything else
             if (dssCalc2.getPartnerDateOfBirth() == null) {
                 msg += "Partner's DOB is required.\n";
@@ -3401,7 +3401,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
 
     private void displayAP() {
 
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
 
         try {
             Vector models = person == null ? null : person
@@ -3435,7 +3435,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
 
             }
 
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err); // ( e.getMessage() );
         }
 
@@ -3474,7 +3474,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
         this._oldClientMaritalStatus = "";
         this._update_view = true;
 
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
 
         Model m = person == null ? null : person.getModel(getDefaultType(),
                 modelTitle);
@@ -3496,9 +3496,9 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
         // doClear(null);
 
         // use copy of model
-        Integer id = m.getPrimaryKeyID();
+        Integer id = m.getId();
         m = new Model(m);
-        m.setPrimaryKeyID(id);
+        m.setId(id);
 
         try {
             dssCalc2.disableUpdate();
@@ -3546,7 +3546,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
         }
 
         try {
-            saveView(ServiceLocator.getInstance().getClientPerson());
+            saveView(clientService);
         } catch (Exception e) {
             e.printStackTrace(System.err); // ( e.getMessage() );
             return;
@@ -3587,28 +3587,26 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
             }
 
             // get the existing data for the person
+            IPerson personName = person.getPersonName();
             Integer n = null;
             String s = null, m = null;
             java.math.BigDecimal amount = null;
 
-            java.util.Date dob = person.getDateOfBirth();
+            java.util.Date dob = personName.getDateOfBirth();
             dssCalc2.setDateOfBirth(dob);
 
-            s = person.getPersonName().getFullName();
+            s = personName.getFullName();
             dssCalc2.setClientName(s);
 
-            n = person.getPersonName().getSexCodeID();
+            n = personName.getSex().getId().intValue();
 
             if (SexCode.FEMALE.equals(n))
                 dssCalc2.setSexCodeID(SexCode.FEMALE);
             if (SexCode.MALE.equals(n))
                 dssCalc2.setSexCodeID(SexCode.MALE);
 
-            m = person.getPersonName().getMaritalCode();
-            // old: dssCalc2.setMaritalStatus( new MaritalCode().getCodeID( m )
-            // );
+            m = personName.getMarital().getCode();
             setjComboBoxClientMaritalStatus(m);
-
             // jComboBoxClientMaritalStatus.setSelectedItem( m );
 
             // disabled the filled fields
@@ -3622,25 +3620,25 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
             dssCalc2.setCalculationDate(new Date());
 
             // get partner details
-            ClientService clientPerson = ServiceLocator.getInstance()
-                    .getClientPerson();
+            ClientService clientPerson = clientService;
 
             PersonService partner = clientPerson.getPartner(false);
             if (partner != null) {
-                dob = partner.getDateOfBirth();
+                IPerson partnerName = partner.getPersonName();
+                dob = partnerName.getDateOfBirth();
                 dssCalc2.setPartnerDateOfBirth(dob);
 
-                s = partner.getPersonName().getFullName();
+                s = partnerName.getFullName();
                 dssCalc2.setPartnerName(s);
 
-                n = partner.getPersonName().getSexCodeID();
+                n = partnerName.getSex().getId().intValue();
 
                 if (SexCode.FEMALE.equals(n))
                     dssCalc2.setPartnerSexCodeID(SexCode.FEMALE);
                 if (SexCode.MALE.equals(n))
                     dssCalc2.setPartnerSexCodeID(SexCode.MALE);
 
-                m = partner.getPersonName().getMaritalCode();
+                m = partnerName.getMarital().getCode();
 
                 // disabled the filled fields
                 /*
@@ -3656,7 +3654,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
             // information
             // within the assets and liabilities data collection area.
 
-            person.getFinancials();
+            person.findFinancials();
 
             // get from Cash Asset
             java.util.Map assetCash = person.getFinancials(ASSET_CASH);
@@ -4102,7 +4100,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
 
         // update status of partner's inputfields
         if (dssCalc2.getMaritalStatus() != null
-                && dssCalc2.getMaritalStatus().equals(MaritalCode.SINGLE)) {
+                && dssCalc2.getMaritalStatus().equals(IMaritalCode.SINGLE)) {
             this.changeStatusOfPartnerInputFields(false);
         } else {
             this.changeStatusOfPartnerInputFields(true);
@@ -4306,7 +4304,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
         jTextFieldPensionerRebateC.setText(curr.toString(d));
 
         if (dssCalc2.getMaritalStatus() != null) {
-            if (!dssCalc2.getMaritalStatus().equals(MaritalCode.SINGLE)) {
+            if (!dssCalc2.getMaritalStatus().equals(IMaritalCode.SINGLE)) {
                 d = dssCalc2.getMaxBenefitP();
                 jTextFieldMaxBenefitP.setText(curr.toString(d));
 
@@ -4428,19 +4426,20 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
             // unknown marital status ==> <VALUE_NONE>
             dssCalc2.setMaritalStatus(MaritalCode.VALUE_NONE);
         } else {
-            if (i.equals(MaritalCode.DIVORCED) || i.equals(MaritalCode.SINGLE)
-                    || i.equals(MaritalCode.WIDOWED)) {
+            if (i.equals(IMaritalCode.DIVORCED)
+             || i.equals(IMaritalCode.SINGLE)
+             || i.equals(IMaritalCode.WIDOWED)) {
 
-                dssCalc2.setMaritalStatus(MaritalCode.SINGLE);
-            } else if (i.equals(MaritalCode.DEFACTO)
-                    || i.equals(MaritalCode.MARRIED)
-                    || i.equals(MaritalCode.PARTNERED)) {
+                dssCalc2.setMaritalStatus(IMaritalCode.SINGLE);
+            } else if (i.equals(IMaritalCode.DEFACTO)
+                    || i.equals(IMaritalCode.MARRIED)
+                    || i.equals(IMaritalCode.PARTNERED)) {
 
-                dssCalc2.setMaritalStatus(MaritalCode.PARTNERED);
-            } else if (i.equals(MaritalCode.SEPARATED_HEALTH)) {
+                dssCalc2.setMaritalStatus(IMaritalCode.PARTNERED);
+            } else if (i.equals(IMaritalCode.SEPARATED_HEALTH)) {
 
-                dssCalc2.setMaritalStatus(MaritalCode.SEPARATED_HEALTH);
-            } else if (i.equals(MaritalCode.SEPARATED)) {
+                dssCalc2.setMaritalStatus(IMaritalCode.SEPARATED_HEALTH);
+            } else if (i.equals(IMaritalCode.SEPARATED)) {
 
                 dssCalc2.setMaritalStatus(MaritalCode.VALUE_NONE);
             } else {
@@ -4479,7 +4478,7 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
         try {
             ReportFields.generateReport(
                     SwingUtilities.windowForComponent(this),
-                    getReportData(ServiceLocator.getInstance().getClientPerson()),
+                    getReportData(clientService),
                     getDefaultReport());
 
         } catch (Exception e) {
@@ -4523,14 +4522,14 @@ public class DSSView extends javax.swing.JPanel implements ActionEventID,
         am.put(DATA_REMOVE, new AbstractAction() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
-                PersonService person = ServiceLocator.getInstance().getClientPerson();
+                PersonService person = clientService;
                 if (person == null)
                     return;
 
                 try {
                     person.removeModel(getModel());
                     person.storeModels();
-                } catch (com.argus.financials.service.client.ServiceException e) {
+                } catch (com.argus.financials.api.ServiceException e) {
                     e.printStackTrace();
                     return;
                 }

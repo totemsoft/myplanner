@@ -9,8 +9,8 @@ package com.argus.financials.db;
 import java.util.ArrayList;
 
 import com.argus.crypto.Digest;
-import com.argus.financials.bean.LinkObjectTypeConstant;
-import com.argus.financials.bean.ObjectTypeConstant;
+import com.argus.financials.api.code.LinkObjectTypeConstant;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.swing.table.UpdateableTableModel;
 import com.argus.financials.swing.table.UpdateableTableRow;
 import com.argus.util.KeyValue;

@@ -6,21 +6,20 @@
 
 package com.argus.financials.exchange;
 
+import com.argus.dao.SQLHelper;
+
 /**
  * 
  * @author valeri chibaev
  */
 
 import com.argus.financials.assetinvestment.AvailableInvestmentsTableRow;
-import com.argus.financials.bean.db.DBManager;
-import com.argus.financials.config.FPSLocale;
 
 public class AssetProcessor {
 
-    protected static boolean DEBUG;
-    static {
-        FPSLocale r = com.argus.financials.config.FPSLocale.getInstance();
-        DEBUG = Boolean.valueOf(System.getProperty("DEBUG")).booleanValue();
+    private transient static SQLHelper sqlHelper;
+    public static void setSqlHelper(SQLHelper sqlHelper) {
+        AssetProcessor.sqlHelper = sqlHelper;
     }
 
     private FinancialCode financialCode;
@@ -58,8 +57,7 @@ public class AssetProcessor {
 
     public java.util.Vector getJournals() throws java.sql.SQLException {
 
-        DBManager dbm = DBManager.getInstance();
-        java.sql.Connection con = dbm.getConnection();
+        java.sql.Connection con = sqlHelper.getConnection();
 
         java.sql.ResultSet rs = null;
         java.sql.PreparedStatement stmt = con
@@ -124,8 +122,7 @@ public class AssetProcessor {
 
     public java.util.Vector getFinancialRows() throws java.sql.SQLException {
 
-        DBManager dbm = DBManager.getInstance();
-        java.sql.Connection con = dbm.getConnection();
+        java.sql.Connection con = sqlHelper.getConnection();
 
         java.sql.ResultSet rs = null;
         java.sql.PreparedStatement stmt = con
@@ -147,10 +144,6 @@ public class AssetProcessor {
             // false if it is an update count or there are no more results
             if (!stmt.execute())
                 return rows;
-
-            if (DEBUG)
-                System.out.println("EXEC sp_select_Financial "
-                        + getFinancialCode().cid);
 
             StringBuffer sb = new StringBuffer();
             while (rs == null || stmt.getMoreResults()) {
@@ -200,8 +193,7 @@ public class AssetProcessor {
     public java.util.Vector getFinancialJournalRows(Journal batch)
             throws java.sql.SQLException {
 
-        DBManager dbm = DBManager.getInstance();
-        java.sql.Connection con = dbm.getConnection();
+        java.sql.Connection con = sqlHelper.getConnection();
 
         java.sql.ResultSet rs = null;
         java.sql.PreparedStatement stmt = con
@@ -229,10 +221,6 @@ public class AssetProcessor {
             // false if it is an update count or there are no more results
             if (!stmt.execute())
                 return rows;
-
-            if (DEBUG)
-                System.out.println("EXEC sp_select_FinancialJournal " + batch
-                        + ", " + getFinancialCode().cid);
 
             StringBuffer sb = new StringBuffer();
             while (rs == null || stmt.getMoreResults()) {
@@ -291,8 +279,7 @@ public class AssetProcessor {
         // //////////////////////////////////////////////////////////////////
         Journal batch = null;
 
-        DBManager dbm = DBManager.getInstance();
-        java.sql.Connection con = dbm.getConnection();
+        java.sql.Connection con = sqlHelper.getConnection();
 
         // java.sql.Statement stmt = con.createStatement();
         java.sql.CallableStatement stmt = con
@@ -319,8 +306,6 @@ public class AssetProcessor {
                     + getFinancialCode().tid + ", " + getFinancialCode().cid
                     + ", " + getFinancialCodeNew().tid + ", "
                     + getFinancialCodeNew().cid + ", '" + journalDesc + "'";
-            if (DEBUG)
-                System.out.println(sql);
 
             stmt.execute();
 
@@ -343,8 +328,7 @@ public class AssetProcessor {
 
     public void executeRecover(Journal journal) throws java.sql.SQLException {
 
-        DBManager dbm = DBManager.getInstance();
-        java.sql.Connection con = dbm.getConnection();
+        java.sql.Connection con = sqlHelper.getConnection();
         java.sql.Statement stmt = con.createStatement();
         try {
             // //////////////////////////////////////////////////////////////////
@@ -353,8 +337,6 @@ public class AssetProcessor {
             // //////////////////////////////////////////////////////////////////
             String sql = "EXEC sp_restore_FinancialCode " + "@JournalID="
                     + journal.id;
-            // if (DEBUG) System.out.println( sql );
-
             // true if the next result is a ResultSet object;
             // false if it is an update count or there are no more results
             boolean res = stmt.execute(sql);
@@ -378,8 +360,7 @@ public class AssetProcessor {
         if (getFinancialCode().code == null)
             return rows;
 
-        DBManager dbm = DBManager.getInstance();
-        java.sql.Connection con = dbm.getConnection();
+        java.sql.Connection con = sqlHelper.getConnection();
 
         // //////////////////////////////////////////////////////////////////
         // EXEC sp_delete_FinancialCode
@@ -388,9 +369,6 @@ public class AssetProcessor {
         java.sql.ResultSet rs = null;
         java.sql.PreparedStatement stmt = con
                 .prepareStatement("EXEC sp_delete_FinancialCode ?");
-        if (DEBUG)
-            System.out.println("EXEC sp_delete_FinancialCode '"
-                    + getFinancialCode().code + "'");
 
         try {
             stmt.setString(1, getFinancialCode().code);

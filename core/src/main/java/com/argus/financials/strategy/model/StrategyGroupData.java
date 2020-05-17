@@ -15,11 +15,6 @@ import com.argus.financials.bean.Assumptions;
 
 public class StrategyGroupData implements java.io.Serializable {
 
-    // serialver -classpath . com.argus.strategy.model.StrategyGroupData
-
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 439878443864103696L;
 
     private DataCollectionModel collectionModel;

@@ -18,16 +18,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.argus.financials.api.CommonConstants;
 import com.argus.financials.etc.GrowthRate;
-import com.argus.financials.projection.data.CommonConstants;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.service.UtilityService;
 
 public class InvestmentStrategyCode extends Code {
 
     protected static double HOLE = CommonConstants.HOLE;
 
-    // FIDUCIAN strategies
+    // strategies
     public final static Integer ULTRA_CONSERVATIVE = new Integer(1);
 
     public final static Integer CONSERVATIVE = new Integer(2);
@@ -66,13 +65,12 @@ public class InvestmentStrategyCode extends Code {
 
     protected static java.util.Map params;
 
-    static {
-        codeMap = new HashMap();
-        initCodeMap();
-        initGrowthRates();
-    }
-
     protected Map getCodeMap() {
+        if (codeMap == null) {
+            codeMap = new HashMap();
+            initCodeMap();
+            initGrowthRates();
+        }
         return codeMap;
     }
 
@@ -102,7 +100,7 @@ public class InvestmentStrategyCode extends Code {
     private static void initGrowthRates() {
 
         try {
-            params = ServiceLocator.getInstance().getUtilityService().getParameters(
+            params = utilityService.getParameters(
                     UtilityService.PARAM_INVESTMENT_STRATEGY);
             if (params == null)
                 return;

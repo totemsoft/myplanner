@@ -6,13 +6,7 @@
 
 package com.argus.financials.report.data;
 
-/**
- * 
- * @author Serguei Piltiaev
- * @version
- */
-
-import com.argus.beans.AbstractComponentModel;
+import com.argus.bean.AbstractComponentModel;
 import com.argus.financials.projection.GeneralTaxCalculator;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.service.PersonService;

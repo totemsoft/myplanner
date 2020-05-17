@@ -6,6 +6,9 @@
 
 package com.argus.financials.ui.data;
 
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.code.LinkObjectTypeConstant;
+
 /**
  * 
  * @author shibaevv
@@ -14,19 +17,16 @@ package com.argus.financials.ui.data;
  */
 
 import com.argus.financials.assetallocation.AssetAllocationTableRow;
-import com.argus.financials.assetallocation.CurrentAssetAllocationTableModel;
 import com.argus.financials.assetallocation.IAssetAllocation2;
-import com.argus.financials.assetallocation.NewAssetAllocationTableModel;
-import com.argus.financials.bean.LinkObjectTypeConstant;
-import com.argus.financials.code.FinancialTypeID;
 import com.argus.financials.code.InvestmentStrategyData;
 import com.argus.financials.etc.Survey;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.financials.swing.table.ISmartTableModel;
 import com.argus.financials.swing.table.ProxyTableModel;
 import com.argus.financials.table.FinancialTableModel;
 import com.argus.financials.ui.assetallocation.AssetAllocationPieChartView;
+import com.argus.financials.ui.assetallocation.CurrentAssetAllocationTableModel;
+import com.argus.financials.ui.assetallocation.NewAssetAllocationTableModel;
 import com.argus.financials.ui.iso.QuickQuest;
 import com.argus.financials.ui.strategy.DataCollectionView;
 import com.argus.math.FormatedBigDecimal;
@@ -36,7 +36,7 @@ import com.argus.math.Percent;
 import com.argus.util.ReferenceCode;
 
 public class AssetAllocationData extends com.argus.financials.bean.AbstractBase
-        implements FinancialTypeID, com.argus.financials.report.Reportable,
+        implements com.argus.financials.report.Reportable,
         javax.swing.event.ChangeListener {
     private static final String STRING_EMPTY = "";
 
@@ -800,9 +800,7 @@ public class AssetAllocationData extends com.argus.financials.bean.AbstractBase
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields)
             throws Exception {
-        initializeReportData(reportFields,
-                com.argus.financials.service.ServiceLocator.getInstance()
-                        .getClientPerson());
+        initializeReportData(reportFields, clientService);
     }
 
     public void initializeReportData(

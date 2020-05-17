@@ -14,33 +14,10 @@ package com.argus.financials.code;
 
 import java.util.Map;
 
-import com.argus.financials.domain.client.refdata.IState;
+import com.argus.financials.api.bean.IState;
 
-public class StateCode extends Code {
-
-    /* (non-Javadoc)
-     * @see com.argus.financials.domain.client.refdata.ICode#getCode()
-     */
-    public String getCode()
-    {
-        return null;
-    }
-
-    /* (non-Javadoc)
-     * @see com.argus.financials.domain.client.refdata.ICode#getDescription()
-     */
-    public String getDescription()
-    {
-        return null;
-    }
-
-    /* (non-Javadoc)
-     * @see com.argus.financials.domain.IBase#getId()
-     */
-    public Integer getId()
-    {
-        return null;
-    }
+public class StateCode extends Code //implements IState
+{
 
     private static Map codeMap;
 
@@ -50,6 +27,21 @@ public class StateCode extends Code {
     public StateCode(Integer countryCodeID) {
         if (!equals(countryCodeID, countryID))
             initCodeMap(countryCodeID);
+    }
+
+    public Long getId()
+    {
+        return null;
+    }
+
+    public String getCode()
+    {
+        return null;
+    }
+
+    public String getDescription()
+    {
+        return null;
     }
 
     protected Map getCodeMap() {

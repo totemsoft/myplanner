@@ -109,10 +109,10 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="com.fiducian.javabeans.FDateChooser" name="jTextFieldDOB">
+        <Component class="com.argus.beans.FDateChooser" name="jTextFieldDOB">
 
           <Events>
-            <EventHandler event="formDataChanged" listener="com.fiducian.javabeans.FormDataChangedListener" parameters="com.fiducian.javabeans.FormDataChangedEvent" handler="jTextFieldDOBFormDataChanged"/>
+            <EventHandler event="formDataChanged" listener="com.argus.beans.FormDataChangedListener" parameters="com.argus.beans.FormDataChangedEvent" handler="jTextFieldDOBFormDataChanged"/>
           </Events>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">

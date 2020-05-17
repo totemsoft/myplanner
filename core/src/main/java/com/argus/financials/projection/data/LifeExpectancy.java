@@ -16,9 +16,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.argus.financials.api.CommonConstants;
 import com.argus.financials.code.SexCode;
+import com.argus.financials.service.ServiceAware;
 
-public class LifeExpectancy {
+public class LifeExpectancy
+    extends ServiceAware
+{
 
     private static Map map;
 
@@ -37,8 +41,7 @@ public class LifeExpectancy {
             Integer countryCodeID = new com.argus.financials.code.CountryCode()
                     .getCodeID(com.argus.financials.config.FPSLocale
                             .getInstance().getDisplayCountry());
-            lifeMap = com.argus.financials.service.ServiceLocator.getInstance()
-                    .getUtilityService().getLifeExpectancy(countryCodeID);
+            lifeMap = utilityService.getLifeExpectancy(countryCodeID);
             if (lifeMap == null)
                 return;
         } catch (Exception e) { // if rmi not configured/started

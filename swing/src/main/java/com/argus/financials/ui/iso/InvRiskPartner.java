@@ -6,16 +6,15 @@
 
 package com.argus.financials.ui.iso;
 
+import com.argus.financials.api.ServiceException;
+
 /**
  * 
  * @author valeri chibaev
  */
 
 import com.argus.financials.config.ViewSettings;
-import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.SwingUtil;
 
 public class InvRiskPartner extends InvRisk {
@@ -55,10 +54,7 @@ public class InvRiskPartner extends InvRisk {
                         view.getClass().getName()), true, true, true);
 
         try {
-            ClientService client = ServiceLocator.getInstance()
-                    .getClientPerson();
-            PersonService partner = client.getPartner(true);
-
+            PersonService partner = clientService.getPartner(true);
             if (partner != null) {
                 view.updateView(partner);
             } else {

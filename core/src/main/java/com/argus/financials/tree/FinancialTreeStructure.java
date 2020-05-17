@@ -26,12 +26,11 @@ public class FinancialTreeStructure {
     public static final Object FINANCIAL_CLASS = new FinancialClass();
 
     public static final Object FINANCIAL_TYPE = new FinancialType();
+    public static final Object ASSOCIATED_FINANCIAL_TYPE = new FinancialType();
 
     public static final Object FUND_TYPE = new FundType();
 
     public static final Object ASSOCIATED_FINANCIAL_CLASS = new FinancialClass();
-
-    public static final Object ASSOCIATED_FINANCIAL_TYPE = new FinancialType();
 
     public static final Object ASSOCIATED_FUND_TYPE = new FundType();
 

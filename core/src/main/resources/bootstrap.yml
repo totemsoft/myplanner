@@ -1,0 +1,16 @@
+spring:
+  # Specify the name of the service so that Spring Cloud Config client knows which service is being looked up.
+  application:
+    name: licensingservice
+  # Specify the default profile the service should run. Profile maps to environment.
+  profiles:
+    active: default
+  # Specify the location of the Spring Cloud Config server.
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/carnellj/config-repo/
+          searchPaths: licensingservice,organizationservice
+          username: native-cloud-apps
+          password: 0ffended

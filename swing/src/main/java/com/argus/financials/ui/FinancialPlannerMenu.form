@@ -314,14 +314,14 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemFeedback">
               <Properties>
-                <Property name="toolTipText" type="java.lang.String" value="E-mail your feedback to Fiducian"/>
+                <Property name="toolTipText" type="java.lang.String" value="E-mail your feedback"/>
                 <Property name="text" type="java.lang.String" value="Feedback"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItemWebSite">
               <Properties>
-                <Property name="toolTipText" type="java.lang.String" value="http:\\www.fiducian.com.au"/>
-                <Property name="text" type="java.lang.String" value="Fiducian Web Site"/>
+                <Property name="toolTipText" type="java.lang.String" value="http:\\apollosoft.net.au"/>
+                <Property name="text" type="java.lang.String" value="Web Site"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JSeparator" name="jSeparatorAbout">

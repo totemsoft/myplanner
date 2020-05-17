@@ -13,22 +13,25 @@ package com.argus.financials.ui.financials;
 
 import java.text.MessageFormat;
 
+import com.argus.financials.api.bean.IPerson;
 import com.argus.financials.bean.Assumptions;
 import com.argus.financials.bean.FinancialGoal;
 import com.argus.financials.code.InvestmentStrategyCode;
 import com.argus.financials.code.TableDisplayMode;
 import com.argus.financials.etc.GrowthRate;
-import com.argus.financials.etc.PersonName;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.DateInputVerifier;
 import com.argus.financials.swing.IntegerInputVerifier;
 import com.argus.financials.swing.PercentInputVerifier;
+import com.argus.financials.ui.AbstractPanel;
 import com.argus.util.DateTimeUtils;
 
-public class AssumptionView extends javax.swing.JPanel implements
-        javax.swing.event.ChangeListener {
+public class AssumptionView
+    extends AbstractPanel
+    implements javax.swing.event.ChangeListener
+{
 
     private static final com.argus.math.Percent percent = new com.argus.math.Percent();
 
@@ -72,7 +75,7 @@ public class AssumptionView extends javax.swing.JPanel implements
         jLabelInflation = new javax.swing.JLabel();
         jTextFieldInflation = new javax.swing.JTextField();
         jLabelRetirementDate = new javax.swing.JLabel();
-        jTextFieldRetirementDate = new com.argus.beans.FDateChooser();
+        jTextFieldRetirementDate = new com.argus.bean.FDateChooser();
         jLabelRetirementIncome = new javax.swing.JLabel();
         jTextFieldRetirementIncome = new javax.swing.JTextField();
         jLabelLumpSumRequired = new javax.swing.JLabel();
@@ -841,7 +844,7 @@ public class AssumptionView extends javax.swing.JPanel implements
 
     private javax.swing.JLabel jLabelMaritalStatus;
 
-    private com.argus.beans.FDateChooser jTextFieldRetirementDate;
+    private com.argus.bean.FDateChooser jTextFieldRetirementDate;
 
     private javax.swing.JPanel jPanelPartnerDetails;
 
@@ -958,7 +961,6 @@ public class AssumptionView extends javax.swing.JPanel implements
      **************************************************************************/
     public void stateChanged(javax.swing.event.ChangeEvent changeEvent) {
 
-        // if (DEBUG)
         System.out.println("AssumptionsView::stateChanged() " + changeEvent);
 
         if (changeEvent.getSource() != assumptions)
@@ -1013,35 +1015,30 @@ public class AssumptionView extends javax.swing.JPanel implements
     /***************************************************************************
      * 
      **************************************************************************/
-    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.api.ServiceException {
     }
 
     public void updateView() { // throws com.argus.financials.service.ServiceException {
         try {
-            updateView(com.argus.financials.service.ServiceLocator.getInstance()
-                    .getClientPerson());
+            updateView(clientService);
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
     }
 
-    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.api.ServiceException {
 
-        PersonName clientName = person.getPersonName();
-
-        assumptions.setClientName(clientName.getFullName());
+        IPerson personName = person.getPersonName();
+        assumptions.setClientName(personName.getFullName());
         jTextFieldClient.setText(assumptions.getClientName());
-
-        assumptions.setClientDOB(clientName.getDateOfBirth());
-
+        assumptions.setClientDOB(personName.getDateOfBirth());
+        //
         if (person instanceof ClientService) {
             PersonService partner = ((ClientService) person).getPartner(false);
             if (partner != null) {
-                PersonName partnerName = partner.getPersonName();
-
+                IPerson partnerName = partner.getPersonName();
                 assumptions.setPartnerName(partnerName.getFullName());
                 jTextFieldPartner.setText(assumptions.getPartnerName());
-
                 assumptions.setPartnerDOB(partnerName.getDateOfBirth());
             }
         }
@@ -1051,7 +1048,7 @@ public class AssumptionView extends javax.swing.JPanel implements
         java.math.BigDecimal d = fg == null ? null : fg.getInflation();
         setInflation(d == null ? 0. : d.doubleValue());
 
-        setRetirementDate(fg == null ? null : fg.getTargetDate(clientName
+        setRetirementDate(fg == null ? null : fg.getTargetDate(personName
                 .getDateOfBirth()));
         updateRetirementDate();
 

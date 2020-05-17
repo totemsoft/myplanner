@@ -6,6 +6,8 @@
 
 package com.argus.financials.ui.data;
 
+import com.argus.financials.bean.AbstractBase;
+
 /**
  * 
  * @author valeri chibaev
@@ -13,14 +15,17 @@ package com.argus.financials.ui.data;
 
 import com.argus.financials.bean.Assumptions;
 import com.argus.financials.report.ReportFields;
+import com.argus.financials.report.Reportable;
 import com.argus.financials.service.PersonService;
 import com.argus.financials.swing.table.ProxyTableModel;
 import com.argus.financials.table.CashflowTableModel;
 import com.argus.io.ImageUtils;
 
-public class CashFlowData extends com.argus.financials.bean.AbstractBase
-        implements com.argus.financials.report.Reportable,
-        javax.swing.event.ChangeListener {
+public class CashFlowData
+    extends AbstractBase
+    implements Reportable, javax.swing.event.ChangeListener
+{
+
     private String prefix;
 
     public String getReportFieldsPrefix() {
@@ -76,7 +81,7 @@ public class CashFlowData extends com.argus.financials.bean.AbstractBase
 
     private PersonService person;
 
-    public void update() throws com.argus.financials.service.client.ServiceException {
+    public void update() throws com.argus.financials.api.ServiceException {
         assumptions.disableNotify();
         try {
             assumptions.update(person);
@@ -86,7 +91,7 @@ public class CashFlowData extends com.argus.financials.bean.AbstractBase
     }
 
     public void update(PersonService _person, java.util.Map _financials)
-            throws com.argus.financials.service.client.ServiceException {
+            throws com.argus.financials.api.ServiceException {
         this.person = _person;
         this.financials = _financials;
         update();
@@ -111,9 +116,7 @@ public class CashFlowData extends com.argus.financials.bean.AbstractBase
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields)
             throws Exception {
-        initializeReportData(reportFields,
-                com.argus.financials.service.ServiceLocator.getInstance()
-                        .getClientPerson());
+        initializeReportData(reportFields, clientService);
     }
 
     public void initializeReportData(
@@ -165,7 +168,7 @@ public class CashFlowData extends com.argus.financials.bean.AbstractBase
             reportFields.setValue(prefix + reportFields.Cashflow_Graph, null);
 
         } else {
-            com.argus.financials.GraphView graph = new com.argus.financials.GraphView();
+            com.argus.financials.chart.GraphView graph = new com.argus.financials.chart.GraphView();
             graph.setPreferredSize(new java.awt.Dimension(800, 500));
             graph.customizeChart(new double[][] { footer.getGroupTotals() },
                     (String[]) cftm.getColumnNames().toArray(new String[0]),
@@ -174,7 +177,7 @@ public class CashFlowData extends com.argus.financials.bean.AbstractBase
                     );
             graph.setTitleAxisY1("");
             graph
-                    .setLabelGeneratorAxisY1(com.argus.beans.format.CurrencyLabelGenerator
+                    .setLabelGeneratorAxisY1(com.argus.format.CurrencyLabelGenerator
                             .getInstance());
             reportFields.setValue(prefix + reportFields.Cashflow_Graph,
                     ImageUtils.encodeAsJPEG(graph));

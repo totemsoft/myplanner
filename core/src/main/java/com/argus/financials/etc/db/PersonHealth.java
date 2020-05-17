@@ -6,25 +6,14 @@
 
 package com.argus.financials.etc.db;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
+import com.argus.financials.api.bean.IPersonHealth;
+import com.argus.financials.etc.FPSObject;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+public class PersonHealth extends FPSObject implements IPersonHealth {
 
-import com.argus.financials.bean.db.AbstractPersistable;
-import com.argus.financials.code.BooleanCode;
+    private boolean smoker;
 
-public class PersonHealth extends AbstractPersistable {
-
-    private Boolean isSmoker;
-
-    private Integer healthStateCodeID;
+    private Integer healthStateCodeId;
 
     private boolean hospitalCover;
 
@@ -32,129 +21,32 @@ public class PersonHealth extends AbstractPersistable {
         super();
     }
 
-    public PersonHealth(int ownerPrimaryKeyID) {
-        super(ownerPrimaryKeyID);
+    public PersonHealth(int ownerId) {
+        super(ownerId);
     }
 
-    public Boolean getIsSmoker() {
-        return isSmoker;
+    public boolean isSmoker() {
+        return smoker;
     }
 
-    public void setIsSmoker(Boolean value) {
-        if (value == null && isSmoker == null)
-            return;
-        if (value != null && value.equals(isSmoker))
-            return;
-
-        isSmoker = value;
-        setModified(true);
+    public void setSmoker(boolean value) {
+        smoker = value;
     }
 
-    public boolean hasHospitalCover() {
+    public boolean isHospitalCover() {
         return hospitalCover;
     }
 
-    public void hasHospitalCover(boolean value) {
-        if (value == hospitalCover)
-            return;
-
+    public void setHospitalCover(boolean value) {
         hospitalCover = value;
-        setModified(true);
     }
 
-    public Integer getHealthStateCodeID() {
-        return healthStateCodeID;
+    public Integer getHealthStateCodeId() {
+        return healthStateCodeId;
     }
 
-    public void setHealthStateCodeID(Integer value) {
-        if (value == null && healthStateCodeID == null)
-            return;
-        if (value != null && value.equals(healthStateCodeID))
-            return;
-
-        healthStateCodeID = value;
-        setModified(true);
-    }
-
-    /**
-     * 
-     */
-    public void load(ResultSet rs) throws SQLException {
-
-        setPrimaryKeyID((Integer) rs.getObject("PersonHealthID"));
-
-        String s = rs.getString("IsSmoker");
-        if (s == null)
-            isSmoker = null;
-        else if (BooleanCode.rcNO.getCode().compareToIgnoreCase(s) == 0)
-            isSmoker = Boolean.FALSE;
-        else if (BooleanCode.rcYES.getCode().compareToIgnoreCase(s) == 0)
-            isSmoker = Boolean.TRUE;
-
-        healthStateCodeID = (Integer) rs.getObject("HealthStateCodeID");
-
-        s = rs.getString("HospitalCover");
-        if (s == null)
-            hospitalCover = false;
-        else if (BooleanCode.rcNO.getCode().compareToIgnoreCase(s) == 0)
-            hospitalCover = false;
-        else if (BooleanCode.rcYES.getCode().compareToIgnoreCase(s) == 0)
-            hospitalCover = true;
-
-        setModified(false);
-    }
-
-    public int store(Connection con) throws SQLException {
-
-        /**
-         * insert new if data changed (update current) PERSON XXX information
-         */
-        if (getPrimaryKeyID() != null && !isModified())
-            return getPrimaryKeyID().intValue();
-
-        PreparedStatement sql = con.prepareStatement("INSERT INTO PersonHealth"
-                + " (PersonID, IsSmoker, HealthStateCodeID, HospitalCover)"
-                + " VALUES" + " (?, ?, ?, ?)");
-
-        sql.setInt(1, getOwnerPrimaryKeyID().intValue());
-
-        String s;
-        if (isSmoker == null)
-            s = null;
-        else if (isSmoker.booleanValue())
-            s = BooleanCode.rcYES.getCode();
-        else
-            s = BooleanCode.rcNO.getCode();
-        sql.setString(2, s);
-
-        sql.setObject(3, healthStateCodeID, java.sql.Types.INTEGER);
-
-        if (hospitalCover)
-            s = BooleanCode.rcYES.getCode();
-        else
-            s = BooleanCode.rcNO.getCode();
-        sql.setString(4, s);
-
-        sql.executeUpdate();
-
-        int newID = getIdentityID(con);
-
-        if (getPrimaryKeyID() != null) {
-            sql = con.prepareStatement("UPDATE PersonHealth SET" + " NextID=?"
-                    + " WHERE PersonHealthID=?");
-
-            sql.setInt(1, newID);
-            sql.setInt(2, getPrimaryKeyID().intValue());
-
-            sql.executeUpdate();
-
-        }
-
-        setPrimaryKeyID(new Integer(newID));
-
-        setModified(false);
-        return newID;
-
+    public void setHealthStateCodeId(Integer value) {
+        healthStateCodeId = value;
     }
 
 }

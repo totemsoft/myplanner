@@ -6,6 +6,8 @@
 
 package com.argus.financials.ui;
 
+import java.util.Date;
+
 /**
  * 
  * @author valeri chibaev
@@ -20,7 +22,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
 import com.argus.crypto.Digest;
-import com.argus.financials.bean.ObjectTypeConstant;
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.bean.IBusiness;
+import com.argus.financials.api.bean.ICountry;
+import com.argus.financials.api.bean.IOccupation;
+import com.argus.financials.api.bean.IPerson;
+import com.argus.financials.api.bean.IPersonHealth;
+import com.argus.financials.api.bean.IPersonTrustDIYStatus;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.code.AddressCode;
 import com.argus.financials.code.Advisers;
 import com.argus.financials.code.BooleanCode;
@@ -28,20 +37,17 @@ import com.argus.financials.code.ContactMediaCode;
 import com.argus.financials.code.CountryCode;
 import com.argus.financials.code.EmploymentStatusCode;
 import com.argus.financials.code.HealthStateCode;
-import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.OccupationCode;
 import com.argus.financials.code.ResidenceStatusCode;
 import com.argus.financials.code.StatusCode;
-import com.argus.financials.domain.client.refdata.ICountry;
-import com.argus.financials.etc.Address;
+import com.argus.financials.domain.hibernate.Occupation;
+import com.argus.financials.domain.hibernate.refdata.Country;
+import com.argus.financials.etc.AddressDto;
 import com.argus.financials.etc.Contact;
 import com.argus.financials.etc.ContactMedia;
-import com.argus.financials.etc.Occupation;
-import com.argus.financials.etc.PersonName;
-import com.argus.financials.service.BusinessService;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.service.UtilityService;
 import com.argus.financials.swing.DateInputVerifier;
 import com.argus.financials.swing.IntegerInputVerifier;
 import com.argus.financials.swing.SwingUtil;
@@ -84,6 +90,11 @@ public abstract class PersonView extends BaseView {
     private ContactMediaView emailHome;
 
     private ContactMediaView emailWork;
+
+    private static UtilityService utilityService;
+    public static void setUtilityService(UtilityService utilityService) {
+        PersonView.utilityService = utilityService;
+    }
 
     /** Creates new form PersonView */
     public PersonView() {
@@ -179,7 +190,7 @@ public abstract class PersonView extends BaseView {
         jLabelResidenceStatus = new javax.swing.JLabel();
         Age = new javax.swing.JLabel();
         jLabelTaxFileNumber = new javax.swing.JLabel();
-        jTextFieldDateOfBirth = new com.argus.beans.FDateChooser();
+        jTextFieldDateOfBirth = new com.argus.bean.FDateChooser();
         jTextFieldAge = new javax.swing.JTextField();
         jComboBoxResidenceStatus = new javax.swing.JComboBox(
                 new ResidenceStatusCode().getCodeDescriptions());
@@ -215,8 +226,8 @@ public abstract class PersonView extends BaseView {
         jComboBoxAdviser = new javax.swing.JComboBox();
         jLabelFeeDate = new javax.swing.JLabel();
         jLabelReviewDate = new javax.swing.JLabel();
-        jTextFieldFeeDate = new com.argus.beans.FDateChooser();
-        jTextFieldReviewDate = new com.argus.beans.FDateChooser();
+        jTextFieldFeeDate = new com.argus.bean.FDateChooser();
+        jTextFieldReviewDate = new com.argus.bean.FDateChooser();
         jPanelCurrentHealth = new javax.swing.JPanel();
         jLabelAgeNextBirthday = new javax.swing.JLabel();
         jTextFieldAgeNextBirthday = new javax.swing.JTextField();
@@ -925,7 +936,7 @@ public abstract class PersonView extends BaseView {
                 setJPasswordFieldVisible(true);
 
             }
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
     }// GEN-LAST:event_jButtonPasswordMouseClicked
@@ -1008,7 +1019,7 @@ public abstract class PersonView extends BaseView {
 
     private javax.swing.JTextField jTextFieldAgeNextBirthday;
 
-    private com.argus.beans.FDateChooser jTextFieldFeeDate;
+    private com.argus.bean.FDateChooser jTextFieldFeeDate;
 
     private javax.swing.JLabel jLabelDSSRecipient;
 
@@ -1034,7 +1045,7 @@ public abstract class PersonView extends BaseView {
 
     private javax.swing.JTabbedPane jTabbedPane;
 
-    protected com.argus.beans.FDateChooser jTextFieldDateOfBirth;
+    protected com.argus.bean.FDateChooser jTextFieldDateOfBirth;
 
     private javax.swing.JComboBox jComboBoxEmpStatus;
 
@@ -1066,7 +1077,7 @@ public abstract class PersonView extends BaseView {
 
     private javax.swing.JPanel jPanelAddresses;
 
-    private com.argus.beans.FDateChooser jTextFieldReviewDate;
+    private com.argus.bean.FDateChooser jTextFieldReviewDate;
 
     private javax.swing.JLabel jLabelEmpName;
 
@@ -1153,15 +1164,15 @@ public abstract class PersonView extends BaseView {
     /**
      * 
      */
-    public void updateView() throws com.argus.financials.service.client.ServiceException,
+    public void updateView() throws com.argus.financials.api.ServiceException,
             InvalidCodeException {
     }
 
-    public void saveView() throws com.argus.financials.service.client.ServiceException,
+    public void saveView() throws com.argus.financials.api.ServiceException,
             InvalidCodeException {
     }
 
-    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.api.ServiceException {
 
         clearView();
 
@@ -1173,21 +1184,23 @@ public abstract class PersonView extends BaseView {
         }
         personForPassword = person;
         Integer id = null;
-        PersonName personName = person.getPersonName();
+        IPerson personName = person.getPersonName();
+        IPersonHealth personHealth = personName == null ? null : personName.getPersonHealth();
+        IPersonTrustDIYStatus personTrustDIYStatus = personName == null ? null : personName.getPersonTrustDIYStatus();
 
         // name
         personNameView.setObject(personName);
         personNameView.updateView(person);
 
         // addresses
-        Address residentialAddress = person.getResidentialAddress();
+        AddressDto residentialAddress = person.getResidentialAddress();
         residentialAddressView.setObject(residentialAddress);
         residentialAddress.addChangeListener(residentialAddressView);
         residentialAddressView
                 .setSameAsVisible(!(person instanceof ClientService));
         residentialAddressView.updateView();
 
-        Address postalAddress = person.getPostalAddress();
+        AddressDto postalAddress = person.getPostalAddress();
         postalAddressView.setObject(postalAddress);
         postalAddress.addChangeListener(postalAddressView);
         residentialAddress.addChangeListener(postalAddress);
@@ -1197,7 +1210,7 @@ public abstract class PersonView extends BaseView {
         setAge(personName.getDateOfBirth());
 
         // TFN
-        String value = person.getTaxFileNumber();
+        String value = personName.getTaxFileNumber();
         if (value == null || value.equals("--")) {
             jTextFieldTaxFileNumber1.setText(null);
             jTextFieldTaxFileNumber2.setText(null);
@@ -1245,58 +1258,47 @@ public abstract class PersonView extends BaseView {
 
         }
 
-        id = person.getResidenceStatusCodeID();
-        jComboBoxResidenceStatus.setSelectedItem(new ResidenceStatusCode()
-                .getCodeDescription(id));
+        id = personName.getResidenceStatusCodeId();
+        jComboBoxResidenceStatus.setSelectedItem(new ResidenceStatusCode().getCodeDescription(id));
 
-        id = person.getResidenceCountryCodeID();
-        jComboBoxResidenceCountry.setSelectedItem(new CountryCode()
-                .getCodeDescription(id));
+        ICountry residenceCountry = personName.getResidenceCountry();
+        jComboBoxResidenceCountry.setSelectedItem(residenceCountry == null ? null : residenceCountry.getCode());
 
         // PERSON HEALTH
-        Boolean b = person.getIsSmoker();
-        jComboBoxSmoker.setSelectedItem(b == null ? BooleanCode.CODE_NONE : (b
-                .booleanValue() ? BooleanCode.rcYES : BooleanCode.rcNO));
+        boolean smoker = personHealth == null ? false : personHealth.isSmoker();
+        jComboBoxSmoker.setSelectedItem(smoker ? BooleanCode.rcYES : BooleanCode.rcNO);
 
-        jCheckBoxHospitalCover.setSelected(person.hasHospitalCover());
-        jCheckBoxDSSRecipient.setSelected(person.isDSSRecipient());
+        jCheckBoxHospitalCover.setSelected(personHealth == null ? false : personHealth.isHospitalCover());
+        jCheckBoxDSSRecipient.setSelected(personName.isDssRecipient());
 
-        id = person.getHealthStateCodeID();
-        jComboBoxStateOfHealth.setSelectedItem(new HealthStateCode()
-                .getCodeDescription(id));
+        if (personHealth != null) {
+            id = personHealth.getHealthStateCodeId();
+            jComboBoxStateOfHealth.setSelectedItem(new HealthStateCode().getCodeDescription(id));
+        }
 
         // PERSON TRUST DIY COMPANY STATUS
-        id = person.getTrustStatusCodeID();
-        jComboBoxTrustStatus.setSelectedItem(new StatusCode()
-                .getCodeDescription(id));
-
-        id = person.getDIYStatusCodeID();
-        jComboBoxDIYStatus.setSelectedItem(new StatusCode()
-                .getCodeDescription(id));
-
-        id = person.getCompanyStatusCodeID();
-        jComboBoxCompanyStatus.setSelectedItem(new StatusCode()
-                .getCodeDescription(id));
+        if (personTrustDIYStatus != null) {
+            id = personTrustDIYStatus.getTrustStatusCodeId();
+            jComboBoxTrustStatus.setSelectedItem(new StatusCode().getCodeDescription(id));
+            id = personTrustDIYStatus.getDIYStatusCodeId();
+            jComboBoxDIYStatus.setSelectedItem(new StatusCode().getCodeDescription(id));
+            id = personTrustDIYStatus.getCompanyStatusCodeId();
+            jComboBoxCompanyStatus.setSelectedItem(new StatusCode().getCodeDescription(id));
+        }
 
         // occupation
-        Occupation occupation = person.getOccupation();
+        IOccupation occupation = personName.getOccupation();
         if (occupation == null) {
             SwingUtil.clear(jPanelOccupation);
         } else {
-
-            id = occupation.getOccupationCodeID();
-            jComboBoxOccupation.setSelectedItem(new OccupationCode()
-                    .getCodeDescription(id));
-
-            id = occupation.getEmploymentStatusCodeID();
-            jComboBoxEmpStatus.setSelectedItem(new EmploymentStatusCode()
-                    .getCodeDescription(id));
-
+            id = occupation.getOccupationCodeId();
+            jComboBoxOccupation.setSelectedItem(new OccupationCode().getCodeDescription(id));
+            id = occupation.getEmploymentStatusCodeId();
+            jComboBoxEmpStatus.setSelectedItem(new EmploymentStatusCode().getCodeDescription(id));
         }
 
-        BusinessService business = person.getEmployerBusiness();
-        jTextFieldEmpName.setText(business == null ? null : business
-                .getLegalName());
+        IBusiness business = person.getEmployerBusiness();
+        jTextFieldEmpName.setText(business == null ? null : business.getLegalName());
 
         // do full refresh first
         Map map = person.getContactMedia(Boolean.TRUE);
@@ -1330,7 +1332,7 @@ public abstract class PersonView extends BaseView {
         emailWork.updateView(person);
 
         // and finally
-        primaryKey = person.getPrimaryKey();
+        primaryKey = person.getId();
 
         jTextFieldEmpName
                 .setToolTipText(person.getEmployerBusiness() == null ? ""
@@ -1340,86 +1342,86 @@ public abstract class PersonView extends BaseView {
 
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.api.ServiceException {
 
         String s = null;
         Integer n = null;
 
         if (person instanceof ClientService) {
-            ((ClientService) person).setFeeDate(DateTimeUtils
-                    .getDate(jTextFieldFeeDate.getText()));
-            ((ClientService) person).setReviewDate(DateTimeUtils
-                    .getDate(jTextFieldReviewDate.getText()));
+            ClientService clientService = (ClientService) person;
+            clientService.setFeeDate(DateTimeUtils.getDate(jTextFieldFeeDate.getText()));
+            clientService.setReviewDate(DateTimeUtils.getDate(jTextFieldReviewDate.getText()));
         }
         // name
         personNameView.saveView(person);
-        person.setPersonName((PersonName) personNameView.getObject());
+        IPerson personName = (IPerson) personNameView.getObject();
+        person.setPersonName(personName);
+
+        IPersonHealth personHealth = personName == null ? null : personName.getPersonHealth();
+        IPersonTrustDIYStatus personTrustDIYStatus = personName == null ? null : personName.getPersonTrustDIYStatus();
 
         // addresses
         residentialAddressView.saveView();
-        person.setResidentialAddress((Address) residentialAddressView
-                .getObject());
+        person.setResidentialAddress((AddressDto) residentialAddressView.getObject());
 
         postalAddressView.saveView();
-        person.setPostalAddress((Address) postalAddressView.getObject());
+        person.setPostalAddress((AddressDto) postalAddressView.getObject());
 
         // client history
-        java.sql.Date dob = DateTimeUtils.getSqlDate(jTextFieldDateOfBirth
-                .getText());
-        person.getPersonName().setDateOfBirth(dob);
+        Date dob = DateTimeUtils.getSqlDate(jTextFieldDateOfBirth.getText());
+        personName.setDateOfBirth(dob);
 
         String delim = "-";
         String first = jTextFieldTaxFileNumber1.getText();
         String second = jTextFieldTaxFileNumber2.getText();
         String third = jTextFieldTaxFileNumber3.getText();
-        person.setTaxFileNumber(
+        personName.setTaxFileNumber(
         // first == null || second == null || third == null ? null :
                 first + delim + second + delim + third);
 
         s = (String) jComboBoxResidenceStatus.getSelectedItem();
-        person.setResidenceStatusCodeID(new ResidenceStatusCode().getCodeID(s));
+        personName.setResidenceStatusCodeId(new ResidenceStatusCode().getCodeID(s));
 
         s = (String) jComboBoxResidenceCountry.getSelectedItem();
-        person.setResidenceCountryCodeID(new CountryCode().getCodeID(s));
+        Country residenceCountry = new Country();
+        residenceCountry.setCode(s);
+        personName.setResidenceCountry(residenceCountry);
 
         // PERSON HEALTH
-        ReferenceCode refCode = (ReferenceCode) jComboBoxSmoker
-                .getSelectedItem();
-        person.setIsSmoker(refCode.equals(BooleanCode.CODE_NONE) ? null
-                : (refCode.equals(BooleanCode.rcYES) ? Boolean.TRUE
-                        : Boolean.FALSE));
-
-        person.hasHospitalCover(jCheckBoxHospitalCover.isSelected());
-        person.setDSSRecipient(jCheckBoxDSSRecipient.isSelected());
-
-        s = (String) jComboBoxStateOfHealth.getSelectedItem();
-        person.setHealthStateCodeID(new HealthStateCode().getCodeID(s));
+        if (personHealth != null) {
+            ReferenceCode refCode = (ReferenceCode) jComboBoxSmoker.getSelectedItem();
+            personHealth.setSmoker(refCode.equals(BooleanCode.CODE_NONE) ? null
+                    : (refCode.equals(BooleanCode.rcYES) ? Boolean.TRUE : Boolean.FALSE));
+            personHealth.setHospitalCover(jCheckBoxHospitalCover.isSelected());
+            s = (String) jComboBoxStateOfHealth.getSelectedItem();
+            personHealth.setHealthStateCodeId(new HealthStateCode().getCodeID(s));
+        }
+        personName.setDssRecipient(jCheckBoxDSSRecipient.isSelected());
 
         // PERSON TRUST DIY COMPANY STATUS
-        s = (String) jComboBoxTrustStatus.getSelectedItem();
-        person.setTrustStatusCodeID(new StatusCode().getCodeID(s));
-
-        s = (String) jComboBoxDIYStatus.getSelectedItem();
-        person.setDIYStatusCodeID(new StatusCode().getCodeID(s));
-
-        s = (String) jComboBoxCompanyStatus.getSelectedItem();
-        person.setCompanyStatusCodeID(new StatusCode().getCodeID(s));
+        if (personTrustDIYStatus != null) {
+            s = (String) jComboBoxTrustStatus.getSelectedItem();
+            personTrustDIYStatus.setTrustStatusCodeId(new StatusCode().getCodeID(s));
+            s = (String) jComboBoxDIYStatus.getSelectedItem();
+            personTrustDIYStatus.setDIYStatusCodeId(new StatusCode().getCodeID(s));
+            s = (String) jComboBoxCompanyStatus.getSelectedItem();
+            personTrustDIYStatus.setCompanyStatusCodeId(new StatusCode().getCodeID(s));
+        }
 
         // occupation
-        Occupation occupation = person.getOccupation();
+        IOccupation occupation = personName.getOccupation();
         if (occupation == null) {
             occupation = new Occupation();
-            person.setOccupation(occupation);
+            personName.setOccupation(occupation);
         }
 
         s = (String) jComboBoxOccupation.getSelectedItem();
-        occupation.setOccupationCodeID(new OccupationCode().getCodeID(s));
+        occupation.setOccupationCodeId(new OccupationCode().getCodeID(s));
 
         s = (String) jComboBoxEmpStatus.getSelectedItem();
-        occupation.setEmploymentStatusCodeID(new EmploymentStatusCode()
-                .getCodeID(s));
+        occupation.setEmploymentStatusCodeId(new EmploymentStatusCode().getCodeID(s));
 
-        BusinessService business = person.getEmployerBusiness();
+        IBusiness business = person.getEmployerBusiness();
         if (business != null) {
             business.setLegalName(jTextFieldEmpName.getText());
             business.setTradingName(jTextFieldEmpName.getText());
@@ -1474,8 +1476,7 @@ public abstract class PersonView extends BaseView {
             return;
 
         try {
-            ServiceLocator.getInstance().getUtilityService().addCode(
-                    OccupationCode.OCCUPATION_TABLE, occupation);
+            utilityService.addCode(OccupationCode.OCCUPATION_TABLE, occupation);
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }

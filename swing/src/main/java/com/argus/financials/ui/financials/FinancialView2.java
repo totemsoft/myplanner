@@ -19,10 +19,10 @@ import javax.swing.BoxLayout;
 import com.argus.financials.config.ViewSettings;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.swing.IReset;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.ui.BaseView;
+import com.argus.financials.ui.data.FinancialData;
 import com.argus.financials.ui.strategy.FinancialView;
 
 public class FinancialView2 extends BaseView implements IReset {
@@ -68,7 +68,7 @@ public class FinancialView2 extends BaseView implements IReset {
 
     }
 
-    public static void display(PersonService person,
+    public static void display(PersonService personId,
             java.awt.event.FocusListener[] listeners) {
 
         boolean exists = exists();
@@ -76,8 +76,8 @@ public class FinancialView2 extends BaseView implements IReset {
 
         view.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         try {
-            view.updateView(person);
-        } catch (com.argus.financials.service.client.ServiceException e) {
+            view.updateView(personId);
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
             return;
         } finally {
@@ -116,7 +116,7 @@ public class FinancialView2 extends BaseView implements IReset {
     public void doSave(java.awt.event.ActionEvent evt) {
         try {
             saveView(null);
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err); // ( e.getMessage() );
         }
     }
@@ -135,19 +135,19 @@ public class FinancialView2 extends BaseView implements IReset {
     /***************************************************************************
      * 
      **************************************************************************/
-    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.api.ServiceException {
 
         if (person == null)
-            person = ServiceLocator.getInstance().getClientPerson();
+            person = clientService;
 
         financialView.updateView(person);
 
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.api.ServiceException {
 
         if (person == null)
-            person = ServiceLocator.getInstance().getClientPerson();
+            person = clientService;
 
         financialView.saveView(person);
 
@@ -166,9 +166,8 @@ public class FinancialView2 extends BaseView implements IReset {
 
         // new reporting ( using pre-defined map(field,value) )
         ReportFields reportFields = ReportFields.getInstance();
-        new com.argus.financials.ui.data.FinancialData(person
-                .getFinancials(), null).initializeReportData(reportFields,
-                person);
+        new FinancialData(person.findFinancials(), null)
+            .initializeReportData(reportFields, person);
 
         return reportFields;
 

@@ -17,10 +17,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.argus.financials.bean.ObjectTypeConstant;
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.bean.db.AbstractPersistable;
 import com.argus.financials.etc.Comment;
-import com.argus.financials.service.client.ObjectNotFoundException;
 
 public class CommentBean extends AbstractPersistable {
 
@@ -93,7 +93,7 @@ public class CommentBean extends AbstractPersistable {
      */
     public void load(Connection con) throws SQLException,
             ObjectNotFoundException {
-        load(getPrimaryKeyID(), con);
+        load(getId(), con);
     }
 
     public void load(Integer primaryKeyID, Connection con) throws SQLException,
@@ -122,10 +122,12 @@ public class CommentBean extends AbstractPersistable {
 
             // has to be last (to be safe), we are not using primaryKeyID for
             // other queries
-            setPrimaryKeyID(primaryKeyID);
+            setId(primaryKeyID);
 
         } finally {
             close(rs, sql);
+            if (newConnection && con != null)
+                con.close();
         }
 
     }
@@ -148,7 +150,7 @@ public class CommentBean extends AbstractPersistable {
         PreparedStatement sql = null;
 
         try {
-            if (getPrimaryKeyID() == null || getPrimaryKeyID().intValue() < 0) {
+            if (getId() == null || getId().intValue() < 0) {
 
                 // CommentText field IS NOT NULL
                 if (getCommentText() == null)
@@ -165,7 +167,7 @@ public class CommentBean extends AbstractPersistable {
 
                 sql.executeUpdate();
 
-                setPrimaryKeyID(new Integer(primaryKeyID));
+                setId(new Integer(primaryKeyID));
 
                 int linkID = setLink(getLinkObjectTypeID(1), 0,
                         getLinkObjectTypeID(2), // 0 here == null
@@ -180,7 +182,7 @@ public class CommentBean extends AbstractPersistable {
                     setCommentText("Put your commont here ...");
                 }
 
-                primaryKeyID = getPrimaryKeyID().intValue();
+                primaryKeyID = getId().intValue();
 
                 // do update on Comment table
                 sql = con.prepareStatement("UPDATE Comment SET"
@@ -238,20 +240,20 @@ public class CommentBean extends AbstractPersistable {
         getComment().setModified(value);
     }
 
-    public Integer getPrimaryKeyID() {
-        return getComment().getPrimaryKeyID();
+    public Integer getId() {
+        return getComment().getId();
     }
 
-    public void setPrimaryKeyID(Integer value) {
-        getComment().setPrimaryKeyID(value);
+    public void setId(Integer value) {
+        getComment().setId(value);
     }
 
     public Integer getOwnerPrimaryKeyID() {
-        return getComment().getOwnerPrimaryKeyID();
+        return getComment().getOwnerId();
     }
 
     public void setOwnerPrimaryKeyID(Integer value) {
-        getComment().setOwnerPrimaryKeyID(value);
+        getComment().setOwnerId(value);
     }
 
     public String getCommentText() {

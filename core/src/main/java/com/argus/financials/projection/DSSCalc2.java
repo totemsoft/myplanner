@@ -10,9 +10,10 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 
+import com.argus.financials.api.bean.IMaritalCode;
+import com.argus.financials.api.code.FinancialTypeID;
 import com.argus.financials.bean.RegularIncome;
 import com.argus.financials.code.BenefitTypeCode;
-import com.argus.financials.code.FinancialTypeID;
 import com.argus.financials.code.FrequencyCode;
 import com.argus.financials.code.MaritalCode;
 import com.argus.financials.code.ModelType;
@@ -1033,7 +1034,7 @@ public class DSSCalc2 extends DSSCalc {
     public BigDecimal getSavingsI() {
         if (getSavingsA() != null && getMaritalStatus() != null) {
 
-            if (equals(MaritalCode.SINGLE, getMaritalStatus()))
+            if (equals(IMaritalCode.SINGLE, getMaritalStatus()))
                 return getSavingsA().compareTo(
                         TaxUtils.DEEMING_RATES_SINGLE_THRESHOLD) <= 0 ? (getSavingsA()
                         .multiply(TaxUtils.DEEMING_RATES_LOW))
@@ -1058,7 +1059,7 @@ public class DSSCalc2 extends DSSCalc {
     public BigDecimal getManagedFundsI() {
         if (getManagedFundsA() != null && getMaritalStatus() != null) {
 
-            if (equals(MaritalCode.SINGLE, getMaritalStatus()))
+            if (equals(IMaritalCode.SINGLE, getMaritalStatus()))
                 return getManagedFundsA().compareTo(
                         TaxUtils.DEEMING_RATES_SINGLE_THRESHOLD) <= 0 ? getManagedFundsA()
                         .multiply(TaxUtils.DEEMING_RATES_LOW)
@@ -1085,7 +1086,7 @@ public class DSSCalc2 extends DSSCalc {
     public BigDecimal getSharesI() {
         if (getSharesA() != null && getMaritalStatus() != null) {
 
-            if (equals(MaritalCode.SINGLE, getMaritalStatus()))
+            if (equals(IMaritalCode.SINGLE, getMaritalStatus()))
                 return getSharesA().compareTo(
                         TaxUtils.DEEMING_RATES_SINGLE_THRESHOLD) <= 0 ? getSharesA()
                         .multiply(TaxUtils.DEEMING_RATES_LOW)
@@ -1112,7 +1113,7 @@ public class DSSCalc2 extends DSSCalc {
     public BigDecimal getBondsI() {
         if (getBondsA() != null && getMaritalStatus() != null) {
 
-            if (equals(MaritalCode.SINGLE, getMaritalStatus()))
+            if (equals(IMaritalCode.SINGLE, getMaritalStatus()))
                 return getBondsA().compareTo(
                         TaxUtils.DEEMING_RATES_SINGLE_THRESHOLD) <= 0 ? getBondsA()
                         .multiply(TaxUtils.DEEMING_RATES_LOW)
@@ -1138,7 +1139,7 @@ public class DSSCalc2 extends DSSCalc {
     public BigDecimal getFixedInterestI() {
         if (getFixedInterestA() != null && getMaritalStatus() != null) {
 
-            if (equals(MaritalCode.SINGLE, getMaritalStatus()))
+            if (equals(IMaritalCode.SINGLE, getMaritalStatus()))
                 return getFixedInterestA().compareTo(
                         TaxUtils.DEEMING_RATES_SINGLE_THRESHOLD) <= 0 ? getFixedInterestA()
                         .multiply(TaxUtils.DEEMING_RATES_LOW)
@@ -1166,7 +1167,7 @@ public class DSSCalc2 extends DSSCalc {
                 && TaxUtils.GIFTS_THRESHOLD.compareTo(getGiftsA()) < 0
                 && getMaritalStatus() != null) {
 
-            if (equals(MaritalCode.SINGLE, getMaritalStatus()))
+            if (equals(IMaritalCode.SINGLE, getMaritalStatus()))
                 return getGiftsA().compareTo(
                         TaxUtils.DEEMING_RATES_SINGLE_THRESHOLD) <= 0 ? getGiftsA()
                         .multiply(TaxUtils.DEEMING_RATES_LOW)
@@ -1193,7 +1194,7 @@ public class DSSCalc2 extends DSSCalc {
         if (entitledForAgePension()) {
             if (getSuperannuationA() != null && getMaritalStatus() != null) {
 
-                if (equals(MaritalCode.SINGLE, getMaritalStatus()))
+                if (equals(IMaritalCode.SINGLE, getMaritalStatus()))
                     return getSuperannuationA().compareTo(
                             TaxUtils.DEEMING_RATES_SINGLE_THRESHOLD) <= 0 ? getSuperannuationA()
                             .multiply(TaxUtils.DEEMING_RATES_LOW)
@@ -1359,9 +1360,9 @@ public class DSSCalc2 extends DSSCalc {
 
         if (agePension() && entitledForAgePension()) {
 
-            if (equals(getMaritalStatus(), MaritalCode.MARRIED)
-                    || equals(getMaritalStatus(), MaritalCode.DEFACTO)
-                    || equals(getMaritalStatus(), MaritalCode.PARTNERED))
+            if (equals(getMaritalStatus(), IMaritalCode.MARRIED)
+                    || equals(getMaritalStatus(), IMaritalCode.DEFACTO)
+                    || equals(getMaritalStatus(), IMaritalCode.PARTNERED))
                 return TaxUtils.MAX_AGE_PENSION_COUPLE;
             else
                 return TaxUtils.MAX_AGE_PENSION_SINGLE;
@@ -1461,19 +1462,19 @@ public class DSSCalc2 extends DSSCalc {
         if (getMaritalStatus() == null)
             return null;
 
-        if (equals(getMaritalStatus(), MaritalCode.MARRIED)
-                || equals(getMaritalStatus(), MaritalCode.DEFACTO)
-                || equals(getMaritalStatus(), MaritalCode.SEPARATED_HEALTH)
-                || equals(getMaritalStatus(), MaritalCode.PARTNERED))
+        if (equals(getMaritalStatus(), IMaritalCode.MARRIED)
+                || equals(getMaritalStatus(), IMaritalCode.DEFACTO)
+                || equals(getMaritalStatus(), IMaritalCode.SEPARATED_HEALTH)
+                || equals(getMaritalStatus(), IMaritalCode.PARTNERED))
             return Boolean.FALSE;
 
         return Boolean.TRUE;
     }
 
     public boolean couple() {
-        return equals(getMaritalStatus(), MaritalCode.MARRIED)
-                || equals(getMaritalStatus(), MaritalCode.DEFACTO)
-                || equals(getMaritalStatus(), MaritalCode.PARTNERED);
+        return equals(getMaritalStatus(), IMaritalCode.MARRIED)
+                || equals(getMaritalStatus(), IMaritalCode.DEFACTO)
+                || equals(getMaritalStatus(), IMaritalCode.PARTNERED);
     }
 
     public BigDecimal getIncomeTestC() {
@@ -1797,7 +1798,7 @@ public class DSSCalc2 extends DSSCalc {
             if (getMaritalStatus() == null || !entitledForAgePension())
                 return null;
 
-            if (equals(getMaritalStatus(), MaritalCode.SINGLE))
+            if (equals(getMaritalStatus(), IMaritalCode.SINGLE))
                 return TaxUtils.PHARMACUETICAL_ALLOWANCE_SINGLE;
         }
 
@@ -1809,7 +1810,7 @@ public class DSSCalc2 extends DSSCalc {
                     || partner_benefit_type == null)
                 return null;
 
-            if (!equals(getMaritalStatus(), MaritalCode.SINGLE)
+            if (!equals(getMaritalStatus(), IMaritalCode.SINGLE)
                     && BenefitTypeCode.NONE.equals(partner_benefit_type))
                 return TaxUtils.PHARMACUETICAL_ALLOWANCE_COUPLE;
         }
@@ -1822,7 +1823,7 @@ public class DSSCalc2 extends DSSCalc {
                     || partner_benefit_type == null)
                 return null;
 
-            if (!equals(getMaritalStatus(), MaritalCode.SINGLE)
+            if (!equals(getMaritalStatus(), IMaritalCode.SINGLE)
                     && BenefitTypeCode.AGE_PENSION.equals(partner_benefit_type))
                 return TaxUtils.PHARMACUETICAL_ALLOWANCE_COUPLE;
         }
@@ -1835,7 +1836,7 @@ public class DSSCalc2 extends DSSCalc {
                     || partner_benefit_type == null)
                 return null;
 
-            if (!equals(getMaritalStatus(), MaritalCode.SINGLE)
+            if (!equals(getMaritalStatus(), IMaritalCode.SINGLE)
                     && BenefitTypeCode.NEW_START_ALLOWANCE
                             .equals(partner_benefit_type))
                 return TaxUtils.PHARMACUETICAL_ALLOWANCE_COUPLE;
@@ -1844,11 +1845,11 @@ public class DSSCalc2 extends DSSCalc {
          * if ( agePension() && entitledForAgePension()) { if (
          * getMaritalStatus() == null || !entitledForAgePension() ) return null;
          * 
-         * if ( equals( getMaritalStatus(), MaritalCode.SINGLE ) ) return
+         * if ( equals( getMaritalStatus(), IMaritalCode.SINGLE ) ) return
          * TaxCalc.PHARMACUETICAL_ALLOWANCE_SINGLE ;
          * 
-         * if ( equals( getMaritalStatus(), MaritalCode.MARRIED ) || equals(
-         * getMaritalStatus(), MaritalCode.DEFACTO )) return
+         * if ( equals( getMaritalStatus(), IMaritalCode.MARRIED ) || equals(
+         * getMaritalStatus(), IMaritalCode.DEFACTO )) return
          * TaxCalc.PHARMACUETICAL_ALLOWANCE_COUPLE ;
          * 
          * throw new IllegalArgumentException( "Unknown MaritalStatus: " +
@@ -1868,9 +1869,9 @@ public class DSSCalc2 extends DSSCalc {
 
         if (getRent() != null) {
 
-            if ((equals(getMaritalStatus(), MaritalCode.SINGLE) && equals(
+            if ((equals(getMaritalStatus(), IMaritalCode.SINGLE) && equals(
                     getNoChildren(), Boolean.TRUE))
-                    || (equals(getMaritalStatus(), MaritalCode.SEPARATED_HEALTH) && equals(
+                    || (equals(getMaritalStatus(), IMaritalCode.SEPARATED_HEALTH) && equals(
                             getNoChildren(), Boolean.TRUE))) {
 
                 if (equals(getSharer(), Boolean.TRUE)) {
@@ -1899,9 +1900,9 @@ public class DSSCalc2 extends DSSCalc {
                 }
             }
 
-            if ((equals(getMaritalStatus(), MaritalCode.MARRIED)
-                    || equals(getMaritalStatus(), MaritalCode.DEFACTO) || equals(
-                    getMaritalStatus(), MaritalCode.PARTNERED))
+            if ((equals(getMaritalStatus(), IMaritalCode.MARRIED)
+                    || equals(getMaritalStatus(), IMaritalCode.DEFACTO) || equals(
+                    getMaritalStatus(), IMaritalCode.PARTNERED))
                     && equals(getNoChildren(), Boolean.TRUE)) {
                 if (getRent().compareTo(
                         TaxUtils.MINIMUM_RENT_ASSISTANCE_THRESHOLD_COUPLE) <= 0) {
@@ -1915,7 +1916,7 @@ public class DSSCalc2 extends DSSCalc {
                 }
             }
 
-            if (equals(getMaritalStatus(), MaritalCode.SEPARATED_HEALTH)
+            if (equals(getMaritalStatus(), IMaritalCode.SEPARATED_HEALTH)
                     && equals(getNoChildren(), Boolean.TRUE)) {
                 if (getRent().compareTo(
                         TaxUtils.MINIMUM_RENT_ASSISTANCE_THRESHOLD_SEPARATED) <= 0) {
@@ -1930,7 +1931,7 @@ public class DSSCalc2 extends DSSCalc {
                 }
             }
 
-            if (equals(getMaritalStatus(), MaritalCode.SINGLE)
+            if (equals(getMaritalStatus(), IMaritalCode.SINGLE)
                     && this.getChildrenAmount() != null) {
                 // single with 1 or 2 children
                 if ((this.getChildrenAmount().compareTo(new BigInteger("1")) >= 0)
@@ -1968,9 +1969,9 @@ public class DSSCalc2 extends DSSCalc {
                 }
             }
 
-            if ((equals(getMaritalStatus(), MaritalCode.MARRIED)
-                    || equals(getMaritalStatus(), MaritalCode.DEFACTO) || equals(
-                    getMaritalStatus(), MaritalCode.PARTNERED))
+            if ((equals(getMaritalStatus(), IMaritalCode.MARRIED)
+                    || equals(getMaritalStatus(), IMaritalCode.DEFACTO) || equals(
+                    getMaritalStatus(), IMaritalCode.PARTNERED))
                     && this.getChildrenAmount() != null) {
                 // couple with 1 or 2 children
                 if ((this.getChildrenAmount().compareTo(new BigInteger("1")) >= 0)
@@ -2016,9 +2017,9 @@ public class DSSCalc2 extends DSSCalc {
          * 
          * if ( getRent() != null ) {
          * 
-         * if ( (equals( getMaritalStatus(), MaritalCode.SINGLE ) && equals (
+         * if ( (equals( getMaritalStatus(), IMaritalCode.SINGLE ) && equals (
          * getNoChildren(), Boolean.TRUE)) || (equals( getMaritalStatus(),
-         * MaritalCode.SEPARATED_HEALTH ) && equals ( getNoChildren(),
+         * IMaritalCode.SEPARATED_HEALTH ) && equals ( getNoChildren(),
          * Boolean.TRUE))) {
          * 
          * if ( equals ( getSharer(), Boolean.TRUE ) ) total =
@@ -2035,9 +2036,9 @@ public class DSSCalc2 extends DSSCalc {
          * TaxCalc.MAXIMUM_RENT_ASSIATANCE : (getRent().subtract(
          * TaxCalc.MINIMUM_RENT_ASSISTANCE_THRESHOLD)).multiply(
          * TaxCalc.RENT_ASSISTANCE_FACTOR )) : new BigDecimal( 0 )); } if (
-         * (equals( getMaritalStatus(), MaritalCode.MARRIED ) || equals(
-         * getMaritalStatus(), MaritalCode.DEFACTO ) || equals(
-         * getMaritalStatus(), MaritalCode.PARTNERED )) && equals (
+         * (equals( getMaritalStatus(), IMaritalCode.MARRIED ) || equals(
+         * getMaritalStatus(), IMaritalCode.DEFACTO ) || equals(
+         * getMaritalStatus(), IMaritalCode.PARTNERED )) && equals (
          * getNoChildren(), Boolean.TRUE)) { if (getRent().compareTo(
          * TaxCalc.MINIMUM_RENT_ASSISTANCE_THRESHOLD_COUPLE ) >= 0 ) { if (
          * getRent().compareTo( TaxCalc.MAXIMUM_RENT_ASSISTANCE_THRESHOLD_COUPLE ) >
@@ -2045,7 +2046,7 @@ public class DSSCalc2 extends DSSCalc {
          * (getRent().subtract(
          * TaxCalc.MINIMUM_RENT_ASSISTANCE_THRESHOLD_COUPLE)).multiply(
          * TaxCalc.RENT_ASSISTANCE_FACTOR ); } //return new BigDecimal( 0 ); }
-         * if ( equals( getMaritalStatus(), MaritalCode.SEPARATED ) && equals (
+         * if ( equals( getMaritalStatus(), IMaritalCode.SEPARATED ) && equals (
          * getNoChildren(), Boolean.TRUE)) total = (getRent().compareTo(
          * TaxCalc.MINIMUM_RENT_ASSISTANCE_THRESHOLD_SEPARATED ) >= 0 ? (
          * getRent().compareTo(
@@ -2060,17 +2061,17 @@ public class DSSCalc2 extends DSSCalc {
     }
 
     public BigDecimal getMaxAgePensionPerYear() {
-        if (equals(getMaritalStatus(), MaritalCode.SINGLE))
+        if (equals(getMaritalStatus(), IMaritalCode.SINGLE))
             return TaxUtils.MAX_AGE_PENSION_SINGLE.multiply(new BigDecimal(
                     DateTimeUtils.FORTNIGHTS_PER_YEAR));
 
-        if (equals(getMaritalStatus(), MaritalCode.MARRIED)
-                || equals(getMaritalStatus(), MaritalCode.DEFACTO)
-                || equals(getMaritalStatus(), MaritalCode.PARTNERED))
+        if (equals(getMaritalStatus(), IMaritalCode.MARRIED)
+                || equals(getMaritalStatus(), IMaritalCode.DEFACTO)
+                || equals(getMaritalStatus(), IMaritalCode.PARTNERED))
             return TaxUtils.MAX_AGE_PENSION_COUPLE.multiply(new BigDecimal(
                     DateTimeUtils.FORTNIGHTS_PER_YEAR));
 
-        if (equals(getMaritalStatus(), MaritalCode.SEPARATED_HEALTH))
+        if (equals(getMaritalStatus(), IMaritalCode.SEPARATED_HEALTH))
             return TaxUtils.MAX_AGE_PENSION_COUPLE.multiply(new BigDecimal(
                     DateTimeUtils.FORTNIGHTS_PER_YEAR));
 
@@ -2086,7 +2087,7 @@ public class DSSCalc2 extends DSSCalc {
             if (getMaritalStatus() == null || getTotalI() == null)
                 return ZERO;
 
-            if (equals(getMaritalStatus(), MaritalCode.SINGLE)) {
+            if (equals(getMaritalStatus(), IMaritalCode.SINGLE)) {
                 if ((getMaxAgePensionPerYear().add(getTotalI()))
                         .compareTo(TaxUtils.PENSIONER_REBATE_SINGLE_THRESHOLD) <= 0)
                     return TaxUtils.PENSIONER_REBATE_SINGLE;
@@ -2098,9 +2099,9 @@ public class DSSCalc2 extends DSSCalc {
                                     .multiply(TaxUtils.PENSIONER_REBATE_REDUCTION_FACTOR));
             }
 
-            if (equals(getMaritalStatus(), MaritalCode.MARRIED)
-                    || equals(getMaritalStatus(), MaritalCode.DEFACTO)
-                    || equals(getMaritalStatus(), MaritalCode.PARTNERED)) {
+            if (equals(getMaritalStatus(), IMaritalCode.MARRIED)
+                    || equals(getMaritalStatus(), IMaritalCode.DEFACTO)
+                    || equals(getMaritalStatus(), IMaritalCode.PARTNERED)) {
                 if ((getMaxAgePensionPerYear().add(getTotalI()))
                         .compareTo(TaxUtils.PENSIONER_REBATE_COUPLE_THRESHOLD) <= 0)
                     return TaxUtils.PENSIONER_REBATE_COUPLE;
@@ -2111,7 +2112,7 @@ public class DSSCalc2 extends DSSCalc {
                                     .subtract(TaxUtils.PENSIONER_REBATE_COUPLE_THRESHOLD))
                                     .multiply(TaxUtils.PENSIONER_REBATE_REDUCTION_FACTOR));
             }
-            if (equals(getMaritalStatus(), MaritalCode.SEPARATED_HEALTH)) {
+            if (equals(getMaritalStatus(), IMaritalCode.SEPARATED_HEALTH)) {
                 if ((getMaxAgePensionPerYear().add(getTotalI()))
                         .compareTo(TaxUtils.PENSIONER_REBATE_SEPARATED_HEALTH_THRESHOLD) <= 0)
                     return TaxUtils.PENSIONER_REBATE_SEPARATED_HEALTH;
@@ -2171,9 +2172,9 @@ public class DSSCalc2 extends DSSCalc {
                 || getMaxBenefitC() == null || getMaritalStatus() == null)
             return null;
 
-        if (equals(getMaritalStatus(), MaritalCode.MARRIED)
-                || equals(getMaritalStatus(), MaritalCode.DEFACTO)
-                || equals(getMaritalStatus(), MaritalCode.PARTNERED)) {
+        if (equals(getMaritalStatus(), IMaritalCode.MARRIED)
+                || equals(getMaritalStatus(), IMaritalCode.DEFACTO)
+                || equals(getMaritalStatus(), IMaritalCode.PARTNERED)) {
 
             // IF(B37 <= I39, F17
             // - B37 = getTotalAssetsSubjectToDeeming()
@@ -2327,7 +2328,7 @@ public class DSSCalc2 extends DSSCalc {
                     || partner_benefit_type == null)
                 return null;
 
-            if (!equals(getMaritalStatus(), MaritalCode.SINGLE)
+            if (!equals(getMaritalStatus(), IMaritalCode.SINGLE)
                     && BenefitTypeCode.AGE_PENSION.equals(partner_benefit_type))
                 return TaxUtils.PHARMACUETICAL_ALLOWANCE_COUPLE;
         }
@@ -2340,15 +2341,15 @@ public class DSSCalc2 extends DSSCalc {
                     || partner_benefit_type == null)
                 return null;
 
-            if (!equals(getMaritalStatus(), MaritalCode.SINGLE)
+            if (!equals(getMaritalStatus(), IMaritalCode.SINGLE)
                     && BenefitTypeCode.AGE_PENSION.equals(partner_benefit_type))
                 return TaxUtils.PHARMACUETICAL_ALLOWANCE_COUPLE;
         }
         /*
          * if ( agePensionPartner() && entitledForAgePensionPartner()) {
          * 
-         * if ( equals( getMaritalStatus(), MaritalCode.MARRIED ) || equals(
-         * getMaritalStatus(), MaritalCode.DEFACTO )) return
+         * if ( equals( getMaritalStatus(), IMaritalCode.MARRIED ) || equals(
+         * getMaritalStatus(), IMaritalCode.DEFACTO )) return
          * TaxCalc.PHARMACUETICAL_ALLOWANCE_COUPLE ;
          *  }
          */
@@ -2361,9 +2362,9 @@ public class DSSCalc2 extends DSSCalc {
 
         if (getRent() != null) {
 
-            if ((equals(getMaritalStatus(), MaritalCode.MARRIED)
-                    || equals(getMaritalStatus(), MaritalCode.DEFACTO) || equals(
-                    getMaritalStatus(), MaritalCode.PARTNERED))
+            if ((equals(getMaritalStatus(), IMaritalCode.MARRIED)
+                    || equals(getMaritalStatus(), IMaritalCode.DEFACTO) || equals(
+                    getMaritalStatus(), IMaritalCode.PARTNERED))
                     && equals(getNoChildren(), Boolean.TRUE)) {
                 total = (getRent().compareTo(
                         TaxUtils.MINIMUM_RENT_ASSISTANCE_THRESHOLD_COUPLE) >= 0 ? (getRent()
@@ -2393,9 +2394,9 @@ public class DSSCalc2 extends DSSCalc {
             if (getMaritalStatus() == null || getTotalI() == null)
                 return ZERO;
 
-            if (equals(getMaritalStatus(), MaritalCode.MARRIED)
-                    || equals(getMaritalStatus(), MaritalCode.DEFACTO)
-                    || equals(getMaritalStatus(), MaritalCode.PARTNERED)) {
+            if (equals(getMaritalStatus(), IMaritalCode.MARRIED)
+                    || equals(getMaritalStatus(), IMaritalCode.DEFACTO)
+                    || equals(getMaritalStatus(), IMaritalCode.PARTNERED)) {
                 if ((getMaxAgePensionPerYear().add(getTotalI()))
                         .compareTo(TaxUtils.PENSIONER_REBATE_COUPLE_THRESHOLD) <= 0)
                     return TaxUtils.PENSIONER_REBATE_COUPLE;
@@ -2502,10 +2503,10 @@ public class DSSCalc2 extends DSSCalc {
         if (getMaritalStatus() == null)
             return null;
 
-        if (equals(getMaritalStatus(), MaritalCode.SINGLE))
+        if (equals(getMaritalStatus(), IMaritalCode.SINGLE))
             return TaxUtils.DEEMING_RATES_SINGLE_THRESHOLD;
 
-        if (equals(getMaritalStatus(), MaritalCode.MARRIED))
+        if (equals(getMaritalStatus(), IMaritalCode.MARRIED))
             return TaxUtils.DEEMING_RATES_COUPLE_THRESHOLD;
 
         return TaxUtils.DEEMING_RATES_COUPLE_THRESHOLD;
@@ -2554,9 +2555,9 @@ public class DSSCalc2 extends DSSCalc {
     }
 
     public BigDecimal getAssetsTestAllowableThreshold() {
-        if (equals(MaritalCode.DEFACTO, getMaritalStatus())
-                || equals(MaritalCode.MARRIED, getMaritalStatus())
-                || equals(MaritalCode.PARTNERED, getMaritalStatus())) {
+        if (equals(IMaritalCode.DEFACTO, getMaritalStatus())
+                || equals(IMaritalCode.MARRIED, getMaritalStatus())
+                || equals(IMaritalCode.PARTNERED, getMaritalStatus())) {
             // couple
             return getHomeOwner() ? TaxUtils.MEANS_LIMITS_ASSETS_HO_COUPLE
                     : TaxUtils.MEANS_LIMITS_ASSETS_NH_COUPLE;
@@ -2568,9 +2569,9 @@ public class DSSCalc2 extends DSSCalc {
     }
 
     public BigDecimal getIndexedThresholdForDeemedIncome() {
-        if (equals(MaritalCode.DEFACTO, getMaritalStatus())
-                || equals(MaritalCode.MARRIED, getMaritalStatus())
-                || equals(MaritalCode.PARTNERED, getMaritalStatus())) {
+        if (equals(IMaritalCode.DEFACTO, getMaritalStatus())
+                || equals(IMaritalCode.MARRIED, getMaritalStatus())
+                || equals(IMaritalCode.PARTNERED, getMaritalStatus())) {
             // couple
             return TaxUtils.DEEMING_RATES_COUPLE_THRESHOLD;
         } else {
@@ -2797,7 +2798,7 @@ public class DSSCalc2 extends DSSCalc {
     public BigDecimal getSavingsIPartner() {
         if (getSavingsAPartner() != null && getMaritalStatus() != null) {
 
-            if (equals(MaritalCode.SINGLE, getMaritalStatus()))
+            if (equals(IMaritalCode.SINGLE, getMaritalStatus()))
                 return getSavingsAPartner().compareTo(
                         TaxUtils.DEEMING_RATES_SINGLE_THRESHOLD) <= 0 ? (getSavingsAPartner()
                         .multiply(TaxUtils.DEEMING_RATES_LOW))
@@ -2822,7 +2823,7 @@ public class DSSCalc2 extends DSSCalc {
     public BigDecimal getManagedFundsIPartner() {
         if (getManagedFundsAPartner() != null && getMaritalStatus() != null) {
 
-            if (equals(MaritalCode.SINGLE, getMaritalStatus()))
+            if (equals(IMaritalCode.SINGLE, getMaritalStatus()))
                 return getManagedFundsAPartner().compareTo(
                         TaxUtils.DEEMING_RATES_SINGLE_THRESHOLD) <= 0 ? getManagedFundsAPartner()
                         .multiply(TaxUtils.DEEMING_RATES_LOW)
@@ -2849,7 +2850,7 @@ public class DSSCalc2 extends DSSCalc {
     public BigDecimal getSharesIPartner() {
         if (getSharesAPartner() != null && getMaritalStatus() != null) {
 
-            if (equals(MaritalCode.SINGLE, getMaritalStatus()))
+            if (equals(IMaritalCode.SINGLE, getMaritalStatus()))
                 return getSharesAPartner().compareTo(
                         TaxUtils.DEEMING_RATES_SINGLE_THRESHOLD) <= 0 ? getSharesAPartner()
                         .multiply(TaxUtils.DEEMING_RATES_LOW)
@@ -2876,7 +2877,7 @@ public class DSSCalc2 extends DSSCalc {
     public BigDecimal getBondsIPartner() {
         if (getBondsAPartner() != null && getMaritalStatus() != null) {
 
-            if (equals(MaritalCode.SINGLE, getMaritalStatus()))
+            if (equals(IMaritalCode.SINGLE, getMaritalStatus()))
                 return getBondsAPartner().compareTo(
                         TaxUtils.DEEMING_RATES_SINGLE_THRESHOLD) <= 0 ? getBondsAPartner()
                         .multiply(TaxUtils.DEEMING_RATES_LOW)
@@ -2902,7 +2903,7 @@ public class DSSCalc2 extends DSSCalc {
     public BigDecimal getFixedInterestIPartner() {
         if (getFixedInterestAPartner() != null && getMaritalStatus() != null) {
 
-            if (equals(MaritalCode.SINGLE, getMaritalStatus()))
+            if (equals(IMaritalCode.SINGLE, getMaritalStatus()))
                 return getFixedInterestAPartner().compareTo(
                         TaxUtils.DEEMING_RATES_SINGLE_THRESHOLD) <= 0 ? getFixedInterestAPartner()
                         .multiply(TaxUtils.DEEMING_RATES_LOW)
@@ -2930,7 +2931,7 @@ public class DSSCalc2 extends DSSCalc {
                 && TaxUtils.GIFTS_THRESHOLD.compareTo(getGiftsA()) < 0
                 && getMaritalStatus() != null) {
 
-            if (equals(MaritalCode.SINGLE, getMaritalStatus()))
+            if (equals(IMaritalCode.SINGLE, getMaritalStatus()))
                 return getGiftsAPartner().compareTo(
                         TaxUtils.DEEMING_RATES_SINGLE_THRESHOLD) <= 0 ? getGiftsAPartner()
                         .multiply(TaxUtils.DEEMING_RATES_LOW)
@@ -2958,7 +2959,7 @@ public class DSSCalc2 extends DSSCalc {
             if (getSuperannuationAPartner() != null
                     && getMaritalStatus() != null) {
 
-                if (equals(MaritalCode.SINGLE, getMaritalStatus()))
+                if (equals(IMaritalCode.SINGLE, getMaritalStatus()))
                     return getSuperannuationAPartner().compareTo(
                             TaxUtils.DEEMING_RATES_SINGLE_THRESHOLD) <= 0 ? getSuperannuationAPartner()
                             .multiply(TaxUtils.DEEMING_RATES_LOW)
@@ -3706,7 +3707,7 @@ public class DSSCalc2 extends DSSCalc {
                 value = value.add(getSubjectsToDeemingClient());
             }
             // marital status != Single,
-            if (!equals(MaritalCode.SINGLE, getMaritalStatus())) {
+            if (!equals(IMaritalCode.SINGLE, getMaritalStatus())) {
                 // add partner's investment assets subject to deeming
                 if (getSubjectsToDeemingPartner() != null) {
                     value = value.add(getSubjectsToDeemingPartner());
@@ -3714,7 +3715,7 @@ public class DSSCalc2 extends DSSCalc {
             }
 
             // Where calculation = Single,
-            if (equals(MaritalCode.SINGLE, getMaritalStatus()))
+            if (equals(IMaritalCode.SINGLE, getMaritalStatus()))
                 // If Z <=33400, then
                 return value.compareTo(TaxUtils.DEEMING_RATES_SINGLE_THRESHOLD) <= 0 ?
                 // Z*2.50%
@@ -3953,7 +3954,7 @@ public class DSSCalc2 extends DSSCalc {
                 value = value.add(getTotalAssetsSubjectToDeemingAClient());
             }
             // marital status != Single,
-            if (!equals(MaritalCode.SINGLE, getMaritalStatus())) {
+            if (!equals(IMaritalCode.SINGLE, getMaritalStatus())) {
                 // add partner's investment assets subject to deeming
                 if (getTotalAssetsSubjectToDeemingAPartner() != null) {
                     value = value.add(getTotalAssetsSubjectToDeemingAPartner());
@@ -3961,7 +3962,7 @@ public class DSSCalc2 extends DSSCalc {
             }
 
             // Where calculation = Single,
-            if (equals(MaritalCode.SINGLE, getMaritalStatus()))
+            if (equals(IMaritalCode.SINGLE, getMaritalStatus()))
                 // If Z <=33400, then
                 return value.compareTo(TaxUtils.DEEMING_RATES_SINGLE_THRESHOLD) <= 0 ?
                 // Z*2.50%
@@ -4604,8 +4605,6 @@ public class DSSCalc2 extends DSSCalc {
         }
         copy_ai.pensionI = sum;
 
-        // com.fiducian.license.FiducianHelper.printFieldNames(copy_ai);
-        // System.exit(0);
         return copy_ai;
     }
 
@@ -4655,8 +4654,6 @@ public class DSSCalc2 extends DSSCalc {
         }
         copy_ai.pensionI = sum;
 
-        // com.fiducian.license.FiducianHelper.printFieldNames(copy_ai);
-        // System.exit(0);
         return copy_ai;
     }
 
@@ -4742,8 +4739,6 @@ public class DSSCalc2 extends DSSCalc {
         sum = sum.add(sum_partner);
         copy_ai.pensionI = sum;
 
-        // com.fiducian.license.FiducianHelper.printFieldNames(copy_ai);
-        // System.exit(0);
         return copy_ai;
     }
 
@@ -4793,7 +4788,7 @@ public class DSSCalc2 extends DSSCalc {
 
         // get martial status
         if (getMaritalStatus() != null
-                && getMaritalStatus().equals(MaritalCode.SINGLE)) {
+                && getMaritalStatus().equals(IMaritalCode.SINGLE)) {
             if (agePension() && entitledForAgePension()) {
                 pension_pf_client = pension_pf_client.add(getBasicBenefitC());
                 if (getBasicBenefitC().compareTo(new BigDecimal(0.0)) > 0
@@ -4834,9 +4829,9 @@ public class DSSCalc2 extends DSSCalc {
 
         // get martial status
         if (getMaritalStatus() != null
-                && getMaritalStatus().equals(MaritalCode.SINGLE)) {
+                && getMaritalStatus().equals(IMaritalCode.SINGLE)) {
             // pension_pf =
-            // dssCalc2.getMaritalStatus().equals(MaritalCode.SINGLE) ?
+            // dssCalc2.getMaritalStatus().equals(IMaritalCode.SINGLE) ?
             // TaxCalc.MAX_AGE_PENSION_SINGLE : TaxCalc.MAX_AGE_PENSION_COUPLE;
             pension_pf = TaxUtils.MAX_AGE_PENSION_SINGLE;
             pension_pf = pension_pf
@@ -4848,7 +4843,7 @@ public class DSSCalc2 extends DSSCalc {
         } else {
             // couple
             // pension_pf =
-            // dssCalc2.getMaritalStatus().equals(MaritalCode.SINGLE) ?
+            // dssCalc2.getMaritalStatus().equals(IMaritalCode.SINGLE) ?
             // TaxCalc.MAX_AGE_PENSION_SINGLE : TaxCalc.MAX_AGE_PENSION_COUPLE;
             pension_pf = TaxUtils.MAX_AGE_PENSION_COUPLE;
             pension_pf = pension_pf
@@ -4903,7 +4898,7 @@ public class DSSCalc2 extends DSSCalc {
                 .getStartDate()));
         income.setTaxable(true);
         income.setOwnerCodeID(OwnerCode.CLIENT);
-        income.setFinancialTypeID(FinancialTypeID.INCOME_RETIREMENT);
+        income.setFinancialTypeId(FinancialTypeID.INCOME_RETIREMENT);
         income.setRegularTaxType(ITaxConstants.I_OTHER_PENSIONS);
         financials.add(income);
 

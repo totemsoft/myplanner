@@ -14,7 +14,7 @@ package com.argus.financials.ui;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
-import com.argus.financials.GraphView;
+import com.argus.financials.chart.GraphView;
 
 public abstract class GraphTableView extends com.argus.financials.ui.BaseView {
 

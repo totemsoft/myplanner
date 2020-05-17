@@ -17,16 +17,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.code.LinkObjectTypeConstant;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.bean.Asset;
-import com.argus.financials.bean.LinkObjectTypeConstant;
-import com.argus.financials.bean.ObjectTypeConstant;
-import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.util.DateTimeUtils;
 
 public abstract class AssetBean extends FinancialBean {
 
     /** Creates new AssetBean */
     public AssetBean() {
+        super();
     }
 
     public AssetBean(Asset value) {
@@ -65,14 +66,12 @@ public abstract class AssetBean extends FinancialBean {
         ResultSet rs = null;
 
         try {
-            sql = con
-                    .prepareStatement(
-                            "SELECT "
-                                    + getSelectFieldsList()
-                                    + " FROM Asset, Financial"
-                                    + " WHERE (AssetID = ?) AND (AssetID = FinancialID) AND (NextID IS NULL)",
-                            ResultSet.TYPE_FORWARD_ONLY,
-                            ResultSet.CONCUR_READ_ONLY);
+            sql = con.prepareStatement(
+                "SELECT " + getSelectFieldsList()
+                + " FROM Asset, Financial"
+                + " WHERE (AssetID = ?) AND (AssetID = FinancialID) AND (NextID IS NULL)",
+                ResultSet.TYPE_FORWARD_ONLY,
+                ResultSet.CONCUR_READ_ONLY);
 
             sql.setInt(1, primaryKeyID.intValue());
             rs = sql.executeQuery();
@@ -85,7 +84,7 @@ public abstract class AssetBean extends FinancialBean {
 
             // has to be last (to be safe), we are not using primaryKeyID for
             // other queries
-            setPrimaryKeyID(primaryKeyID);
+            setId(primaryKeyID);
 
         } finally {
             close(rs, sql);
@@ -153,7 +152,7 @@ public abstract class AssetBean extends FinancialBean {
         PreparedStatement sql = null;
 
         try {
-            if (getPrimaryKeyID() == null || getPrimaryKeyID().intValue() < 0) {
+            if (getId() == null || getId().intValue() < 0) {
 
                 // do insert into ASSET table
                 sql = con
@@ -274,8 +273,8 @@ public abstract class AssetBean extends FinancialBean {
                 sql.executeUpdate();
 
                 // then create link
-                FPSLinkObject.getInstance().link(
-                        getOwnerPrimaryKeyID().intValue(), primaryKeyID,
+                linkObjectDao.link(
+                        getOwnerId().intValue(), primaryKeyID,
                         getLinkObjectTypeID(), con);
 
             } else {

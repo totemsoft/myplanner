@@ -6,24 +6,18 @@
 
 package com.argus.financials.assetinvestment;
 
-/**
- * Stores an asset/investment description and code.
- * 
- * @author shibaevv
- * @version 0.01
- * 
- * @see com.argus.financial.assetinvestment.AvailableInvestmentsSearch
- * @see com.argus.financial.assetinvestment.AssetInvestmentAvailableInvestmentsTableModel
- * @see com.argus.financial.assetinvestment.AvailableInvestmentsSelectionInvestmentCodeComperator
- * @see com.argus.financial.assetinvestment.AvailableInvestmentsSelectionDescriptionComperator
- */
-
-import com.argus.financials.bean.db.FinancialCodeBean;
+import com.argus.financials.api.bean.hibernate.FinancialCode;
+import com.argus.financials.api.code.FinancialTypeEnum;
+import com.argus.financials.api.service.FinancialService;
 import com.argus.financials.code.FinancialType;
-import com.argus.financials.code.FinancialTypeID;
 import com.argus.util.ReferenceCode;
 
 public class AvailableInvestmentsTableRow {
+
+    private static FinancialService financialService;
+    public static void setFinancialService(FinancialService financialService) {
+        AvailableInvestmentsTableRow.financialService = financialService;
+    }
 
     public static final String APIR_PIC = "apir-pic";
 
@@ -81,16 +75,10 @@ public class AvailableInvestmentsTableRow {
     public static int getFinancialTypeID(String origin) {
 
         if (APIR_PIC.equals(origin))
-            return FinancialTypeID.INVESTMENT_LISTED_UNIT_TRUST; // 5 =
-                                                                    // Managed
-                                                                    // Funds
-                                                                    // (Listed
-                                                                    // Unit
-                                                                    // Trust)
+            return FinancialTypeEnum.INVESTMENT_LISTED_UNIT_TRUST.getId(); // 5 = Managed Funds (Listed Unit Trust)
         if (IRESS.equals(origin))
-            return FinancialTypeID.INVESTMENT_LISTED_SHARES; // 4 = Listed
-                                                                // Shares
-        return FinancialTypeID.UNDEFINED;
+            return FinancialTypeEnum.INVESTMENT_LISTED_SHARES.getId(); // 4 = Listed Shares
+        return FinancialTypeEnum.UNDEFINED.getId();
 
     }
 
@@ -98,55 +86,29 @@ public class AvailableInvestmentsTableRow {
      * The methode looks up for a "FinacialCode" in the "FinancialCode" table,
      * if it does not find an entry, it creates a new one.
      * 
-     * @param investmentCode -
-     *            financial code
-     * @param financialTypeID -
-     *            financial type id
-     * @param description -
-     *            financial code description
+     * @param investmentCode - financial code
+     * @param financialTypeID - financial type id
+     * @param description - financial code description
      * @return the corresponding financial code id
      */
-    public static int getFinancialCodeID(String investmentCode,
-            int financialTypeID, String description) {
+    public static int getFinancialCodeID(String investmentCode, int financialTypeId, String description) {
         try {
-            FinancialCodeBean financialCodeBean = new FinancialCodeBean();
-
+            FinancialCode financialCode = financialService.findByFinancialCode(investmentCode);
             // do we have an entry in the "FinancialCode" table
-            if (investmentCode != null
-                    && !financialCodeBean.findByFinancialCode(investmentCode)) {
-                // we don't have an entry for the current unit/share name,
-                // create one
-
-                // financialCodeBean.setFinancialTypeID ( financialTypeID );
-                financialCodeBean.setFinancialTypeID(-1); // -1 = <NULL> entry
-                                                            // in database
-                                                            // column
-                financialCodeBean.setFinancialCode(investmentCode);
-                financialCodeBean.setFinancialCodeDesc(description);
-
-                financialCodeBean.create();
-
-                // add new financial code
-                FinancialType.addFinancialCode(
-                        // getObjectType(),
-                        new Integer(0),
-                        // new Integer( financialCodeBean.getFinancialTypeID()
-                        // ),
-                        new Integer(FinancialTypeID.UNDEFINED),
-                        new ReferenceCode(financialCodeBean
-                                .getFinancialCodeID(), financialCodeBean
-                                .getFinancialCode(), financialCodeBean
-                                .getFinancialCodeDesc()));
-
+            if (financialCode == null) {
+                // we don't have an entry for the current unit/share name, create one
+                financialCode = new FinancialCode();
+                //financialCodeBean.setFinancialTypeId(financialTypeId);
+                financialCode.setFinancialTypeId(-1); // -1 = <NULL> entry in database column
+                financialCode.setCode(investmentCode);
+                financialCode.setDescription(description);
+                financialService.save(financialCode);
             }
-
-            return financialCodeBean.getFinancialCodeID();
-
-        } catch (java.sql.SQLException e) {
+            return financialCode.getId();
+        } catch (Exception e) {
             e.printStackTrace(System.err);
             return 0;
         }
-
     }
 
 }

@@ -37,7 +37,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.text.JTextComponent;
 
-import com.argus.financials.code.InvalidCodeException;
+import com.argus.financials.api.InvalidCodeException;
 import com.argus.financials.config.FPSLocale;
 import com.argus.financials.etc.ActionEventID;
 import com.argus.financials.service.PersonService;
@@ -48,8 +48,6 @@ import com.l2fprod.common.swing.JTaskPaneGroup;
 
 public abstract class TableEditView extends javax.swing.JPanel implements
         ActionEventID {
-
-    protected static boolean DEBUG = false;
 
     /**
      * Map( objectID, object ), column names (init by derived class)
@@ -67,9 +65,6 @@ public abstract class TableEditView extends javax.swing.JPanel implements
     public TableEditView() {
         initComponents();
         SwingUtils.setDefaultFont(jPopupMenuAR);
-        FPSLocale r = FPSLocale.getInstance();
-
-        DEBUG = Boolean.valueOf(System.getProperty("DEBUG")).booleanValue();
 
         setActionMap();
 
@@ -111,9 +106,6 @@ public abstract class TableEditView extends javax.swing.JPanel implements
 
                             detailsEnabled(false); // has to be first
                             fireActionEvent(DATA_UPDATE);
-                        } else {
-                            // if (DEBUG) System.out.println( "...
-                            // ValueIsAdjusting ..." );
                         }
                     }
                 });
@@ -316,8 +308,8 @@ public abstract class TableEditView extends javax.swing.JPanel implements
                         }
                     });
 
-        } else if (jcomponent instanceof com.argus.beans.FDateChooser) {
-            addEventListener(((com.argus.beans.FDateChooser) jcomponent)
+        } else if (jcomponent instanceof com.argus.bean.FDateChooser) {
+            addEventListener(((com.argus.bean.FDateChooser) jcomponent)
                     .getDateField());
 
         } else {
@@ -348,13 +340,11 @@ public abstract class TableEditView extends javax.swing.JPanel implements
         ((DefaultTableModel) (jTable.getModel())).setDataVector(rowData,
                 COLUMN_NAMES);
 
-        if (!DEBUG) {
-            TableColumn column = jTable.getColumnModel().getColumn(
-                    COLUMN_OBJECT_ID);
-            column.setMaxWidth(0);
-            column.setMinWidth(0);
-            column.setPreferredWidth(0);
-        }
+        TableColumn column = jTable.getColumnModel().getColumn(
+                COLUMN_OBJECT_ID);
+        column.setMaxWidth(0);
+        column.setMinWidth(0);
+        column.setPreferredWidth(0);
     }
 
     /**
@@ -364,11 +354,11 @@ public abstract class TableEditView extends javax.swing.JPanel implements
         return null;
     }
 
-    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.api.ServiceException {
         initTable();
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException,
+    public void saveView(PersonService person) throws com.argus.financials.api.ServiceException,
             InvalidCodeException {
         // ( ( ClientService) person ).setContacts( details );
     }
@@ -413,12 +403,12 @@ public abstract class TableEditView extends javax.swing.JPanel implements
     protected void display() {
         try {
             display(getSelectedObject());
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
     }
 
-    protected abstract void display(Object obj) throws com.argus.financials.service.client.ServiceException;
+    protected abstract void display(Object obj) throws com.argus.financials.api.ServiceException;
 
     /**
      * Helper methodes
@@ -443,8 +433,6 @@ public abstract class TableEditView extends javax.swing.JPanel implements
 
     public Object getSelectedObject() {
         Integer selectedObjectID = getSelectedObjectID();
-        // if (DEBUG) System.out.println( "Selected ObjectID: " +
-        // selectedObjectID );
         return (selectedObjectID == null) ? null : details
                 .get(selectedObjectID);
     }

@@ -24,33 +24,31 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
-import com.argus.financials.bean.DbConstant;
-import com.argus.financials.bean.ObjectTypeConstant;
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.bean.DbConstant;
+import com.argus.financials.api.bean.IAddress;
+import com.argus.financials.api.bean.IClient;
+import com.argus.financials.api.bean.IClientView;
+import com.argus.financials.api.bean.ICountry;
+import com.argus.financials.api.bean.IPerson;
+import com.argus.financials.api.bean.IUser;
+import com.argus.financials.api.bean.PersonName;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.code.AdviserTypeCode;
 import com.argus.financials.code.Advisers;
 import com.argus.financials.code.CountryCode;
-import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.StateCode;
 import com.argus.financials.config.FPSLocale;
-import com.argus.financials.domain.client.refdata.ICountry;
-import com.argus.financials.domain.hibernate.Client;
-import com.argus.financials.domain.hibernate.User;
-import com.argus.financials.domain.hibernate.view.ClientView;
-import com.argus.financials.etc.Address;
+import com.argus.financials.domain.hibernate.ClientView;
 import com.argus.financials.etc.Contact;
-import com.argus.financials.etc.PersonName;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.client.UserService;
 import com.argus.financials.swing.DateInputVerifier;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.swing.table.SortedTableModel;
 import com.argus.swing.SwingUtils;
 import com.argus.util.DateTimeUtils;
 
-public final class ClientSearch extends javax.swing.JPanel {
-
-    protected static boolean DEBUG = false;
+public final class ClientSearch extends AbstractPanel {
 
     public static final int CANCEL_OPTION = javax.swing.JOptionPane.CANCEL_OPTION;
 
@@ -66,9 +64,6 @@ public final class ClientSearch extends javax.swing.JPanel {
     /** Creates new form ClientSearch */
     private ClientSearch() {
         initComponents();
-        FPSLocale r = FPSLocale.getInstance();
-
-        DEBUG = Boolean.valueOf(System.getProperty("DEBUG")).booleanValue();
 
         countryCodeID = new CountryCode().getCodeID(FPSLocale.getInstance()
                 .getDisplayCountry());
@@ -92,11 +87,6 @@ public final class ClientSearch extends javax.swing.JPanel {
                     {
                         ClientView c = getSelectedPerson();
                         jTextPaneClientDetails.setText(c == null ? "" : c.getDetails());
-                    }
-                    else
-                    {
-                        // if (DEBUG) System.out.println( "...
-                        // ValueIsAdjusting ..." );
                     }
                 }
             }
@@ -128,7 +118,7 @@ public final class ClientSearch extends javax.swing.JPanel {
         jPanelCriteria = new javax.swing.JPanel();
         jCheckBoxDisplayAll = new javax.swing.JCheckBox();
         jComboBoxFamilyName = new javax.swing.JTextField();
-        jTextFieldDOB = new com.argus.beans.FDateChooser();
+        jTextFieldDOB = new com.argus.bean.FDateChooser();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -136,8 +126,7 @@ public final class ClientSearch extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jComboBoxFirstName = new javax.swing.JTextField();
         jComboBoxState = new javax.swing.JComboBox();
-        jComboBoxCountry = new javax.swing.JComboBox(new CountryCode()
-                .getCodeDescriptions());
+        jComboBoxCountry = new javax.swing.JComboBox(new CountryCode().getCodeDescriptions());
         jPanel2 = new javax.swing.JPanel();
         jCheckBoxAllUsersClients = new javax.swing.JCheckBox();
         jButtonSearch = new javax.swing.JButton();
@@ -472,8 +461,8 @@ public final class ClientSearch extends javax.swing.JPanel {
         TableModel tm = jTable.getModel();
         ((SortedTableModel) tm).removeRow(selectedRow);
         try {
-            Client client = ServiceLocator.getInstance().getUserService().findClient(clientId.longValue());
-            ServiceLocator.getInstance().getUserService().remove(client);
+            IClient client = userService.findClient(clientId.longValue());
+            userService.remove(client);
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -504,7 +493,7 @@ public final class ClientSearch extends javax.swing.JPanel {
             updateView();
             jPanelDetails.setVisible(true);
             jScrollPaneClientDetails.setVisible(true);
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
             jPanelDetails.setVisible(false);
             jScrollPaneClientDetails.setVisible(false);
@@ -523,17 +512,17 @@ public final class ClientSearch extends javax.swing.JPanel {
 
     public static ClientSearch display(java.awt.Frame owner)
     {
-        boolean exists = exists();
+        //boolean exists = exists();
         ClientSearch view = getInstance();
         try
         {
-            User user = ServiceLocator.getInstance().getUserPreferences().getUser();
+            IUser user = userPreferences.getUser();
             Integer userTypeId = user == null ? null : user.getTypeId();
             view.setUserType(userTypeId);
             SwingUtil.add2Dialog(owner, view.getViewCaption(), true, view, true, true);
             return view;
         }
-        catch (com.argus.financials.service.client.ServiceException e)
+        catch (com.argus.financials.api.ServiceException e)
         {
             e.printStackTrace(System.err);
             return null;
@@ -571,7 +560,7 @@ public final class ClientSearch extends javax.swing.JPanel {
 
     private javax.swing.JTextPane jTextPaneClientDetails;
 
-    private com.argus.beans.FDateChooser jTextFieldDOB;
+    private com.argus.bean.FDateChooser jTextFieldDOB;
 
     private javax.swing.JComboBox jComboBoxState;
 
@@ -621,12 +610,12 @@ public final class ClientSearch extends javax.swing.JPanel {
     }
 
     private void setNewClient(Integer newClientID) throws Exception {
-        Integer oldClientID = ServiceLocator.getInstance().getClientPersonID();
+        Integer oldClientID = clientService.getId();
         if (equals(oldClientID, newClientID))
             return;
         // close all visible forms (visible = false)
         SwingUtil.closeAll();
-        ServiceLocator.getInstance().setClientPersonID(newClientID);
+        clientService.findByPrimaryKey(newClientID);
     }
 
     private TableModel tableModel;
@@ -707,13 +696,13 @@ public final class ClientSearch extends javax.swing.JPanel {
             column.setPreferredWidth(preferredWidth);
     }
 
-    private Map<String, Object> getSelectionCriteria() throws com.argus.financials.service.client.ServiceException {
+    private Map<String, Object> getSelectionCriteria() throws com.argus.financials.api.ServiceException {
 
         Map<String, Object> criteria = new HashMap<String, Object>();
         if (jCheckBoxDisplayAll.isSelected())
             return criteria;
 
-        User user = ServiceLocator.getInstance().getUserPreferences().getUser();
+        IUser user = userPreferences.getUser();
         Integer userTypeId = user == null ? null : user.getTypeId();
         boolean supportPerson = AdviserTypeCode.isSupportPerson(userTypeId);
         if (!supportPerson)
@@ -735,7 +724,7 @@ public final class ClientSearch extends javax.swing.JPanel {
             }
             else
             {
-                Integer adviserId = cs.getPrimaryKeyID();
+                Integer adviserId = cs.getId();
                 if (adviserId != null)
                     criteria.put(DbConstant.ADVISORID, adviserId);
             }
@@ -745,35 +734,35 @@ public final class ClientSearch extends javax.swing.JPanel {
         // //.getText();
         String s = (String) jComboBoxFamilyName.getText();
         if (s != null && s.length() > 0)
-            criteria.put(PersonName.SURNAME, s);
+            criteria.put(IPerson.SURNAME, s);
 
         // s = (String) jComboBoxFirstName.getSelectedItem(); //.getText();
         s = (String) jComboBoxFirstName.getText();
         if (s != null && s.length() > 0)
-            criteria.put(PersonName.FIRST_NAME, s);
+            criteria.put(IPerson.FIRST_NAME, s);
 
         s = jTextFieldDOB.getText();
         if (s != null && s.length() > 0) {
             s = DateTimeUtils.getJdbcDate(s);
-            criteria.put(PersonName.DATE_OF_BIRTH, s);
+            criteria.put(IPerson.DATE_OF_BIRTH, s);
         }
 
         s = (String) jComboBoxCountry.getSelectedItem();
         Integer countryCodeID = new CountryCode().getCodeID(s);
         if (countryCodeID != null
                 && !countryCodeID.equals(ICountry.AUSTRALIA_ID))
-            criteria.put(Address.COUNTRY, countryCodeID);
+            criteria.put(IAddress.COUNTRY, countryCodeID);
 
         s = (String) jTextFieldPostCode.getText();
         s = s.trim();
         if (s != null && s.length() > 0) {
-            criteria.put(Address.POSTCODE, s);
+            criteria.put(IAddress.POSTCODE, s);
         }
 
         s = (String) jComboBoxState.getSelectedItem();
         Integer stateCodeID = new StateCode(countryCodeID).getCodeID(s);
         if (stateCodeID != null)
-            criteria.put(Address.STATE, stateCodeID);
+            criteria.put(IAddress.STATE, stateCodeID);
 
         return criteria;
 
@@ -781,14 +770,13 @@ public final class ClientSearch extends javax.swing.JPanel {
 
     private Object[][] getRowData() {
         try {
-            UserService userService = ServiceLocator.getInstance().getUserService();
-            List<ClientView> data = userService.findClients(getSelectionCriteria(), 0, -1);
+            List<? extends IClientView> data = userService.findClients(getSelectionCriteria(), 0, -1);
             if (data == null)
                 return new Object[0][COLUMN_COUNT];
             Object[][] rowData = new Object[data.size()][COLUMN_COUNT];
             // "Name", "Adviser"
             for (int i = 0; i < data.size(); i++) {
-                ClientView c = data.get(i);
+                IClientView c = data.get(i);
                 rowData[i][COLUMN_CLIENT] = c;
                 rowData[i][COLUMN_ADVISER] = c.getOwnerShortName();
             }
@@ -828,7 +816,7 @@ public final class ClientSearch extends javax.swing.JPanel {
             jCheckBoxAllUsersClients.setSelected(false);
     }
 
-    public void updateView() throws com.argus.financials.service.client.ServiceException 
+    public void updateView() throws com.argus.financials.api.ServiceException 
     {
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         try {
@@ -838,7 +826,7 @@ public final class ClientSearch extends javax.swing.JPanel {
         }
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException,
+    public void saveView(PersonService person) throws com.argus.financials.api.ServiceException,
             InvalidCodeException {
     }
 

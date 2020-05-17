@@ -15,34 +15,17 @@ package com.argus.financials.code;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.argus.financials.api.bean.IMaritalCode;
+
 public final class MaritalCode extends Code {
-
-    public final static Integer SINGLE = new Integer(1);
-
-    public final static Integer DEFACTO = new Integer(2);
-
-    public final static Integer MARRIED = new Integer(3);
-
-    public final static Integer SEPARATED = new Integer(4);
-
-    public final static Integer DIVORCED = new Integer(5);
-
-    public final static Integer WIDOWED = new Integer(6);
-
-    public final static Integer SEPARATED_HEALTH = new Integer(7);
-
-    public final static Integer PARTNERED = new Integer(8);
 
     private static Map codeMap;
 
-    static {
+    protected Map getCodeMap() {
         if (codeMap == null) {
             codeMap = new TreeMap();
             initCodeMap();
         }
-    }
-
-    protected Map getCodeMap() {
         return codeMap;
     }
 
@@ -50,21 +33,14 @@ public final class MaritalCode extends Code {
         codeMap.clear();
         codeMap.put(NONE, VALUE_NONE);
 
-        codeMap.put("Single", SINGLE);
-        codeMap.put("De-facto", DEFACTO);
-        codeMap.put("Married", MARRIED);
-        codeMap.put("Separated", SEPARATED);
-        codeMap.put("Divorced", DIVORCED);
-        codeMap.put("Widowed", WIDOWED);
-        codeMap.put("Separated-Health", SEPARATED_HEALTH);
-        codeMap.put("Partnered", PARTNERED);
-    }
-
-    public static boolean isSingle(Integer maritalCodeID) {
-        return maritalCodeID == null
-                || (!DEFACTO.equals(maritalCodeID)
-                        && !MARRIED.equals(maritalCodeID) && !PARTNERED
-                        .equals(maritalCodeID));
+        codeMap.put("Single", IMaritalCode.SINGLE);
+        codeMap.put("De-facto", IMaritalCode.DEFACTO);
+        codeMap.put("Married", IMaritalCode.MARRIED);
+        codeMap.put("Separated", IMaritalCode.SEPARATED);
+        codeMap.put("Divorced", IMaritalCode.DIVORCED);
+        codeMap.put("Widowed", IMaritalCode.WIDOWED);
+        codeMap.put("Separated-Health", IMaritalCode.SEPARATED_HEALTH);
+        codeMap.put("Partnered", IMaritalCode.PARTNERED);
     }
 
 }

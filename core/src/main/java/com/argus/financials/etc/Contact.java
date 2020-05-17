@@ -6,6 +6,8 @@
 
 package com.argus.financials.etc;
 
+import com.argus.financials.api.bean.IFPSAssignableObject;
+
 /**
  * 
  * @author valeri chibaev
@@ -13,6 +15,7 @@ package com.argus.financials.etc;
  */
 
 import com.argus.financials.code.RelationshipFinanceCode;
+import com.argus.financials.domain.hibernate.Occupation;
 
 public class Contact extends PersonNameAddress {
 
@@ -50,7 +53,7 @@ public class Contact extends PersonNameAddress {
     /**
      * Assignable methods
      */
-    public void assign(FPSAssignableObject value) throws ClassCastException {
+    public void assign(IFPSAssignableObject value) throws ClassCastException {
 
         super.assign(value);
 
@@ -76,7 +79,7 @@ public class Contact extends PersonNameAddress {
     /**
      * helper methods
      */
-    protected void clear() {
+    public void clear() {
 
         super.clear();
 
@@ -97,11 +100,11 @@ public class Contact extends PersonNameAddress {
     public Object[] getData() {
 
         return new Object[] {
-                getPrimaryKeyID(),
+                getId(),
                 name.getFullName(),
                 phone == null ? null : phone.toString(),
                 contactCodeID == null ? null : new RelationshipFinanceCode()
-                        .getCode(contactCodeID).getCodeDesc() };
+                        .getCode(contactCodeID).getDescription() };
 
     }
 
@@ -132,15 +135,15 @@ public class Contact extends PersonNameAddress {
             fax.setModified(value);
     }
 
-    public void setPrimaryKeyID(Integer value) {
-        super.setPrimaryKeyID(value);
+    public void setId(Integer value) {
+        super.setId(value);
 
         if (occupation != null)
-            occupation.setOwnerPrimaryKeyID(value);
+            occupation.setOwnerId(value);
         if (phone != null)
-            phone.setOwnerPrimaryKeyID(value);
+            phone.setOwnerId(value);
         if (fax != null)
-            fax.setOwnerPrimaryKeyID(value);
+            fax.setOwnerId(value);
     }
 
     public Integer getContactCodeID() {

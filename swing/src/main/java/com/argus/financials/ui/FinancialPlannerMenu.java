@@ -30,17 +30,15 @@ import javax.swing.MenuElement;
 import javax.swing.UIManager;
 
 import com.argus.financials.code.ModelType;
-import com.argus.financials.config.FPSLocale;
 import com.argus.financials.etc.ActionEventID;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.projection.save.ModelCollection;
 import com.argus.financials.service.ClientService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.ui.help.HelpBrokerView;
 import com.argus.swing.SwingUtils;
 import com.argus.util.Pair;
 
-class FinancialPlannerMenu extends JMenuBar
+public class FinancialPlannerMenu extends JMenuBar
     implements IFinancialPlannerNavigator,
         ActionEventID, FocusListener
 {
@@ -49,7 +47,12 @@ class FinancialPlannerMenu extends JMenuBar
             100, 21);
 
     private final FinancialPlannerPermission fpp = FinancialPlannerPermission.getInstance();
-    
+
+    private static ClientService clientService;
+    public static void setClientService(ClientService clientService) {
+        FinancialPlannerMenu.clientService = clientService;
+    }
+
     /** Creates new */
     FinancialPlannerMenu(ActionMap am) {
         setActionMap(am);
@@ -138,10 +141,8 @@ class FinancialPlannerMenu extends JMenuBar
         //jMenuTools.add(getActionMap().get(IMenuCommand.RECOVER_ASSETS));
         //jMenuTools.add(getActionMap().get(IMenuCommand.REMOVE_ASSETS));
         jMenuTools.add(getActionMap().get(IMenuCommand.SOFTWARE_UPDATES));
-        if (!FPSLocale.isDevelopment()) {
-            jMenuTools.add(getActionMap().get(IMenuCommand.SYSTEM_OUT));
-            jMenuTools.add(getActionMap().get(IMenuCommand.SYSTEM_ERR));
-        }
+//        jMenuTools.add(getActionMap().get(IMenuCommand.SYSTEM_OUT));
+//        jMenuTools.add(getActionMap().get(IMenuCommand.SYSTEM_ERR));
         // look-and-feel
         UIManager.LookAndFeelInfo[] info = UIManager.getInstalledLookAndFeels();
         JMenu jMenuLookAndFeel = createTaskGroup(jMenuFile, "Look-And-Feels");
@@ -212,7 +213,7 @@ class FinancialPlannerMenu extends JMenuBar
         JMenu jMenuPayg = createTaskGroup4Calculators(jMenuCalculators, IMenuCommand.PAYG_CALC);
 
         // add saved ones
-        ClientService person = ServiceLocator.getInstance().getClientPerson();
+        ClientService person = clientService;
         if (person == null)
             return;
 
@@ -335,7 +336,7 @@ class FinancialPlannerMenu extends JMenuBar
 
             SwingUtils.setDefaultFont(this);
             
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace();
         }
 

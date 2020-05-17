@@ -14,23 +14,24 @@ package com.argus.financials.projection;
 
 import java.math.BigDecimal;
 
+import com.argus.financials.api.ETPConstants;
 import com.argus.financials.bean.Financial;
+import com.argus.financials.chart.GraphData;
 import com.argus.financials.code.ModelType;
 import com.argus.financials.code.SexCode;
 import com.argus.financials.etc.ActionEventID;
-import com.argus.financials.projection.data.ETPConstants;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.projection.save.ModelCollection;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.utils.RateUtils;
 import com.argus.format.Currency;
 import com.argus.format.Number2;
 import com.argus.format.Percent;
 import com.argus.util.DateTimeUtils;
+import com.argus.util.RateUtils;
 import com.argus.util.ReferenceCode;
 
-public abstract class MoneyCalc implements ActionEventID,
+public abstract class MoneyCalc extends AbstractCalc
+    implements ActionEventID,
         javax.swing.event.ChangeListener, javax.swing.event.DocumentListener,
         DocumentNames, java.awt.event.ItemListener, ETPConstants {
 
@@ -138,12 +139,12 @@ public abstract class MoneyCalc implements ActionEventID,
 
             model.setTypeID(getDefaultModelType());
 
-            PersonService person = ServiceLocator.getInstance().getClientPerson();
+            PersonService person = clientService;
             if (person != null) {
                 try {
                     ModelCollection models = person.getModels();
                     models.addModel(model);
-                } catch (com.argus.financials.service.client.ServiceException e) {
+                } catch (com.argus.financials.api.ServiceException e) {
                     e.printStackTrace(System.err);
                 }
             }
@@ -227,7 +228,7 @@ public abstract class MoneyCalc implements ActionEventID,
 
         Object value = selectedObjects[0];
         if (value instanceof ReferenceCode)
-            value = "" + ((ReferenceCode) value).getCodeID();
+            value = "" + ((ReferenceCode) value).getId();
         else if (value instanceof javax.swing.AbstractButton)
             value = "" + ((javax.swing.AbstractButton) value).isSelected();
         else if (item instanceof javax.swing.AbstractButton)
@@ -241,17 +242,14 @@ public abstract class MoneyCalc implements ActionEventID,
      * implementation of javax.swing.event.DocumentListener interface
      */
     public void removeUpdate(javax.swing.event.DocumentEvent documentEvent) {
-        // if (DEBUG) System.out.println( "removeUpdate: " );
         update(documentEvent.getDocument());
     }
 
     public void insertUpdate(javax.swing.event.DocumentEvent documentEvent) {
-        // if (DEBUG) System.out.println( "insertUpdate: " );
         update(documentEvent.getDocument());
     }
 
     public void changedUpdate(javax.swing.event.DocumentEvent documentEvent) {
-        // if (DEBUG) System.out.println( "changedUpdate: " );
         // we won't ever get this with a PlainDocument
         // Plain text components don't fire this event
     }

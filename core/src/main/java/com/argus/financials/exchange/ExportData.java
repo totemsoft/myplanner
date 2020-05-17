@@ -6,16 +6,8 @@
 
 package com.argus.financials.exchange;
 
-/**
- * 
- * @author valeri chibaev
- * 
- * Export/Import sql data in xml format
- * 
- */
-
-import com.argus.financials.bean.db.DBManager;
-import com.argus.financials.io.IOUtils2;
+import com.argus.dao.SQLHelper;
+import com.argus.io.IOUtils2;
 
 public class ExportData {
 
@@ -29,6 +21,11 @@ public class ExportData {
     private static final String DELIM = ", RecordDelimiter ";
 
     private static String DEFAULT_XSL = "com/argus/financials/exchange/XMLtoSQLsp.xsl";
+
+    private transient static SQLHelper sqlHelper;
+    public static void setSqlHelper(SQLHelper sqlHelper) {
+        ExportData.sqlHelper = sqlHelper;
+    }
 
     private StringBuffer sb;
 
@@ -125,8 +122,7 @@ public class ExportData {
         // //////////////////////////////////////////////////////////////////////
 
         String sql;
-        DBManager dbm = DBManager.getInstance();
-        java.sql.Connection con = dbm.getConnection();
+        java.sql.Connection con = sqlHelper.getConnection();
         try {
             // //////////////////////////////////////////////////////////////////
             sql = "EXEC sp_export_initialize " + userPersonID;
@@ -219,8 +215,7 @@ public class ExportData {
         if (sql == null || sql.length == 0)
             return;
 
-        DBManager dbm = DBManager.getInstance();
-        java.sql.Connection con = dbm.getConnection();
+        java.sql.Connection con = sqlHelper.getConnection();
         try {
 
             for (int i = 0; i < sql.length; i++) {

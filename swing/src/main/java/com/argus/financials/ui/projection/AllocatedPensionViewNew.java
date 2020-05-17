@@ -25,15 +25,18 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
 
-import com.argus.beans.format.CurrencyLabelGenerator;
-import com.argus.financials.IGraphView;
+import com.argus.financials.api.ETPConstants;
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.api.bean.IPerson;
+import com.argus.financials.chart.APGraphViewNew;
+import com.argus.financials.chart.IGraphView;
 import com.argus.financials.code.APRelationshipCode;
 import com.argus.financials.code.APRelationshipCodeID;
 import com.argus.financials.code.DeathBenefitCode;
 import com.argus.financials.code.DeathBenefitCodeID;
 import com.argus.financials.code.GeneralTaxExemptionCode;
 import com.argus.financials.code.GeneralTaxExemptionCodeID;
-import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.InvestmentStrategyCode;
 import com.argus.financials.code.ModelType;
 import com.argus.financials.code.ModelTypeID;
@@ -43,34 +46,33 @@ import com.argus.financials.config.ViewSettings;
 import com.argus.financials.etc.ActionEventID;
 import com.argus.financials.etc.DuplicateException;
 import com.argus.financials.etc.ModelTitleRestrictionException;
-import com.argus.financials.etc.PersonName;
-import com.argus.financials.io.IOUtils2;
-import com.argus.financials.projection.APGraphViewNew;
 import com.argus.financials.projection.AllocatedPensionCalcNew;
 import com.argus.financials.projection.DocumentNames;
 import com.argus.financials.projection.MoneyCalc;
-import com.argus.financials.projection.data.ETPConstants;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.DateInputVerifier;
 import com.argus.financials.swing.PercentInputVerifier;
 import com.argus.financials.swing.ProjectToAgeInputVerifier;
 import com.argus.financials.swing.SwingUtil;
+import com.argus.financials.ui.AbstractPanel;
 import com.argus.financials.ui.BaseView;
 import com.argus.financials.ui.FinancialPlannerApp;
 import com.argus.financials.ui.ListenerUtils;
 import com.argus.format.Currency;
+import com.argus.format.CurrencyLabelGenerator;
 import com.argus.format.Percent;
+import com.argus.io.IOUtils2;
 import com.argus.swing.SwingUtils;
 import com.argus.util.DateTimeUtils;
 import com.argus.util.ReferenceCode;
 
-public class AllocatedPensionViewNew extends javax.swing.JPanel implements
+public class AllocatedPensionViewNew
+    extends AbstractPanel
+    implements
         ActionEventID, javax.swing.event.ChangeListener,
         com.argus.financials.swing.ICloseDialog {
 
@@ -111,12 +113,12 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
     }
 
     public Integer getDefaultType() {
-        return ModelTypeID.rcALLOCATED_PENSION.getCodeIDInteger();
+        return ModelTypeID.rcALLOCATED_PENSION.getCodeId();
 
     }
 
     public String getDefaultTitle() {
-        return ModelType.rcALLOCATED_PENSION.getCodeDesc();
+        return ModelType.rcALLOCATED_PENSION.getDescription();
     }
 
     protected Model getModel() {
@@ -124,11 +126,11 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
         if (model.getOwner() != null)
             return model;
 
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
         if (person != null) {
             try {
                 model.setOwner(person.getModels());
-            } catch (com.argus.financials.service.client.ServiceException e) {
+            } catch (com.argus.financials.api.ServiceException e) {
                 e.printStackTrace(System.err);
             }
         }
@@ -205,10 +207,8 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
         updateEditable();
         updateComponents();
 
-        jButtonSave
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
-        jButtonSaveAs
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
+        jButtonSave.setEnabled(clientService != null);
+        jButtonSaveAs.setEnabled(clientService != null);
         jButtonDelete.setEnabled(jButtonSave.isEnabled());
         setActionMap();
 
@@ -335,10 +335,8 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
         }
         jButtonReport.setEnabled(add);
         jButtonNext.setEnabled(add && jTabbedPane1.getSelectedIndex() == 0);
-        jButtonSave
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
-        jButtonSaveAs
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
+        jButtonSave.setEnabled(clientService != null);
+        jButtonSaveAs.setEnabled(clientService != null);
         SwingUtil.setEnabled(jTextFieldNetEarningRate,
                 jRadioButtonNetEarningRateFlat.isSelected());
     }
@@ -423,18 +421,18 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jTextFieldClientName = new javax.swing.JTextField();
-        jTextFieldDOB = new com.argus.beans.FDateChooser();
-        jTextFieldPensionStartDate = new com.argus.beans.FDateChooser();
-        jTextFieldFirstPaymentDate = new com.argus.beans.FDateChooser();
+        jTextFieldDOB = new com.argus.bean.FDateChooser();
+        jTextFieldPensionStartDate = new com.argus.bean.FDateChooser();
+        jTextFieldFirstPaymentDate = new com.argus.bean.FDateChooser();
         jTextFieldNamePartner = new javax.swing.JTextField();
-        jTextFieldDOBPartner = new com.argus.beans.FDateChooser();
+        jTextFieldDOBPartner = new com.argus.bean.FDateChooser();
         jPanel2 = new javax.swing.JPanel();
         jLabelSex = new javax.swing.JLabel();
         jLabelAge = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jTextFieldAge = new javax.swing.JTextField();
-        jTextFieldEligibleServiceDate = new com.argus.beans.FDateChooser();
+        jTextFieldEligibleServiceDate = new com.argus.bean.FDateChooser();
         jPanel13 = new javax.swing.JPanel();
         jRadioButtonYes = new javax.swing.JRadioButton();
         jRadioButtonNo = new javax.swing.JRadioButton();
@@ -1622,7 +1620,7 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
         try {
             ReportFields.generateReport(
                     SwingUtilities.windowForComponent(this),
-                    getReportData(ServiceLocator.getInstance().getClientPerson()),
+                    getReportData(clientService),
                     getDefaultReport());
 
         } catch (Exception e) {
@@ -1866,7 +1864,7 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
 
     private javax.swing.ButtonGroup buttonGroupClientSex;
 
-    private com.argus.beans.FDateChooser jTextFieldEligibleServiceDate;
+    private com.argus.bean.FDateChooser jTextFieldEligibleServiceDate;
 
     private javax.swing.JRadioButton jRadioButtonIsClient;
 
@@ -1960,7 +1958,7 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
 
     private javax.swing.JPanel jPanel1911;
 
-    private com.argus.beans.FDateChooser jTextFieldDOBPartner;
+    private com.argus.bean.FDateChooser jTextFieldDOBPartner;
 
     private javax.swing.JTextField jTextFieldTotalETP;
 
@@ -1970,7 +1968,7 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
 
     private javax.swing.JButton jButtonSaveAs;
 
-    private com.argus.beans.FDateChooser jTextFieldDOB;
+    private com.argus.bean.FDateChooser jTextFieldDOB;
 
     private javax.swing.JTextField jTextFieldNamePartner;
 
@@ -2034,7 +2032,7 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
 
     private javax.swing.JComboBox jComboBoxRelationship;
 
-    private com.argus.beans.FDateChooser jTextFieldFirstPaymentDate;
+    private com.argus.bean.FDateChooser jTextFieldFirstPaymentDate;
 
     private javax.swing.JTextField jTextFieldUPP;
 
@@ -2056,7 +2054,7 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
 
     private javax.swing.JPanel jPanelClientDetails;
 
-    private com.argus.beans.FDateChooser jTextFieldPensionStartDate;
+    private com.argus.bean.FDateChooser jTextFieldPensionStartDate;
 
     // End of variables declaration//GEN-END:variables
 
@@ -2070,7 +2068,7 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
 
     public void updateView(String modelTitle) throws Exception {
         jTextFieldClientName.requestFocus();
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
         Model m = person == null ? null : person.getModel(getDefaultType(),
                 modelTitle);
 
@@ -2089,12 +2087,12 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
         // doClear(null);
 
         if (m == null) {
-            updateView(ServiceLocator.getInstance().getClientPerson());
+            updateView(clientService);
         } else {
             // use copy of model
-            Integer id = m == null ? null : m.getPrimaryKeyID();
+            Integer id = m == null ? null : m.getId();
             m = new Model(m);
-            m.setPrimaryKeyID(id);
+            m.setId(id);
     
             try {
                 apCalc.disableUpdate();
@@ -2165,7 +2163,7 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
         }
 
         try {
-            saveView(ServiceLocator.getInstance().getClientPerson());
+            saveView(clientService);
         } catch (Exception e) {
             e.printStackTrace(System.err);
             return;
@@ -2408,33 +2406,30 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
 
     private void updateKnownComponents() {
 
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
 
         if (person == null)
             return;
         try {
-            PersonName personName = person.getPersonName();
+            IPerson personName = person.getPersonName();
 
             if (apCalc.getClientName() == null)
-                apCalc.setClientName(personName == null ? null : personName
-                        .getFullName());
+                apCalc.setClientName(personName == null ? null : personName.getFullName());
             if (apCalc.getDateOfBirth() == null)
-                apCalc.setDateOfBirth(personName == null ? null : personName
-                        .getDateOfBirth());
+                apCalc.setDateOfBirth(personName == null ? null : personName.getDateOfBirth());
 
             // update partner details
             PersonService partner = ((ClientService) person).getPartner(false);
-            if (partner != null
-                    && new Integer(0).equals(apCalc.getRelationshipID())) {
+            if (partner != null && new Integer(0).equals(apCalc.getRelationshipID())) {
                 apCalc.setRelationshipID(APRelationshipCodeID.SPOUSE);
-                PersonName name = partner.getPersonName();
-                if (personName != null) {
-                    apCalc.setPartnerName(name.getFullName());
-                    apCalc.setPartnerDOB(name.getDateOfBirth());
-                    apCalc.setPartnerSexCodeID(name.getSexCodeID());
+                IPerson partnerName = partner.getPersonName();
+                if (partnerName != null) {
+                    apCalc.setPartnerName(partnerName.getFullName());
+                    apCalc.setPartnerDOB(partnerName.getDateOfBirth());
+                    apCalc.setPartnerSexCodeID(partnerName.getSex().getId().intValue());
                 }
             }
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
             return;
         }
@@ -2549,14 +2544,14 @@ public class AllocatedPensionViewNew extends javax.swing.JPanel implements
         am.put(DATA_REMOVE, new AbstractAction() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
-                PersonService person = ServiceLocator.getInstance().getClientPerson();
+                PersonService person = clientService;
                 if (person == null)
                     return;
 
                 try {
                     person.removeModel(getModel());
                     person.storeModels();
-                } catch (com.argus.financials.service.client.ServiceException e) {
+                } catch (com.argus.financials.api.ServiceException e) {
                     e.printStackTrace();
                     return;
                 }

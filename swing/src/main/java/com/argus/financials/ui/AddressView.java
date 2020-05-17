@@ -6,33 +6,25 @@
 
 package com.argus.financials.ui;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
-
-import com.argus.financials.bean.ObjectTypeConstant;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.code.AddressCode;
 import com.argus.financials.code.Code;
 import com.argus.financials.code.CountryCode;
 import com.argus.financials.code.StateCode;
 import com.argus.financials.code.SuburbPostCode;
 import com.argus.financials.config.FPSLocale;
-import com.argus.financials.etc.Address;
+import com.argus.financials.etc.AddressDto;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.format.LimitedPlainDocument;
 
-public class AddressView extends javax.swing.JPanel implements
-        javax.swing.event.ChangeListener {
-
-    private static boolean DEBUG = false;
+public class AddressView
+    extends AbstractPanel
+    implements javax.swing.event.ChangeListener {
 
     private static final String[] EMPTY = new String[] { "" };
 
-    private Address address;
+    private AddressDto address;
 
     private Integer addressCodeID;
 
@@ -47,12 +39,8 @@ public class AddressView extends javax.swing.JPanel implements
     /** Creates new form AddressView */
     public AddressView(Integer addressCodeID) {
         initComponents();
-        FPSLocale r = FPSLocale.getInstance();
 
-        DEBUG = Boolean.valueOf(System.getProperty("DEBUG")).booleanValue();
-
-        // Create the document for the text area(address) of limit up to N
-        // characters.
+        // Create the document for the text area(address) of limit up to N characters.
         jTextFieldAddress.setDocument(new LimitedPlainDocument(29));
         jTextFieldAddress2.setDocument(new LimitedPlainDocument(29));
 
@@ -351,8 +339,6 @@ public class AddressView extends javax.swing.JPanel implements
 
     private void countryChanged(String country) {
 
-        // if (DEBUG) System.out.println( "country: " + country );
-
         currentCountryCodeID = new CountryCode().getCodeID(country);
         currentStateCodeID = null;
 
@@ -384,9 +370,6 @@ public class AddressView extends javax.swing.JPanel implements
         String postCode = (String) jComboBoxPostcode.getSelectedItem();
         String suburb = (String) jComboBoxSuburb.getSelectedItem();
 
-        // if (DEBUG) System.out.println( "postcode: " + postCode + ", suburb: "
-        // + suburb );
-
         updating = true;
         try {
             if (Code.NONE.equals(postCode)) {
@@ -410,9 +393,6 @@ public class AddressView extends javax.swing.JPanel implements
 
         String suburb = (String) jComboBoxSuburb.getSelectedItem();
         String postCode = (String) jComboBoxPostcode.getSelectedItem();
-
-        // if (DEBUG) System.out.println( "suburb: " + suburb + ", postCode: " +
-        // postCode );
 
         updating = true;
         try {
@@ -444,11 +424,11 @@ public class AddressView extends javax.swing.JPanel implements
      **************************************************************************/
     public void stateChanged(javax.swing.event.ChangeEvent changeEvent) {
 
-        if (changeEvent.getSource() instanceof Address) {
-            Address sourceAddress = (Address) changeEvent.getSource();
+        if (changeEvent.getSource() instanceof AddressDto) {
+            AddressDto sourceAddress = (AddressDto) changeEvent.getSource();
 
-            if (!equals(address.getPrimaryKeyID(), sourceAddress
-                    .getPrimaryKeyID()))
+            if (!equals(address.getId(), sourceAddress
+                    .getId()))
                 return;
 
             // triggered from Address object
@@ -479,25 +459,22 @@ public class AddressView extends javax.swing.JPanel implements
         jCheckBoxSameAs.setSelected(sameAsClient);
 
         try {
-            Address clientAddress = ServiceLocator.getInstance()
-                    .getClientPerson().getResidentialAddress();
-            // if (DEBUG) System.out.println( "setSameAsClient(" + sameAsClient
-            // + ")" + clientAddress );
+            AddressDto clientAddress = clientService.getResidentialAddress();
 
             if (sameAsClient) {
 
                 address.removeChangeListener(this);
 
-                address.setCountryCodeID(clientAddress.getCountryCodeID());
+                address.setCountryCodeId(clientAddress.getCountryCodeId());
                 address.setStreetNumber(clientAddress.getStreetNumber());
                 address.setStreetNumber2(clientAddress.getStreetNumber2());
-                address.setState(clientAddress.getState());
+                address.setStateCode(clientAddress.getStateCode());
                 // address.setStateCodeID( clientAddress.getStateCodeID() ); //
                 // calculated value fron state
                 address.setSuburb(clientAddress.getSuburb());
-                address.setPostCodeID(clientAddress.getPostCodeID());
+                address.setPostcode(clientAddress.getPostcode());
 
-                address.setParentAddressID(clientAddress.getPrimaryKeyID());
+                address.setParentAddressId(clientAddress.getId());
 
                 updateView();
 
@@ -507,7 +484,7 @@ public class AddressView extends javax.swing.JPanel implements
             } else {
                 clientAddress.removeChangeListener(address);
 
-                address.setParentAddressID(null);
+                address.setParentAddressId(null);
 
             }
 
@@ -550,9 +527,9 @@ public class AddressView extends javax.swing.JPanel implements
     /**
      * 
      */
-    public void updateView() throws com.argus.financials.service.client.ServiceException {
+    public void updateView() throws com.argus.financials.api.ServiceException {
 
-        boolean sameAsClient = address.getParentAddressID() != null;
+        boolean sameAsClient = address.getParentAddressId() != null;
         if (jCheckBoxSameAs.isSelected() != sameAsClient)
             setSameAsClient(sameAsClient);
         setEnabled(!sameAsClient);
@@ -560,15 +537,15 @@ public class AddressView extends javax.swing.JPanel implements
         jTextFieldAddress.setText(address.getStreetNumber());
         jTextFieldAddress2.setText(address.getStreetNumber2());
 
-        currentCountryCodeID = address.getCountryCodeID();
+        currentCountryCodeID = address.getCountryCodeId();
         String country = new CountryCode()
                 .getCodeDescription(currentCountryCodeID);
         jComboBoxCountry.setSelectedItem(country);
 
-        currentStateCodeID = address.getStateCodeID();
-        String currentState = address.getState();
+        currentStateCodeID = address.getStateCodeId();
+        String currentState = address.getStateCode();
 
-        Integer postCodeID = address.getPostCodeID();
+        Integer postCodeID = address.getPostcode();
 
         if (CountryCode.isAustralia(currentCountryCodeID)) {
             setEditable(false);
@@ -599,14 +576,14 @@ public class AddressView extends javax.swing.JPanel implements
 
     }
 
-    public Address saveView() throws com.argus.financials.service.client.ServiceException {
+    public AddressDto saveView() throws com.argus.financials.api.ServiceException {
 
         boolean notify = address.isNotify();
         if (notify)
             address.disableNotify();
         try {
 
-            address.setAddressCodeID(addressCodeID);
+            address.setAddressCodeId(addressCodeID);
 
             String s = jTextFieldAddress.getText();
             if (s != null && s.length() == 0)
@@ -620,19 +597,19 @@ public class AddressView extends javax.swing.JPanel implements
 
             currentCountryCodeID = new CountryCode()
                     .getCodeID((String) jComboBoxCountry.getSelectedItem());
-            address.setCountryCodeID(currentCountryCodeID);
+            address.setCountryCodeId(currentCountryCodeID);
 
             if (CountryCode.isAustralia(currentCountryCodeID))
-                address.setStateCodeID(new StateCode(currentCountryCodeID)
+                address.setStateCodeId(new StateCode(currentCountryCodeID)
                         .getCodeID(getState()));
             else
-                address.setState(getState());
+                address.setStateCode(getState());
 
             try {
-                address.setPostCodeID(new Integer(getPostCode()));
+                address.setPostcode(new Integer(getPostCode()));
             } catch (NumberFormatException e) {
                 System.err.println(e.getMessage());
-                address.setPostCodeID(null);
+                address.setPostcode(null);
             }
 
             address.setSuburb(getSuburb());
@@ -667,11 +644,11 @@ public class AddressView extends javax.swing.JPanel implements
     /**
      * 
      */
-    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.api.ServiceException {
         updateView();
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.api.ServiceException {
         saveView();
     }
 
@@ -702,10 +679,10 @@ public class AddressView extends javax.swing.JPanel implements
     }
 
     public void setObject(Object value) {
-        address = (Address) value;
+        address = (AddressDto) value;
         try {
             updateView();
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
     }

@@ -6,6 +6,9 @@
 
 package com.argus.financials.ui.financials;
 
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.service.FinancialService;
+
 /**
  * 
  * @author valeri chibaev
@@ -14,7 +17,7 @@ package com.argus.financials.ui.financials;
 import com.argus.financials.bean.Assets;
 import com.argus.financials.bean.Financial;
 import com.argus.financials.bean.NegativeAmountException;
-import com.argus.financials.code.InvalidCodeException;
+import com.argus.financials.bean.db.ObjectClass;
 import com.argus.financials.code.OwnerCode;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.format.Currency;
@@ -25,17 +28,19 @@ import com.argus.util.DateTimeUtils;
 
 public abstract class AddFinancialView extends javax.swing.JPanel implements
         com.argus.financials.ui.Viewable,
-        com.argus.financials.code.FinancialClassID,
-        com.argus.financials.code.FinancialTypeID {
+        com.argus.financials.api.code.FinancialClassID {
+
+    protected static FinancialService financialService;
+    public static void setFinancialService(FinancialService financialService) {
+        AddFinancialView.financialService = financialService;
+    }
 
     public static final int CANCEL_OPTION = javax.swing.JOptionPane.CANCEL_OPTION;
-
     public static final int OK_OPTION = javax.swing.JOptionPane.OK_OPTION;
 
     // controls dimentions
     // JTextField
-    public static java.awt.Dimension DIM_MINIMUM = new java.awt.Dimension(100,
-            21);
+    public static java.awt.Dimension DIM_MINIMUM = new java.awt.Dimension(100, 21);
 
     // JComboBox
     public static java.awt.Dimension DIM_MAXIMUM_CB = new java.awt.Dimension(
@@ -247,8 +252,7 @@ public abstract class AddFinancialView extends javax.swing.JPanel implements
 
     public Financial getFinancial() {
         if (getObject() == null)
-            setObject(com.argus.financials.bean.AbstractBase
-                    .createNewInstance(getObjectType()));
+            setObject(ObjectClass.createNewInstance(getObjectType()));
         return (Financial) getObject();
     }
 
@@ -284,7 +288,7 @@ public abstract class AddFinancialView extends javax.swing.JPanel implements
             throws InvalidCodeException {
     }
 
-    protected String checkDateField(com.argus.beans.FDateChooser field,
+    protected String checkDateField(com.argus.bean.FDateChooser field,
             String name) {
 
         java.util.Date d = DateTimeUtils.getDate(field.getText());

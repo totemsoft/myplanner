@@ -19,14 +19,13 @@ import javax.swing.SwingUtilities;
 import com.argus.financials.config.FPSLocale;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.swing.ICloseDialog;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.ui.plan.PlanWriterException;
 
-public abstract class BaseView extends javax.swing.JPanel implements
-        com.argus.financials.swing.ICloseDialog {
-
-    protected static boolean DEBUG = false;
+public abstract class BaseView
+    extends AbstractPanel
+    implements ICloseDialog {
 
     public static final int CANCEL_OPTION = javax.swing.JOptionPane.CANCEL_OPTION;
 
@@ -36,13 +35,8 @@ public abstract class BaseView extends javax.swing.JPanel implements
 
     /** Creates new form BaseView */
     public BaseView() {
-        FPSLocale r = FPSLocale.getInstance();
-        DEBUG = Boolean.valueOf(System.getProperty("DEBUG")).booleanValue();
-
         initComponents();
-
         jButtonRefresh.setVisible(false);
-
     }
 
     /**
@@ -304,8 +298,8 @@ public abstract class BaseView extends javax.swing.JPanel implements
     protected abstract ReportFields getReportData(PersonService person)
             throws Exception;
 
-    protected PersonService getPerson() throws com.argus.financials.service.client.ServiceException {
-        return ServiceLocator.getInstance().getClientPerson();
+    protected PersonService getPerson() throws com.argus.financials.api.ServiceException {
+        return clientService;
     }
 
     protected void doReport()

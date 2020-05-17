@@ -16,9 +16,9 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.Vector;
 
+import com.argus.financials.api.bean.PersonName;
 import com.argus.financials.code.RelationshipCode;
 import com.argus.financials.etc.Dependent;
-import com.argus.financials.etc.PersonName;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
 
@@ -60,21 +60,16 @@ public class ClientDetailsData extends ClientPersonData {
                 for (int i = 0; i < dependent.length; i++) {
                     Dependents.Item item = dependents.createItem();
                     PersonName name = ((Dependent) dependent[i]).getName();
-                    if (name != null) {
-                        item.init(name);
-                    } else {
+                    if (name == null) {
                         name = new PersonName();
-                        item.init(name);
                     }
+                    item.init(name);
 
                     Dependent dep = (Dependent) dependent[i];
                     // get relationship
                     Integer rscid = dep.getRelationshipCodeID();
                     if (rscid != null) {
-                        item.relationship = (new RelationshipCode()
-                                .getCodeDescription(rscid) == null) ? STRING_EMPTY
-                                : new RelationshipCode()
-                                        .getCodeDescription(rscid);
+                        item.relationship = new RelationshipCode().getCodeDescription(rscid) == null ? STRING_EMPTY : new RelationshipCode().getCodeDescription(rscid);
                     } else {
                         item.relationship = STRING_EMPTY;
                     }
@@ -123,10 +118,7 @@ public class ClientDetailsData extends ClientPersonData {
                         // get relationship
                         Integer rscid = dep.getRelationshipCodeID();
                         if (rscid != null) {
-                            item.relationship = (new RelationshipCode()
-                                    .getCodeDescription(rscid) == null) ? STRING_EMPTY
-                                    : new RelationshipCode()
-                                            .getCodeDescription(rscid);
+                            item.relationship = new RelationshipCode().getCodeDescription(rscid) == null ? STRING_EMPTY : new RelationshipCode().getCodeDescription(rscid);
                         } else {
                             item.relationship = STRING_EMPTY;
                         }
@@ -134,12 +126,9 @@ public class ClientDetailsData extends ClientPersonData {
                         item.relatedTo = partner.FirstName;
 
                         // get support to age
-                        item.supportToAge = (dep.getSupportToAge() == null) ? STRING_EMPTY
-                                : dep.getSupportToAge().toString();
-
+                        item.supportToAge = (dep.getSupportToAge() == null) ? STRING_EMPTY : dep.getSupportToAge().toString();
                         dependents.Items.add(k, item);
                         k++;
-
                     }
 
                 }

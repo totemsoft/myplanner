@@ -6,19 +6,13 @@
 
 package com.argus.financials.ui;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
-
-import com.argus.financials.bean.ObjectTypeConstant;
-import com.argus.financials.code.InvalidCodeException;
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.config.ViewSettings;
 import com.argus.financials.config.WordSettings;
 import com.argus.financials.report.ReportFields;
+import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.swing.SwingUtil;
 
 public final class PartnerView extends PersonView2 {
@@ -26,6 +20,11 @@ public final class PartnerView extends PersonView2 {
     protected static int LAST = PersonView2.LAST;
 
     private static PartnerView view;
+
+    private static ClientService clientService;
+    public static void setClientService(ClientService clientService) {
+        PartnerView.clientService = clientService;
+    }
 
     /** Creates new ClientView */
     public PartnerView() {
@@ -70,8 +69,7 @@ public final class PartnerView extends PersonView2 {
     // Variables declaration - do not modify
     // End of variables declaration
 
-    public void display(final java.awt.event.FocusListener[] listeners,
-            boolean inFrame) {
+    public void display(final java.awt.event.FocusListener[] listeners, boolean inFrame) {
 
         if (!exists())
             getPartnerView();
@@ -79,8 +77,7 @@ public final class PartnerView extends PersonView2 {
         try {
             view.updateView();
         } catch (Exception e) {
-            throw new RuntimeException(e.getClass().getName() + '\t'
-                    + e.getMessage());
+            throw new RuntimeException(e);
         }
 
         // add/show view
@@ -96,7 +93,7 @@ public final class PartnerView extends PersonView2 {
 
     }
 
-    public void updateView() throws com.argus.financials.service.client.ServiceException {
+    public void updateView() throws com.argus.financials.api.ServiceException {
 
         // will create new person if null
         PersonService person = getPerson();
@@ -107,7 +104,7 @@ public final class PartnerView extends PersonView2 {
 
     }
 
-    public void saveView() throws com.argus.financials.service.client.ServiceException,
+    public void saveView() throws com.argus.financials.api.ServiceException,
             InvalidCodeException {
 
         // will create new person if null
@@ -142,8 +139,8 @@ public final class PartnerView extends PersonView2 {
         return new Integer(ObjectTypeConstant.PERSON);
     }
 
-    protected PersonService getPerson() throws com.argus.financials.service.client.ServiceException {
-        return ServiceLocator.getInstance().getClientPerson().getPartner(true);
+    protected PersonService getPerson() throws com.argus.financials.api.ServiceException {
+        return clientService.getPartner(true);
     }
 
     protected String getDefaultReport() {
@@ -154,7 +151,7 @@ public final class PartnerView extends PersonView2 {
             throws java.io.IOException {
 
         ReportFields data = ReportFields.getInstance();
-        data.initialize(ServiceLocator.getInstance().getClientPerson()); // do
+        data.initialize(clientService); // do
                                                                             // it
                                                                             // for
                                                                             // client

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+        http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.argus.financials</groupId>
+        <artifactId>myplanner</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <groupId>com.argus.financials.myplanner</groupId>
+    <artifactId>myplanner-api</artifactId>
+    <packaging>jar</packaging>
+    <name>API</name>
+    <version>1.0.0</version>
+    <description>My Planner API.</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.klg.jclass</groupId>
+            <artifactId>chart</artifactId>
+            <version>${jclass.version}</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/../lib/JClass50K/jcchartK.jar</systemPath>
+        </dependency>
+    </dependencies>
+</project>

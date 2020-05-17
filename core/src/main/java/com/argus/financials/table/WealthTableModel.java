@@ -101,15 +101,12 @@ public class WealthTableModel extends FinancialTableModel {
                 .getRetirementDate(), assumptions.getDisplayMode());
         int[] displayColumns2 = new int[displayColumns.length + offset];
 
-        // if (DEBUG) System.out.println( "WealthTableModel" );
         displayColumns2[0] = 0; // first column = name
         displayColumns2[1] = 1; // second column = current value
 
         // others = years
         for (int i = 0; i < displayColumns.length; i++) {
             displayColumns2[i + offset] = displayColumns[i] + offset;
-            // if (DEBUG) System.out.println( "\t" + displayColumns[i] + " -> "
-            // + displayColumns2[i+offset] );
         }
 
         return displayColumns2;

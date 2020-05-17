@@ -15,6 +15,8 @@ package com.argus.financials.code;
 import java.util.Collection;
 import java.util.TreeSet;
 
+import com.argus.financials.api.code.CodeComparator;
+
 public class ModelType extends BaseCode implements ModelTypeID {
 
     private static Collection codes;

@@ -13,11 +13,14 @@ import java.sql.SQLException;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.argus.dao.SQLHelper;
 import com.argus.financials.assetinvestment.AvailableInvestmentsTableRow;
 
 /**
  * IressAssetNameBean is responsible for load and store information form the
- * database table "iress-asset-name".
+ * database table "iress_asset_name".
  * 
  * @author shibaevv
  * @version 0.01
@@ -25,7 +28,7 @@ import com.argus.financials.assetinvestment.AvailableInvestmentsTableRow;
  */
 public class IressAssetNameBean {
 
-    public static final String DATABASE_TABLE_NAME = "iress-asset-name";
+    public static final String DATABASE_TABLE_NAME = "iress_asset_name";
 
     private static final String SEARCH_OPERATOR = "AND";
 
@@ -33,6 +36,11 @@ public class IressAssetNameBean {
     private static final int INITIAL_VECTOR_SIZE = 64;
 
     private static final int INITIAL_VECTOR_GROWTH_SIZE = 32;
+
+    private transient static SQLHelper sqlHelper;
+    public static void setSqlHelper(SQLHelper sqlHelper) {
+        IressAssetNameBean.sqlHelper = sqlHelper;
+    }
 
     // bean properties
     private String code;
@@ -117,7 +125,7 @@ public class IressAssetNameBean {
     }
 
     /**
-     * Creates a new entry in the "apir-pic" table. The properties for the new
+     * Creates a new entry in the "apir_pic" table. The properties for the new
      * entry must be set before creating a new entry.
      */
     public void create() throws java.sql.SQLException {
@@ -128,13 +136,13 @@ public class IressAssetNameBean {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("INSERT INTO ");
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
             pstmt_StringBuffer.append("(");
-            pstmt_StringBuffer.append("code, [asset-full-name], ");
+            pstmt_StringBuffer.append("code, [asset_full_name], ");
             pstmt_StringBuffer
                     .append("issuerName, issuerAbbName, issuerShortName, issuerType, ");
             pstmt_StringBuffer.append("securityType, ");
@@ -179,23 +187,23 @@ public class IressAssetNameBean {
             status = pstmt.executeUpdate();
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
     }
 
     /**
-     * Loads an entry from the "iress-asset-name" table. The "code" column is
+     * Loads an entry from the "iress_asset_name" table. The "code" column is
      * used for identification. The first matching entry will be loaded.
      * 
-     * @param apir_pic_id -
-     *            use the apir-pic column as identifier
+     * @param apir_pic_id _
+     *            use the apir_pic column as identifier
      * @return true = found an entry
      */
     public boolean findByCode(String code_id) throws java.sql.SQLException {
@@ -203,12 +211,12 @@ public class IressAssetNameBean {
     }
 
     /**
-     * Search in database table "iress-asset" for all rows whose
-     * "asset-full-name" contains at least one of the keywords as part of any
+     * Search in database table "iress_asset" for all rows whose
+     * "asset_full_name" contains at least one of the keywords as part of any
      * word in the column. The returned Vector is sorted by the column
-     * "asset-full-name".
+     * "asset_full_name".
      * 
-     * @param keywords -
+     * @param keywords _
      *            the keywords which are used for the search
      * @return a java.util.Vector which contains all rows that match the search
      *         criteria
@@ -216,15 +224,15 @@ public class IressAssetNameBean {
     public Vector findByKeywordsSearchDescription(String keywords)
             throws java.sql.SQLException {
         return this
-                .findByKeywordsSearchDescription(keywords, "asset-full-name");
+                .findByKeywordsSearchDescription(keywords, "asset_full_name");
     }
 
     /**
-     * Search in database table "iress-asset" for all rows whose "code" contains
+     * Search in database table "iress_asset" for all rows whose "code" contains
      * at least one of the keywords as part of any word in the column. The
-     * returned Vector is sorted by the column "asset-full-name".
+     * returned Vector is sorted by the column "asset_full_name".
      * 
-     * @param keywords -
+     * @param keywords _
      *            the keywords which are used for the search
      * @return a java.util.Vector which contains all rows that match the search
      *         criteria
@@ -235,70 +243,62 @@ public class IressAssetNameBean {
     }
 
     /**
-     * Search in database table "iress-asset" for all rows whose column name
+     * Search in database table "iress_asset" for all rows whose column name
      * (given as a parameter) contains at least one of the keywords (given) as
      * part of any word in the column. The returned Vector is sorted by the
      * given column name.
      * 
-     * @param keywords -
+     * @param keywords _
      *            the keywords which are used for the search
-     * @param column_name -
+     * @param column_name _
      *            the column name to look for
      * @return a java.util.Vector which contains all rows that match the search
      *         criteria
      */
-    public Vector findByKeywordsSearchDescription(String keywords,
-            String column_name) throws java.sql.SQLException {
-        if (keywords == null || (keywords = keywords.trim()).length() == 0)
-            return new Vector();
-        if (column_name == null
-                || (column_name = column_name.trim()).length() == 0)
+    public Vector findByKeywordsSearchDescription(String keywords, String column_name) throws java.sql.SQLException {
+        if (StringUtils.isBlank(keywords) || StringUtils.isBlank(column_name))
             return new Vector();
 
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        StringTokenizer keywords_StringTokenizer = null;
+        StringBuffer sql = new StringBuffer();
+        StringTokenizer tok = null;
         int token_count = 0;
         int number_of_tokens = 0;
 
-        Vector table_rows = new Vector(INITIAL_VECTOR_SIZE,
-                INITIAL_VECTOR_GROWTH_SIZE);
-
+        Vector table_rows = new Vector(INITIAL_VECTOR_SIZE, INITIAL_VECTOR_GROWTH_SIZE);
+        column_name = column_name.trim();
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // check if we have some keywords
             if (keywords != null && keywords.length() > 0) {
                 // split keywords String into tokens (single keywords)
-                keywords_StringTokenizer = new StringTokenizer(keywords);
-                number_of_tokens = keywords_StringTokenizer.countTokens();
+                tok = new StringTokenizer(keywords);
+                number_of_tokens = tok.countTokens();
 
                 // build pstmt query
-                pstmt_StringBuffer.append("SELECT DISTINCT ");
-                pstmt_StringBuffer
-                        .append("[code], [asset-full-name], [issuerName] ");
-                pstmt_StringBuffer
-                        .append("FROM [" + DATABASE_TABLE_NAME + "] ");
-                pstmt_StringBuffer.append("WHERE ");
+                sql.append("SELECT DISTINCT ");
+                sql.append("[code], [asset_full_name], [issuerName] ");
+                sql.append("FROM [" + DATABASE_TABLE_NAME + "] ");
+                sql.append("WHERE (");
                 // add all tokens (single keywords) to the query
-                while (keywords_StringTokenizer.hasMoreTokens()) {
+                while (tok.hasMoreTokens()) {
                     // do we need to add "AND "?
                     if (token_count > 0 && token_count < number_of_tokens) {
-                        pstmt_StringBuffer.append(SEARCH_OPERATOR + " ");
+                        sql.append(SEARCH_OPERATOR + " ");
                     }
-
-                    pstmt_StringBuffer.append("([" + column_name + "] LIKE '%"
-                            + keywords_StringTokenizer.nextToken() + "%') ");
+                    sql.append("([" + column_name + "] LIKE '%" + tok.nextToken() + "%') ");
                     token_count++;
                 }
+                sql.append(") ");
                 // order by description
-                pstmt_StringBuffer.append("ORDER BY [" + column_name + "] ");
+                sql.append("ORDER BY [" + column_name + "] ");
 
                 // set and execute query
-                pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
+                pstmt = con.prepareStatement(sql.toString());
                 rs = pstmt.executeQuery();
 
                 // have we any result?
@@ -310,7 +310,7 @@ public class IressAssetNameBean {
                     table_row.origin = checkString(DATABASE_TABLE_NAME);
                     table_row.investmentCode = checkString(rs.getString("code"));
                     table_row.description = checkString(rs
-                            .getString("asset-full-name"));
+                            .getString("asset_full_name"));
                     table_row.code = checkString(rs.getString("code"));
                     table_row.institution = checkString(rs
                             .getString("issuerName"));
@@ -319,14 +319,14 @@ public class IressAssetNameBean {
                 }
             }
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(rs, pstmt);
+            sqlHelper.close(rs, pstmt, con);
         }
 
         return table_rows;
@@ -351,13 +351,13 @@ public class IressAssetNameBean {
     }
 
     /**
-     * Loads an entry from the "iress-asset-name" table. The given column name
+     * Loads an entry from the "iress_asset_name" table. The given column name
      * and id is used for identification. The first matching (column contains
      * id) entry will be loaded.
      * 
-     * @param column_name -
+     * @param column_name _
      *            the column name for the search
-     * @param id -
+     * @param id _
      *            the identification
      * @return true = found an entry
      */
@@ -371,7 +371,7 @@ public class IressAssetNameBean {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("SELECT * FROM ");
@@ -390,7 +390,7 @@ public class IressAssetNameBean {
             if (rs.next()) {
                 // get the data
                 this.code = rs.getString("code");
-                this.asset_full_name = rs.getString("asset-full-name");
+                this.asset_full_name = rs.getString("asset_full_name");
                 this.issuerName = rs.getString("IssuerName");
                 this.issuerAbbName = rs.getString("IssuerAbbName");
                 this.issuerShortName = rs.getString("IssuerShortName");
@@ -414,58 +414,17 @@ public class IressAssetNameBean {
             }
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
 
         return found;
-    }
-
-    /**
-     * Closes a given ResultSet and PreparedStatement.
-     * 
-     * @param rs -
-     *            the ResultSet to close
-     * @param pstmt -
-     *            the PreparedStatement to close
-     */
-    private void closeRsSql(ResultSet rs, PreparedStatement pstmt) {
-        try {
-            if (rs != null)
-                rs.close();
-            if (pstmt != null)
-                pstmt.close();
-        } catch (java.sql.SQLException e) {
-            // do nothing here
-        }
-    }
-
-    /**
-     * Prints the SQLException's messages, SQLStates and ErrorCode to System.err
-     * 
-     * @param extends -
-     *            a SQLException
-     */
-    private void printSQLException(java.sql.SQLException e) {
-        System.err.println("\n--- SQLException caught ---\n");
-
-        while (e != null) {
-            e.printStackTrace(System.err);
-
-            System.err.println("Message:   " + e.getMessage());
-            System.err.println("SQLState:  " + e.getSQLState());
-            System.err.println("ErrorCode: " + e.getErrorCode());
-
-            e = e.getNextException();
-
-        }
-
     }
 
     /*

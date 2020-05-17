@@ -14,7 +14,7 @@ package com.argus.financials.ui.financials;
 import com.klg.jclass.chart.JCChart;
 import com.klg.jclass.chart.beans.SimpleChart;
 
-public class CashFlowGraphView extends com.argus.financials.GraphView {
+public class CashFlowGraphView extends com.argus.financials.chart.GraphView {
 
     /** Creates new StrategyResultView */
     public CashFlowGraphView() {

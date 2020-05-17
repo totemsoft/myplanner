@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
+import com.argus.financials.api.bean.hibernate.AbstractBase;
+
 /**
  * Base class for all auditable objects.
  * @author vchibaev (Valeri SHIBAEV)

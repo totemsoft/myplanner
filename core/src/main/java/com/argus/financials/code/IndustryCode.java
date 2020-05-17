@@ -15,20 +15,15 @@ package com.argus.financials.code;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.argus.financials.service.ServiceLocator;
-
 public class IndustryCode extends Code {
 
     private static Map codeMap;
 
-    static {
+    protected Map getCodeMap() {
         if (codeMap == null) {
             codeMap = new TreeMap();
             initCodeMap();
         }
-    }
-
-    protected Map getCodeMap() {
         return codeMap;
     }
 
@@ -37,12 +32,11 @@ public class IndustryCode extends Code {
         codeMap.put(NONE, VALUE_NONE);
 
         try {
-            Map map = ServiceLocator.getInstance().getUtilityService().getCodes(
-                    "IndustryCode");
+            Map map = utilityService.getCodes("IndustryCode");
             if (map == null)
                 return;
             codeMap.putAll(map);
-        } catch (com.argus.financials.service.client.ServiceException re) {
+        } catch (com.argus.financials.api.ServiceException re) {
         }
     }
 

@@ -14,12 +14,7 @@ package com.argus.financials.projection.dss;
 import com.argus.util.ReferenceCode;
 
 public class DSSElement extends java.util.Vector {
-    // cd /D D:\projects\Financial Planner\ant\build\classes
-    // serialver -classpath . com.argus.financialssocialsecurity.DSSElement
 
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 8557215418894298824L;
 
     /** Creates a new instance of DSSElement */

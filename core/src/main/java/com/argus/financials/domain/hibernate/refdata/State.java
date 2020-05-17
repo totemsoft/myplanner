@@ -9,7 +9,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
-import com.argus.financials.domain.client.refdata.IState;
+import com.argus.financials.api.bean.IState;
+import com.argus.financials.api.bean.hibernate.AbstractCode;
 
 @Entity
 @Table(name = IState.TABLE_NAME)
@@ -22,8 +23,8 @@ public class State extends AbstractCode implements IState
 
     @Id
     @Column(name = "StateCodeID", nullable = false)
-    @Type(type = "com.argus.financials.domain.hibernate.LongType")
-    private Long id;
+    @Type(type = "com.argus.financials.domain.hibernate.IntegerType")
+    private Integer id;
 
     @Column(name = "StateCode", nullable = false)
     private String code;
@@ -34,7 +35,7 @@ public class State extends AbstractCode implements IState
     /* (non-Javadoc)
      * @see com.argus.financials.domain.IBase#getId()
      */
-    public Long getId()
+    public Integer getId()
     {
         return id;
     }

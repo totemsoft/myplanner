@@ -6,39 +6,35 @@
 
 package com.argus.financials.ui.login;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
-
-import com.argus.crypto.Digest;
 import com.argus.financials.code.ReferenceDataLoader;
 import com.argus.financials.config.FPSLocale;
 import com.argus.financials.config.PropertySourceManager;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.swing.SwingUtil;
+import com.argus.financials.ui.AbstractPanel;
+import com.argus.io.IOUtils;
 
-public final class UserLogin extends javax.swing.JPanel implements
-        com.argus.financials.swing.IDefaultButton {
+public final class UserLogin
+    extends AbstractPanel
+    implements com.argus.financials.swing.IDefaultButton
+{
 
     private static UserLogin view;
 
     private String lastError;
 
     /** Creates new form UserLogin */
-    private UserLogin(boolean allowDisplayOnDesktop) {
+    private UserLogin(boolean allowDisplayOnDesktop, boolean displayOnDesktop) {
         initComponents();
-        initComponents2(allowDisplayOnDesktop);
+        initComponents2(allowDisplayOnDesktop, displayOnDesktop);
     }
 
     public static UserLogin getInstance() {
         return view;
     }
 
-    public static UserLogin newInstance(boolean allowDisplayOnDesktop) {
+    public static UserLogin newInstance(boolean allowDisplayOnDesktop, boolean displayOnDesktop) {
         if (view == null)
-            view = new UserLogin(allowDisplayOnDesktop);
+            view = new UserLogin(allowDisplayOnDesktop, displayOnDesktop);
         return view;
     }
 
@@ -54,11 +50,11 @@ public final class UserLogin extends javax.swing.JPanel implements
         jButtonRegister.addActionListener(al);
     }
 
-    private void initComponents2(boolean allowDisplayOnDesktop) {
+    private void initComponents2(boolean allowDisplayOnDesktop, boolean displayOnDesktop) {
 
         FPSLocale l = FPSLocale.getInstance();
 
-        jCheckBoxDisplayOnDesktop.setSelected(l.isDisplayOnDesktop());
+        jCheckBoxDisplayOnDesktop.setSelected(displayOnDesktop);
         jCheckBoxDisplayOnDesktop.setVisible(allowDisplayOnDesktop);
 
         jLabelServerName.setVisible(false);
@@ -269,9 +265,6 @@ public final class UserLogin extends javax.swing.JPanel implements
     }// GEN-LAST:event_jCheckBoxDisplayOnDesktopActionPerformed
 
     private void formAncestorAdded(javax.swing.event.AncestorEvent evt) {// GEN-FIRST:event_formAncestorAdded
-        if (Boolean.valueOf(System.getProperty("DEBUG")).booleanValue())
-            return;
-
         if (evt.getComponent().getTopLevelAncestor() instanceof javax.swing.JApplet) {
             jLabelServerName.setVisible(false);
             jTextFieldServerName.setVisible(false);
@@ -373,20 +366,19 @@ public final class UserLogin extends javax.swing.JPanel implements
     public boolean login() {
         try
         {
-            ServiceLocator.getInstance().login(getUserName(), getUserPassword());
+            userService.login(getUserName(), getUserPassword());
             String msg = "<<<<<<<<<< LOGIN for user: "
-                + FPSLocale.getUserName() + ", "
+                + IOUtils.getUserName() + ", "
                 + new java.util.Date();
             System.out.println(msg);
             System.err.println(msg);
             // pre-load ALL reference codes
-            new Thread(new ReferenceDataLoader(), "ReferenceDataLoader").start();
-            //new ReferenceDataLoader().run();
+            new ReferenceDataLoader();
             return true;
         }
         catch (Exception e)
         {
-            lastError = ServiceLocator.getInstance().getLastError();
+            lastError = e.getMessage();
             return false;
         }
     }
@@ -394,10 +386,10 @@ public final class UserLogin extends javax.swing.JPanel implements
     public void logout() {
         SwingUtil.closeAll();
 
-        ServiceLocator.getInstance().logout();
+        userService.logout();
 
         String msg = "LOGOUT for user: "
-                + FPSLocale.getUserName() + ", "
+                + IOUtils.getUserName() + ", "
                 + new java.util.Date() + " >>>>>>>>>>";
         System.out.println(msg);
         System.err.println(msg);

@@ -13,19 +13,33 @@
     <name>Swing UI</name>
     <version>1.0.0</version>
     <description>My Planner Swing UI.</description>
+
     <dependencies>
         <dependency>
             <groupId>com.argus.financials.myplanner</groupId>
-            <artifactId>myplanner-core</artifactId>
+            <artifactId>myplanner-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.argus.financials.myplanner</groupId>
+            <artifactId>myplanner-service</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.klg.jclass</groupId>
-            <artifactId>chart</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.l2fprod</groupId>
             <artifactId>l2fprod-common-all</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.argus.financials.ui.FinancialPlannerApp</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

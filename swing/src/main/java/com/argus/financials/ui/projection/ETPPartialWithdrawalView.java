@@ -8,8 +8,8 @@ package com.argus.financials.ui.projection;
 
 import java.math.BigDecimal;
 
+import com.argus.financials.api.ETPConstants;
 import com.argus.financials.projection.ETPCalcNew;
-import com.argus.financials.projection.data.ETPConstants;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.format.Currency;

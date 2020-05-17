@@ -143,7 +143,7 @@ AS
 	(@FinancialServiceCode, @FinancialServiceDesc, @DateCreated, @LogicallyDeleted)
 GO
 
--- EXEC [dbo].[sp_import_FinancialService] 'FSS', 'Fiducian Superannuation Services'
+-- EXEC [dbo].[sp_import_FinancialService] 'FSS', 'Superannuation Services'
 
 
 ---------------------------------------------------------------------------------------
@@ -225,7 +225,7 @@ CREATE PROCEDURE [dbo].[sp_import_UserPerson]
 	@FamilyName varchar(32),
 	@FirstName varchar(32),
 	@UserPersonID int = 0,
-	@AdviserTypeCodeID int = 1, -- Fiducian Franchise = 1
+	@AdviserTypeCodeID int = 1, -- Franchise = 1
 	@LoginName varchar(32) = '',
 	@LoginPassword varchar(32) = NULL,
 	@ActiveUser char(1) = NULL

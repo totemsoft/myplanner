@@ -16,10 +16,10 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
-import com.argus.financials.GraphView;
-import com.argus.financials.IGraphView;
+import com.argus.financials.api.code.FinancialClassID;
 import com.argus.financials.bean.Assumptions;
-import com.argus.financials.code.FinancialClassID;
+import com.argus.financials.chart.GraphView;
+import com.argus.financials.chart.IGraphView;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.PersonService;
 import com.argus.financials.swing.table.ISmartTableModel;
@@ -123,7 +123,7 @@ public class WealthView extends com.argus.financials.ui.GraphTableView
     }
 
     private void init(PersonService person, java.util.Map financials, String prefix)
-            throws com.argus.financials.service.client.ServiceException {
+            throws com.argus.financials.api.ServiceException {
 
         // wealthData = new WealthData( null, assumptions, prefix );
         // wealthData.addChangeListener( this ); // update table/chart
@@ -165,9 +165,6 @@ public class WealthView extends com.argus.financials.ui.GraphTableView
      * 
      **************************************************************************/
     public void stateChanged(javax.swing.event.ChangeEvent changeEvent) {
-
-        if (DEBUG)
-            System.out.println("WealthView::stateChanged()" + changeEvent);
 
         // if ( changeEvent.getSource() != wealthData ) return;
 
@@ -334,7 +331,7 @@ public class WealthView extends com.argus.financials.ui.GraphTableView
     protected void doRefresh(java.awt.event.ActionEvent evt) {
         try {
             wealthData.update();
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
     }
@@ -346,11 +343,11 @@ public class WealthView extends com.argus.financials.ui.GraphTableView
     }
 
     public void updateView(PersonService person) throws Exception {
-        updateView(person, person.getFinancials(), ReportFields.CURRENT_PREFIX);
+        updateView(person, person.findFinancials(), ReportFields.CURRENT_PREFIX);
     }
 
     public void updateView(PersonService person, java.util.Map financials,
-            String prefix) throws com.argus.financials.service.client.ServiceException {
+            String prefix) throws com.argus.financials.api.ServiceException {
         init(person, financials, prefix);
     }
 

@@ -17,16 +17,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.argus.financials.bean.DbConstant;
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.bean.DbConstant;
 import com.argus.financials.bean.db.AbstractPersistable;
-import com.argus.financials.bean.db.FPSLinkObject;
-import com.argus.financials.etc.Address;
-import com.argus.financials.service.client.ObjectNotFoundException;
+import com.argus.financials.etc.AddressDto;
 
 public final class AddressBean extends AbstractPersistable {
 
     // has to be instanciated in top level (final) derived class
-    protected Address address; // aggregation
+    protected AddressDto address; // aggregation
 
     private int linkObjectTypeID;
 
@@ -34,7 +33,7 @@ public final class AddressBean extends AbstractPersistable {
         this(null, linkObjectTypeID);
     }
 
-    public AddressBean(Address address, int linkObjectTypeID) {
+    public AddressBean(AddressDto address, int linkObjectTypeID) {
         this.address = address;
         this.linkObjectTypeID = linkObjectTypeID;
     }
@@ -44,7 +43,7 @@ public final class AddressBean extends AbstractPersistable {
      */
     public void load(Connection con) throws SQLException,
             ObjectNotFoundException {
-        load(getPrimaryKeyID(), con);
+        load(getId(), con);
     }
 
     public void load(Integer primaryKeyID, Connection con) throws SQLException,
@@ -63,14 +62,14 @@ public final class AddressBean extends AbstractPersistable {
                             ResultSet.TYPE_FORWARD_ONLY,
                             ResultSet.CONCUR_READ_ONLY);
 
-            sql.setInt(1, primaryKeyID.intValue());
+            sql.setInt(1, primaryKeyID);
             rs = sql.executeQuery();
 
             if (!rs.next())
                 throw new ObjectNotFoundException("Can not find address ID: "
                         + primaryKeyID);
 
-            setPrimaryKeyID(primaryKeyID);
+            setId(primaryKeyID);
 
             load(rs);
 
@@ -82,17 +81,17 @@ public final class AddressBean extends AbstractPersistable {
 
     public void load(ResultSet rs) throws SQLException {
 
-        setPrimaryKeyID((Integer) rs.getObject("AddressID"));
+        setId((Integer) rs.getObject("AddressID"));
 
-        getAddress().setAddressCodeID((Integer) rs.getObject("AddressCodeID"));
-        getAddress().setCountryCodeID((Integer) rs.getObject("CountryCodeID"));
+        getAddress().setAddressCodeId((Integer) rs.getObject("AddressCodeID"));
+        getAddress().setCountryCodeId((Integer) rs.getObject("CountryCodeID"));
         getAddress().setStreetNumber(rs.getString("StreetNumber"));
         getAddress().setStreetNumber2(rs.getString("StreetNumber2"));
         getAddress().setSuburb(rs.getString("Suburb"));
-        getAddress().setPostCodeID((Integer) rs.getObject("Postcode"));
-        getAddress().setState(rs.getString("State"));
-        getAddress().setStateCodeID((Integer) rs.getObject("StateCodeID"));
-        getAddress().setParentAddressID(
+        getAddress().setPostcode((Integer) rs.getObject("Postcode"));
+        getAddress().setStateCode(rs.getString("State"));
+        getAddress().setStateCodeId((Integer) rs.getObject("StateCodeID"));
+        getAddress().setParentAddressId(
                 (Integer) rs.getObject("ParentAddressID"));
         // DateCreated datetime NOT NULL DEFAULT getDate(),
         // DateModified datetime NULL
@@ -108,7 +107,7 @@ public final class AddressBean extends AbstractPersistable {
         int i = 0;
         PreparedStatement sql;
 
-        if (getPrimaryKeyID() == null) {
+        if (getId() == null) {
 
             int primaryKeyID = getNewObjectID(DbConstant.ADDRESS, con);
 
@@ -119,28 +118,28 @@ public final class AddressBean extends AbstractPersistable {
                             + " VALUES" + " (?,?,?,?,?,?,?,?,?,?)");
 
             sql.setInt(++i, primaryKeyID);
-            sql.setObject(++i, getAddress().getAddressCodeID(),
+            sql.setObject(++i, getAddress().getAddressCodeId(),
                     java.sql.Types.INTEGER);
             sql.setString(++i, getAddress().getStreetNumber());
             sql.setString(++i, getAddress().getStreetNumber2());
             sql.setString(++i, getAddress().getSuburb());
-            sql.setObject(++i, getAddress().getPostCodeID(),
+            sql.setObject(++i, getAddress().getPostcode(),
                     java.sql.Types.INTEGER);
-            sql.setString(++i, getAddress().getState());
-            sql.setObject(++i, getAddress().getStateCodeID(),
+            sql.setString(++i, getAddress().getStateCode());
+            sql.setObject(++i, getAddress().getStateCodeId(),
                     java.sql.Types.INTEGER);
-            sql.setObject(++i, getAddress().getCountryCodeID(),
+            sql.setObject(++i, getAddress().getCountryCodeId(),
                     java.sql.Types.INTEGER);
-            sql.setObject(++i, getAddress().getParentAddressID(),
+            sql.setObject(++i, getAddress().getParentAddressId(),
                     java.sql.Types.INTEGER);
 
             sql.executeUpdate();
 
             // then create link
-            FPSLinkObject.getInstance().link(getOwnerPrimaryKeyID().intValue(),
+            linkObjectDao.link(getOwnerId().intValue(),
                     primaryKeyID, linkObjectTypeID, con);
 
-            setPrimaryKeyID(new Integer(primaryKeyID));
+            setId(primaryKeyID);
 
         } else {
 
@@ -153,24 +152,24 @@ public final class AddressBean extends AbstractPersistable {
             sql.setString(++i, getAddress().getStreetNumber());
             sql.setString(++i, getAddress().getStreetNumber2());
             sql.setString(++i, getAddress().getSuburb());
-            sql.setObject(++i, getAddress().getPostCodeID(),
+            sql.setObject(++i, getAddress().getPostcode(),
                     java.sql.Types.INTEGER);
-            sql.setString(++i, getAddress().getState());
-            sql.setObject(++i, getAddress().getStateCodeID(),
+            sql.setString(++i, getAddress().getStateCode());
+            sql.setObject(++i, getAddress().getStateCodeId(),
                     java.sql.Types.INTEGER);
-            sql.setObject(++i, getAddress().getCountryCodeID(),
+            sql.setObject(++i, getAddress().getCountryCodeId(),
                     java.sql.Types.INTEGER);
-            sql.setObject(++i, getAddress().getParentAddressID(),
+            sql.setObject(++i, getAddress().getParentAddressId(),
                     java.sql.Types.INTEGER);
 
-            sql.setInt(++i, getPrimaryKeyID().intValue());
+            sql.setInt(++i, getId());
 
             sql.executeUpdate();
 
         }
 
         setModified(false);
-        return getPrimaryKeyID().intValue();
+        return getId();
     }
 
     public Integer find() throws SQLException {
@@ -183,13 +182,13 @@ public final class AddressBean extends AbstractPersistable {
     /**
      * get/set methods
      */
-    public Address getAddress() {
+    public AddressDto getAddress() {
         if (address == null)
-            address = new Address();
+            address = new AddressDto();
         return address;
     }
 
-    public void setAddress(Address value) {
+    public void setAddress(AddressDto value) {
         if (equals(address, value))
             return;
 
@@ -205,24 +204,24 @@ public final class AddressBean extends AbstractPersistable {
         getAddress().setModified(value);
     }
 
-    public Integer getPrimaryKeyID() {
-        return getAddress().getPrimaryKeyID();
+    public Integer getId() {
+        return getAddress().getId();
     }
 
-    public void setPrimaryKeyID(Integer value) {
-        getAddress().setPrimaryKeyID(value);
+    public void setId(Integer value) {
+        getAddress().setId(value);
     }
 
     public Integer getOwnerPrimaryKeyID() {
-        return getAddress().getOwnerPrimaryKeyID();
+        return getAddress().getOwnerId();
     }
 
     public void setOwnerPrimaryKeyID(Integer value) {
-        getAddress().setOwnerPrimaryKeyID(value);
+        getAddress().setOwnerId(value);
     }
 
     public Integer getAddressCodeID() {
-        return getAddress().getAddressCodeID();
+        return getAddress().getAddressCodeId();
     }
 
 }

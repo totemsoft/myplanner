@@ -24,14 +24,14 @@ package com.argus.financials.report.data;
 
 import java.math.BigDecimal;
 
-import com.argus.financials.code.FinancialTypeID;
+import com.argus.financials.api.bean.IMaritalCode;
 import com.argus.financials.projection.DSSCalc2;
 import com.argus.financials.projection.data.AssessableAssetsIncome;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.service.PersonService;
 
 public class DSSData extends com.argus.financials.bean.AbstractBase implements
-        FinancialTypeID, com.argus.financials.report.Reportable,
+        com.argus.financials.report.Reportable,
         javax.swing.event.ChangeListener {
     protected static final String STRING_EMPTY = "";
 
@@ -839,8 +839,7 @@ public class DSSData extends com.argus.financials.bean.AbstractBase implements
 
         // set martial status
         if (dssCalc2.getMaritalStatus() != null) {
-            maritalStatus = dssCalc2.getMaritalStatus().equals(
-                    com.argus.financials.code.MaritalCode.SINGLE) ? "S" : "C";
+            maritalStatus = dssCalc2.getMaritalStatus().equals(IMaritalCode.SINGLE) ? "S" : "C";
         } else {
             maritalStatus = "";
         }
@@ -2165,9 +2164,7 @@ public class DSSData extends com.argus.financials.bean.AbstractBase implements
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields)
             throws java.io.IOException {
-        initializeReportData(reportFields,
-                com.argus.financials.service.ServiceLocator.getInstance()
-                        .getClientPerson());
+        initializeReportData(reportFields, clientService);
     }
 
     public void initializeReportData(

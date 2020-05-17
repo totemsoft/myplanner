@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+    default-autowire="byName" default-lazy-init="true">
+
+    <!--context:component-scan base-package="com.argus.financials.service" /-->
+
+    <bean id="report"  class="com.argus.activex.wordreport.WordReportJava2COM" />
+
+    <bean id="businessService"  class="com.argus.financials.service.impl.BusinessServiceImpl" />
+    <bean id="entityService"    class="com.argus.financials.service.impl.EntityServiceImpl" />
+    <bean id="financialService" class="com.argus.financials.service.impl.FinancialServiceImpl" />
+    <bean id="personService"    class="com.argus.financials.service.impl.PersonServiceImpl" />
+    <bean id="clientService"    class="com.argus.financials.service.impl.ClientServiceImpl" />
+    <bean id="userService"      class="com.argus.financials.service.impl.UserServiceImpl" />
+    <bean id="utilityService"   class="com.argus.financials.service.impl.UtilityServiceImpl" />
+
+</beans>

@@ -17,10 +17,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.bean.FinancialGoal;
-import com.argus.financials.bean.ObjectTypeConstant;
-import com.argus.financials.code.InvalidCodeException;
-import com.argus.financials.service.client.ObjectNotFoundException;
 
 public class FinancialGoalBean extends AbstractPersistable {
 
@@ -81,7 +81,7 @@ public class FinancialGoalBean extends AbstractPersistable {
      */
     public void load(Connection con) throws SQLException,
             ObjectNotFoundException {
-        load(getPrimaryKeyID(), con);
+        load(getId(), con);
     }
 
     public void load(Integer primaryKeyID, Connection con) throws SQLException,
@@ -111,7 +111,7 @@ public class FinancialGoalBean extends AbstractPersistable {
 
             // has to be last (to be safe), we are not using primaryKeyID for
             // other queries
-            setPrimaryKeyID(primaryKeyID);
+            setId(primaryKeyID);
 
         } finally {
             close(rs, sql);
@@ -146,7 +146,7 @@ public class FinancialGoalBean extends AbstractPersistable {
         PreparedStatement sql = null;
 
         try {
-            if (getPrimaryKeyID() == null || getPrimaryKeyID().intValue() < 0) {
+            if (getId() == null || getId().intValue() < 0) {
 
                 primaryKeyID = getNewObjectID(getObjectTypeID(), con);
 
@@ -171,16 +171,16 @@ public class FinancialGoalBean extends AbstractPersistable {
                 sql.executeUpdate();
 
                 // then create first level link
-                int linkID = FPSLinkObject.getInstance().link(
-                        getOwnerPrimaryKeyID().intValue(), primaryKeyID,
+                int linkID = linkObjectDao.link(
+                        getOwnerId().intValue(), primaryKeyID,
                         getLinkObjectTypeID(1), // PERSON_2_FINANCIALGOAL
                         con);
 
-                setPrimaryKeyID(new Integer(primaryKeyID));
+                setId(new Integer(primaryKeyID));
 
             } else {
 
-                primaryKeyID = getPrimaryKeyID().intValue();
+                primaryKeyID = getId().intValue();
 
                 // do update on FinancialGoal table
                 sql = con
@@ -247,20 +247,20 @@ public class FinancialGoalBean extends AbstractPersistable {
         getFinancialGoal().setModified(value);
     }
 
-    public Integer getPrimaryKeyID() {
-        return getFinancialGoal().getPrimaryKeyID();
+    public Integer getId() {
+        return getFinancialGoal().getId();
     }
 
-    public void setPrimaryKeyID(Integer value) {
-        getFinancialGoal().setPrimaryKeyID(value);
+    public void setId(Integer value) {
+        getFinancialGoal().setId(value);
     }
 
     public Integer getOwnerPrimaryKeyID() {
-        return getFinancialGoal().getOwnerPrimaryKeyID();
+        return getFinancialGoal().getOwnerId();
     }
 
     public void setOwnerPrimaryKeyID(Integer value) {
-        getFinancialGoal().setOwnerPrimaryKeyID(value);
+        getFinancialGoal().setOwnerId(value);
     }
 
     public Integer getGoalCodeID() {

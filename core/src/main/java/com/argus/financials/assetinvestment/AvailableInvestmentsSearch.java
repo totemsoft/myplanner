@@ -11,7 +11,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Vector;
 
-import com.argus.financials.bean.db.FinancialCodeBean;
+import com.argus.financials.api.bean.hibernate.FinancialCode;
+import com.argus.financials.api.dao.FinancialCodeDao;
 import com.argus.financials.bean.db.IressAssetNameBean;
 import com.argus.financials.bean.db.UnitInformationSearchBean;
 
@@ -38,7 +39,10 @@ public class AvailableInvestmentsSearch {
 
     private IressAssetNameBean _iressAssetNameBean = null;
 
-    private FinancialCodeBean _financialCodeBean = null;
+    private static FinancialCodeDao financialCodeDao;
+    public static void setFinancialCodeDao(FinancialCodeDao financialCodeDao) {
+        AvailableInvestmentsSearch.financialCodeDao = financialCodeDao;
+    }
 
     private static final int INITIAL_VECTOR_SIZE = 128;
 
@@ -65,15 +69,13 @@ public class AvailableInvestmentsSearch {
 
         _unitInformationSearchBean = new UnitInformationSearchBean();
         _iressAssetNameBean = new IressAssetNameBean();
-        _financialCodeBean = new FinancialCodeBean();
 
         try {
             _table_rows_unit_information_search = _unitInformationSearchBean
                     .findByKeywordsSearchDescription(keywords);
             _table_rows_iress_asset_name = _iressAssetNameBean
                     .findByKeywordsSearchDescription(keywords);
-            _table_rows_financial_code = _financialCodeBean
-                    .findByKeywordsSearchDescription(keywords);
+            _table_rows_financial_code = financialCodeDao.findByKeywords(keywords, FinancialCode.COLUMN_DESC);
         } catch (java.sql.SQLException e) {
             e.printStackTrace(System.err);
         } finally {
@@ -107,23 +109,21 @@ public class AvailableInvestmentsSearch {
 
         _unitInformationSearchBean = new UnitInformationSearchBean();
         _iressAssetNameBean = new IressAssetNameBean();
-        _financialCodeBean = new FinancialCodeBean();
 
         try {
             _table_rows_unit_information_search = _unitInformationSearchBean
                     .findByKeywordsSearchInvestmentCode(keywords);
             _table_rows_iress_asset_name = _iressAssetNameBean
                     .findByKeywordsSearchInvestmentCode(keywords);
-            _table_rows_financial_code = _financialCodeBean
-                    .findByKeywordsSearchInvestmentCode(keywords);
+            _table_rows_financial_code = financialCodeDao.findByKeywords(keywords, FinancialCode.COLUMN_CODE);
         } catch (java.sql.SQLException e) {
             e.printStackTrace(System.err);
         } finally {
         }
 
-        merge_table_rows.addAll(_table_rows_unit_information_search);
-        merge_table_rows.addAll(_table_rows_iress_asset_name);
-        merge_table_rows.addAll(_table_rows_financial_code);
+        if (_table_rows_unit_information_search != null) merge_table_rows.addAll(_table_rows_unit_information_search);
+        if (_table_rows_iress_asset_name != null) merge_table_rows.addAll(_table_rows_iress_asset_name);
+        if (_table_rows_financial_code != null) merge_table_rows.addAll(_table_rows_financial_code);
 
         // sort Vector by description
         Comparator descriptionCmp = new AvailableInvestmentsSelectionInvestmentCodeComperator();

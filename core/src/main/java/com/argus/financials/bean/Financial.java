@@ -6,34 +6,29 @@
 
 package com.argus.financials.bean;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
+import java.math.BigDecimal;
 
+import com.argus.financials.api.bean.ICode;
+import com.argus.financials.api.bean.IFPSAssignableObject;
+import com.argus.financials.api.bean.hibernate.FinancialCode;
+import com.argus.financials.api.bean.hibernate.FinancialType;
+import com.argus.financials.api.code.FinancialTypeEnum;
+import com.argus.financials.api.code.FinancialTypeID;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.assetallocation.AssetAllocation;
 import com.argus.financials.code.CountryCode;
 import com.argus.financials.code.FinancialServiceCode;
-import com.argus.financials.code.FinancialType;
-import com.argus.financials.code.FinancialTypeID;
 import com.argus.financials.code.FrequencyCode;
 import com.argus.financials.code.Institution;
 import com.argus.financials.code.OwnerCode;
 import com.argus.financials.etc.FPSAssignableObject;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.format.Currency;
 import com.argus.util.DateTimeUtils;
 import com.argus.util.ReferenceCode;
 
-public abstract class Financial extends FPSAssignableObject implements
-        IRegularType, java.lang.Cloneable, FinancialTypeID {
-    // cd /D D:\projects\Financial Planner\ant\build\classes
-    // serialver -classpath . com.argus.financial.Financial
+public abstract class Financial extends FPSAssignableObject
+    implements IRegularType, java.lang.Cloneable, FinancialTypeID {
 
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = -2309311830652434728L;
 
     transient protected static boolean DISPLAY_PKID = false;
@@ -42,15 +37,10 @@ public abstract class Financial extends FPSAssignableObject implements
 
     public static final String NONE = "[None]";
 
-    public static final java.math.BigDecimal ZERO = new java.math.BigDecimal(0.);
-
-    public static final java.math.BigDecimal ONE = new java.math.BigDecimal(1.);
-
-    public static final java.math.BigDecimal HUNDRED = new java.math.BigDecimal(
-            100.);
-
-    public static final java.math.BigDecimal RATIO_30_70 = new java.math.BigDecimal(
-            30. / 70.);
+    public static final BigDecimal ZERO = BigDecimal.ZERO;
+    public static final BigDecimal ONE = BigDecimal.ONE;
+    public static final BigDecimal HUNDRED = new BigDecimal("100.");
+    public static final BigDecimal RATIO_30_70 = new BigDecimal(30. / 70.);
 
     public static final double HOLE = Double.MAX_VALUE;
 
@@ -119,9 +109,9 @@ public abstract class Financial extends FPSAssignableObject implements
         this.generatedYear = year;
     }
 
-    private ReferenceCode financialType;
+    private ICode financialType;
 
-    private ReferenceCode financialCode;
+    private ICode financialCode;
 
     private Integer institutionID;
 
@@ -131,7 +121,7 @@ public abstract class Financial extends FPSAssignableObject implements
 
     private Integer countryCodeID;
 
-    private java.math.BigDecimal amount;
+    private BigDecimal amount;
 
     private String financialDesc;
 
@@ -141,30 +131,30 @@ public abstract class Financial extends FPSAssignableObject implements
     private java.util.Date endDate;
 
     // for AssetInvestment
-    private java.math.BigDecimal franked;
+    private BigDecimal franked;
 
-    private java.math.BigDecimal taxFreeDeferred;
+    private BigDecimal taxFreeDeferred;
 
-    private java.math.BigDecimal capitalGrowth;
+    private BigDecimal capitalGrowth;
 
-    private java.math.BigDecimal income;
+    private BigDecimal income;
 
-    private java.math.BigDecimal upfrontFee;
+    private BigDecimal upfrontFee;
 
-    private java.math.BigDecimal ongoingFee;
+    private BigDecimal ongoingFee;
 
     // for AssetSuperannuation
-    private java.math.BigDecimal deductible;
+    private BigDecimal deductible;
 
-    private java.math.BigDecimal deductibleDSS;
+    private BigDecimal deductibleDSS;
 
     private boolean complyingForDSS;
 
-    private java.math.BigDecimal indexation;
+    private BigDecimal indexation;
 
-    private java.math.BigDecimal expense;
+    private BigDecimal expense;
 
-    private java.math.BigDecimal rebateable;
+    private BigDecimal rebateable;
 
     private Integer strategyGroupID;
 
@@ -206,8 +196,8 @@ public abstract class Financial extends FPSAssignableObject implements
     public boolean equals(Object obj) {
         if (obj instanceof Financial) // && isGenerated() && ( (Financial) obj
                                         // ).isGenerated() )
-            return equals(getPrimaryKeyID(), ((Financial) obj)
-                    .getPrimaryKeyID());
+            return equals(getId(), ((Financial) obj)
+                    .getId());
         return super.equals(obj);
     }
 
@@ -221,7 +211,7 @@ public abstract class Financial extends FPSAssignableObject implements
             s = NONE;
 
         if (DISPLAY_PKID)
-            s += "(" + getPrimaryKeyID() + ")";
+            s += "(" + getId() + ")";
 
         return s;
     }
@@ -241,7 +231,7 @@ public abstract class Financial extends FPSAssignableObject implements
             f.assign(this);
 
             // assign members that are not asignable
-            f.setPrimaryKeyID(getPrimaryKeyID());
+            f.setId(getId());
 
         } catch (ClassCastException e) {
             e.printStackTrace(System.err); // impossible
@@ -283,8 +273,6 @@ public abstract class Financial extends FPSAssignableObject implements
         }
 
         f.generatedYear = year;
-        // if (DEBUG) System.out.println( f.getClass().getName() +
-        // "\tf.projectAmount( " + year + ", ... )" );
         f.projectAmount(year, inflation);
 
         return f;
@@ -295,11 +283,11 @@ public abstract class Financial extends FPSAssignableObject implements
     
     // setAmount() current value
 
-    public java.math.BigDecimal getRegularAmount() {
+    public BigDecimal getRegularAmount() {
         return ZERO;
     }
 
-    protected void setRegularAmount(java.math.BigDecimal value) {
+    protected void setRegularAmount(BigDecimal value) {
     }
 
     public String getTypeDesc() {
@@ -310,7 +298,8 @@ public abstract class Financial extends FPSAssignableObject implements
     /**
      * Assignable methods
      */
-    public void assign(FPSAssignableObject value) throws ClassCastException {
+    @Override
+    public void assign(IFPSAssignableObject value) throws ClassCastException {
 
         super.assign(value);
 
@@ -371,7 +360,7 @@ public abstract class Financial extends FPSAssignableObject implements
     /**
      * helper methods
      */
-    protected void clear() {
+    public void clear() {
         super.clear();
 
         generatedYear = 0;
@@ -410,9 +399,9 @@ public abstract class Financial extends FPSAssignableObject implements
 
     }
 
-    public static java.math.BigDecimal getTotalAmount(
+    public static BigDecimal getTotalAmount(
             java.util.Collection values) {
-        java.math.BigDecimal total = ZERO;
+        BigDecimal total = ZERO;
 
         if (values != null && values.size() > 0) {
 
@@ -427,9 +416,9 @@ public abstract class Financial extends FPSAssignableObject implements
         return total;
     }
 
-    public static java.math.BigDecimal getTotalAmount(Integer financialTypeID,
+    public static BigDecimal getTotalAmount(Integer financialTypeID,
             java.util.Collection values) {
-        java.math.BigDecimal total = ZERO;
+        BigDecimal total = ZERO;
 
         if (financialTypeID != null && values != null && values.size() > 0) {
 
@@ -460,7 +449,7 @@ public abstract class Financial extends FPSAssignableObject implements
         Regular r = getRegular(type);
         if (r != null && r.getAmount() != null
                 && r.getAmount().doubleValue() != 0.)
-            map.put(r.getPrimaryKeyID(), r);
+            map.put(r.getId(), r);
     }
 
     protected RegularIncome generateIncome(int generatedType) {
@@ -494,10 +483,10 @@ public abstract class Financial extends FPSAssignableObject implements
         // r.setAmount( null ); // calculated
         if (this instanceof Asset) {
             r.setAsset((Asset) this);
-            // r.setAssetID( getPrimaryKeyID() );
+            // r.setAssetID( getId() );
         }
         r.setCountryCodeID(getCountryCodeID());
-        r.setFinancialCodeID(null);
+        r.setFinancialCodeId(null);
         r.setFinancialDesc(toString());
         // r.setFinancialTypeID( new Integer( INCOME_INVESTMENT ) );
         r.setFrequencyCodeID(FrequencyCode.YEARLY);
@@ -513,78 +502,62 @@ public abstract class Financial extends FPSAssignableObject implements
     /***************************************************************************
      * get/set methods
      **************************************************************************/
-    public Integer getPrimaryKeyID() {
-        if (super.getPrimaryKeyID() == null) {
+    public Integer getId() {
+        if (super.getId() == null) {
             int hash = hashCode();
-            setPrimaryKeyID(new Integer(hash < 0 ? hash : -hash));
+            setId(new Integer(hash < 0 ? hash : -hash));
             setModified(true);
         }
-        return super.getPrimaryKeyID();
+        return super.getId();
     }
 
-    public Integer getOwnerPrimaryKeyID() {
-        if (super.getOwnerPrimaryKeyID() == null)
-            setOwnerPrimaryKeyID(ServiceLocator.getInstance()
-                    .getClientPersonID());
-        return super.getOwnerPrimaryKeyID();
+    public Integer getOwnerId() {
+        if (super.getOwnerId() == null)
+            setOwnerId(clientService.getId());
+        return super.getOwnerId();
     }
 
-    public ReferenceCode getFinancialType() {
+    public ICode getFinancialType() {
         return financialType;
     }
 
-    public void setFinancialType(ReferenceCode value) {
-        if (equals(financialType, value))
-            return;
-
+    public void setFinancialType(ICode value) {
         financialType = value;
-        setModified(true);
     }
 
     public Integer getFinancialTypeID() {
-        return financialType == null ? null : financialType.getCodeIDInteger();
+        return financialType == null ? null : financialType.getId();
     }
 
-    public void setFinancialTypeID(int value) {
-        setFinancialTypeID(value <= 0 ? null : new Integer(value));
+    public void setFinancialTypeId(Integer value) {
+        setFinancialType(value == null || value <= 0 ? null : new FinancialType(value));
     }
-
-    public void setFinancialTypeID(Integer value) {
-        setFinancialType(value == null ? null : FinancialType.getFinancialType(
-                getObjectTypeID(), value));
+    public void setFinancialTypeId(FinancialTypeEnum value) {
+        setFinancialTypeId(value.getId());
     }
 
     public String getFinancialTypeDesc() {
-        return financialType == null ? null : financialType.getCodeDesc();
+        return financialType == null ? null : financialType.getDescription();
     }
 
-    public ReferenceCode getFinancialCode() {
+    public ICode getFinancialCode() {
         return financialCode;
     }
 
-    public void setFinancialCode(ReferenceCode value) {
-        if (equals(financialCode, value))
-            return;
-
-        financialCode = value;
-        setModified(true);
+    public void setFinancialCode(ICode financialCode) {
+        this.financialCode = financialCode;
     }
 
-    public Integer getFinancialCodeID() {
-        return financialCode == null ? null : financialCode.getCodeIDInteger();
+    public Integer getFinancialCodeId() {
+        return financialCode == null ? null : financialCode.getId();
     }
 
-    public void setFinancialCodeID(int value) {
-        setFinancialCodeID(value <= 0 ? null : new Integer(value));
-    }
-
-    public void setFinancialCodeID(Integer value) {
-        setFinancialCode(value == null ? null : FinancialType.getFinancialCode(
-                getObjectTypeID(), getFinancialTypeID(), value));
+    public void setFinancialCodeId(Integer financialCodeId) {
+        setFinancialCode(financialCodeId == null || financialCodeId <= 0 ? null : new FinancialCode(financialCodeId));
     }
 
     public String getFinancialCodeDesc() {
-        return financialCode == null ? null : financialCode.getCodeDesc();
+        return financialCode == null ? null : financialCode.getDescription();
     }
 
     public Integer getInstitutionID() {
@@ -661,42 +634,42 @@ public abstract class Financial extends FPSAssignableObject implements
         setModified(true);
     }
 
-    public java.math.BigDecimal getAmount() {
+    public BigDecimal getAmount() {
         if (amount == null)
             amount = ZERO;
         return amount;
     }
 
     // default
-    public java.math.BigDecimal getFinancialYearAmount() {
+    public BigDecimal getFinancialYearAmount() {
         return getAmount();
     }
 
-    public java.math.BigDecimal getFinancialYearAmount(boolean sign) {
+    public BigDecimal getFinancialYearAmount(boolean sign) {
         return getAmount(sign);
     }
 
     // default full or zero
-    protected java.math.BigDecimal getFinancialYearAmountFractional(
+    protected BigDecimal getFinancialYearAmountFractional(
             boolean fractional) {
         // return getAmount();
         double fraction = DateTimeUtils.getFinancialYearFraction(DateTimeUtils
                 .getFinancialYearEnd()
                 + getGeneratedYear(), getStartDate(), getEndDate());
         if (fraction > 0.)
-            return new java.math.BigDecimal(getAmount().doubleValue()
+            return new BigDecimal(getAmount().doubleValue()
                     * (fractional ? fraction : 1.));
         return ZERO;
     }
 
-    protected java.math.BigDecimal getFinancialYearAmountFractional(
+    protected BigDecimal getFinancialYearAmountFractional(
             boolean fractional, boolean sign) {
         // return getAmount(sign);
         double fraction = DateTimeUtils.getFinancialYearFraction(DateTimeUtils
                 .getFinancialYearEnd()
                 + getGeneratedYear(), getStartDate(), getEndDate());
         if (fraction > 0.)
-            return new java.math.BigDecimal(getAmount(sign).doubleValue()
+            return new BigDecimal(getAmount(sign).doubleValue()
                     * (fractional ? fraction : 1.));
         return ZERO;
     }
@@ -735,10 +708,10 @@ public abstract class Financial extends FPSAssignableObject implements
 
     }
 
-    public void setAmount(java.math.BigDecimal value) {
+    public void setAmount(BigDecimal value) {
         if (value != null && value.scale() > MONEY_SCALE)
             value = value
-                    .setScale(MONEY_SCALE, java.math.BigDecimal.ROUND_DOWN);
+                    .setScale(MONEY_SCALE, BigDecimal.ROUND_DOWN);
 
         if (equals(amount, value))
             return;
@@ -756,7 +729,7 @@ public abstract class Financial extends FPSAssignableObject implements
         setModified(true);
     }
 
-    public java.math.BigDecimal getAmount(boolean signed) {
+    public BigDecimal getAmount(boolean signed) {
         return getAmount();
     }
 
@@ -778,14 +751,14 @@ public abstract class Financial extends FPSAssignableObject implements
     /***************************************************************************
      * for AssetInvestment
      **************************************************************************/
-    public java.math.BigDecimal getFranked() {
+    public BigDecimal getFranked() {
         return franked;
     }
 
-    protected void setFranked(java.math.BigDecimal value) {
+    protected void setFranked(BigDecimal value) {
         if (value != null && value.scale() > MONEY_SCALE)
             value = value
-                    .setScale(MONEY_SCALE, java.math.BigDecimal.ROUND_DOWN);
+                    .setScale(MONEY_SCALE, BigDecimal.ROUND_DOWN);
 
         if (equals(franked, value))
             return;
@@ -794,14 +767,14 @@ public abstract class Financial extends FPSAssignableObject implements
         setModified(true);
     }
 
-    public java.math.BigDecimal getTaxFreeDeferred() {
+    public BigDecimal getTaxFreeDeferred() {
         return taxFreeDeferred;
     }
 
-    protected void setTaxFreeDeferred(java.math.BigDecimal value) {
+    protected void setTaxFreeDeferred(BigDecimal value) {
         if (value != null && value.scale() > MONEY_SCALE)
             value = value
-                    .setScale(MONEY_SCALE, java.math.BigDecimal.ROUND_DOWN);
+                    .setScale(MONEY_SCALE, BigDecimal.ROUND_DOWN);
 
         if (equals(taxFreeDeferred, value))
             return;
@@ -810,14 +783,14 @@ public abstract class Financial extends FPSAssignableObject implements
         setModified(true);
     }
 
-    public java.math.BigDecimal getCapitalGrowth() {
+    public BigDecimal getCapitalGrowth() {
         return capitalGrowth;
     }
 
-    protected void setCapitalGrowth(java.math.BigDecimal value) {
+    protected void setCapitalGrowth(BigDecimal value) {
         if (value != null && value.scale() > MONEY_SCALE)
             value = value
-                    .setScale(MONEY_SCALE, java.math.BigDecimal.ROUND_DOWN);
+                    .setScale(MONEY_SCALE, BigDecimal.ROUND_DOWN);
 
         if (equals(capitalGrowth, value))
             return;
@@ -826,14 +799,14 @@ public abstract class Financial extends FPSAssignableObject implements
         setModified(true);
     }
 
-    public java.math.BigDecimal getIncome() {
+    public BigDecimal getIncome() {
         return income;
     }
 
-    protected void setIncome(java.math.BigDecimal value) {
+    protected void setIncome(BigDecimal value) {
         if (value != null && value.scale() > MONEY_SCALE)
             value = value
-                    .setScale(MONEY_SCALE, java.math.BigDecimal.ROUND_DOWN);
+                    .setScale(MONEY_SCALE, BigDecimal.ROUND_DOWN);
 
         if (equals(income, value))
             return;
@@ -842,7 +815,7 @@ public abstract class Financial extends FPSAssignableObject implements
         setModified(true);
     }
 
-    public java.math.BigDecimal getTotalReturn() {
+    public BigDecimal getTotalReturn() {
         if (getCapitalGrowth() == null)
             return getIncome();
         if (getIncome() == null)
@@ -850,14 +823,14 @@ public abstract class Financial extends FPSAssignableObject implements
         return getCapitalGrowth().add(getIncome());
     }
 
-    public java.math.BigDecimal getUpfrontFee() {
+    public BigDecimal getUpfrontFee() {
         return upfrontFee;
     }
 
-    protected void setUpfrontFee(java.math.BigDecimal value) {
+    protected void setUpfrontFee(BigDecimal value) {
         if (value != null && value.scale() > MONEY_SCALE)
             value = value
-                    .setScale(MONEY_SCALE, java.math.BigDecimal.ROUND_DOWN);
+                    .setScale(MONEY_SCALE, BigDecimal.ROUND_DOWN);
 
         if (equals(upfrontFee, value))
             return;
@@ -866,14 +839,14 @@ public abstract class Financial extends FPSAssignableObject implements
         setModified(true);
     }
 
-    public java.math.BigDecimal getOngoingFee() {
+    public BigDecimal getOngoingFee() {
         return ongoingFee;
     }
 
-    protected void setOngoingFee(java.math.BigDecimal value) {
+    protected void setOngoingFee(BigDecimal value) {
         if (value != null && value.scale() > MONEY_SCALE)
             value = value
-                    .setScale(MONEY_SCALE, java.math.BigDecimal.ROUND_DOWN);
+                    .setScale(MONEY_SCALE, BigDecimal.ROUND_DOWN);
 
         if (equals(ongoingFee, value))
             return;
@@ -885,14 +858,14 @@ public abstract class Financial extends FPSAssignableObject implements
     /***************************************************************************
      * for AssetSuperannuation
      **************************************************************************/
-    public java.math.BigDecimal getDeductible() {
+    public BigDecimal getDeductible() {
         return deductible;
     }
 
-    protected void setDeductible(java.math.BigDecimal value) {
+    protected void setDeductible(BigDecimal value) {
         if (value != null && value.scale() > MONEY_SCALE)
             value = value
-                    .setScale(MONEY_SCALE, java.math.BigDecimal.ROUND_DOWN);
+                    .setScale(MONEY_SCALE, BigDecimal.ROUND_DOWN);
 
         if (equals(deductible, value))
             return;
@@ -901,14 +874,14 @@ public abstract class Financial extends FPSAssignableObject implements
         setModified(true);
     }
 
-    public java.math.BigDecimal getDeductibleDSS() {
+    public BigDecimal getDeductibleDSS() {
         return deductibleDSS;
     }
 
-    protected void setDeductibleDSS(java.math.BigDecimal value) {
+    protected void setDeductibleDSS(BigDecimal value) {
         if (value != null && value.scale() > MONEY_SCALE)
             value = value
-                    .setScale(MONEY_SCALE, java.math.BigDecimal.ROUND_DOWN);
+                    .setScale(MONEY_SCALE, BigDecimal.ROUND_DOWN);
 
         if (equals(deductibleDSS, value))
             return;
@@ -929,14 +902,14 @@ public abstract class Financial extends FPSAssignableObject implements
         setModified(true);
     }
 
-    public java.math.BigDecimal getIndexation() {
+    public BigDecimal getIndexation() {
         return indexation;
     }
 
-    protected void setIndexation(java.math.BigDecimal value) {
+    protected void setIndexation(BigDecimal value) {
         if (value != null && value.scale() > MONEY_SCALE)
             value = value
-                    .setScale(MONEY_SCALE, java.math.BigDecimal.ROUND_DOWN);
+                    .setScale(MONEY_SCALE, BigDecimal.ROUND_DOWN);
 
         if (equals(indexation, value))
             return;
@@ -945,14 +918,14 @@ public abstract class Financial extends FPSAssignableObject implements
         setModified(true);
     }
 
-    public java.math.BigDecimal getExpense() {
+    public BigDecimal getExpense() {
         return expense;
     }
 
-    protected void setExpense(java.math.BigDecimal value) {
+    protected void setExpense(BigDecimal value) {
         if (value != null && value.scale() > MONEY_SCALE)
             value = value
-                    .setScale(MONEY_SCALE, java.math.BigDecimal.ROUND_DOWN);
+                    .setScale(MONEY_SCALE, BigDecimal.ROUND_DOWN);
 
         if (equals(expense, value))
             return;
@@ -961,14 +934,14 @@ public abstract class Financial extends FPSAssignableObject implements
         setModified(true);
     }
 
-    public java.math.BigDecimal getRebateable() {
+    public BigDecimal getRebateable() {
         return rebateable;
     }
 
-    protected void setRebateable(java.math.BigDecimal value) {
+    protected void setRebateable(BigDecimal value) {
         if (value != null && value.scale() > MONEY_SCALE)
             value = value
-                    .setScale(MONEY_SCALE, java.math.BigDecimal.ROUND_DOWN);
+                    .setScale(MONEY_SCALE, BigDecimal.ROUND_DOWN);
 
         if (equals(rebateable, value))
             return;
@@ -1011,18 +984,18 @@ public abstract class Financial extends FPSAssignableObject implements
     /***************************************************************************
      * Temporary storage, used in Strategy Creator
      **************************************************************************/
-    private java.math.BigDecimal balanceAmount = null; // uninitialized value
+    private BigDecimal balanceAmount = null; // uninitialized value
 
-    private java.math.BigDecimal usedAmount;
+    private BigDecimal usedAmount;
 
-    public java.math.BigDecimal getUsedAmount() {
+    public BigDecimal getUsedAmount() {
         return usedAmount;
     }
 
-    public void setUsedAmount(java.math.BigDecimal value) {
+    public void setUsedAmount(BigDecimal value) {
         if (value != null && value.scale() > MONEY_SCALE)
             value = value
-                    .setScale(MONEY_SCALE, java.math.BigDecimal.ROUND_DOWN);
+                    .setScale(MONEY_SCALE, BigDecimal.ROUND_DOWN);
 
         if (equals(getUsedAmount(), value))
             return;
@@ -1034,40 +1007,26 @@ public abstract class Financial extends FPSAssignableObject implements
         setModified(true);
     }
 
-    public java.math.BigDecimal getUsedAmount(boolean signed) {
+    public BigDecimal getUsedAmount(boolean signed) {
         return getUsedAmount();
     }
 
-    public java.math.BigDecimal getBalanceAmount() {
+    public BigDecimal getBalanceAmount() {
         // uninitialized value
         if (balanceAmount == null)
             resetBalanceAmount();
-
-        // if (DEBUG) System.out.println( this + "\thashCode=" + this.hashCode()
-        // );
-        // if (DEBUG) System.out.println( "----------> getBalanceAmount(): " +
-        // balanceAmount );
         return balanceAmount == null ? ZERO : balanceAmount;
     }
 
-    public java.math.BigDecimal updateBalanceAmount(java.math.BigDecimal value) {
+    public BigDecimal updateBalanceAmount(BigDecimal value) {
         // uninitialized value
         if (balanceAmount == null)
             resetBalanceAmount(); // balanceAmount = getAmount();
 
         if (value == null || value.doubleValue() == 0. || balanceAmount == null)
             return balanceAmount;
-
-        // synchronized (this) {
-        // if (DEBUG) System.out.println( this + "\thashCode=" + this.hashCode()
-        // );
-        // if (DEBUG) System.out.print( "----------> balanceAmount=" +
-        // balanceAmount + "+" + value );
         balanceAmount = balanceAmount.add(value);
-        // if (DEBUG) System.out.println( "=" + balanceAmount + '\n' );
-        // }
         setModified(true);
-
         return balanceAmount;
     }
 
@@ -1076,7 +1035,7 @@ public abstract class Financial extends FPSAssignableObject implements
         // balanceAmount = getFinancialYearAmount();
     }
 
-    public java.math.BigDecimal getBalanceAmount(boolean signed) {
+    public BigDecimal getBalanceAmount(boolean signed) {
         return getBalanceAmount();
     }
 
@@ -1125,7 +1084,7 @@ public abstract class Financial extends FPSAssignableObject implements
     }
 
     public String getFinancialServiceCodeDesc() {
-        return financialService == null ? null : financialService.getCodeDesc();
+        return financialService == null ? null : financialService.getDescription();
     }
 
     /***************************************************************************
@@ -1155,7 +1114,7 @@ public abstract class Financial extends FPSAssignableObject implements
         return null;
     }
 
-    public java.math.BigDecimal getUnitsSharesPrice() {
+    public BigDecimal getUnitsSharesPrice() {
         return null;
     }
 
@@ -1163,15 +1122,15 @@ public abstract class Financial extends FPSAssignableObject implements
         return null;
     }
 
-    public java.math.BigDecimal getPurchaseCost() {
+    public BigDecimal getPurchaseCost() {
         return null;
     }
 
-    public java.math.BigDecimal getReplacementValue() {
+    public BigDecimal getReplacementValue() {
         return null;
     }
 
-    public java.math.BigDecimal getTaxDeductibleAnnualAmount() {
+    public BigDecimal getTaxDeductibleAnnualAmount() {
         return null;
     }
 
@@ -1183,15 +1142,15 @@ public abstract class Financial extends FPSAssignableObject implements
         return null;
     }
 
-    public java.math.BigDecimal getAnnualAmount() {
+    public BigDecimal getAnnualAmount() {
         return ZERO;
     }
 
-    public java.math.BigDecimal getContributionAnnualAmount() {
+    public BigDecimal getContributionAnnualAmount() {
         return null;
     }
 
-    public java.math.BigDecimal getContributionIndexation() {
+    public BigDecimal getContributionIndexation() {
         return null;
     }
 
@@ -1203,11 +1162,11 @@ public abstract class Financial extends FPSAssignableObject implements
         return null;
     }
 
-    public java.math.BigDecimal getDrawdownAnnualAmount() {
+    public BigDecimal getDrawdownAnnualAmount() {
         return null;
     }
 
-    public java.math.BigDecimal getDrawdownIndexation() {
+    public BigDecimal getDrawdownIndexation() {
         return null;
     }
 

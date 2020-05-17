@@ -15,6 +15,8 @@ package com.argus.financials.code;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.argus.financials.api.code.FinancialClassID;
+
 public class AssetCode extends Code implements FinancialClassID {
 
     public final static Integer AUS_FIXED_INTEREST = new Integer(1007);
@@ -35,14 +37,11 @@ public class AssetCode extends Code implements FinancialClassID {
 
     private static Map codeMap;
 
-    static {
+    protected Map getCodeMap() {
         if (codeMap == null) {
             codeMap = new TreeMap();
             initCodeMap();
         }
-    }
-
-    protected Map getCodeMap() {
         return codeMap;
     }
 

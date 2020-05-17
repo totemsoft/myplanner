@@ -7,12 +7,13 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Where;
 
+import com.argus.financials.api.bean.IUser;
 
 @Entity
 @Table(name = "UserPerson")
 @PrimaryKeyJoinColumn(name = "UserPersonID")
 @Where(clause = "ActiveUser IS NULL OR ActiveUser = 'Y'")
-public class User extends Person
+public class User extends Person implements IUser
 {
 
     /** serialVersionUID */
@@ -39,9 +40,6 @@ public class User extends Person
         return typeId;
     }
 
-    /**
-     * @param typeId the typeId to set
-     */
     public void setTypeId(Integer typeId)
     {
         this.typeId = typeId;
@@ -55,9 +53,6 @@ public class User extends Person
         return login;
     }
 
-    /**
-     * @param login the login to set
-     */
     public void setLogin(String login)
     {
         this.login = login;
@@ -71,9 +66,6 @@ public class User extends Person
         return password;
     }
 
-    /**
-     * @param password the password to set
-     */
     public void setPassword(String password)
     {
         this.password = password;

@@ -14,11 +14,11 @@ import javax.swing.ActionMap;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import com.argus.beans.BasePanel;
-import com.argus.beans.FComboBox;
-import com.argus.beans.MessageSentEvent;
-import com.argus.beans.WizardContentHandler;
-import com.argus.financials.code.InvalidCodeException;
+import com.argus.bean.FComboBox;
+import com.argus.bean.MessageSentEvent;
+import com.argus.bean.WizardContentHandler;
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.ServiceException;
 import com.argus.financials.code.MaritalCode;
 import com.argus.financials.code.ModelType;
 import com.argus.financials.code.ModelTypeID;
@@ -34,11 +34,10 @@ import com.argus.financials.projection.save.ModelCollection;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.IntegerInputVerifier;
 import com.argus.financials.swing.SwingUtil;
+import com.argus.financials.ui.AbstractBasePanel;
 import com.argus.financials.ui.BaseView;
 import com.argus.financials.ui.FinancialPlannerApp;
 import com.argus.financials.ui.IMenuCommand;
@@ -48,7 +47,7 @@ import com.argus.util.KeyValue;
  * 
  * @author shibaevv
  */
-public class DSSViewNew extends BasePanel implements DocumentNames,
+public class DSSViewNew extends AbstractBasePanel implements DocumentNames,
         com.argus.financials.swing.ICloseDialog, ActionEventID {
 
     private String modelTitle = "New Centrelink Calculator";
@@ -127,11 +126,11 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
     }
 
     public Integer getDefaultType() {
-        return ModelTypeID.rcCENTRELINK_CALC.getCodeIDInteger();
+        return ModelTypeID.rcCENTRELINK_CALC.getCodeId();
     }
 
     public String getDefaultTitle() {
-        return ModelTypeID.rcCENTRELINK_CALC.getCodeDesc();
+        return ModelTypeID.rcCENTRELINK_CALC.getDescription();
     }
 
     public String getTitle() {
@@ -484,23 +483,23 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
         jLabel9 = new javax.swing.JLabel();
         jPanelClient = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        fTextFieldName = new com.argus.beans.FTextField();
-        fDateChooser1 = new com.argus.beans.FDateChooser();
+        fTextFieldName = new com.argus.bean.FTextField();
+        fDateChooser1 = new com.argus.bean.FDateChooser();
         fComboBox1 = new FComboBox(new SexCode().getCodeDescriptions());
-        fDateChooser2 = new com.argus.beans.FDateChooser();
+        fDateChooser2 = new com.argus.bean.FDateChooser();
         fComboBoxMarital = new FComboBox(new MaritalCode()
                 .getCodeDescriptions());
-        fTextField64 = new com.argus.beans.FTextField();
-        fCheckBox1 = new com.argus.beans.FCheckBox();
-        fTextFieldChildren = new com.argus.beans.FTextField();
+        fTextField64 = new com.argus.bean.FTextField();
+        fCheckBox1 = new com.argus.bean.FCheckBox();
+        fTextFieldChildren = new com.argus.bean.FTextField();
         jPanelPartner = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        fTextFieldNameP = new com.argus.beans.FTextField();
-        fDateChooser3 = new com.argus.beans.FDateChooser();
+        fTextFieldNameP = new com.argus.bean.FTextField();
+        fDateChooser3 = new com.argus.bean.FDateChooser();
         fComboBox3 = new FComboBox(new SexCode().getCodeDescriptions());
-        fDateChooser4 = new com.argus.beans.FDateChooser();
+        fDateChooser4 = new com.argus.bean.FDateChooser();
         jLabel391 = new javax.swing.JLabel();
-        fTextField641 = new com.argus.beans.FTextField();
+        fTextField641 = new com.argus.bean.FTextField();
         jPanel27 = new javax.swing.JPanel();
         jPanel22 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
@@ -509,22 +508,22 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
         jPanel26 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
-        fCheckBox2 = new com.argus.beans.FCheckBox();
-        fCheckBox3 = new com.argus.beans.FCheckBox();
-        fCheckBox4 = new com.argus.beans.FCheckBox();
-        fCheckBox5 = new com.argus.beans.FCheckBox();
-        fCheckBox6 = new com.argus.beans.FCheckBox();
-        fCheckBox7 = new com.argus.beans.FCheckBox();
-        fCheckBox10 = new com.argus.beans.FCheckBox();
-        fCheckBox8 = new com.argus.beans.FCheckBox();
+        fCheckBox2 = new com.argus.bean.FCheckBox();
+        fCheckBox3 = new com.argus.bean.FCheckBox();
+        fCheckBox4 = new com.argus.bean.FCheckBox();
+        fCheckBox5 = new com.argus.bean.FCheckBox();
+        fCheckBox6 = new com.argus.bean.FCheckBox();
+        fCheckBox7 = new com.argus.bean.FCheckBox();
+        fCheckBox10 = new com.argus.bean.FCheckBox();
+        fCheckBox8 = new com.argus.bean.FCheckBox();
         jPanelPartner2 = new javax.swing.JPanel();
-        fCheckBox21 = new com.argus.beans.FCheckBox();
-        fCheckBox31 = new com.argus.beans.FCheckBox();
-        fCheckBox41 = new com.argus.beans.FCheckBox();
-        fCheckBox61 = new com.argus.beans.FCheckBox();
-        fCheckBox71 = new com.argus.beans.FCheckBox();
-        fCheckBox11 = new com.argus.beans.FCheckBox();
-        fCheckBox9 = new com.argus.beans.FCheckBox();
+        fCheckBox21 = new com.argus.bean.FCheckBox();
+        fCheckBox31 = new com.argus.bean.FCheckBox();
+        fCheckBox41 = new com.argus.bean.FCheckBox();
+        fCheckBox61 = new com.argus.bean.FCheckBox();
+        fCheckBox71 = new com.argus.bean.FCheckBox();
+        fCheckBox11 = new com.argus.bean.FCheckBox();
+        fCheckBox9 = new com.argus.bean.FCheckBox();
         jPanel8 = new javax.swing.JPanel();
         jPanel25 = new javax.swing.JPanel();
         jLabel89 = new javax.swing.JLabel();
@@ -547,31 +546,31 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
         jPanelClient1 = new javax.swing.JPanel();
         jLabel110 = new javax.swing.JLabel();
         jLabel381 = new javax.swing.JLabel();
-        fTextField70 = new com.argus.beans.FTextField();
-        fTextField56 = new com.argus.beans.FTextField();
-        fTextField58 = new com.argus.beans.FTextField();
-        fTextField60 = new com.argus.beans.FTextField();
-        fTextField62 = new com.argus.beans.FTextField();
+        fTextField70 = new com.argus.bean.FTextField();
+        fTextField56 = new com.argus.bean.FTextField();
+        fTextField58 = new com.argus.bean.FTextField();
+        fTextField60 = new com.argus.bean.FTextField();
+        fTextField62 = new com.argus.bean.FTextField();
         jLabel382 = new javax.swing.JLabel();
-        fTextField701 = new com.argus.beans.FTextField();
-        fTextField561 = new com.argus.beans.FTextField();
-        fTextField581 = new com.argus.beans.FTextField();
-        fTextField601 = new com.argus.beans.FTextField();
-        fTextField621 = new com.argus.beans.FTextField();
+        fTextField701 = new com.argus.bean.FTextField();
+        fTextField561 = new com.argus.bean.FTextField();
+        fTextField581 = new com.argus.bean.FTextField();
+        fTextField601 = new com.argus.bean.FTextField();
+        fTextField621 = new com.argus.bean.FTextField();
         jPanelPartner1 = new javax.swing.JPanel();
         jLabel210 = new javax.swing.JLabel();
         jLabel3811 = new javax.swing.JLabel();
-        fTextField71 = new com.argus.beans.FTextField();
-        fTextField57 = new com.argus.beans.FTextField();
-        fTextField59 = new com.argus.beans.FTextField();
-        fTextField61 = new com.argus.beans.FTextField();
-        fTextField63 = new com.argus.beans.FTextField();
+        fTextField71 = new com.argus.bean.FTextField();
+        fTextField57 = new com.argus.bean.FTextField();
+        fTextField59 = new com.argus.bean.FTextField();
+        fTextField61 = new com.argus.bean.FTextField();
+        fTextField63 = new com.argus.bean.FTextField();
         jLabel3821 = new javax.swing.JLabel();
-        fTextField711 = new com.argus.beans.FTextField();
-        fTextField571 = new com.argus.beans.FTextField();
-        fTextField591 = new com.argus.beans.FTextField();
-        fTextField611 = new com.argus.beans.FTextField();
-        fTextField631 = new com.argus.beans.FTextField();
+        fTextField711 = new com.argus.bean.FTextField();
+        fTextField571 = new com.argus.bean.FTextField();
+        fTextField591 = new com.argus.bean.FTextField();
+        fTextField611 = new com.argus.bean.FTextField();
+        fTextField631 = new com.argus.bean.FTextField();
         jPanel6 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel29 = new javax.swing.JPanel();
@@ -597,104 +596,104 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
         jLabel271 = new javax.swing.JLabel();
         jPanelClientAsset = new javax.swing.JPanel();
         jLabel121 = new javax.swing.JLabel();
-        fTextField110 = new com.argus.beans.FTextField();
-        fTextField210 = new com.argus.beans.FTextField();
-        fTextField310 = new com.argus.beans.FTextField();
-        fTextField410 = new com.argus.beans.FTextField();
-        fTextField510 = new com.argus.beans.FTextField();
-        fTextField65 = new com.argus.beans.FTextField();
+        fTextField110 = new com.argus.bean.FTextField();
+        fTextField210 = new com.argus.bean.FTextField();
+        fTextField310 = new com.argus.bean.FTextField();
+        fTextField410 = new com.argus.bean.FTextField();
+        fTextField510 = new com.argus.bean.FTextField();
+        fTextField65 = new com.argus.bean.FTextField();
         jButton1 = new javax.swing.JButton();
-        fTextField351 = new com.argus.beans.FTextField();
-        fTextField361 = new com.argus.beans.FTextField();
-        fTextField371 = new com.argus.beans.FTextField();
-        fTextField72 = new com.argus.beans.FTextField();
+        fTextField351 = new com.argus.bean.FTextField();
+        fTextField361 = new com.argus.bean.FTextField();
+        fTextField371 = new com.argus.bean.FTextField();
+        fTextField72 = new com.argus.bean.FTextField();
         jLabel442 = new javax.swing.JLabel();
-        fTextField81 = new com.argus.beans.FTextField();
-        fTextField91 = new com.argus.beans.FTextField();
-        fTextField112 = new com.argus.beans.FTextField();
-        fTextField121 = new com.argus.beans.FTextField();
-        fTextField131 = new com.argus.beans.FTextField();
-        fTextField471 = new com.argus.beans.FTextField();
+        fTextField81 = new com.argus.bean.FTextField();
+        fTextField91 = new com.argus.bean.FTextField();
+        fTextField112 = new com.argus.bean.FTextField();
+        fTextField121 = new com.argus.bean.FTextField();
+        fTextField131 = new com.argus.bean.FTextField();
+        fTextField471 = new com.argus.bean.FTextField();
         jPanelClientAssetTest = new javax.swing.JPanel();
         jLabel132 = new javax.swing.JLabel();
-        fTextField171 = new com.argus.beans.FTextField();
-        fTextField181 = new com.argus.beans.FTextField();
-        fTextField191 = new com.argus.beans.FTextField();
-        fTextField201 = new com.argus.beans.FTextField();
-        fTextField212 = new com.argus.beans.FTextField();
-        fTextField221 = new com.argus.beans.FTextField();
+        fTextField171 = new com.argus.bean.FTextField();
+        fTextField181 = new com.argus.bean.FTextField();
+        fTextField191 = new com.argus.bean.FTextField();
+        fTextField201 = new com.argus.bean.FTextField();
+        fTextField212 = new com.argus.bean.FTextField();
+        fTextField221 = new com.argus.bean.FTextField();
         jLabel681 = new javax.swing.JLabel();
-        fTextField321 = new com.argus.beans.FTextField();
-        fTextField331 = new com.argus.beans.FTextField();
-        fTextField341 = new com.argus.beans.FTextField();
-        fTextField431 = new com.argus.beans.FTextField();
+        fTextField321 = new com.argus.bean.FTextField();
+        fTextField331 = new com.argus.bean.FTextField();
+        fTextField341 = new com.argus.bean.FTextField();
+        fTextField431 = new com.argus.bean.FTextField();
         jLabel691 = new javax.swing.JLabel();
-        fTextField442 = new com.argus.beans.FTextField();
-        fTextField452 = new com.argus.beans.FTextField();
-        fTextField522 = new com.argus.beans.FTextField();
-        fTextField502 = new com.argus.beans.FTextField();
-        fTextField472 = new com.argus.beans.FTextField();
-        fTextField531 = new com.argus.beans.FTextField();
+        fTextField442 = new com.argus.bean.FTextField();
+        fTextField452 = new com.argus.bean.FTextField();
+        fTextField522 = new com.argus.bean.FTextField();
+        fTextField502 = new com.argus.bean.FTextField();
+        fTextField472 = new com.argus.bean.FTextField();
+        fTextField531 = new com.argus.bean.FTextField();
         jPanelPartnerAsset = new javax.swing.JPanel();
         jLabel131 = new javax.swing.JLabel();
-        fTextField111 = new com.argus.beans.FTextField();
-        fTextField211 = new com.argus.beans.FTextField();
-        fTextField312 = new com.argus.beans.FTextField();
-        fTextField412 = new com.argus.beans.FTextField();
-        fTextField512 = new com.argus.beans.FTextField();
-        fTextField66 = new com.argus.beans.FTextField();
+        fTextField111 = new com.argus.bean.FTextField();
+        fTextField211 = new com.argus.bean.FTextField();
+        fTextField312 = new com.argus.bean.FTextField();
+        fTextField412 = new com.argus.bean.FTextField();
+        fTextField512 = new com.argus.bean.FTextField();
+        fTextField66 = new com.argus.bean.FTextField();
         jButton11 = new javax.swing.JButton();
-        fTextField352 = new com.argus.beans.FTextField();
-        fTextField362 = new com.argus.beans.FTextField();
-        fTextField372 = new com.argus.beans.FTextField();
-        fTextField73 = new com.argus.beans.FTextField();
+        fTextField352 = new com.argus.bean.FTextField();
+        fTextField362 = new com.argus.bean.FTextField();
+        fTextField372 = new com.argus.bean.FTextField();
+        fTextField73 = new com.argus.bean.FTextField();
         jLabel446 = new javax.swing.JLabel();
-        fTextField441 = new com.argus.beans.FTextField();
-        fTextField451 = new com.argus.beans.FTextField();
-        fTextField521 = new com.argus.beans.FTextField();
-        fTextField501 = new com.argus.beans.FTextField();
-        fTextField541 = new com.argus.beans.FTextField();
-        fTextField542 = new com.argus.beans.FTextField();
+        fTextField441 = new com.argus.bean.FTextField();
+        fTextField451 = new com.argus.bean.FTextField();
+        fTextField521 = new com.argus.bean.FTextField();
+        fTextField501 = new com.argus.bean.FTextField();
+        fTextField541 = new com.argus.bean.FTextField();
+        fTextField542 = new com.argus.bean.FTextField();
         jPanelCombinedAsset = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
-        fTextField1 = new com.argus.beans.FTextField();
-        fTextField2 = new com.argus.beans.FTextField();
-        fTextField3 = new com.argus.beans.FTextField();
-        fTextField4 = new com.argus.beans.FTextField();
-        fTextField5 = new com.argus.beans.FTextField();
-        fTextField6 = new com.argus.beans.FTextField();
+        fTextField1 = new com.argus.bean.FTextField();
+        fTextField2 = new com.argus.bean.FTextField();
+        fTextField3 = new com.argus.bean.FTextField();
+        fTextField4 = new com.argus.bean.FTextField();
+        fTextField5 = new com.argus.bean.FTextField();
+        fTextField6 = new com.argus.bean.FTextField();
         jLabel434 = new javax.swing.JLabel();
-        fTextField35 = new com.argus.beans.FTextField();
-        fTextField36 = new com.argus.beans.FTextField();
-        fTextField37 = new com.argus.beans.FTextField();
-        fTextField7 = new com.argus.beans.FTextField();
+        fTextField35 = new com.argus.bean.FTextField();
+        fTextField36 = new com.argus.bean.FTextField();
+        fTextField37 = new com.argus.bean.FTextField();
+        fTextField7 = new com.argus.bean.FTextField();
         jLabel44 = new javax.swing.JLabel();
-        fTextField8 = new com.argus.beans.FTextField();
-        fTextField9 = new com.argus.beans.FTextField();
-        fTextField11 = new com.argus.beans.FTextField();
-        fTextField12 = new com.argus.beans.FTextField();
-        fTextField13 = new com.argus.beans.FTextField();
-        fTextField54 = new com.argus.beans.FTextField();
+        fTextField8 = new com.argus.bean.FTextField();
+        fTextField9 = new com.argus.bean.FTextField();
+        fTextField11 = new com.argus.bean.FTextField();
+        fTextField12 = new com.argus.bean.FTextField();
+        fTextField13 = new com.argus.bean.FTextField();
+        fTextField54 = new com.argus.bean.FTextField();
         jPanelCombinedAssetTest = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
-        fTextField17 = new com.argus.beans.FTextField();
-        fTextField18 = new com.argus.beans.FTextField();
-        fTextField19 = new com.argus.beans.FTextField();
-        fTextField20 = new com.argus.beans.FTextField();
-        fTextField21 = new com.argus.beans.FTextField();
-        fTextField22 = new com.argus.beans.FTextField();
+        fTextField17 = new com.argus.bean.FTextField();
+        fTextField18 = new com.argus.bean.FTextField();
+        fTextField19 = new com.argus.bean.FTextField();
+        fTextField20 = new com.argus.bean.FTextField();
+        fTextField21 = new com.argus.bean.FTextField();
+        fTextField22 = new com.argus.bean.FTextField();
         jLabel68 = new javax.swing.JLabel();
-        fTextField32 = new com.argus.beans.FTextField();
-        fTextField33 = new com.argus.beans.FTextField();
-        fTextField34 = new com.argus.beans.FTextField();
-        fTextField43 = new com.argus.beans.FTextField();
+        fTextField32 = new com.argus.bean.FTextField();
+        fTextField33 = new com.argus.bean.FTextField();
+        fTextField34 = new com.argus.bean.FTextField();
+        fTextField43 = new com.argus.bean.FTextField();
         jLabel69 = new javax.swing.JLabel();
-        fTextField44 = new com.argus.beans.FTextField();
-        fTextField45 = new com.argus.beans.FTextField();
-        fTextField52 = new com.argus.beans.FTextField();
-        fTextField50 = new com.argus.beans.FTextField();
-        fTextField47 = new com.argus.beans.FTextField();
-        fTextField53 = new com.argus.beans.FTextField();
+        fTextField44 = new com.argus.bean.FTextField();
+        fTextField45 = new com.argus.bean.FTextField();
+        fTextField52 = new com.argus.bean.FTextField();
+        fTextField50 = new com.argus.bean.FTextField();
+        fTextField47 = new com.argus.bean.FTextField();
+        fTextField53 = new com.argus.bean.FTextField();
         jPanel30 = new javax.swing.JPanel();
         jPanelLabels1 = new javax.swing.JPanel();
         jLabel401 = new javax.swing.JLabel();
@@ -720,112 +719,112 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
         jLabel471 = new javax.swing.JLabel();
         jLabel141 = new javax.swing.JLabel();
         jLabel151 = new javax.swing.JLabel();
-        fTextField231 = new com.argus.beans.FTextField();
+        fTextField231 = new com.argus.bean.FTextField();
         jLabel481 = new javax.swing.JLabel();
-        fTextField241 = new com.argus.beans.FTextField();
+        fTextField241 = new com.argus.bean.FTextField();
         jLabel491 = new javax.swing.JLabel();
-        fTextField251 = new com.argus.beans.FTextField();
+        fTextField251 = new com.argus.bean.FTextField();
         jLabel501 = new javax.swing.JLabel();
-        fTextField261 = new com.argus.beans.FTextField();
+        fTextField261 = new com.argus.bean.FTextField();
         jLabel521 = new javax.swing.JLabel();
-        fTextField271 = new com.argus.beans.FTextField();
+        fTextField271 = new com.argus.bean.FTextField();
         jLabel531 = new javax.swing.JLabel();
-        fTextField281 = new com.argus.beans.FTextField();
+        fTextField281 = new com.argus.bean.FTextField();
         jLabel541 = new javax.swing.JLabel();
         jLabel5811 = new javax.swing.JLabel();
-        fTextField381 = new com.argus.beans.FTextField();
+        fTextField381 = new com.argus.bean.FTextField();
         jLabel561 = new javax.swing.JLabel();
         jLabel571 = new javax.swing.JLabel();
-        fTextField291 = new com.argus.beans.FTextField();
-        fTextField411 = new com.argus.beans.FTextField();
-        fTextField301 = new com.argus.beans.FTextField();
-        fTextField401 = new com.argus.beans.FTextField();
-        fTextField311 = new com.argus.beans.FTextField();
-        fTextField391 = new com.argus.beans.FTextField();
-        fTextField141 = new com.argus.beans.FTextField();
-        fTextField421 = new com.argus.beans.FTextField();
+        fTextField291 = new com.argus.bean.FTextField();
+        fTextField411 = new com.argus.bean.FTextField();
+        fTextField301 = new com.argus.bean.FTextField();
+        fTextField401 = new com.argus.bean.FTextField();
+        fTextField311 = new com.argus.bean.FTextField();
+        fTextField391 = new com.argus.bean.FTextField();
+        fTextField141 = new com.argus.bean.FTextField();
+        fTextField421 = new com.argus.bean.FTextField();
         jLabel634 = new javax.swing.JLabel();
         jLabel754 = new javax.swing.JLabel();
-        fTextField151 = new com.argus.beans.FTextField();
-        fTextField511 = new com.argus.beans.FTextField();
-        fTextField161 = new com.argus.beans.FTextField();
-        fTextField491 = new com.argus.beans.FTextField();
-        fTextField551 = new com.argus.beans.FTextField();
-        fTextField481 = new com.argus.beans.FTextField();
+        fTextField151 = new com.argus.bean.FTextField();
+        fTextField511 = new com.argus.bean.FTextField();
+        fTextField161 = new com.argus.bean.FTextField();
+        fTextField491 = new com.argus.bean.FTextField();
+        fTextField551 = new com.argus.bean.FTextField();
+        fTextField481 = new com.argus.bean.FTextField();
         jPanelPartnerIncome = new javax.swing.JPanel();
         jLabel4611 = new javax.swing.JLabel();
         jLabel4711 = new javax.swing.JLabel();
         jLabel1411 = new javax.swing.JLabel();
         jLabel1511 = new javax.swing.JLabel();
-        fTextField2311 = new com.argus.beans.FTextField();
+        fTextField2311 = new com.argus.bean.FTextField();
         jLabel4811 = new javax.swing.JLabel();
-        fTextField2411 = new com.argus.beans.FTextField();
+        fTextField2411 = new com.argus.bean.FTextField();
         jLabel4911 = new javax.swing.JLabel();
-        fTextField2511 = new com.argus.beans.FTextField();
+        fTextField2511 = new com.argus.bean.FTextField();
         jLabel5011 = new javax.swing.JLabel();
-        fTextField2611 = new com.argus.beans.FTextField();
+        fTextField2611 = new com.argus.bean.FTextField();
         jLabel5211 = new javax.swing.JLabel();
-        fTextField2711 = new com.argus.beans.FTextField();
+        fTextField2711 = new com.argus.bean.FTextField();
         jLabel5311 = new javax.swing.JLabel();
-        fTextField2811 = new com.argus.beans.FTextField();
+        fTextField2811 = new com.argus.bean.FTextField();
         jLabel5411 = new javax.swing.JLabel();
         jLabel5812 = new javax.swing.JLabel();
-        fTextField3811 = new com.argus.beans.FTextField();
+        fTextField3811 = new com.argus.bean.FTextField();
         jLabel5711 = new javax.swing.JLabel();
         jLabel5511 = new javax.swing.JLabel();
-        fTextField2911 = new com.argus.beans.FTextField();
-        fTextField4111 = new com.argus.beans.FTextField();
-        fTextField3011 = new com.argus.beans.FTextField();
-        fTextField4011 = new com.argus.beans.FTextField();
-        fTextField3111 = new com.argus.beans.FTextField();
-        fTextField3911 = new com.argus.beans.FTextField();
-        fTextField1411 = new com.argus.beans.FTextField();
-        fTextField4211 = new com.argus.beans.FTextField();
+        fTextField2911 = new com.argus.bean.FTextField();
+        fTextField4111 = new com.argus.bean.FTextField();
+        fTextField3011 = new com.argus.bean.FTextField();
+        fTextField4011 = new com.argus.bean.FTextField();
+        fTextField3111 = new com.argus.bean.FTextField();
+        fTextField3911 = new com.argus.bean.FTextField();
+        fTextField1411 = new com.argus.bean.FTextField();
+        fTextField4211 = new com.argus.bean.FTextField();
         jLabel6341 = new javax.swing.JLabel();
         jLabel7541 = new javax.swing.JLabel();
-        fTextField1511 = new com.argus.beans.FTextField();
-        fTextField5111 = new com.argus.beans.FTextField();
-        fTextField1611 = new com.argus.beans.FTextField();
-        fTextField4911 = new com.argus.beans.FTextField();
-        fTextField5511 = new com.argus.beans.FTextField();
-        fTextField4811 = new com.argus.beans.FTextField();
+        fTextField1511 = new com.argus.bean.FTextField();
+        fTextField5111 = new com.argus.bean.FTextField();
+        fTextField1611 = new com.argus.bean.FTextField();
+        fTextField4911 = new com.argus.bean.FTextField();
+        fTextField5511 = new com.argus.bean.FTextField();
+        fTextField4811 = new com.argus.bean.FTextField();
         jPanelCombinedIncome = new javax.swing.JPanel();
         jLabel46 = new javax.swing.JLabel();
         jLabel47 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        fTextField23 = new com.argus.beans.FTextField();
+        fTextField23 = new com.argus.bean.FTextField();
         jLabel48 = new javax.swing.JLabel();
-        fTextField24 = new com.argus.beans.FTextField();
+        fTextField24 = new com.argus.bean.FTextField();
         jLabel49 = new javax.swing.JLabel();
-        fTextField25 = new com.argus.beans.FTextField();
+        fTextField25 = new com.argus.bean.FTextField();
         jLabel50 = new javax.swing.JLabel();
-        fTextField26 = new com.argus.beans.FTextField();
+        fTextField26 = new com.argus.bean.FTextField();
         jLabel52 = new javax.swing.JLabel();
-        fTextField27 = new com.argus.beans.FTextField();
+        fTextField27 = new com.argus.bean.FTextField();
         jLabel53 = new javax.swing.JLabel();
-        fTextField28 = new com.argus.beans.FTextField();
+        fTextField28 = new com.argus.bean.FTextField();
         jLabel54 = new javax.swing.JLabel();
         jLabel581 = new javax.swing.JLabel();
-        fTextField38 = new com.argus.beans.FTextField();
+        fTextField38 = new com.argus.bean.FTextField();
         jLabel56 = new javax.swing.JLabel();
         jLabel57 = new javax.swing.JLabel();
-        fTextField29 = new com.argus.beans.FTextField();
-        fTextField41 = new com.argus.beans.FTextField();
-        fTextField30 = new com.argus.beans.FTextField();
-        fTextField40 = new com.argus.beans.FTextField();
-        fTextField31 = new com.argus.beans.FTextField();
-        fTextField39 = new com.argus.beans.FTextField();
-        fTextField14 = new com.argus.beans.FTextField();
-        fTextField42 = new com.argus.beans.FTextField();
+        fTextField29 = new com.argus.bean.FTextField();
+        fTextField41 = new com.argus.bean.FTextField();
+        fTextField30 = new com.argus.bean.FTextField();
+        fTextField40 = new com.argus.bean.FTextField();
+        fTextField31 = new com.argus.bean.FTextField();
+        fTextField39 = new com.argus.bean.FTextField();
+        fTextField14 = new com.argus.bean.FTextField();
+        fTextField42 = new com.argus.bean.FTextField();
         jLabel58 = new javax.swing.JLabel();
         jLabel70 = new javax.swing.JLabel();
-        fTextField15 = new com.argus.beans.FTextField();
-        fTextField51 = new com.argus.beans.FTextField();
-        fTextField16 = new com.argus.beans.FTextField();
-        fTextField49 = new com.argus.beans.FTextField();
-        fTextField55 = new com.argus.beans.FTextField();
-        fTextField48 = new com.argus.beans.FTextField();
+        fTextField15 = new com.argus.bean.FTextField();
+        fTextField51 = new com.argus.bean.FTextField();
+        fTextField16 = new com.argus.bean.FTextField();
+        fTextField49 = new com.argus.bean.FTextField();
+        fTextField55 = new com.argus.bean.FTextField();
+        fTextField48 = new com.argus.bean.FTextField();
         jPanel1 = new javax.swing.JPanel();
         jPanel18 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -871,7 +870,7 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
         jPanel20.setPreferredSize(new java.awt.Dimension(0, 150));
         jPanel20.setMinimumSize(new java.awt.Dimension(0, 50));
         jLabel90
-                .setText("<HTML>\n<FONT face=\"Verdana, Arial, Helvetica, sans-serif\" size=\"1\">\n<P>\nYou may use this calculator for an existing client / partner or as a standalone tool.\n</P>\n<p>\n<P>\nThe figures used in the Centrelink Calculator are based on rates and threshold announced by Centrelink and do change regularly. Fiducian will update the underlying assumptions when these thresholds change. Please ensure you have the latest available version before proceeding.\n</P>\n<p>\n<P>\n<b>Remember</b> - Centrelink calculations are estimates only and should therefore only be used as a guide. Centrelink will make the final assessment as to the level of Centrelink payments a recipient receives. \n</P>\n<P>\n<P>\nPlease check that all fields below are completed before proceeding.\n</P>\n</FONT>\n</HTML>");
+                .setText("<HTML>\n<FONT face=\"Verdana, Arial, Helvetica, sans-serif\" size=\"1\">\n<P>\nYou may use this calculator for an existing client / partner or as a standalone tool.\n</P>\n<p>\n<P>\nThe figures used in the Centrelink Calculator are based on rates and threshold announced by Centrelink and do change regularly. We will update the underlying assumptions when these thresholds change. Please ensure you have the latest available version before proceeding.\n</P>\n<p>\n<P>\n<b>Remember</b> - Centrelink calculations are estimates only and should therefore only be used as a guide. Centrelink will make the final assessment as to the level of Centrelink payments a recipient receives. \n</P>\n<P>\n<P>\nPlease check that all fields below are completed before proceeding.\n</P>\n</FONT>\n</HTML>");
         jPanel20.add(jLabel90, java.awt.BorderLayout.CENTER);
 
         jPanel3.add(jPanel20);
@@ -3404,25 +3403,25 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.argus.beans.FTextField fTextField291;
+    private com.argus.bean.FTextField fTextField291;
 
     private javax.swing.JLabel jLabel3511;
 
     private javax.swing.JLabel jLabel261;
 
-    private com.argus.beans.FTextField fTextField341;
+    private com.argus.bean.FTextField fTextField341;
 
     private javax.swing.JPanel jPanel41;
 
-    private com.argus.beans.FTextField fTextField281;
+    private com.argus.bean.FTextField fTextField281;
 
     private javax.swing.JButton jButtonClear;
 
-    private com.argus.beans.FTextField fTextField4111;
+    private com.argus.bean.FTextField fTextField4111;
 
     private javax.swing.JLabel jLabel251;
 
-    private com.argus.beans.FTextField fTextField331;
+    private com.argus.bean.FTextField fTextField331;
 
     private javax.swing.JPanel jPanel30;
 
@@ -3430,9 +3429,9 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JLabel jLabel191;
 
-    private com.argus.beans.FTextField fTextField2711;
+    private com.argus.bean.FTextField fTextField2711;
 
-    private com.argus.beans.FTextField fTextField271;
+    private com.argus.bean.FTextField fTextField271;
 
     private javax.swing.JPanel jPanelPartner2;
 
@@ -3442,7 +3441,7 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JLabel jLabel241;
 
-    private com.argus.beans.FTextField fTextField321;
+    private com.argus.bean.FTextField fTextField321;
 
     private javax.swing.JPanel jPanel27;
 
@@ -3466,15 +3465,15 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JLabel jLabel181;
 
-    private com.argus.beans.FTextField fTextField261;
+    private com.argus.bean.FTextField fTextField261;
 
     private javax.swing.JPanel jPanelClient;
 
     private javax.swing.JPanel jPanel19;
 
-    private com.argus.beans.FCheckBox fCheckBox9;
+    private com.argus.bean.FCheckBox fCheckBox9;
 
-    private com.argus.beans.FTextField fTextField312;
+    private com.argus.bean.FTextField fTextField312;
 
     private javax.swing.JLabel jLabel231;
 
@@ -3482,39 +3481,39 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JPanel jPanel18;
 
-    private com.argus.beans.FCheckBox fCheckBox8;
+    private com.argus.bean.FCheckBox fCheckBox8;
 
-    private com.argus.beans.FTextField fTextField311;
+    private com.argus.bean.FTextField fTextField311;
 
     private javax.swing.JLabel jLabel811;
 
-    private com.argus.beans.FCheckBox fCheckBox7;
+    private com.argus.bean.FCheckBox fCheckBox7;
 
-    private com.argus.beans.FTextField fTextField310;
+    private com.argus.bean.FTextField fTextField310;
 
     private javax.swing.JPanel jPanel17;
 
-    private com.argus.beans.FCheckBox fCheckBox6;
+    private com.argus.bean.FCheckBox fCheckBox6;
 
     private javax.swing.JPanel jPanel16;
 
     private javax.swing.JPanel jPanel15;
 
-    private com.argus.beans.FCheckBox fCheckBox5;
+    private com.argus.bean.FCheckBox fCheckBox5;
 
-    private com.argus.beans.FCheckBox fCheckBox4;
+    private com.argus.bean.FCheckBox fCheckBox4;
 
     private javax.swing.JPanel jPanel14;
 
     private javax.swing.JPanel jPanel13;
 
-    private com.argus.beans.FCheckBox fCheckBox3;
+    private com.argus.bean.FCheckBox fCheckBox3;
 
     private javax.swing.JPanel jPanel12;
 
-    private com.argus.beans.FCheckBox fCheckBox2;
+    private com.argus.bean.FCheckBox fCheckBox2;
 
-    private com.argus.beans.FCheckBox fCheckBox1;
+    private com.argus.bean.FCheckBox fCheckBox1;
 
     private javax.swing.JPanel jPanel11;
 
@@ -3530,7 +3529,7 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JLabel jLabel7;
 
-    private com.argus.beans.FTextField fTextField251;
+    private com.argus.bean.FTextField fTextField251;
 
     private javax.swing.JLabel jLabel6;
 
@@ -3546,37 +3545,37 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JPanel jPanelPartner;
 
-    private com.argus.beans.FTextField fTextField301;
+    private com.argus.bean.FTextField fTextField301;
 
-    private com.argus.beans.FTextField fTextField3911;
+    private com.argus.bean.FTextField fTextField3911;
 
-    private com.argus.beans.FTextField fTextField1411;
+    private com.argus.bean.FTextField fTextField1411;
 
-    private com.argus.beans.FTextField fTextField191;
+    private com.argus.bean.FTextField fTextField191;
 
     private javax.swing.JLabel jLabel691;
 
-    private com.argus.beans.FTextField fTextFieldChildren;
+    private com.argus.bean.FTextField fTextFieldChildren;
 
     private javax.swing.JLabel jLabel161;
 
-    private com.argus.beans.FTextField fTextField241;
+    private com.argus.bean.FTextField fTextField241;
 
     private javax.swing.JLabel jLabel211;
 
     private javax.swing.JLabel jLabel210;
 
-    private com.argus.beans.FCheckBox fCheckBox71;
+    private com.argus.bean.FCheckBox fCheckBox71;
 
-    private com.argus.beans.FTextField fTextField181;
+    private com.argus.bean.FTextField fTextField181;
 
     private javax.swing.JLabel jLabel681;
 
-    private com.argus.beans.FTextField fTextField4011;
+    private com.argus.bean.FTextField fTextField4011;
 
     private javax.swing.JLabel jLabel151;
 
-    private com.argus.beans.FTextField fTextField231;
+    private com.argus.bean.FTextField fTextField231;
 
     private javax.swing.JPanel jPanelClientIncome;
 
@@ -3584,19 +3583,19 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JLabel jLabel201;
 
-    private com.argus.beans.FCheckBox fCheckBox61;
+    private com.argus.bean.FCheckBox fCheckBox61;
 
     private javax.swing.JLabel jLabel5311;
 
-    private com.argus.beans.FTextField fTextField2611;
+    private com.argus.bean.FTextField fTextField2611;
 
-    private com.argus.beans.FTextField fTextField171;
+    private com.argus.bean.FTextField fTextField171;
 
     private javax.swing.JButton jButtonDelete;
 
     private javax.swing.JLabel jLabel141;
 
-    private com.argus.beans.FTextField fTextField221;
+    private com.argus.bean.FTextField fTextField221;
 
     private javax.swing.JLabel jLabel4611;
 
@@ -3604,35 +3603,35 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JLabel jLabel1411;
 
-    private com.argus.beans.FTextField fTextField161;
+    private com.argus.bean.FTextField fTextField161;
 
     private javax.swing.JLabel jLabel132;
 
     private javax.swing.JPanel jPanelPartnerIncome;
 
-    private com.argus.beans.FTextField fTextField212;
+    private com.argus.bean.FTextField fTextField212;
 
     private javax.swing.JLabel jLabel131;
 
     private javax.swing.JLabel jLabel712;
 
-    private com.argus.beans.FTextField fTextField211;
+    private com.argus.bean.FTextField fTextField211;
 
     private javax.swing.JLabel jLabel711;
 
-    private com.argus.beans.FTextField fTextField210;
+    private com.argus.bean.FTextField fTextField210;
 
-    private com.argus.beans.FDateChooser fDateChooser4;
+    private com.argus.bean.FDateChooser fDateChooser4;
 
-    private com.argus.beans.FDateChooser fDateChooser3;
+    private com.argus.bean.FDateChooser fDateChooser3;
 
-    private com.argus.beans.FDateChooser fDateChooser2;
+    private com.argus.bean.FDateChooser fDateChooser2;
 
-    private com.argus.beans.FDateChooser fDateChooser1;
+    private com.argus.bean.FDateChooser fDateChooser1;
 
-    private com.argus.beans.FCheckBox fCheckBox41;
+    private com.argus.bean.FCheckBox fCheckBox41;
 
-    private com.argus.beans.FTextField fTextField151;
+    private com.argus.bean.FTextField fTextField151;
 
     private javax.swing.JPanel jPanel9;
 
@@ -3640,11 +3639,11 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JLabel jLabel121;
 
-    private com.argus.beans.FTextField fTextField201;
+    private com.argus.bean.FTextField fTextField201;
 
     private javax.swing.JPanel jPanel6;
 
-    private com.argus.beans.FTextField fTextField3811;
+    private com.argus.bean.FTextField fTextField3811;
 
     private javax.swing.JPanel jPanel4;
 
@@ -3658,9 +3657,9 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JLabel jLabel5811;
 
-    private com.argus.beans.FCheckBox fCheckBox31;
+    private com.argus.bean.FCheckBox fCheckBox31;
 
-    private com.argus.beans.FTextField fTextField141;
+    private com.argus.bean.FTextField fTextField141;
 
     private javax.swing.ButtonGroup buttonGroup1;
 
@@ -3670,15 +3669,15 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JButton jButtonNext;
 
-    private com.argus.beans.FCheckBox fCheckBox21;
+    private com.argus.bean.FCheckBox fCheckBox21;
 
     private javax.swing.JLabel jLabel581;
 
     private javax.swing.JLabel jLabel634;
 
-    private com.argus.beans.FTextField fTextField131;
+    private com.argus.bean.FTextField fTextField131;
 
-    private com.argus.beans.FTextField fTextField711;
+    private com.argus.bean.FTextField fTextField711;
 
     private javax.swing.JLabel jLabel101;
 
@@ -3686,29 +3685,29 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JLabel jLabel5211;
 
-    private com.argus.beans.FCheckBox fCheckBox11;
+    private com.argus.bean.FCheckBox fCheckBox11;
 
-    private com.argus.beans.FCheckBox fCheckBox10;
+    private com.argus.bean.FCheckBox fCheckBox10;
 
     private javax.swing.JLabel jLabel571;
 
-    private com.argus.beans.FTextField fTextField2511;
+    private com.argus.bean.FTextField fTextField2511;
 
-    private com.argus.beans.FTextField fTextField121;
+    private com.argus.bean.FTextField fTextField121;
 
-    private com.argus.beans.FTextField fTextField701;
+    private com.argus.bean.FTextField fTextField701;
 
     private javax.swing.JLabel jLabel91;
 
     private javax.swing.JLabel jLabel90;
 
-    private com.argus.beans.FTextField fTextField591;
+    private com.argus.bean.FTextField fTextField591;
 
     private javax.swing.JLabel jLabel3811;
 
     private javax.swing.JLabel jLabel561;
 
-    private com.argus.beans.FTextField fTextField641;
+    private com.argus.bean.FTextField fTextField641;
 
     private javax.swing.JLabel jLabel89;
 
@@ -3718,41 +3717,41 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JLabel jLabel86;
 
-    private com.argus.beans.FTextField fTextField112;
+    private com.argus.bean.FTextField fTextField112;
 
     private javax.swing.JLabel jLabel612;
 
-    private com.argus.beans.FTextField fTextField111;
+    private com.argus.bean.FTextField fTextField111;
 
     private javax.swing.JLabel jLabel611;
 
-    private com.argus.beans.FTextField fTextField110;
+    private com.argus.bean.FTextField fTextField110;
 
-    private com.argus.beans.FTextField fTextField5111;
+    private com.argus.bean.FTextField fTextField5111;
 
-    private com.argus.beans.FTextField fTextField91;
+    private com.argus.bean.FTextField fTextField91;
 
-    private com.argus.beans.FTextField fTextField581;
+    private com.argus.bean.FTextField fTextField581;
 
     private javax.swing.JPanel jPanelClient1;
 
-    private com.argus.beans.FTextField fTextField631;
+    private com.argus.bean.FTextField fTextField631;
 
     private javax.swing.JLabel jLabel70;
 
-    private com.argus.beans.FTextField fTextField81;
+    private com.argus.bean.FTextField fTextField81;
 
     private javax.swing.JLabel jLabel5711;
 
     private javax.swing.JLabel jLabel491;
 
-    private com.argus.beans.FTextField fTextField571;
+    private com.argus.bean.FTextField fTextField571;
 
     private javax.swing.JTabbedPane jTabbedPane1;
 
     private javax.swing.JLabel jLabel541;
 
-    private com.argus.beans.FTextField fTextField621;
+    private com.argus.bean.FTextField fTextField621;
 
     private javax.swing.ButtonGroup buttonGroup11;
 
@@ -3762,19 +3761,19 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JLabel jLabel68;
 
-    private com.argus.beans.FTextField fTextFieldNameP;
+    private com.argus.bean.FTextField fTextFieldNameP;
 
-    private com.argus.beans.FTextField fTextField73;
+    private com.argus.bean.FTextField fTextField73;
 
-    private com.argus.beans.FTextField fTextField72;
+    private com.argus.bean.FTextField fTextField72;
 
-    private com.argus.beans.FTextField fTextField71;
+    private com.argus.bean.FTextField fTextField71;
 
-    private com.argus.beans.FTextField fTextField70;
+    private com.argus.bean.FTextField fTextField70;
 
     private javax.swing.JLabel jLabel481;
 
-    private com.argus.beans.FTextField fTextField561;
+    private com.argus.bean.FTextField fTextField561;
 
     private javax.swing.JButton jButtonClose;
 
@@ -3782,7 +3781,7 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JLabel jLabel531;
 
-    private com.argus.beans.FTextField fTextField611;
+    private com.argus.bean.FTextField fTextField611;
 
     private javax.swing.JLabel jLabel58;
 
@@ -3796,43 +3795,43 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JLabel jLabel54;
 
-    private com.argus.beans.FTextField fTextField3111;
+    private com.argus.bean.FTextField fTextField3111;
 
     private javax.swing.JLabel jLabel53;
 
     private javax.swing.JLabel jLabel52;
 
-    private com.argus.beans.FTextField fTextField66;
+    private com.argus.bean.FTextField fTextField66;
 
-    private com.argus.beans.FTextField fTextField65;
+    private com.argus.bean.FTextField fTextField65;
 
     private javax.swing.JLabel jLabel50;
 
-    private com.argus.beans.FTextField fTextField64;
+    private com.argus.bean.FTextField fTextField64;
 
-    private com.argus.beans.FTextField fTextField63;
+    private com.argus.bean.FTextField fTextField63;
 
-    private com.argus.beans.FTextField fTextField62;
+    private com.argus.bean.FTextField fTextField62;
 
-    private com.argus.beans.FComboBox fComboBoxMarital;
+    private com.argus.bean.FComboBox fComboBoxMarital;
 
-    private com.argus.beans.FTextField fTextField61;
+    private com.argus.bean.FTextField fTextField61;
 
     private javax.swing.JPanel jPanelLabels1;
 
-    private com.argus.beans.FTextField fTextField60;
+    private com.argus.bean.FTextField fTextField60;
 
-    private com.argus.beans.FTextField fTextField4911;
+    private com.argus.bean.FTextField fTextField4911;
 
-    private com.argus.beans.FTextField fTextField2411;
+    private com.argus.bean.FTextField fTextField2411;
 
     private javax.swing.JLabel jLabel471;
 
-    private com.argus.beans.FTextField fTextField551;
+    private com.argus.bean.FTextField fTextField551;
 
     private javax.swing.JLabel jLabel521;
 
-    private com.argus.beans.FTextField fTextField601;
+    private com.argus.bean.FTextField fTextField601;
 
     private javax.swing.JButton jButton4;
 
@@ -3852,95 +3851,95 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JPanel jPanelLabels;
 
-    private com.argus.beans.FTextField fTextField59;
+    private com.argus.bean.FTextField fTextField59;
 
-    private com.argus.beans.FTextField fTextField58;
+    private com.argus.bean.FTextField fTextField58;
 
     private javax.swing.JLabel jLabel44;
 
-    private com.argus.beans.FTextField fTextField57;
+    private com.argus.bean.FTextField fTextField57;
 
-    private com.argus.beans.FTextField fTextField56;
+    private com.argus.bean.FTextField fTextField56;
 
-    private com.argus.beans.FTextField fTextField55;
+    private com.argus.bean.FTextField fTextField55;
 
     private javax.swing.JLabel jLabel41;
 
-    private com.argus.beans.FTextField fTextField54;
+    private com.argus.bean.FTextField fTextField54;
 
-    private com.argus.beans.FTextField fTextField53;
+    private com.argus.bean.FTextField fTextField53;
 
-    private com.argus.beans.FTextField fTextField491;
+    private com.argus.bean.FTextField fTextField491;
 
-    private com.argus.beans.FTextField fTextField52;
+    private com.argus.bean.FTextField fTextField52;
 
-    private com.argus.beans.FTextField fTextField51;
+    private com.argus.bean.FTextField fTextField51;
 
-    private com.argus.beans.FTextField fTextField50;
+    private com.argus.bean.FTextField fTextField50;
 
-    private com.argus.beans.FTextField fTextField542;
+    private com.argus.bean.FTextField fTextField542;
 
     private javax.swing.JLabel jLabel461;
 
-    private com.argus.beans.FTextField fTextField541;
+    private com.argus.bean.FTextField fTextField541;
 
-    private com.argus.beans.FTextField fTextField9;
+    private com.argus.bean.FTextField fTextField9;
 
-    private com.argus.beans.FTextField fTextField8;
+    private com.argus.bean.FTextField fTextField8;
 
-    private com.argus.beans.FTextField fTextField7;
+    private com.argus.bean.FTextField fTextField7;
 
-    private com.argus.beans.FTextField fTextField6;
+    private com.argus.bean.FTextField fTextField6;
 
     private javax.swing.JLabel jLabel512;
 
-    private com.argus.beans.FTextField fTextField5;
+    private com.argus.bean.FTextField fTextField5;
 
     private javax.swing.JLabel jLabel511;
 
-    private com.argus.beans.FTextField fTextField4;
+    private com.argus.bean.FTextField fTextField4;
 
-    private com.argus.beans.FTextField fTextField3;
+    private com.argus.bean.FTextField fTextField3;
 
-    private com.argus.beans.FTextField fTextField2;
+    private com.argus.bean.FTextField fTextField2;
 
     private javax.swing.JLabel jLabel39;
 
-    private com.argus.beans.FTextField fTextField1;
+    private com.argus.bean.FTextField fTextField1;
 
     private javax.swing.JLabel jLabel38;
 
-    private com.argus.beans.FTextField fTextField49;
+    private com.argus.bean.FTextField fTextField49;
 
     private javax.swing.JLabel jLabel7541;
 
-    private com.argus.beans.FTextField fTextField48;
+    private com.argus.bean.FTextField fTextField48;
 
     private javax.swing.JLabel jLabel33;
 
-    private com.argus.beans.FTextField fTextField47;
+    private com.argus.bean.FTextField fTextField47;
 
     private javax.swing.JLabel jLabel32;
 
     private javax.swing.JLabel jLabel31;
 
-    private com.argus.beans.FTextField fTextField45;
+    private com.argus.bean.FTextField fTextField45;
 
     private javax.swing.JLabel jLabel30;
 
-    private com.argus.beans.FTextField fTextField44;
+    private com.argus.bean.FTextField fTextField44;
 
-    private com.argus.beans.FTextField fTextField481;
+    private com.argus.bean.FTextField fTextField481;
 
-    private com.argus.beans.FTextField fTextField43;
+    private com.argus.bean.FTextField fTextField43;
 
-    private com.argus.beans.FTextField fTextField42;
+    private com.argus.bean.FTextField fTextField42;
 
-    private com.argus.beans.FTextField fTextField41;
+    private com.argus.bean.FTextField fTextField41;
 
-    private com.argus.beans.FTextField fTextField40;
+    private com.argus.bean.FTextField fTextField40;
 
-    private com.argus.beans.FTextField fTextField531;
+    private com.argus.bean.FTextField fTextField531;
 
     private javax.swing.JPanel jPanelClientAsset;
 
@@ -3952,53 +3951,53 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JLabel jLabel26;
 
-    private com.argus.beans.FTextField fTextField39;
+    private com.argus.bean.FTextField fTextField39;
 
     private javax.swing.JLabel jLabel25;
 
-    private com.argus.beans.FTextField fTextField38;
+    private com.argus.bean.FTextField fTextField38;
 
     private javax.swing.JLabel jLabel24;
 
-    private com.argus.beans.FTextField fTextFieldName;
+    private com.argus.bean.FTextField fTextFieldName;
 
     private javax.swing.JLabel jLabel23;
 
-    private com.argus.beans.FTextField fTextField37;
+    private com.argus.bean.FTextField fTextField37;
 
-    private com.argus.beans.FTextField fTextField36;
+    private com.argus.bean.FTextField fTextField36;
 
     private javax.swing.JLabel jLabel21;
 
-    private com.argus.beans.FTextField fTextField35;
+    private com.argus.bean.FTextField fTextField35;
 
     private javax.swing.JLabel jLabel20;
 
-    private com.argus.beans.FTextField fTextField472;
+    private com.argus.bean.FTextField fTextField472;
 
     private javax.swing.JLabel jLabel391;
 
-    private com.argus.beans.FTextField fTextField34;
+    private com.argus.bean.FTextField fTextField34;
 
-    private com.argus.beans.FTextField fTextField2911;
+    private com.argus.bean.FTextField fTextField2911;
 
-    private com.argus.beans.FTextField fTextField471;
+    private com.argus.bean.FTextField fTextField471;
 
-    private com.argus.beans.FTextField fTextField33;
+    private com.argus.bean.FTextField fTextField33;
 
-    private com.argus.beans.FTextField fTextField32;
+    private com.argus.bean.FTextField fTextField32;
 
-    private com.argus.beans.FTextField fTextField31;
+    private com.argus.bean.FTextField fTextField31;
 
-    private com.argus.beans.FTextField fTextField30;
+    private com.argus.bean.FTextField fTextField30;
 
     private javax.swing.JLabel jLabel446;
 
     private javax.swing.JLabel jLabel442;
 
-    private com.argus.beans.FTextField fTextField522;
+    private com.argus.bean.FTextField fTextField522;
 
-    private com.argus.beans.FTextField fTextField521;
+    private com.argus.bean.FTextField fTextField521;
 
     private javax.swing.JLabel jLabel4911;
 
@@ -4012,101 +4011,101 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JLabel jLabel16;
 
-    private com.argus.beans.FTextField fTextField29;
+    private com.argus.bean.FTextField fTextField29;
 
     private javax.swing.JLabel jLabel15;
 
-    private com.argus.beans.FTextField fTextField28;
+    private com.argus.bean.FTextField fTextField28;
 
     private javax.swing.JLabel jLabel14;
 
-    private com.argus.beans.FTextField fTextField27;
+    private com.argus.bean.FTextField fTextField27;
 
     private javax.swing.JLabel jLabel13;
 
-    private com.argus.beans.FTextField fTextField26;
+    private com.argus.bean.FTextField fTextField26;
 
     private javax.swing.JLabel jLabel12;
 
-    private com.argus.beans.FTextField fTextField25;
+    private com.argus.bean.FTextField fTextField25;
 
     private javax.swing.JLabel jLabel11;
 
     private javax.swing.JLabel jLabel382;
 
-    private com.argus.beans.FTextField fTextField24;
+    private com.argus.bean.FTextField fTextField24;
 
     private javax.swing.JLabel jLabel10;
 
     private javax.swing.JLabel jLabel381;
 
-    private com.argus.beans.FTextField fTextField23;
+    private com.argus.bean.FTextField fTextField23;
 
-    private com.argus.beans.FTextField fTextField22;
+    private com.argus.bean.FTextField fTextField22;
 
-    private com.argus.beans.FTextField fTextField21;
+    private com.argus.bean.FTextField fTextField21;
 
-    private com.argus.beans.FTextField fTextField20;
+    private com.argus.bean.FTextField fTextField20;
 
     private javax.swing.JLabel jLabel434;
 
-    private com.argus.beans.FTextField fTextField512;
+    private com.argus.bean.FTextField fTextField512;
 
-    private com.argus.beans.FTextField fTextField511;
+    private com.argus.bean.FTextField fTextField511;
 
-    private com.argus.beans.FTextField fTextField510;
+    private com.argus.bean.FTextField fTextField510;
 
-    private com.argus.beans.FTextField fTextField5511;
+    private com.argus.bean.FTextField fTextField5511;
 
-    private com.argus.beans.FTextField fTextField3011;
+    private com.argus.bean.FTextField fTextField3011;
 
-    private com.argus.beans.FTextField fTextField19;
+    private com.argus.bean.FTextField fTextField19;
 
-    private com.argus.beans.FTextField fTextField18;
+    private com.argus.bean.FTextField fTextField18;
 
     private javax.swing.JLabel jLabel5011;
 
-    private com.argus.beans.FTextField fTextField17;
+    private com.argus.bean.FTextField fTextField17;
 
-    private com.argus.beans.FTextField fTextField16;
+    private com.argus.bean.FTextField fTextField16;
 
-    private com.argus.beans.FTextField fTextField4811;
+    private com.argus.bean.FTextField fTextField4811;
 
-    private com.argus.beans.FTextField fTextField15;
+    private com.argus.bean.FTextField fTextField15;
 
-    private com.argus.beans.FTextField fTextField14;
+    private com.argus.bean.FTextField fTextField14;
 
-    private com.argus.beans.FTextField fTextField2311;
+    private com.argus.bean.FTextField fTextField2311;
 
-    private com.argus.beans.FTextField fTextField452;
+    private com.argus.bean.FTextField fTextField452;
 
-    private com.argus.beans.FTextField fTextField451;
+    private com.argus.bean.FTextField fTextField451;
 
-    private com.argus.beans.FTextField fTextField13;
+    private com.argus.bean.FTextField fTextField13;
 
     private javax.swing.JTextField jTextField1;
 
-    private com.argus.beans.FTextField fTextField12;
+    private com.argus.bean.FTextField fTextField12;
 
-    private com.argus.beans.FTextField fTextField11;
+    private com.argus.bean.FTextField fTextField11;
 
-    private com.argus.beans.FTextField fTextField502;
+    private com.argus.bean.FTextField fTextField502;
 
-    private com.argus.beans.FTextField fTextField501;
+    private com.argus.bean.FTextField fTextField501;
 
-    private com.argus.beans.FTextField fTextField1611;
+    private com.argus.bean.FTextField fTextField1611;
 
     private javax.swing.JPanel jPanelCombinedAsset;
 
-    private com.argus.beans.FTextField fTextField391;
+    private com.argus.bean.FTextField fTextField391;
 
-    private com.argus.beans.FTextField fTextField442;
+    private com.argus.bean.FTextField fTextField442;
 
     private javax.swing.JPanel jPanelPartnerAsset;
 
     private javax.swing.JLabel jLabel361;
 
-    private com.argus.beans.FTextField fTextField441;
+    private com.argus.bean.FTextField fTextField441;
 
     private javax.swing.JLabel jLabel413;
 
@@ -4118,59 +4117,59 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private javax.swing.JPanel jPanelCards;
 
-    private com.argus.beans.FTextField fTextField381;
+    private com.argus.bean.FTextField fTextField381;
 
-    private com.argus.beans.FTextField fTextField4211;
+    private com.argus.bean.FTextField fTextField4211;
 
     private javax.swing.JLabel jLabel351;
 
-    private com.argus.beans.FTextField fTextField431;
+    private com.argus.bean.FTextField fTextField431;
 
     private javax.swing.JLabel jLabel401;
 
     private javax.swing.JLabel jLabel5511;
 
-    private com.argus.beans.FTextField fTextField372;
+    private com.argus.bean.FTextField fTextField372;
 
-    private com.argus.beans.FTextField fTextField371;
+    private com.argus.bean.FTextField fTextField371;
 
-    private com.argus.beans.FTextField fTextField2811;
+    private com.argus.bean.FTextField fTextField2811;
 
     private javax.swing.JPanel jPanelCombinedAssetTest;
 
     private javax.swing.JLabel jLabel341;
 
-    private com.argus.beans.FTextField fTextField421;
+    private com.argus.bean.FTextField fTextField421;
 
     private javax.swing.JLabel jLabel4811;
 
     private javax.swing.JButton jButton11;
 
-    private com.argus.beans.FTextField fTextField362;
+    private com.argus.bean.FTextField fTextField362;
 
-    private com.argus.beans.FTextField fTextField361;
+    private com.argus.bean.FTextField fTextField361;
 
     private javax.swing.JPanel jPanel61;
 
-    private com.argus.beans.FTextField fTextField412;
+    private com.argus.bean.FTextField fTextField412;
 
-    private com.argus.beans.FTextField fTextField411;
+    private com.argus.bean.FTextField fTextField411;
 
-    private com.argus.beans.FTextField fTextField410;
+    private com.argus.bean.FTextField fTextField410;
 
-    private com.argus.beans.FComboBox fComboBox3;
+    private com.argus.bean.FComboBox fComboBox3;
 
-    private com.argus.beans.FComboBox fComboBox1;
+    private com.argus.bean.FComboBox fComboBox1;
 
-    private com.argus.beans.FTextField fTextField352;
+    private com.argus.bean.FTextField fTextField352;
 
     private javax.swing.JLabel jLabel271;
 
-    private com.argus.beans.FTextField fTextField351;
+    private com.argus.bean.FTextField fTextField351;
 
-    private com.argus.beans.FTextField fTextField401;
+    private com.argus.bean.FTextField fTextField401;
 
-    private com.argus.beans.FTextField fTextField1511;
+    private com.argus.bean.FTextField fTextField1511;
 
     // End of variables declaration//GEN-END:variables
     private static DSSViewNew view;
@@ -4203,7 +4202,7 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     public void updateView(Model model) throws java.io.IOException {
 
-        ClientService client = ServiceLocator.getInstance().getClientPerson();
+        ClientService client = clientService;
         jButton2.setEnabled(client != null);
         jButton3.setEnabled(client != null);
         jButtonDelete.setEnabled(client != null);
@@ -4215,7 +4214,7 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
         if (model == null) {
             calc.setValues(client);
             if (client != null) {
-                calc.setValues(client.getFinancials());
+                calc.setValues(client.findFinancials());
             }
 
         } else {
@@ -4236,12 +4235,12 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
 
     private void saveView(boolean newModel) {
 
-        ClientService person = ServiceLocator.getInstance().getClientPerson();
+        ClientService person = clientService;
 
         ModelCollection mc = null;
         try {
             mc = person.getModels();
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
             return;
         }
@@ -4311,7 +4310,7 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
         try {
             person.storeModels();
             // saveView( person );
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
             return;
         }
@@ -4375,7 +4374,7 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
         try {
             ReportFields.generateReport(
                     SwingUtilities.windowForComponent(this),
-                    getReportData(ServiceLocator.getInstance().getClientPerson()),
+                    getReportData(clientService),
                     getDefaultReport());
 
         } catch (java.io.IOException e) {
@@ -4404,14 +4403,14 @@ public class DSSViewNew extends BasePanel implements DocumentNames,
         am.put(DATA_REMOVE, new AbstractAction() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
-                PersonService person = ServiceLocator.getInstance().getClientPerson();
+                PersonService person = clientService;
                 if (person == null)
                     return;
 
                 try {
                     person.removeModel(model);
                     person.storeModels();
-                } catch (com.argus.financials.service.client.ServiceException e) {
+                } catch (com.argus.financials.api.ServiceException e) {
                     e.printStackTrace();
                     return;
                 }

@@ -6,34 +6,34 @@
 
 package com.argus.financials.bean;
 
+import java.util.Date;
+import java.util.TreeMap;
+
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.api.bean.IMaritalCode;
+import com.argus.financials.api.bean.IPerson;
+import com.argus.financials.api.bean.IPersonHealth;
+
 /**
  * 
  * @author valeri chibaev
  */
 
 import com.argus.financials.code.InvestmentStrategyCode;
-import com.argus.financials.code.MaritalCode;
 import com.argus.financials.code.TableDisplayMode;
 import com.argus.financials.etc.GrowthRate;
-import com.argus.financials.etc.PersonName;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.utils.RateUtils;
 import com.argus.util.DateTimeUtils;
+import com.argus.util.RateUtils;
 
 public class Assumptions extends AbstractBase implements java.lang.Cloneable {
-    // cd /D D:\projects\Financial Planner\ant\build\classes
-    // serialver -classpath . com.argus.financial.Assumptions
 
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 3685814615883265246L;
 
     private String clientName;
 
-    private java.util.Date clientDOB;
+    private Date clientDOB;
 
     private String partnerName;
 
@@ -45,7 +45,7 @@ public class Assumptions extends AbstractBase implements java.lang.Cloneable {
 
     private double inflation;
 
-    private java.util.Date retirementDate;
+    private Date retirementDate;
 
     private int years2project = 10;
 
@@ -87,7 +87,7 @@ public class Assumptions extends AbstractBase implements java.lang.Cloneable {
     public Assumptions() {
     }
 
-    public Assumptions(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public Assumptions(PersonService person) throws ServiceException {
         update(person);
     }
 
@@ -138,11 +138,11 @@ public class Assumptions extends AbstractBase implements java.lang.Cloneable {
         setModified(true);
     }
 
-    public java.util.Date getClientDOB() {
+    public Date getClientDOB() {
         return clientDOB;
     }
 
-    public void setClientDOB(java.util.Date value) {
+    public void setClientDOB(Date value) {
         if (equals(clientDOB, value))
             return;
         clientDOB = value;
@@ -153,13 +153,13 @@ public class Assumptions extends AbstractBase implements java.lang.Cloneable {
         return DateTimeUtils.getYears(getClientDOB(), getRetirementDate());
     }
 
-    public double getClientAgeAt(java.util.Date value) {
+    public double getClientAgeAt(Date value) {
         return DateTimeUtils.getYears(getClientDOB(), value);
     }
 
     public double getClientAgeAtYearsToProject() {
         int years = getYearsToProject();
-        return DateTimeUtils.getYears(getClientDOB(), new java.util.Date())
+        return DateTimeUtils.getYears(getClientDOB(), new Date())
                 + years;
     }
 
@@ -201,11 +201,11 @@ public class Assumptions extends AbstractBase implements java.lang.Cloneable {
         setModified(true);
     }
 
-    public java.util.Date getPartnerDOB() {
+    public Date getPartnerDOB() {
         return partnerDOB;
     }
 
-    public void setPartnerDOB(java.util.Date value) {
+    public void setPartnerDOB(Date value) {
         if (equals(partnerDOB, value))
             return;
         partnerDOB = value;
@@ -269,11 +269,11 @@ public class Assumptions extends AbstractBase implements java.lang.Cloneable {
         return getYearsMap(getRetirementDate(), TableDisplayMode.EVERY_YEAR);
     }
 
-    public int[] getYearsMap(java.util.Date before) {
+    public int[] getYearsMap(Date before) {
         return getYearsMap(before, TableDisplayMode.EVERY_YEAR);
     }
 
-    public int[] getYearsMap(java.util.Date before, int displayMode) {
+    public int[] getYearsMap(Date before, int displayMode) {
 
         int yearEnd = getYearsToProject() - 1;
         if (before != null)
@@ -306,11 +306,11 @@ public class Assumptions extends AbstractBase implements java.lang.Cloneable {
                 TableDisplayMode.EVERY_YEAR);
     }
 
-    public int[] getYearsMapRetirement(java.util.Date before) {
+    public int[] getYearsMapRetirement(Date before) {
         return getYearsMapRetirement(before, TableDisplayMode.EVERY_YEAR);
     }
 
-    public int[] getYearsMapRetirement(java.util.Date before, int displayMode) {
+    public int[] getYearsMapRetirement(Date before, int displayMode) {
 
         int yearStart = getYearsToProject() - 1;
         int yearEnd = getYearsToProject() - 1;
@@ -335,11 +335,11 @@ public class Assumptions extends AbstractBase implements java.lang.Cloneable {
         setModified(true);
     }
 
-    public java.util.Date getRetirementDate() {
+    public Date getRetirementDate() {
         return retirementDate;
     }
 
-    public void setRetirementDate(java.util.Date value) {
+    public void setRetirementDate(Date value) {
         if (equals(retirementDate, value))
             return;
         retirementDate = value;
@@ -348,7 +348,7 @@ public class Assumptions extends AbstractBase implements java.lang.Cloneable {
 
     public double getYearsToRetirement() {
         return DateTimeUtils
-                .getYears(new java.util.Date(), getRetirementDate());
+                .getYears(new Date(), getRetirementDate());
     }
 
     public double getRetirementIncome() {
@@ -473,40 +473,33 @@ public class Assumptions extends AbstractBase implements java.lang.Cloneable {
         return displayModeTerm;
     }
 
-    public void update(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void update(PersonService person) throws ServiceException {
 
         if (person == null)
-            person = ServiceLocator.getInstance().getClientPerson();
+            person = clientService;
 
-        PersonName clientName = person == null ? null : person.getPersonName();
-        java.util.TreeMap dependants = person == null ? null : person
-                .getDependents();
-        married = clientName == null ? false : !MaritalCode.isSingle(clientName
-                .getMaritalCodeID());
+        IPerson clientName = person == null ? null : person.getPersonName();
+        IPersonHealth clientHealth = clientName == null ? null : clientName.getPersonHealth();
+        TreeMap dependants = person == null ? null : person .getDependents();
+        married = clientName == null ? false : !IMaritalCode.isSingle(clientName.getMarital().getId());
 
         setClientName(clientName == null ? null : clientName.getFullName());
         setClientDOB(clientName == null ? null : clientName.getDateOfBirth());
-        setClientSex(clientName == null ? null : clientName.getSexCodeID());
-        clientHospitalCover = person == null ? false : person
-                .hasHospitalCover();
-        clientMaritalStatus = clientName == null ? null : clientName
-                .getMaritalCode();
+        setClientSex(clientName == null ? null : clientName.getSex().getId());
+        clientHospitalCover = clientHealth == null ? false : clientHealth.isHospitalCover();
+        clientMaritalStatus = clientName == null ? null : clientName.getMarital().getCode();
         clientDependents = dependants == null ? 0 : dependants.size();
 
-        PersonService partner = person instanceof ClientService ? ((ClientService) person)
-                .getPartner(false)
-                : null;
-        PersonName partnerName = partner == null ? null : partner
-                .getPersonName();
+        PersonService partner = person instanceof ClientService ? ((ClientService) person).getPartner(false) : null;
+        IPerson partnerName = partner == null ? null : partner.getPersonName();
+        IPersonHealth partnerHealth = partnerName == null ? null : partnerName.getPersonHealth();
         dependants = partner == null ? null : partner.getDependents();
 
         setPartnerName(partnerName == null ? null : partnerName.getFullName());
         setPartnerDOB(partnerName == null ? null : partnerName.getDateOfBirth());
-        setPartnerSex(partnerName == null ? null : partnerName.getSexCodeID());
-        partnerHospitalCover = partner == null ? false : partner
-                .hasHospitalCover();
-        partnerMaritalStatus = clientName == null ? null : clientName
-                .getMaritalCode();
+        setPartnerSex(partnerName == null ? null : partnerName.getSex().getId());
+        partnerHospitalCover = partnerHealth == null ? false : partnerHealth.isHospitalCover();
+        partnerMaritalStatus = clientName == null ? null : clientName.getMarital().getCode();
         partnerDependents = dependants == null ? 0 : dependants.size();
 
         FinancialGoal fg = person == null ? null : person.getFinancialGoal();

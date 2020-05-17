@@ -6,14 +6,14 @@
 
 package com.argus.financials.ui.projection;
 
-import com.argus.beans.AbstractComponentModel;
+import com.argus.bean.AbstractComponentModel;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.tax.au.ITaxConstants;
 
 /**
  * 
  */
-public class PAYGEtpView extends com.argus.beans.BasePanel {
+public class PAYGEtpView extends com.argus.bean.BasePanel {
 
     AbstractComponentModel dm;
 
@@ -101,14 +101,14 @@ public class PAYGEtpView extends com.argus.beans.BasePanel {
         jLabel7 = new javax.swing.JLabel();
         jLabel45 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        fTextField5 = new com.argus.beans.FTextField();
-        fTextField4 = new com.argus.beans.FTextField();
-        fTextField7 = new com.argus.beans.FTextField();
-        fTextField1 = new com.argus.beans.FTextField();
-        fTextField3 = new com.argus.beans.FTextField();
-        fTextField2 = new com.argus.beans.FTextField();
-        fTextField8 = new com.argus.beans.FTextField();
-        fTextField6 = new com.argus.beans.FTextField();
+        fTextField5 = new com.argus.bean.FTextField();
+        fTextField4 = new com.argus.bean.FTextField();
+        fTextField7 = new com.argus.bean.FTextField();
+        fTextField1 = new com.argus.bean.FTextField();
+        fTextField3 = new com.argus.bean.FTextField();
+        fTextField2 = new com.argus.bean.FTextField();
+        fTextField8 = new com.argus.bean.FTextField();
+        fTextField6 = new com.argus.bean.FTextField();
         jPanel7 = new javax.swing.JPanel();
         jPanel24 = new javax.swing.JPanel();
         jPanel25 = new javax.swing.JPanel();
@@ -125,17 +125,17 @@ public class PAYGEtpView extends com.argus.beans.BasePanel {
         jLabel60 = new javax.swing.JLabel();
         jLabel61 = new javax.swing.JLabel();
         jPanel27 = new javax.swing.JPanel();
-        fDateChooser5 = new com.argus.beans.FDateChooser();
-        fDateChooser1 = new com.argus.beans.FDateChooser();
-        fComboBox1 = new com.argus.beans.FComboBox();
+        fDateChooser5 = new com.argus.bean.FDateChooser();
+        fDateChooser1 = new com.argus.bean.FDateChooser();
+        fComboBox1 = new com.argus.bean.FComboBox();
         jLabel66 = new javax.swing.JLabel();
-        fTextField46 = new com.argus.beans.FTextField();
+        fTextField46 = new com.argus.bean.FTextField();
         jLabel10 = new javax.swing.JLabel();
-        fTextField50 = new com.argus.beans.FTextField();
-        fCheckBox1 = new com.argus.beans.FCheckBox();
-        fTextField38 = new com.argus.beans.FTextField();
-        fTextField48 = new com.argus.beans.FTextField();
-        fTextField49 = new com.argus.beans.FTextField();
+        fTextField50 = new com.argus.bean.FTextField();
+        fCheckBox1 = new com.argus.bean.FCheckBox();
+        fTextField38 = new com.argus.bean.FTextField();
+        fTextField48 = new com.argus.bean.FTextField();
+        fTextField49 = new com.argus.bean.FTextField();
         jPanel28 = new javax.swing.JPanel();
         jPanel22 = new javax.swing.JPanel();
         jPanel23 = new javax.swing.JPanel();
@@ -472,21 +472,21 @@ public class PAYGEtpView extends com.argus.beans.BasePanel {
 
     private javax.swing.JPanel jPanel5;
 
-    private com.argus.beans.FTextField fTextField5;
+    private com.argus.bean.FTextField fTextField5;
 
-    private com.argus.beans.FTextField fTextField4;
+    private com.argus.bean.FTextField fTextField4;
 
-    private com.argus.beans.FTextField fTextField7;
+    private com.argus.bean.FTextField fTextField7;
 
-    private com.argus.beans.FTextField fTextField1;
+    private com.argus.bean.FTextField fTextField1;
 
-    private com.argus.beans.FTextField fTextField3;
+    private com.argus.bean.FTextField fTextField3;
 
-    private com.argus.beans.FTextField fTextField2;
+    private com.argus.bean.FTextField fTextField2;
 
-    private com.argus.beans.FTextField fTextField8;
+    private com.argus.bean.FTextField fTextField8;
 
-    private com.argus.beans.FTextField fTextField6;
+    private com.argus.bean.FTextField fTextField6;
 
     private javax.swing.JPanel jPanel7;
 
@@ -520,27 +520,27 @@ public class PAYGEtpView extends com.argus.beans.BasePanel {
 
     private javax.swing.JPanel jPanel27;
 
-    private com.argus.beans.FDateChooser fDateChooser5;
+    private com.argus.bean.FDateChooser fDateChooser5;
 
-    private com.argus.beans.FDateChooser fDateChooser1;
+    private com.argus.bean.FDateChooser fDateChooser1;
 
-    private com.argus.beans.FComboBox fComboBox1;
+    private com.argus.bean.FComboBox fComboBox1;
 
     private javax.swing.JLabel jLabel66;
 
-    private com.argus.beans.FTextField fTextField46;
+    private com.argus.bean.FTextField fTextField46;
 
     private javax.swing.JLabel jLabel10;
 
-    private com.argus.beans.FTextField fTextField50;
+    private com.argus.bean.FTextField fTextField50;
 
-    private com.argus.beans.FCheckBox fCheckBox1;
+    private com.argus.bean.FCheckBox fCheckBox1;
 
-    private com.argus.beans.FTextField fTextField38;
+    private com.argus.bean.FTextField fTextField38;
 
-    private com.argus.beans.FTextField fTextField48;
+    private com.argus.bean.FTextField fTextField48;
 
-    private com.argus.beans.FTextField fTextField49;
+    private com.argus.bean.FTextField fTextField49;
 
     private javax.swing.JPanel jPanel28;
 

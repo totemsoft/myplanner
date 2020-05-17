@@ -14,7 +14,7 @@ package com.argus.financials.ui.etc;
  */
 
 import com.argus.financials.etc.Comment;
-import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.service.ClientService;
 import com.argus.financials.swing.SwingUtil;
 
 public class CommentView extends javax.swing.JComponent {
@@ -22,6 +22,11 @@ public class CommentView extends javax.swing.JComponent {
     private Integer linkObjectTypeID;
 
     private Comment comment;
+
+    private static ClientService clientService;
+    public static void setClientService(ClientService clientService) {
+        CommentView.clientService = clientService;
+    }
 
     /** Creates new form CommentView */
     public CommentView() {
@@ -63,9 +68,9 @@ public class CommentView extends javax.swing.JComponent {
     }
 
     public void updateView(com.argus.financials.service.PersonService person)
-            throws com.argus.financials.service.client.ServiceException {
+            throws com.argus.financials.api.ServiceException {
         if (person == null)
-            person = ServiceLocator.getInstance().getClientPerson();
+            person = clientService;
 
         comment = person.getComment(linkObjectTypeID);
         if (comment == null)
@@ -75,16 +80,15 @@ public class CommentView extends javax.swing.JComponent {
     }
 
     public void saveView(com.argus.financials.service.PersonService person)
-            throws com.argus.financials.service.client.ServiceException,
-            com.argus.financials.code.InvalidCodeException {
+            throws com.argus.financials.api.ServiceException,
+            com.argus.financials.api.InvalidCodeException {
         if (person == null)
-            person = ServiceLocator.getInstance().getClientPerson();
+            person = clientService;
 
         if (comment == null) {
             comment = person.getComment(linkObjectTypeID);
             if (comment == null)
-                comment = new Comment(ServiceLocator.getInstance()
-                        .getClientPersonID());
+                comment = new Comment(clientService.getId());
         }
 
         comment.setCommentText(jTextArea.getText());

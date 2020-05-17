@@ -1,41 +1,38 @@
 package com.argus.financials.etc;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
+import java.util.Date;
 
+import com.argus.financials.api.bean.IFPSObject;
 import com.argus.financials.bean.AbstractBase;
 
-public abstract class FPSObject extends AbstractBase {
+public abstract class FPSObject extends AbstractBase implements IFPSObject {
 
     static final long serialVersionUID = 1898595574343770602L;
 
-    private Integer ownerPrimaryKeyID;
+    private Integer ownerId;
 
-    private java.util.Date dateCreated;
+    private Date dateCreated;
 
-    private java.util.Date dateModified;
+    private Date dateModified;
 
     protected FPSObject() {
         super();
     }
 
-    protected FPSObject(Integer ownerPrimaryKeyID) {
-        if (ownerPrimaryKeyID != null) {
-            if (ownerPrimaryKeyID.intValue() <= 0)
+    protected FPSObject(Integer ownerId) {
+        if (ownerId != null) {
+            if (ownerId.intValue() <= 0)
                 throw new IllegalArgumentException("Bad argument "
-                        + ownerPrimaryKeyID + ". " + getClass().getName());
-            this.ownerPrimaryKeyID = ownerPrimaryKeyID;
+                        + ownerId + ". " + getClass().getName());
+            this.ownerId = ownerId;
         }
     }
 
     /***************************************************************************
      * helper methods
      */
-    protected void clear() {
-        ownerPrimaryKeyID = null;
+    public void clear() {
+        ownerId = null;
         dateCreated = null;
         dateModified = null;
 
@@ -53,36 +50,36 @@ public abstract class FPSObject extends AbstractBase {
         super.setModified(value);
 
         if (value) {
-            setDateModified(new java.util.Date());
+            setDateModified(new Date());
             notifyChangeListeners();
         }
     }
 
-    public Integer getOwnerPrimaryKeyID() {
-        return ownerPrimaryKeyID;
+    public Integer getOwnerId() {
+        return ownerId;
     }
 
-    public void setOwnerPrimaryKeyID(Integer value) {
-        if (equals(ownerPrimaryKeyID, value))
+    public void setOwnerId(Integer value) {
+        if (equals(ownerId, value))
             return;
 
-        ownerPrimaryKeyID = value;
+        ownerId = value;
         // setModified( true );
     }
 
-    public java.util.Date getDateCreated() {
+    public Date getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(java.util.Date value) {
+    public void setDateCreated(Date value) {
         dateCreated = value;
     }
 
-    public java.util.Date getDateModified() {
+    public Date getDateModified() {
         return dateModified;
     }
 
-    public void setDateModified(java.util.Date value) {
+    public void setDateModified(Date value) {
         dateModified = value;
     }
 

@@ -16,9 +16,9 @@ import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
-import com.argus.financials.IGraphView;
+import com.argus.financials.api.code.FinancialTypeEnum;
 import com.argus.financials.bean.RegularExpense;
-import com.argus.financials.code.FinancialTypeID;
+import com.argus.financials.chart.IGraphView;
 import com.argus.financials.code.FrequencyCode;
 import com.argus.financials.code.ModelType;
 import com.argus.financials.code.OwnerCode;
@@ -30,14 +30,13 @@ import com.argus.financials.projection.data.MortgageScheduleTableModel;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.report.Reportable;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.swing.table.UpdateableTableModel;
 import com.argus.financials.swing.table.UpdateableTableRow;
 import com.argus.financials.tax.au.ITaxConstants;
-import com.argus.financials.utils.RateUtils;
 import com.argus.format.Currency;
 import com.argus.io.JPEGFileFilter;
 import com.argus.util.DateTimeUtils;
+import com.argus.util.RateUtils;
 
 public class MortgageCalc extends MoneyCalc implements IMortgageCalcParams,
         IMortgageCalcResults, Reportable {
@@ -841,7 +840,7 @@ public class MortgageCalc extends MoneyCalc implements IMortgageCalcParams,
                     .getStartDate()));
             expense.setTaxable(false);
             expense.setOwnerCodeID(OwnerCode.CLIENT);
-            expense.setFinancialTypeID(FinancialTypeID.EXPENSE_OTHER);
+            expense.setFinancialTypeId(FinancialTypeEnum.EXPENSE_OTHER);
             expense.setRegularTaxType(ITaxConstants.D_INTEREST_DIVIDEND);
             financials.add(expense);
         }
@@ -895,8 +894,8 @@ public class MortgageCalc extends MoneyCalc implements IMortgageCalcParams,
 
     public void initializeReportData(ReportFields reportFields)
             throws Exception {
-        initializeReportData(reportFields, ServiceLocator.getInstance()
-                .getClientPerson());
+        initializeReportData(reportFields, 
+                clientService);
     }
 
     public void initializeReportData(ReportFields reportFields, PersonService person)

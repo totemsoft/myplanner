@@ -7,9 +7,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.argus.financials.domain.client.refdata.IAddressCode;
-import com.argus.financials.domain.client.refdata.ICountry;
-import com.argus.financials.domain.client.refdata.IState;
+import com.argus.financials.api.bean.IAddress;
+import com.argus.financials.api.bean.IAddressCode;
+import com.argus.financials.api.bean.ICountry;
+import com.argus.financials.api.bean.IState;
 import com.argus.financials.domain.hibernate.refdata.AddressCode;
 import com.argus.financials.domain.hibernate.refdata.Country;
 import com.argus.financials.domain.hibernate.refdata.State;
@@ -75,7 +76,7 @@ public class Address extends AbstractAuditable<Integer> implements IAddress
     /**
      * @return parent
      */
-    public IAddress getParentId()
+    public IAddress getParent()
     {
         return parent;
     }

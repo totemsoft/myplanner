@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.TreeSet;
 
+import com.argus.financials.api.code.CodeComparator;
 import com.argus.util.ReferenceCode;
 
 public class DirectoryContent extends BaseCode {

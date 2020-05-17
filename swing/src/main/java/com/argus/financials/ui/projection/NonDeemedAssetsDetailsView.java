@@ -13,9 +13,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
-import com.argus.beans.AbstractComponentModel;
-import com.argus.beans.BasePanel;
-import com.argus.beans.FTable;
+import com.argus.bean.AbstractComponentModel;
+import com.argus.bean.BasePanel;
+import com.argus.bean.FTable;
 import com.argus.financials.code.FundType;
 import com.argus.financials.projection.DSSCalcNew;
 import com.argus.financials.projection.DocumentNames;

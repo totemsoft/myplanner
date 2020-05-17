@@ -6,17 +6,11 @@
 
 package com.argus.financials.ui.strategy;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
-
-import com.argus.financials.IGraphView;
+import com.argus.financials.chart.IGraphView;
 import com.klg.jclass.chart.JCChart;
 
 public class StrategyFinancialGraphView extends
-        com.argus.financials.GraphView {
+        com.argus.financials.chart.GraphView {
 
     /** Creates new StrategyFinancialGraphView */
     public StrategyFinancialGraphView() {

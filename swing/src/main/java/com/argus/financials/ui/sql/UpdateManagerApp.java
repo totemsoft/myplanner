@@ -6,15 +6,15 @@
 
 package com.argus.financials.ui.sql;
 
-/**
- * 
- * @author valeri chibaev
- */
-
-import com.argus.financials.bean.db.DBManager;
+import com.argus.dao.SQLHelper;
 import com.argus.financials.config.PropertySourceManager;
 
 public class UpdateManagerApp extends javax.swing.JFrame {
+
+    private transient static SQLHelper sqlHelper;
+    public static void setSqlHelper(SQLHelper sqlHelper) {
+        UpdateManagerApp.sqlHelper = sqlHelper;
+    }
 
     /** Creates new form UpdateManager */
     public UpdateManagerApp() {
@@ -242,8 +242,7 @@ public class UpdateManagerApp extends javax.swing.JFrame {
 
         java.util.Vector data = parse(sqlText);
 
-        DBManager dbm = DBManager.getInstance();
-        java.sql.Connection con = dbm.getConnection();
+        java.sql.Connection con = sqlHelper.getConnection();
         try {
 
             java.util.Iterator iter = data.iterator();
@@ -301,8 +300,7 @@ public class UpdateManagerApp extends javax.swing.JFrame {
 
     private void doBackup() throws java.sql.SQLException {
 
-        DBManager dbm = DBManager.getInstance();
-        java.sql.Connection con = dbm.getConnection();
+        java.sql.Connection con = sqlHelper.getConnection();
         try {
             /*
              * BACKUP DATABASE MyPlanner TO DISK = 'C:\BACKUP\MyPlanner_001.dat' WITH

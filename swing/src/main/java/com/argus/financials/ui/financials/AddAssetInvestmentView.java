@@ -14,6 +14,9 @@ package com.argus.financials.ui.financials;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.bean.ICode;
+import com.argus.financials.api.code.FinancialTypeEnum;
 import com.argus.financials.assetinvestment.AvailableInvestmentsTableRow;
 import com.argus.financials.assetinvestment.UpdateUnitSharePriceData;
 import com.argus.financials.bean.AssetInvestment;
@@ -21,9 +24,6 @@ import com.argus.financials.bean.Financial;
 import com.argus.financials.bean.db.ApirPicBean;
 import com.argus.financials.bean.db.IressAssetNameBean;
 import com.argus.financials.code.FinancialServiceCode;
-import com.argus.financials.code.FinancialType;
-import com.argus.financials.code.FinancialTypeID;
-import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.code.OwnerCode;
 import com.argus.financials.swing.CurrencyInputVerifier;
 import com.argus.financials.swing.DateInputVerifier;
@@ -101,17 +101,17 @@ public class AddAssetInvestmentView extends AddAssetView implements
 
     public int getDefaultFinancialTypeID(String source) {
         if (source.equals(ApirPicBean.DATABASE_TABLE_NAME))
-            return INVESTMENT_LISTED_UNIT_TRUST;
+            return FinancialTypeEnum.INVESTMENT_LISTED_UNIT_TRUST.getId(); // 5=Listed Unit Trust
         if (source.equals(IressAssetNameBean.DATABASE_TABLE_NAME))
-            return INVESTMENT_LISTED_SHARES; // 4 = Listed Shares
-        return FinancialTypeID.UNDEFINED;
+            return FinancialTypeEnum.INVESTMENT_LISTED_SHARES.getId(); // 4 = Listed Shares
+        return FinancialTypeEnum.UNDEFINED.getId(); // 0
     }
 
     public String getDefaultFinancialTypeDesc(String source) {
         if (source.equals(ApirPicBean.DATABASE_TABLE_NAME))
-            return STRING_LISTED_UNIT_TRUST;
+            return FinancialTypeEnum.INVESTMENT_LISTED_UNIT_TRUST.getDesc();
         if (source.equals(IressAssetNameBean.DATABASE_TABLE_NAME))
-            return STRING_LISTED_SHARES;
+            return FinancialTypeEnum.INVESTMENT_LISTED_SHARES.getDesc();
         return "";
     }
 
@@ -170,10 +170,11 @@ public class AddAssetInvestmentView extends AddAssetView implements
 
     private void updateComponents(int financialTypeID) {
 
-        boolean managedFundsShares = (financialTypeID == INVESTMENT_LISTED_UNIT_TRUST)
-                || (financialTypeID == INVESTMENT_LISTED_SHARES);
-        boolean other = financialTypeID == INVESTMENT_OTHER;
-        boolean investmentProperty = financialTypeID == INVESTMENT_PROPERTY;
+        boolean managedFundsShares = 
+            financialTypeID == FinancialTypeEnum.INVESTMENT_LISTED_UNIT_TRUST.getId()
+         || financialTypeID == FinancialTypeEnum.INVESTMENT_LISTED_SHARES.getId();
+        boolean other = financialTypeID == FinancialTypeEnum.INVESTMENT_OTHER.getId();
+        boolean investmentProperty = financialTypeID == FinancialTypeEnum.INVESTMENT_PROPERTY.getId();
 
         // if ( !managedFundsShares )
         // jTextFieldAssetInvestmentCode.setText( null );
@@ -252,9 +253,9 @@ public class AddAssetInvestmentView extends AddAssetView implements
         jLabelCurrentValue = new javax.swing.JLabel();
         jTextFieldCurrentValue = new javax.swing.JTextField();
         jLabelPurchaseDate = new javax.swing.JLabel();
-        jTextFieldPurchaseDate = new com.argus.beans.FDateChooser();
+        jTextFieldPurchaseDate = new com.argus.bean.FDateChooser();
         jLabelPriceDate = new javax.swing.JLabel();
-        jTextFieldPriceDate = new com.argus.beans.FDateChooser();
+        jTextFieldPriceDate = new com.argus.bean.FDateChooser();
         jPanelPerformance = new javax.swing.JPanel();
         jLabelIncome = new javax.swing.JLabel();
         jTextFieldIncome = new javax.swing.JTextField();
@@ -272,17 +273,17 @@ public class AddAssetInvestmentView extends AddAssetView implements
         jLabelContributionIndexation = new javax.swing.JLabel();
         jTextFieldContributionIndexation = new javax.swing.JTextField();
         jLabelContributionsStartDate = new javax.swing.JLabel();
-        jTextFieldContributionsStartDate = new com.argus.beans.FDateChooser();
+        jTextFieldContributionsStartDate = new com.argus.bean.FDateChooser();
         jLabelContributionsEndDate = new javax.swing.JLabel();
-        jTextFieldContributionsEndDate = new com.argus.beans.FDateChooser();
+        jTextFieldContributionsEndDate = new com.argus.bean.FDateChooser();
         jLabelAnnualDrawdowns = new javax.swing.JLabel();
         jTextFieldAnnualDrawdowns = new javax.swing.JTextField();
         jLabelDrawdownIndexation = new javax.swing.JLabel();
         jTextFieldDrawdownIndexation = new javax.swing.JTextField();
         jLabelDrawdownsStartDate = new javax.swing.JLabel();
-        jTextFieldDrawdownsStartDate = new com.argus.beans.FDateChooser();
+        jTextFieldDrawdownsStartDate = new com.argus.bean.FDateChooser();
         jLabelDrawdownsEndDate = new javax.swing.JLabel();
-        jTextFieldDrawdownsEndDate = new com.argus.beans.FDateChooser();
+        jTextFieldDrawdownsEndDate = new com.argus.bean.FDateChooser();
         jPanelFees = new javax.swing.JPanel();
         jLabelOtherExpenses = new javax.swing.JLabel();
         jTextFieldOtherExpenses = new javax.swing.JTextField();
@@ -1068,7 +1069,7 @@ public class AddAssetInvestmentView extends AddAssetView implements
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.argus.beans.FDateChooser jTextFieldPurchaseDate;
+    private com.argus.bean.FDateChooser jTextFieldPurchaseDate;
 
     private javax.swing.JTextField jTextFieldUnitsSharesPrice;
 
@@ -1116,7 +1117,7 @@ public class AddAssetInvestmentView extends AddAssetView implements
 
     private javax.swing.JRadioButton jRadioButtonOther;
 
-    private com.argus.beans.FDateChooser jTextFieldContributionsStartDate;
+    private com.argus.bean.FDateChooser jTextFieldContributionsStartDate;
 
     private javax.swing.JLabel jLabelDrawdownsStartDate;
 
@@ -1134,9 +1135,9 @@ public class AddAssetInvestmentView extends AddAssetView implements
 
     private javax.swing.JLabel jLabelUnitsSharesPrice;
 
-    private com.argus.beans.FDateChooser jTextFieldDrawdownsEndDate;
+    private com.argus.bean.FDateChooser jTextFieldDrawdownsEndDate;
 
-    private com.argus.beans.FDateChooser jTextFieldDrawdownsStartDate;
+    private com.argus.bean.FDateChooser jTextFieldDrawdownsStartDate;
 
     private javax.swing.JPanel jPanelValue;
 
@@ -1150,7 +1151,7 @@ public class AddAssetInvestmentView extends AddAssetView implements
 
     private javax.swing.JLabel jLabelOwnerCode;
 
-    private com.argus.beans.FDateChooser jTextFieldPriceDate;
+    private com.argus.bean.FDateChooser jTextFieldPriceDate;
 
     private javax.swing.JTextField jTextFieldCurrentValue;
 
@@ -1164,7 +1165,7 @@ public class AddAssetInvestmentView extends AddAssetView implements
 
     private javax.swing.JTextField jTextFieldUnitShares;
 
-    private com.argus.beans.FDateChooser jTextFieldContributionsEndDate;
+    private com.argus.bean.FDateChooser jTextFieldContributionsEndDate;
 
     private javax.swing.JTextField jTextFieldDesc;
 
@@ -1221,7 +1222,7 @@ public class AddAssetInvestmentView extends AddAssetView implements
     }
 
     public String getTitle() {
-        return RC_ASSET_INVESTMENT.getCodeDesc();
+        return RC_ASSET_INVESTMENT.getDescription();
     }
 
     public boolean updateView() {
@@ -1235,8 +1236,8 @@ public class AddAssetInvestmentView extends AddAssetView implements
 
         AssetInvestment assetInvestment = getAssetInvestment();
 
-        ReferenceCode financialType = assetInvestment.getFinancialType();
-        ReferenceCode financialCode = assetInvestment.getFinancialCode();
+        ICode financialType = assetInvestment.getFinancialType();
+        ICode financialCode = assetInvestment.getFinancialCode();
         // set old FinancialCode
         old_FinancialCode = assetInvestment.getFinancialCode();
 
@@ -1247,7 +1248,7 @@ public class AddAssetInvestmentView extends AddAssetView implements
         jTextFieldAssetInvestmentCode.setText(financialCode == null ? null
                 : financialCode.getCode());
         jTextFieldAssetInvestmentName.setText(financialCode == null ? null
-                : financialCode.getCodeDesc());
+                : financialCode.getDescription());
 
         jTextFieldFranked.setText(percent
                 .toString(assetInvestment.getFranked()));
@@ -1395,30 +1396,25 @@ public class AddAssetInvestmentView extends AddAssetView implements
                 .getSelectedItem());
 
         // get selected investment type (FinancialType)
-        Integer financialTypeID = null;
+        Integer financialTypeId = null;
         if (jRadioButtonManagedFunds.isSelected())
-            financialTypeID = new Integer(INVESTMENT_LISTED_UNIT_TRUST);
+            financialTypeId = FinancialTypeEnum.INVESTMENT_LISTED_UNIT_TRUST.getId();
         else if (jRadioButtonShares.isSelected())
-            financialTypeID = new Integer(INVESTMENT_LISTED_SHARES);
+            financialTypeId = FinancialTypeEnum.INVESTMENT_LISTED_SHARES.getId();
         else if (jRadioButtonInvestmentProperty.isSelected())
-            financialTypeID = new Integer(INVESTMENT_PROPERTY);
+            financialTypeId = FinancialTypeEnum.INVESTMENT_PROPERTY.getId();
         else if (jRadioButtonOther.isSelected())
-            financialTypeID = new Integer(INVESTMENT_OTHER);
+            financialTypeId = FinancialTypeEnum.INVESTMENT_OTHER.getId();
 
         // update FinancialType
-        ReferenceCode refCode = FinancialType.getFinancialType(getObjectType(),
-                financialTypeID);
-        if (refCode != null)
-            assetInvestment.setFinancialType(refCode);
-        else
-            assetInvestment.setFinancialTypeID(financialTypeID);
+        assetInvestment.setFinancialTypeId(financialTypeId);
 
         try {
             updateFinancialCode(assetInvestment, jTextFieldAssetInvestmentName
                     .getText().trim(), jTextFieldAssetInvestmentCode.getText()
                     .trim());
 
-        } catch (java.sql.SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace(System.err);
             throw new InvalidCodeException(e.getMessage());
         }
@@ -1482,21 +1478,19 @@ public class AddAssetInvestmentView extends AddAssetView implements
      * @param FinancialType -
      *            financial type of an asset
      */
-    private void setSelectedJRadioButtonFinancialType(
-            ReferenceCode financialType) {
+    private void setSelectedJRadioButtonFinancialType(ICode financialType) {
         // set jRadioButton
         if (financialType != null
-                && financialType.getCodeID() == INVESTMENT_LISTED_SHARES)
+                && financialType.getId() == FinancialTypeEnum.INVESTMENT_LISTED_SHARES.getId())
             jRadioButtonShares.setSelected(true);
         else if (financialType != null
-                && financialType.getCodeID() == INVESTMENT_LISTED_UNIT_TRUST)
+                && financialType.getId() == FinancialTypeEnum.INVESTMENT_LISTED_UNIT_TRUST.getId())
             jRadioButtonManagedFunds.setSelected(true);
         else if (financialType != null
-                && financialType.getCodeID() == INVESTMENT_PROPERTY)
+                && financialType.getId() == FinancialTypeEnum.INVESTMENT_PROPERTY.getId())
             jRadioButtonInvestmentProperty.setSelected(true);
         else
-            // if ( financialType != null && financialTypeID.getCodeID() ==
-            // INVESTMENT_OTHER )
+            // if ( financialType != null && financialTypeID.getCodeID() == INVESTMENT_OTHER )
             jRadioButtonOther.setSelected(true);
     }
 

@@ -6,7 +6,7 @@
 
 package com.argus.financials.service;
 
-import com.argus.financials.service.client.ServiceException;
+import com.argus.financials.api.ServiceException;
 
 /**
  * 

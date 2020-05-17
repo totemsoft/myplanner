@@ -6,6 +6,18 @@
 
 package com.argus.financials.report.data;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Vector;
+
+import com.argus.financials.api.bean.IMaritalCode;
+import com.argus.financials.api.bean.IPerson;
+import com.argus.financials.api.bean.IPersonHealth;
+import com.argus.financials.api.code.FinancialClassID;
+import com.argus.financials.api.code.FinancialTypeEnum;
+
 /**
  * 
  * @author valeri chibaev
@@ -16,10 +28,7 @@ import com.argus.financials.bean.IRegularType;
 import com.argus.financials.bean.RegularExpense;
 import com.argus.financials.bean.RegularIncome;
 import com.argus.financials.bean.TaxOffset;
-import com.argus.financials.code.FinancialClassID;
-import com.argus.financials.code.FinancialTypeID;
 import com.argus.financials.code.FrequencyCode;
-import com.argus.financials.code.MaritalCode;
 import com.argus.financials.code.OwnerCode;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.ClientService;
@@ -40,7 +49,7 @@ import com.argus.financials.tree.FinancialTreeStructure;
 import com.argus.util.ReferenceCode;
 
 public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
-        implements FinancialTypeID, com.argus.financials.report.Reportable,
+        implements com.argus.financials.report.Reportable,
         javax.swing.event.ChangeListener {
     protected static final com.argus.math.Money _money;
     static {
@@ -67,17 +76,17 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
 
     public static final int TOTAL = 3;
 
-    private static java.util.Vector columnNames;
+    private static Vector columnNames;
 
-    private static java.util.Vector columnClasses;
+    private static Vector columnClasses;
     static {
-        columnNames = new java.util.Vector();
+        columnNames = new Vector();
         columnNames.add(NAME, "");
         columnNames.add(CLIENT, "ClientView");
         columnNames.add(PARTNER, "Partner");
         columnNames.add(TOTAL, "Total");
 
-        columnClasses = new java.util.Vector();
+        columnClasses = new Vector();
         columnClasses.add(NAME, java.lang.String.class);
         columnClasses.add(CLIENT, java.math.BigDecimal.class);
         columnClasses.add(PARTNER, java.math.BigDecimal.class);
@@ -91,7 +100,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
         return prefix;
     }
 
-    private java.util.Map financials;
+    private Map financials;
 
     private Assumptions assumptions;
 
@@ -121,7 +130,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
      * TaxAnalysisViev <-- TaxAnalysisData <-- Assumptions --> AssumptionView
      * 
      */
-    public TaxAnalysisData(java.util.Map _financials, Assumptions assumptions,
+    public TaxAnalysisData(Map _financials, Assumptions assumptions,
             String prefix) {
 
         this.financials = _financials;
@@ -145,7 +154,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
 
     }
 
-    public java.util.Map getFinancials() {
+    public Map getFinancials() {
         return financials;
     }
 
@@ -155,7 +164,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
 
     private PersonService person;
 
-    public void update() throws com.argus.financials.service.client.ServiceException {
+    public void update() throws com.argus.financials.api.ServiceException {
         assumptions.disableNotify();
         try {
             assumptions.update(person);
@@ -164,8 +173,8 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
         }
     }
 
-    public void update(PersonService _person, java.util.Map _financials)
-            throws com.argus.financials.service.client.ServiceException {
+    public void update(PersonService _person, Map _financials)
+            throws com.argus.financials.api.ServiceException {
         this.person = _person;
         this.financials = _financials;
         update();
@@ -181,7 +190,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
 
         try {
             updateTreeModel();
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
             return;
         }
@@ -189,41 +198,36 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
 
     }
 
-    private void updateTreeModel() throws com.argus.financials.service.client.ServiceException {
+    private void updateTreeModel() throws com.argus.financials.api.ServiceException {
 
         clear();
 
         // //////////////////////////////////////////////////////////////////////
         // initialize tax containers
         // //////////////////////////////////////////////////////////////////////
-        java.util.TreeMap dependants = person.getDependents();
+        IPerson personName = person.getPersonName();
+        IPersonHealth personHealth = personName == null ? null : personName.getPersonHealth();
+        TreeMap dependants = person.getDependents();
 
-        married = !MaritalCode.isSingle(person.getPersonName()
-                .getMaritalCodeID());
-        Double age = person.getPersonName().getAge();
-        boolean hospitalCover = person.hasHospitalCover();
-        tcClient.add(TaxContainer.PERSONAL, ITaxConstants.P_HOSPITAL_COVER,
-                hospitalCover ? 1. : 0.); // 0. = false, 1. = true
-        tcClient.add(TaxContainer.PERSONAL, ITaxConstants.P_MARITAL_STATUS,
-                married ? 1. : 0.); // 0. = false, 1. = true
-        tcClient.add(TaxContainer.PERSONAL, ITaxConstants.P_DEPENDANTS,
-                dependants == null ? 0. : dependants.size());
-        tcClient.add(TaxContainer.PERSONAL, ITaxConstants.P_AGE,
-                age == null ? 0. : age.doubleValue());
+        married = !IMaritalCode.isSingle(personName.getMarital().getId());
+        Number age = personName.getAge();
+        boolean hospitalCover = personHealth == null ? false : personHealth.isHospitalCover();
+        tcClient.add(TaxContainer.PERSONAL, ITaxConstants.P_HOSPITAL_COVER, hospitalCover ? 1. : 0.); // 0. = false, 1. = true
+        tcClient.add(TaxContainer.PERSONAL, ITaxConstants.P_MARITAL_STATUS, married ? 1. : 0.); // 0. = false, 1. = true
+        tcClient.add(TaxContainer.PERSONAL, ITaxConstants.P_DEPENDANTS, dependants == null ? 0. : dependants.size());
+        tcClient.add(TaxContainer.PERSONAL, ITaxConstants.P_AGE, age == null ? 0. : age.doubleValue());
 
         if (married && person instanceof ClientService) {
             PersonService clientPartner = ((ClientService) person).getPartner(false);
+            IPerson clientPartnerName = clientPartner.getPersonName();
+            IPersonHealth clientPartnerHealth = clientPartnerName == null ? null : clientPartnerName.getPersonHealth();
             age = clientPartner.getPersonName().getAge();
-            hospitalCover = clientPartner.hasHospitalCover();
+            hospitalCover = clientPartnerHealth == null ? false : clientPartnerHealth.isHospitalCover();
             dependants = clientPartner.getDependents();
-            tcPartner.add(TaxContainer.PERSONAL, ITaxConstants.P_HOSPITAL_COVER,
-                    hospitalCover ? 1. : 0.); // 0. = false, 1. = true
-            tcPartner.add(TaxContainer.PERSONAL, ITaxConstants.P_MARITAL_STATUS,
-                    married ? 1. : 0.); // 0. = false, 1. = true
-            tcPartner.add(TaxContainer.PERSONAL, ITaxConstants.P_DEPENDANTS,
-                    dependants == null ? 0. : dependants.size());
-            tcPartner.add(TaxContainer.PERSONAL, ITaxConstants.P_AGE,
-                    age == null ? 0. : age.doubleValue());
+            tcPartner.add(TaxContainer.PERSONAL, ITaxConstants.P_HOSPITAL_COVER, hospitalCover ? 1. : 0.); // 0. = false, 1. = true
+            tcPartner.add(TaxContainer.PERSONAL, ITaxConstants.P_MARITAL_STATUS, married ? 1. : 0.); // 0. = false, 1. = true
+            tcPartner.add(TaxContainer.PERSONAL, ITaxConstants.P_DEPENDANTS, dependants == null ? 0. : dependants.size());
+            tcPartner.add(TaxContainer.PERSONAL, ITaxConstants.P_AGE, age == null ? 0. : age.doubleValue());
         }
 
         // clear non-person data only
@@ -261,10 +265,6 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
         // do calculate
         tcClient.calculate();
         tcPartner.calculate();
-        // if (DEBUG) System.out.println( "Taxable Income: client=" +
-        // tcClient.getResult( TaxConstants.TAXABLE_INCOME ) + ", partner=" + (
-        // married ? tcPartner.getResult( TaxConstants.TAXABLE_INCOME ) : 0. )
-        // );
 
         // add generated tax offsets (tax containers)
         // Get calculated low income rebate and add it to as new Offset
@@ -396,7 +396,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
 
         static final int NET_INCOME = 1;
 
-        private java.util.Vector data;
+        private Vector data;
 
         TaxSummaryTableModel() {
             super(null, columnNames, columnClasses);
@@ -412,7 +412,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
             // getOffsetTableModel();
             getTaxTableModel();
 
-            data = new java.util.Vector();
+            data = new Vector();
 
             ISmartTableRow row = new AbstractSmartTableRow(
                     ISmartTableRow.HEADER1) {
@@ -484,15 +484,15 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
             com.argus.financials.tree.DataGenerator {
 
         public void addGeneratedData(FinancialTreeModel model,
-                java.util.Map source, final int[] rules, int year) {
+                Map source, final int[] rules, int year) {
 
             if (source == null)
                 return;
 
-            java.util.Map taxOffsets = (java.util.Map) source
+            Map taxOffsets = (Map) source
                     .get(FinancialClassID.TAX_OFFSET);
             if (taxOffsets == null) {
-                taxOffsets = new java.util.HashMap();
+                taxOffsets = new HashMap();
                 source.put(FinancialClassID.TAX_OFFSET, taxOffsets);
             } else {
                 // Financials.removeGeneratedData( taxOffsets ); // has to be
@@ -511,15 +511,11 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
                 double partnerAmount = married ? tcPartner.getResult(taxType)
                         : 0.;
 
-                // if (DEBUG) System.out.println( taxType + ", " +
-                // financialTypeID + ", client=" + clientAmount + ", partner=" +
-                // partnerAmount );
-
                 if (clientAmount != 0.) {
                     TaxOffset taxOffsetClient = createTaxOffset(
                             OwnerCode.CLIENT, financialTypeID.intValue(),
                             clientAmount);
-                    taxOffsets.put(taxOffsetClient.getPrimaryKeyID(),
+                    taxOffsets.put(taxOffsetClient.getId(),
                             taxOffsetClient);
                     // if ( model != null ) model.addFinancial( taxOffsetClient
                     // );
@@ -529,7 +525,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
                     TaxOffset taxOffsetPartner = createTaxOffset(
                             OwnerCode.PARTNER, financialTypeID.intValue(),
                             partnerAmount);
-                    taxOffsets.put(taxOffsetPartner.getPrimaryKeyID(),
+                    taxOffsets.put(taxOffsetPartner.getId(),
                             taxOffsetPartner);
                     // if ( model != null ) model.addFinancial( taxOffsetPartner
                     // );
@@ -540,7 +536,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
         }
 
         public void addGeneratedData(FinancialTreeModel model,
-                java.util.Collection source, final int[] rules, int year) {
+                Collection source, final int[] rules, int year) {
 
             // addGeneratedData( financials, rules, year );
 
@@ -558,10 +554,6 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
                 double clientAmount = tcClient.getResult(taxType);
                 double partnerAmount = married ? tcPartner.getResult(taxType)
                         : 0.;
-
-                // if (DEBUG) System.out.println( taxType + ", " +
-                // financialTypeID + ", client=" + clientAmount + ", partner=" +
-                // partnerAmount );
 
                 if (clientAmount != 0.) {
                     TaxOffset taxOffsetClient = createTaxOffset(
@@ -590,7 +582,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
             TaxOffset taxOffset = new TaxOffset();
             taxOffset.setGenerated(true);
             taxOffset.setOwnerCodeID(owner);
-            taxOffset.setFinancialTypeID(financialTypeID);
+            taxOffset.setFinancialTypeId(financialTypeID);
             taxOffset.setRegularAmount(new java.math.BigDecimal(amount));
             taxOffset.setFrequencyCodeID(FrequencyCode.YEARLY);
             return taxOffset;
@@ -615,7 +607,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
 
         static final int FOOTER = 5;
 
-        private java.util.Vector data;
+        private Vector data;
 
         TaxTableModel() {
             super(null, columnNames, columnClasses);
@@ -625,7 +617,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
         }
 
         private void initData() {
-            data = new java.util.Vector();
+            data = new Vector();
 
             ISmartTableRow row = new AbstractSmartTableRow(
                     ISmartTableRow.HEADER1) {
@@ -651,8 +643,6 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
                         .getResult(ITaxConstants.TAXABLE_INCOME) : 0.;
 
                 public Object getValueAt(int columnIndex) {
-                    // if (DEBUG) System.out.println( "Taxable Income: client="
-                    // + clientAmount + ", partner=" + partnerAmount );
                     switch (columnIndex) {
                     case NAME:
                         return "Taxable Income";
@@ -677,8 +667,6 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
                         .getResult(ITaxConstants.TAX_ON_TAXABLE_INCOME) : 0.;
 
                 public Object getValueAt(int columnIndex) {
-                    // if (DEBUG) System.out.println( "Tax on taxable Income:
-                    // client=" + clientAmount + ", partner=" + partnerAmount );
                     switch (columnIndex) {
                     case NAME:
                         return "Tax on taxable Income";
@@ -766,20 +754,13 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
 
         IncomeTableModel() {
             // all taxable and non-taxable items
-            super(FinancialClassID.RC_REGULAR_INCOME, "INCOME"); // will call
-                                                                    // initTaxContainers()
+            super(FinancialClassID.RC_REGULAR_INCOME, "INCOME"); // will call initTaxContainers()
 
-            initTaxContainers(TaxContainer.INCOME, RegularIncome
-                    .getRegularTaxType(INCOME_SALARY), INCOME_SALARY);
-            initTaxContainers(TaxContainer.INCOME, RegularIncome
-                    .getRegularTaxType(INCOME_SOCIAL_SECURITY),
-                    INCOME_SOCIAL_SECURITY);
-            initTaxContainers(TaxContainer.INCOME, RegularIncome
-                    .getRegularTaxType(INCOME_RETIREMENT), INCOME_RETIREMENT);
-            initTaxContainers(TaxContainer.INCOME, RegularIncome
-                    .getRegularTaxType(INCOME_INVESTMENT), INCOME_INVESTMENT);
-            initTaxContainers(TaxContainer.INCOME, RegularIncome
-                    .getRegularTaxType(INCOME_OTHER), INCOME_OTHER);
+            initTaxContainers(TaxContainer.INCOME, RegularIncome.getRegularTaxType(FinancialTypeEnum.INCOME_SALARY));
+            initTaxContainers(TaxContainer.INCOME, RegularIncome.getRegularTaxType(FinancialTypeEnum.INCOME_SOCIAL_SECURITY));
+            initTaxContainers(TaxContainer.INCOME, RegularIncome.getRegularTaxType(FinancialTypeEnum.INCOME_RETIREMENT));
+            initTaxContainers(TaxContainer.INCOME, RegularIncome.getRegularTaxType(FinancialTypeEnum.INCOME_INVESTMENT));
+            initTaxContainers(TaxContainer.INCOME, RegularIncome.getRegularTaxType(FinancialTypeEnum.INCOME_OTHER));
 
             // do not add tax free income into tax container
             // initTaxContainers( TaxContainer.INCOME,
@@ -791,46 +772,24 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
     }
 
     public class ExpenseTableModel extends DetailsTableModel {
-
         ExpenseTableModel() {
-            super(FinancialClassID.RC_REGULAR_EXPENSE, "DEDUCTIONS"); // will
-                                                                        // call
-                                                                        // initTaxContainers()
-
-            initTaxContainers(TaxContainer.EXPENSE, RegularExpense
-                    .getRegularTaxType(EXPENSE_SAVING_INVESTMENT),
-                    EXPENSE_SAVING_INVESTMENT);
-            initTaxContainers(TaxContainer.EXPENSE, RegularExpense
-                    .getRegularTaxType(EXPENSE_GENERAL), EXPENSE_GENERAL);
-            initTaxContainers(TaxContainer.EXPENSE, RegularExpense
-                    .getRegularTaxType(EXPENSE_EDUCATION), EXPENSE_EDUCATION);
-            initTaxContainers(TaxContainer.EXPENSE, RegularExpense
-                    .getRegularTaxType(EXPENSE_OTHER), EXPENSE_OTHER);
-
+            super(FinancialClassID.RC_REGULAR_EXPENSE, "DEDUCTIONS"); // will call initTaxContainers()
+            initTaxContainers(TaxContainer.EXPENSE, RegularExpense.getRegularTaxType(FinancialTypeEnum.EXPENSE_SAVING_INVESTMENT));
+            initTaxContainers(TaxContainer.EXPENSE, RegularExpense.getRegularTaxType(FinancialTypeEnum.EXPENSE_GENERAL));
+            initTaxContainers(TaxContainer.EXPENSE, RegularExpense.getRegularTaxType(FinancialTypeEnum.EXPENSE_EDUCATION));
+            initTaxContainers(TaxContainer.EXPENSE, RegularExpense.getRegularTaxType(FinancialTypeEnum.EXPENSE_OTHER));
         }
-
     }
 
     public class OffsetTableModel extends DetailsTableModel {
 
         OffsetTableModel() {
-            super(FinancialClassID.RC_TAX_OFFSET, "TAX OFFSETS"); // will call
-                                                                    // initTaxContainers()
-
-            initTaxContainers(TaxContainer.OFFSET, TaxOffset
-                    .getRegularTaxType(TAXOFFSET_IMPUTATION_CREDIT),
-                    TAXOFFSET_IMPUTATION_CREDIT);
-            initTaxContainers(TaxContainer.OFFSET, TaxOffset
-                    .getRegularTaxType(TAXOFFSET_LUMP_SUM), TAXOFFSET_LUMP_SUM);
-            initTaxContainers(TaxContainer.OFFSET, TaxOffset
-                    .getRegularTaxType(TAXOFFSET_SUPER), TAXOFFSET_SUPER);
-            initTaxContainers(TaxContainer.OFFSET, TaxOffset
-                    .getRegularTaxType(TAXOFFSET_LOW_INCOME),
-                    TAXOFFSET_LOW_INCOME);
-            initTaxContainers(TaxContainer.OFFSET,
-                    com.argus.financials.tax.au.ITaxConstants.O_OTHER,
-                    TAXOFFSET_OTHERS);
-
+            super(FinancialClassID.RC_TAX_OFFSET, "TAX OFFSETS"); // will call initTaxContainers()
+            initTaxContainers(TaxContainer.OFFSET, TaxOffset.getRegularTaxType(FinancialTypeEnum.TAXOFFSET_IMPUTATION_CREDIT));
+            initTaxContainers(TaxContainer.OFFSET, TaxOffset.getRegularTaxType(FinancialTypeEnum.TAXOFFSET_LUMP_SUM));
+            initTaxContainers(TaxContainer.OFFSET, TaxOffset.getRegularTaxType(FinancialTypeEnum.TAXOFFSET_SUPER));
+            initTaxContainers(TaxContainer.OFFSET, TaxOffset.getRegularTaxType(FinancialTypeEnum.TAXOFFSET_LOW_INCOME));
+            initTaxContainers(TaxContainer.OFFSET, ITaxConstants.O_OTHER, FinancialTypeEnum.TAXOFFSET_OTHERS);
         }
 
     }
@@ -889,25 +848,24 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
 
         }
 
-        protected void initTaxContainers(String type, String taxType,
-                Integer financialTypeID) {
-
+        protected void initTaxContainers(String type, String taxType, Integer financialTypeID) {
             filterTaxContainer.clear(); // remove old financialTypeID
             filterTaxContainer.add(financialTypeID);
-
             initTaxContainers(type, taxType);
-
         }
 
-        protected void initTaxContainers(String type, String taxType,
-                Integer[] financialTypeID) {
-
+        protected void initTaxContainers(String type, String taxType, Integer[] financialTypeID) {
             filterTaxContainer.clear(); // remove old financialTypeID
             for (int i = 0; i < financialTypeID.length; i++)
                 filterTaxContainer.add(financialTypeID[i]);
-
             initTaxContainers(type, taxType);
+        }
 
+        protected void initTaxContainers(String type, String taxType, FinancialTypeEnum[] financialTypes) {
+            filterTaxContainer.clear(); // remove old financialTypeID
+            for (int i = 0; i < financialTypes.length; i++)
+                filterTaxContainer.add(financialTypes[i].getId());
+            initTaxContainers(type, taxType);
         }
 
         protected void initTaxContainers(String type, String taxType) {
@@ -1007,9 +965,7 @@ public class TaxAnalysisData extends com.argus.financials.bean.AbstractBase
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields)
             throws java.io.IOException {
-        initializeReportData(reportFields,
-                com.argus.financials.service.ServiceLocator.getInstance()
-                        .getClientPerson());
+        initializeReportData(reportFields, clientService);
     }
 
     public void initializeReportData(

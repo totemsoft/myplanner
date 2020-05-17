@@ -43,11 +43,11 @@ public class Survey extends QuestionAndAnswers
         this.ownerPrimaryKeyID = ownerPrimaryKeyID;
     }
 
-    public Integer getPrimaryKeyID() {
+    public Integer getId() {
         return primaryKeyID;
     }
 
-    public void setPrimaryKeyID(Integer value) {
+    public void setId(Integer value) {
         primaryKeyID = value;
     }
 

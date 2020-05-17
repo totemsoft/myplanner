@@ -6,6 +6,9 @@
 
 package com.argus.financials.bean;
 
+import com.argus.financials.api.code.FinancialTypeEnum;
+import com.argus.financials.api.code.ObjectTypeConstant;
+
 /**
  * 
  * @author valeri chibaev
@@ -13,18 +16,13 @@ package com.argus.financials.bean;
  */
 
 import com.argus.financials.code.FrequencyCode;
+import com.argus.financials.tax.au.ITaxConstants;
 
 public class RegularIncome extends Regular {
 
-    // serialver -classpath . com.argus.financial.RegularIncome
-
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 7783855274377676337L;
 
-    public static final Integer OBJECT_TYPE_ID = new Integer(
-            ObjectTypeConstant.REGULAR_INCOME);
+    public static final Integer OBJECT_TYPE_ID = ObjectTypeConstant.REGULAR_INCOME;
 
     public Integer getObjectTypeID() {
         return OBJECT_TYPE_ID;
@@ -79,44 +77,33 @@ public class RegularIncome extends Regular {
 
     public String getRegularTaxType() {
         String taxType = super.getRegularTaxType();
-
         if (taxType == null) {
-            taxType = getRegularTaxType(getFinancialTypeID(),
-                    getGeneratedType());
+            taxType = getRegularTaxType(getFinancialTypeID());
             setRegularTaxType(taxType);
         }
-
         return taxType;
+    }
 
+    public static String getRegularTaxType(FinancialTypeEnum financialType) {
+        return getRegularTaxType(financialType.getId());
     }
 
     public static String getRegularTaxType(Integer financialTypeID) {
-        return getRegularTaxType(financialTypeID, 0);
-    }
-
-    public static String getRegularTaxType(Integer financialTypeID,
-            int generatedType) {
-        String taxType = null;
-
-        if (INCOME_SALARY.equals(financialTypeID))
-            taxType = com.argus.financials.tax.au.ITaxConstants.I_SALARY;
-        else if (INCOME_INVESTMENT.equals(financialTypeID)) {
-            taxType = com.argus.financials.tax.au.ITaxConstants.I_DIVIDENDS_FRANKED;
-            // if ( generatedType == IRegularType.iIMPUTATION_CREDIT )
-            // taxType =
-            // com.fiducian.tax.TaxConstants.I_DIVIDENDS_IMPUTATION_CREDIT;
-
-        } else if (INCOME_SOCIAL_SECURITY.equals(financialTypeID))
-            taxType = com.argus.financials.tax.au.ITaxConstants.I_PENSIONS_ALLOWANCE;
-        else if (INCOME_RETIREMENT.equals(financialTypeID))
-            taxType = com.argus.financials.tax.au.ITaxConstants.I_OTHER_PENSIONS;
-        else if (INCOME_OTHER.equals(financialTypeID))
-            taxType = com.argus.financials.tax.au.ITaxConstants.I_SALARY;
-        else if (INCOME_OTHER_TAX_FREE.equals(financialTypeID))
-            taxType = com.argus.financials.tax.au.ITaxConstants.I_TAX_DEFERRED;
-
-        return taxType;
-
+        if (FinancialTypeEnum.INCOME_SALARY.getId() == financialTypeID)
+            return ITaxConstants.I_SALARY;
+        if (FinancialTypeEnum.INCOME_INVESTMENT.getId() == financialTypeID) 
+            return ITaxConstants.I_DIVIDENDS_FRANKED;
+        //if ( == IRegularType.iIMPUTATION_CREDIT)
+        //    return TaxConstants.I_DIVIDENDS_IMPUTATION_CREDIT;
+        if (FinancialTypeEnum.INCOME_SOCIAL_SECURITY.getId() == financialTypeID)
+            return ITaxConstants.I_PENSIONS_ALLOWANCE;
+        if (FinancialTypeEnum.INCOME_RETIREMENT.getId() == financialTypeID)
+            return ITaxConstants.I_OTHER_PENSIONS;
+        if (FinancialTypeEnum.INCOME_OTHER.getId() == financialTypeID)
+            return ITaxConstants.I_SALARY;
+        if (FinancialTypeEnum.INCOME_OTHER_TAX_FREE.getId() == financialTypeID)
+            return ITaxConstants.I_TAX_DEFERRED;
+        return null;
     }
 
 }

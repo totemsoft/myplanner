@@ -23,6 +23,8 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.tree.TreePath;
 
+import com.argus.swing.table.TreeTableModel;
+
 /**
  * This is a wrapper class takes a TreeTableModel and implements the table model
  * interface. The implementation is trivial, with all of the event dispatching

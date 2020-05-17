@@ -9,15 +9,16 @@ package com.argus.financials.bean.db;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.argus.financials.api.code.LinkObjectTypeConstant;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.bean.AssetInvestment;
 import com.argus.financials.bean.Financial;
-import com.argus.financials.bean.LinkObjectTypeConstant;
-import com.argus.financials.bean.ObjectTypeConstant;
 
 public class AssetInvestmentBean extends AssetBean {
 
     /** Creates new AssetInvestmentBean */
     public AssetInvestmentBean() {
+        super();
     }
 
     public AssetInvestmentBean(AssetInvestment value) {
@@ -55,12 +56,12 @@ public class AssetInvestmentBean extends AssetBean {
 
         int primaryKeyID = super.store(con);
 
-        if (getPrimaryKeyID() == null || getPrimaryKeyID().intValue() < 0) {
+        if (getId() == null || getId().intValue() < 0) {
             // then create link
-            FPSLinkObject.getInstance().link(getOwnerPrimaryKeyID().intValue(),
+            linkObjectDao.link(getOwnerId().intValue(),
                     primaryKeyID, getLinkObjectTypeID(), con);
 
-            setPrimaryKeyID(new Integer(primaryKeyID));
+            setId(new Integer(primaryKeyID));
 
         }
 

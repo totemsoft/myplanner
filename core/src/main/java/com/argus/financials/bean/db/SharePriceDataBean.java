@@ -11,12 +11,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.argus.dao.SQLHelper;
 import com.argus.financials.assetinvestment.UnitSharePrice;
 import com.argus.util.DateTimeUtils;
 
 /**
  * SharePriceDataBean is responsible for load and store information form the
- * database table "share-price-data".
+ * database table "share_price_data".
  * 
  * @author shibaevv
  * @version 0.01
@@ -26,9 +27,14 @@ import com.argus.util.DateTimeUtils;
  */
 public class SharePriceDataBean implements UnitSharePrice {
 
-    public static final String DATABASE_TABLE_NAME = "share-price-data";
+    public static final String DATABASE_TABLE_NAME = "share_price_data";
 
     private static final String SEARCH_OPERATOR = "OR";
+
+    private transient static SQLHelper sqlHelper;
+    public static void setSqlHelper(SQLHelper sqlHelper) {
+        SharePriceDataBean.sqlHelper = sqlHelper;
+    }
 
     // bean properties
     public String code; // length: 10
@@ -59,7 +65,7 @@ public class SharePriceDataBean implements UnitSharePrice {
     }
 
     /**
-     * Creates a new entry in the "share-price-data" table. The properties for
+     * Creates a new entry in the "share_price_data" table. The properties for
      * the new entry must be set before creating a new entry.
      */
     public void create() throws java.sql.SQLException {
@@ -70,13 +76,13 @@ public class SharePriceDataBean implements UnitSharePrice {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("INSERT INTO ");
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
             pstmt_StringBuffer
-                    .append("(code, [price-date], [open-price], [close-price]) ");
+                    .append("(code, [price_date], [open_price], [close_price]) ");
             pstmt_StringBuffer.append("VALUES ( ?, ?, ?, ? )");
 
             // set and execute query
@@ -90,19 +96,19 @@ public class SharePriceDataBean implements UnitSharePrice {
             status = pstmt.executeUpdate();
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
     }
 
     /**
-     * Stores an entry in the "share-price-data" table. The properties for the
+     * Stores an entry in the "share_price_data" table. The properties for the
      * entry must be set before storing it.
      */
     public void store() throws java.sql.SQLException {
@@ -113,15 +119,15 @@ public class SharePriceDataBean implements UnitSharePrice {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("UPDATE ");
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
             pstmt_StringBuffer.append("SET ");
-            pstmt_StringBuffer.append("[price-date] = ?, ");
-            pstmt_StringBuffer.append("[open-price] = ?, ");
-            pstmt_StringBuffer.append("[close-price] = ?  ");
+            pstmt_StringBuffer.append("[price_date] = ?, ");
+            pstmt_StringBuffer.append("[open_price] = ?, ");
+            pstmt_StringBuffer.append("[close_price] = ?  ");
             pstmt_StringBuffer.append("WHERE code = ? ");
 
             // set and execute query
@@ -135,22 +141,22 @@ public class SharePriceDataBean implements UnitSharePrice {
             status = pstmt.executeUpdate();
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
     }
 
     /**
-     * Loads an entry from the "unit-price-data" table. The "code" column is
+     * Loads an entry from the "unit_price_data" table. The "code" column is
      * used for identification. The first matching entry will be loaded.
      * 
-     * @param code_id -
+     * @param code_id _
      *            use the code column as identifier
      * @return true = found an entry
      */
@@ -163,16 +169,16 @@ public class SharePriceDataBean implements UnitSharePrice {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
             pstmt_StringBuffer.append("FROM ");
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
             pstmt_StringBuffer.append("WHERE [code] = ? ");
-            pstmt_StringBuffer.append("AND [price-date] = ");
+            pstmt_StringBuffer.append("AND [price_date] = ");
             pstmt_StringBuffer.append("(");
-            pstmt_StringBuffer.append("SELECT max([price-date]) ");
+            pstmt_StringBuffer.append("SELECT max([price_date]) ");
             pstmt_StringBuffer.append("FROM ");
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
             pstmt_StringBuffer.append("WHERE [code] = ? ");
@@ -190,38 +196,38 @@ public class SharePriceDataBean implements UnitSharePrice {
             if (rs.next()) {
                 // get the data
                 this.code = rs.getString("code");
-                // this.price_date = rs.getString ( "price-date" );
-                setPriceDate2(rs.getDate("price-date"));
-                this.open_price = rs.getDouble("open-price");
-                this.close_price = rs.getDouble("close-price");
+                // this.price_date = rs.getString ( "price_date" );
+                setPriceDate2(rs.getDate("price_date"));
+                this.open_price = rs.getDouble("open_price");
+                this.close_price = rs.getDouble("close_price");
 
                 found = true;
             }
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
 
         return found;
     }
 
     /**
-     * Loads an entry from the "unit-price-data" table. The given column name
+     * Loads an entry from the "unit_price_data" table. The given column name
      * and id is used for identification. The first matching (column contains
      * id) entry will be loaded.
      * 
-     * @param column_name -
+     * @param column_name _
      *            the column name for the search
-     * @param id -
+     * @param id _
      *            the identification
-     * @param add_sql_str -
+     * @param add_sql_str _
      *            additional sql statment for example: ORDER BY ...
      * @return true = found an entry
      */
@@ -235,7 +241,7 @@ public class SharePriceDataBean implements UnitSharePrice {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
@@ -259,23 +265,23 @@ public class SharePriceDataBean implements UnitSharePrice {
             if (rs.next()) {
                 // get the data
                 this.code = rs.getString("code");
-                // this.price_date = rs.getString ( "price-date" );
-                setPriceDate2(rs.getDate("price-date"));
-                this.open_price = rs.getDouble("open-price");
-                this.close_price = rs.getDouble("close-price");
+                // this.price_date = rs.getString ( "price_date" );
+                setPriceDate2(rs.getDate("price_date"));
+                this.open_price = rs.getDouble("open_price");
+                this.close_price = rs.getDouble("close_price");
 
                 found = true;
             }
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
 
         return found;
@@ -297,47 +303,6 @@ public class SharePriceDataBean implements UnitSharePrice {
         }
 
         return str_to_return;
-    }
-
-    /**
-     * Closes a given ResultSet and PreparedStatement.
-     * 
-     * @param rs -
-     *            the ResultSet to close
-     * @param pstmt -
-     *            the PreparedStatement to close
-     */
-    private void closeRsSql(ResultSet rs, PreparedStatement pstmt) {
-        try {
-            if (rs != null)
-                rs.close();
-            if (pstmt != null)
-                pstmt.close();
-        } catch (java.sql.SQLException e) {
-            // do nothing here
-        }
-    }
-
-    /**
-     * Prints the SQLException's messages, SQLStates and ErrorCode to System.err
-     * 
-     * @param extends -
-     *            a SQLException
-     */
-    private void printSQLException(java.sql.SQLException e) {
-        System.err.println("\n--- SQLException caught ---\n");
-
-        while (e != null) {
-            e.printStackTrace(System.err);
-
-            System.err.println("Message:   " + e.getMessage());
-            System.err.println("SQLState:  " + e.getSQLState());
-            System.err.println("ErrorCode: " + e.getErrorCode());
-
-            e = e.getNextException();
-
-        }
-
     }
 
     /*

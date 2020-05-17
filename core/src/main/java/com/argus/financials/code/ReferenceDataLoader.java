@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
  * @author valeri chibaev
  */
 
-public class ReferenceDataLoader implements Runnable {
+public class ReferenceDataLoader {
 
     /** Logger. */
     private final static Logger LOG = Logger.getLogger(ReferenceDataLoader.class);
@@ -22,32 +22,22 @@ public class ReferenceDataLoader implements Runnable {
     {
         new TitleCode(); // <--- first one to load (required for user login)
         new CountryCode(); // <--- second one to load (required for user login)
-    }
-
-    public void run() {
-        try
-        {
-            new AdviserTypeCode();
-            // new SexCode();
-            // new MaritalCode();
-            // new StateCode( null );
-            // new SuburbPostCode( null );
-            new FinancialType();
-            new FundType();
-            new Institution();
-            new FrequencyCode();
-            new IndustryCode();
-            new InvestmentType();
-            new OccupationCode();
-            new PeriodCode();
-            new SourceCode();
-            new FinancialServiceCode();
-            LOG.info("ReferenceDataLoader finished!");
-        }
-        catch (Exception e)
-        {
-            LOG.error(e);
-        }
+        new AdviserTypeCode();
+        // new SexCode();
+        // new MaritalCode();
+        // new StateCode( null );
+        // new SuburbPostCode( null );
+        //new FinancialType();
+        new FundType();
+        new Institution();
+        new FrequencyCode();
+        new IndustryCode();
+        new InvestmentType();
+        new OccupationCode();
+        new PeriodCode();
+        new SourceCode();
+        new FinancialServiceCode();
+        LOG.info("ReferenceDataLoader finished!");
     }
 
 }

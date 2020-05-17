@@ -24,12 +24,6 @@ import com.argus.financials.service.PersonService;
 
 public class StrategyFinancial extends AbstractBase {
 
-    // cd /D D:\projects\Financial Planner\ant\build\classes
-    // serialver -classpath . com.argus.strategy.StrategyFinancial
-
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 2285930253526011013L;
 
     public static final String ASSET_FINANCIAL = "New Asset Under Advice ...";
@@ -57,8 +51,8 @@ public class StrategyFinancial extends AbstractBase {
             financial.updateBalanceAmount(getAmount());
         }
 
-        if (financial.getPrimaryKeyID() == null)
-            financial.setPrimaryKeyID(new Integer(--id));
+        if (financial.getId() == null)
+            financial.setId(new Integer(--id));
     }
 
     public String toString() {
@@ -93,7 +87,7 @@ public class StrategyFinancial extends AbstractBase {
     }
 
     public Integer getFinancialPrimaryKeyID() {
-        return getFinancial().getPrimaryKeyID();
+        return getFinancial().getId();
     }
 
     public String getTypeDesc() {
@@ -127,10 +121,6 @@ public class StrategyFinancial extends AbstractBase {
             value = value
                     .setScale(MONEY_SCALE, java.math.BigDecimal.ROUND_DOWN);
 
-        // if (DEBUG) System.out.println( "getAmount(true): " + getAmount(true)
-        // );
-        // if (DEBUG) System.out.println( "\tsetAmount( " + value + " )" );
-
         if (equals(amount, value))
             return;
 
@@ -142,14 +132,10 @@ public class StrategyFinancial extends AbstractBase {
         // value = getPoolBalanceAmount();
 
         amount = value;
-        // if (DEBUG) System.out.println( "\tamount: " + amount );
 
         // subtract new value (borrow $$$ from the pool)
         if (amount != null)
             getFinancial().updateBalanceAmount(getAmount().negate());
-
-        // if (DEBUG) System.out.println( "\t\tgetAmount(true): " +
-        // getAmount(true) );
 
     }
 
@@ -172,7 +158,7 @@ public class StrategyFinancial extends AbstractBase {
         Vector result = null;
 
         try {
-            Map map = person.getFinancials();
+            Map map = person.findFinancials();
             Iterator iter = map.values().iterator();
 
             while (iter.hasNext()) {
@@ -187,7 +173,7 @@ public class StrategyFinancial extends AbstractBase {
 
             }
 
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
 

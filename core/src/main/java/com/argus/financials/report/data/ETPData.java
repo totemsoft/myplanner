@@ -15,7 +15,6 @@ package com.argus.financials.report.data;
 import com.argus.financials.projection.ETPCalcNew;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.format.Currency;
 import com.argus.format.Percent;
 import com.argus.util.DateTimeUtils;
@@ -150,7 +149,7 @@ public class ETPData extends ClientPersonData {
 
         client = new Client();
         adviser = new Adviser();
-        adviser.FullName = ServiceLocator.getInstance().getUserPreferences().getUser().getFullName();
+        adviser.FullName = userPreferences.getUser().getFullName();
 
         // etp data
         if (calc.getIsClient() == null || calc.getIsClient().booleanValue()) {

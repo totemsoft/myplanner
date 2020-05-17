@@ -6,23 +6,17 @@
 
 package com.argus.financials.ui;
 
-/**
- * 
- * @author valeri chibaev
- * @author shibaevv
- * @version
- */
-
-import com.argus.financials.bean.ObjectTypeConstant;
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.api.bean.PersonName;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.code.MaritalCode;
 import com.argus.financials.code.SexCode;
 import com.argus.financials.code.TitleCode;
-import com.argus.financials.etc.PersonName;
 import com.argus.financials.service.PersonService;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.format.LimitedPlainDocument;
 
-public class NameView extends javax.swing.JPanel {
+public class NameView extends AbstractPanel {
 
     /** Creates new form NameView */
     public NameView(boolean fullView) {
@@ -260,7 +254,7 @@ public class NameView extends javax.swing.JPanel {
         jComboBoxMaritalStatus.setVisible(value);
     }
 
-    private void updateView() throws com.argus.financials.service.client.ServiceException {
+    private void updateView() throws ServiceException {
 
         if (personName == null) {
             clearView();
@@ -271,8 +265,8 @@ public class NameView extends javax.swing.JPanel {
         jComboBoxTitle.setSelectedItem(new TitleCode().getCodeDescription(id));
 
         jTextFieldFamilyName.setText(personName.getSurname());
-        jTextFieldFirstName.setText(personName.getFirstName());
-        jTextFieldOtherGivenNames.setText(personName.getOtherGivenNames());
+        jTextFieldFirstName.setText(personName.getFirstname());
+        jTextFieldOtherGivenNames.setText(personName.getOtherNames());
 
         id = personName.getSexCodeID();
         jRadioButtonSexMale.setSelected((id != null)
@@ -286,13 +280,13 @@ public class NameView extends javax.swing.JPanel {
 
     }
 
-    private void saveView() throws com.argus.financials.service.client.ServiceException {
+    private void saveView() throws ServiceException {
 
         if (personName == null)
             personName = new PersonName();
 
         String s = (String) jComboBoxTitle.getSelectedItem();
-        personName.setTitleCodeID(new TitleCode().getCodeID(s));
+        personName.setTitle(entityService.findTitleCode(s));
 
         s = jTextFieldFamilyName.getText();
         if (s != null && s.length() == 0)
@@ -302,33 +296,33 @@ public class NameView extends javax.swing.JPanel {
         s = jTextFieldFirstName.getText();
         if (s != null && s.length() == 0)
             s = null;
-        personName.setFirstName(s);
+        personName.setFirstname(s);
 
         s = jTextFieldOtherGivenNames.getText();
         if (s != null && s.length() == 0)
             s = null;
-        personName.setOtherGivenNames(s);
+        personName.setOtherNames(s);
 
         Integer id = null;
         if (jRadioButtonSexMale.isSelected())
             id = SexCode.MALE;
         else if (jRadioButtonSexFemale.isSelected())
             id = SexCode.FEMALE;
-        personName.setSexCodeID(id);
+        personName.setSex(entityService.findSexCode(id));
 
         s = (String) jComboBoxMaritalStatus.getSelectedItem();
-        personName.setMaritalCodeID(new MaritalCode().getCodeID(s));
+        personName.setMarital(entityService.findMaritalCode(s));
 
     }
 
     /**
      * 
      */
-    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void updateView(PersonService person) throws ServiceException {
         updateView();
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void saveView(PersonService person) throws ServiceException {
         saveView();
     }
 
@@ -348,7 +342,7 @@ public class NameView extends javax.swing.JPanel {
 
         try {
             updateView();
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (ServiceException e) {
             e.printStackTrace(System.err);
         }
     }

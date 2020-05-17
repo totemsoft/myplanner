@@ -18,11 +18,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.bean.ICode;
+import com.argus.financials.api.bean.hibernate.FinancialCode;
+import com.argus.financials.api.bean.hibernate.FinancialType;
+import com.argus.financials.api.code.LinkObjectTypeConstant;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.assetallocation.AssetAllocation;
 import com.argus.financials.bean.Financial;
-import com.argus.financials.bean.LinkObjectTypeConstant;
-import com.argus.financials.bean.ObjectTypeConstant;
-import com.argus.financials.service.client.ObjectNotFoundException;
 import com.argus.util.DateTimeUtils;
 
 public abstract class FinancialBean extends AbstractPersistable
@@ -39,6 +42,7 @@ public abstract class FinancialBean extends AbstractPersistable
 
     /** Creates new Financial */
     public FinancialBean() {
+        super();
     }
 
     public FinancialBean(Financial value) {
@@ -68,7 +72,7 @@ public abstract class FinancialBean extends AbstractPersistable
      */
     public void load(Connection con) throws SQLException,
             ObjectNotFoundException {
-        load(getPrimaryKeyID(), con);
+        load(getId(), con);
     }
 
     protected String getSelectFieldsList() {
@@ -82,8 +86,12 @@ public abstract class FinancialBean extends AbstractPersistable
     public void load(ResultSet rs) throws SQLException {
 
         // Financial table
-        setFinancialTypeID((Integer) rs.getObject("FinancialTypeID"));
-        setFinancialCodeID((Integer) rs.getObject("FinancialCodeID"));
+        Integer financialTypeId = rs.getInt("FinancialTypeID");
+        FinancialType financialType = financialService.findFinancialType(financialTypeId);
+        setFinancialType(financialType);
+        Integer financialCodeId = rs.getInt("FinancialCodeID");
+        FinancialCode financialCode = financialService.findFinancialCode(financialCodeId);
+        setFinancialCode(financialCode);
         setInstitutionID((Integer) rs.getObject("InstitutionID"));
         setInstitution(rs.getString("Institution"));
         setOwnerCodeID((Integer) rs.getObject("OwnerCodeID"));
@@ -137,7 +145,7 @@ public abstract class FinancialBean extends AbstractPersistable
         }
 
         try {
-            if (getPrimaryKeyID() == null || getPrimaryKeyID().intValue() < 0) {
+            if (getId() == null || getId().intValue() < 0) {
 
                 primaryKeyID = new Integer(getNewObjectID(getObjectTypeID(),
                         con));
@@ -261,16 +269,16 @@ public abstract class FinancialBean extends AbstractPersistable
                 sql.executeUpdate();
 
                 // then create link
-                FPSLinkObject.getInstance().link(getOwnerPrimaryKeyID(),
+                linkObjectDao.link(getOwnerId(),
                         primaryKeyID, getLinkObjectTypeID(), con);
 
                 // has to be in most derived class (to be safe),
                 // we are not using primaryKeyID for other queries
-                // setPrimaryKeyID( primaryKeyID );
+                // setId( primaryKeyID );
 
             } else {
 
-                primaryKeyID = getPrimaryKeyID();
+                primaryKeyID = getId();
 
                 // do update on FINANCIAL table
                 sql = con
@@ -402,19 +410,19 @@ public abstract class FinancialBean extends AbstractPersistable
 
     public void remove(Connection con) throws SQLException {
 
-        if (getPrimaryKeyID() == null)
+        if (getId() == null)
             return;
 
         CallableStatement cs = con.prepareCall("{call sp_delete_financial(?)}");
         try {
-            cs.setInt(1, getPrimaryKeyID().intValue());
+            cs.setInt(1, getId().intValue());
             cs.execute();
 
             // return cs.getInt(1) == 0; // 0 (success) or 1 (failure)
 
         } catch (SQLException e) {
             System.err.println("FAILED {call sp_delete_financial("
-                    + getPrimaryKeyID() + ")}");
+                    + getId() + ")}");
             throw e;
         } finally {
             cs.close();
@@ -456,36 +464,40 @@ public abstract class FinancialBean extends AbstractPersistable
         getFinancial().setModified(value);
     }
 
-    public Integer getPrimaryKeyID() {
-        return getFinancial().getPrimaryKeyID();
+    public Integer getId() {
+        return getFinancial().getId();
     }
 
-    public void setPrimaryKeyID(Integer value) {
-        getFinancial().setPrimaryKeyID(value);
+    public void setId(Integer value) {
+        getFinancial().setId(value);
     }
 
-    public Integer getOwnerPrimaryKeyID() {
-        return getFinancial().getOwnerPrimaryKeyID();
+    public Integer getOwnerId() {
+        return getFinancial().getOwnerId();
     }
 
-    public void setOwnerPrimaryKeyID(Integer value) {
-        getFinancial().setOwnerPrimaryKeyID(value);
+    public void setOwnerId(Integer value) {
+        getFinancial().setOwnerId(value);
     }
 
-    protected Integer getFinancialTypeID() {
+    @Deprecated protected Integer getFinancialTypeID() {
         return getFinancial().getFinancialTypeID();
     }
-
-    protected void setFinancialTypeID(Integer value) {
-        getFinancial().setFinancialTypeID(value);
+    @Deprecated protected void setFinancialTypeID(Integer value) {
+        getFinancial().setFinancialTypeId(value);
+    }
+    protected void setFinancialType(ICode value) {
+        getFinancial().setFinancialType(value);
     }
 
-    protected Integer getFinancialCodeID() {
-        return getFinancial().getFinancialCodeID();
+    @Deprecated protected Integer getFinancialCodeID() {
+        return getFinancial().getFinancialCodeId();
     }
-
-    protected void setFinancialCodeID(Integer value) {
-        getFinancial().setFinancialCodeID(value);
+    @Deprecated protected void setFinancialCodeID(Integer value) {
+        getFinancial().setFinancialCodeId(value);
+    }
+    protected void setFinancialCode(ICode value) {
+        getFinancial().setFinancialCode(value);
     }
 
     protected Integer getInstitutionID() {

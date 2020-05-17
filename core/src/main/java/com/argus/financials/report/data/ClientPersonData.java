@@ -6,6 +6,8 @@
 
 package com.argus.financials.report.data;
 
+import com.argus.financials.api.bean.PersonName;
+
 /**
  * 
  * @author valeri chibaev
@@ -16,8 +18,8 @@ import com.argus.financials.code.ContactMediaCode;
 import com.argus.financials.etc.Contact;
 import com.argus.financials.etc.ContactMedia;
 import com.argus.financials.etc.Dependent;
-import com.argus.financials.etc.PersonName;
-import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.service.ClientService;
+import com.argus.financials.service.PersonService;
 
 public class ClientPersonData extends BaseData {
 
@@ -89,7 +91,7 @@ public class ClientPersonData extends BaseData {
         public Partner() {
         }
 
-        public void init(com.argus.financials.service.PersonService person)
+        public void init(PersonService person)
                 throws Exception {
 
             super.init(person);
@@ -185,7 +187,7 @@ public class ClientPersonData extends BaseData {
         public class PostalAddress extends AddressData {
         }
 
-        public void init(com.argus.financials.service.PersonService person)
+        public void init(PersonService person)
                 throws Exception {
 
             super.init(person);
@@ -225,7 +227,7 @@ public class ClientPersonData extends BaseData {
     /***************************************************************************
      * 
      **************************************************************************/
-    public void init(com.argus.financials.service.PersonService person)
+    public void init(PersonService person)
             throws Exception {
 
         if (person == null)
@@ -241,11 +243,11 @@ public class ClientPersonData extends BaseData {
         /***********************************************************************
          * partner's personal data
          **********************************************************************/
-        com.argus.financials.service.PersonService partnerPerson = person instanceof com.argus.financials.service.ClientService ? // person
+        PersonService partnerPerson = person instanceof ClientService ? // person
                                                                                                                         // can
                                                                                                                         // be
                                                                                                                         // partner
-        ((com.argus.financials.service.ClientService) person).getPartner(false)
+        ((ClientService) person).getPartner(false)
                 : null;
 
         if (partnerPerson == null) {
@@ -260,18 +262,17 @@ public class ClientPersonData extends BaseData {
          * adviser's personal data
          **********************************************************************/
         Object ownerPrimaryKeyID;
-        if (person instanceof com.argus.financials.service.ClientService)
+        if (person instanceof ClientService)
             // we have a client person
             ownerPrimaryKeyID = person.getOwnerPrimaryKey();
         else
             // we have a partner of a client, so we have to find the client's
             // adviser
-            ownerPrimaryKeyID = ServiceLocator.getInstance().getClientPerson()
-                    .getOwnerPrimaryKey();
+            ownerPrimaryKeyID = clientService.getOwnerPrimaryKey();
 
         Object owner = new Advisers().findByPrimaryKey(ownerPrimaryKeyID);
         getAdviser().init(
-                owner == null ? new com.argus.financials.etc.PersonName()
+                owner == null ? new PersonName()
                         : ((Contact) owner).getName());
 
     }

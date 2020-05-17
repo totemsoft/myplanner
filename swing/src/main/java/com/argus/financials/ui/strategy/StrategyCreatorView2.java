@@ -17,7 +17,6 @@ import com.argus.financials.config.ViewSettings;
 import com.argus.financials.config.WordSettings;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.strategy.StrategyGroup;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.financials.ui.BaseView;
@@ -83,7 +82,7 @@ public class StrategyCreatorView2 extends BaseView implements
         view.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         try {
             view.reset();
-            view.updateView(ServiceLocator.getInstance().getClientPerson());
+            view.updateView(clientService);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return;
@@ -152,7 +151,7 @@ public class StrategyCreatorView2 extends BaseView implements
     public void updateView(PersonService person) throws Exception {
 
         if (person == null)
-            person = ServiceLocator.getInstance().getClientPerson();
+            person = clientService;
 
         dataCollectionRestructureView.updateView(person);
 
@@ -161,7 +160,7 @@ public class StrategyCreatorView2 extends BaseView implements
     public void saveView(PersonService person) throws Exception {
 
         if (person == null)
-            person = ServiceLocator.getInstance().getClientPerson();
+            person = clientService;
 
         dataCollectionRestructureView.saveView(person);
 

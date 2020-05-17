@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.TreeSet;
 import java.util.Vector;
 
-import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.api.code.CodeComparator;
 import com.argus.financials.service.UtilityService;
 import com.argus.util.ReferenceCode;
 
@@ -44,17 +44,14 @@ public class FinancialServiceCode extends BaseCode {
 
     private static Collection codes;
 
-    /** Creates a new instance of FinancialServiceCode */
-    public FinancialServiceCode() {
-        if (codes == null)
-            initCodes();
-    }
-
     public String toString() {
         return "Financial Services";
     }
 
     public Collection getCodes() {
+        if (codes == null) {
+            initCodes();
+        }
         return codes;
     }
 
@@ -66,7 +63,7 @@ public class FinancialServiceCode extends BaseCode {
         codes.add(CODE_NONE);
 
         try {
-            Map map = ServiceLocator.getInstance().getUtilityService().getCodes(
+            Map map = utilityService.getCodes(
                     TABLE,
                     columnName[CODE] + ", " + columnName[DESC] + ", "
                             + columnName[DATE] + ", " + columnName[DELETED],
@@ -94,7 +91,7 @@ public class FinancialServiceCode extends BaseCode {
                 codes.add(rc);
             }
 
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
 
@@ -103,13 +100,13 @@ public class FinancialServiceCode extends BaseCode {
     // //////////////////////////////////////////////////////////////////////////
     //
     // //////////////////////////////////////////////////////////////////////////
-    public void save() throws com.argus.financials.service.client.ServiceException {
+    public void save() throws com.argus.financials.api.ServiceException {
 
         if (tm == null)
             return;
 
         // save to db
-        UtilityService utility = ServiceLocator.getInstance().getUtilityService();
+        UtilityService utility = utilityService;
         for (int r = 0; r < tm.getRowCount(); r++) {
 
             if (tm.isCellEditable(r, CODE)) {

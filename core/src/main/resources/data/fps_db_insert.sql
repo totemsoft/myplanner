@@ -1,3 +1,6 @@
+USE MyPlanner
+GO
+
 DELETE FROM LinkObjectType
 GO
 DELETE FROM ObjectType

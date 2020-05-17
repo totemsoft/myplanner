@@ -6,6 +6,12 @@
 
 package com.argus.financials.report.data;
 
+import java.io.IOException;
+
+import com.argus.financials.api.bean.IPerson;
+import com.argus.financials.api.bean.IPersonHealth;
+import com.argus.financials.api.bean.PersonName;
+
 /**
  * 
  * @author valeri chibaev
@@ -14,6 +20,8 @@ package com.argus.financials.report.data;
 import com.argus.financials.code.HealthStateCode;
 import com.argus.financials.code.ResidenceStatusCode;
 import com.argus.financials.projection.DSSCalc2;
+import com.argus.financials.projection.data.LifeExpectancy;
+import com.argus.financials.service.PersonService;
 
 // we have to extend this class to use,
 // e.g. public class ClientView extends PersonData {}
@@ -62,62 +70,44 @@ public abstract class PersonData extends BaseData {
     /***************************************************************************
      * 
      **************************************************************************/
-    public void init(com.argus.financials.etc.PersonName name)
-            throws java.io.IOException {
-        Sex = name.getSexCode() == null ? STRING_EMPTY : name.getSexCode();
-        Title = name.getTitleCode() == null ? STRING_EMPTY : name
-                .getTitleCode();
-        MaritalCode = name.getMaritalCode() == null ? STRING_EMPTY : name
-                .getMaritalCode();
-        FamilyName = name.getSurname() == null ? STRING_EMPTY : name
-                .getSurname();
-        FirstName = name.getFirstName() == null ? STRING_EMPTY : name
-                .getFirstName();
-        OtherGivenNames = name.getOtherGivenNames() == null ? STRING_EMPTY
-                : name.getOtherGivenNames();
-        FullName = name.getFullName() == null ? STRING_EMPTY : name
-                .getFullName();
-        if (name.getDateOfBirth() != null && name.getSexCodeID() != null) {
-            agePensionQualifyingYear = new DSSCalc2().getPensionQualifyingYear(
-                    name.getDateOfBirth(), name.getSexCodeID())
-                    + "";
-            agePensionQualifyingAge = (int) Math.ceil(DSSCalc2
-                    .getPensionQualifyingAge(name.getDateOfBirth(), name
-                            .getSexCodeID()))
-                    + "";
-
+    public void init(PersonName personName) throws IOException {
+        Sex = personName.getSex() == null ? STRING_EMPTY : personName.getSex().getCode();
+        Title = personName.getTitle() == null ? STRING_EMPTY : personName.getTitle().getCode();
+        MaritalCode = personName.getMarital() == null ? STRING_EMPTY : personName.getMarital().getCode();
+        FamilyName = personName.getSurname() == null ? STRING_EMPTY : personName.getSurname();
+        FirstName = personName.getFirstname() == null ? STRING_EMPTY : personName.getFirstname();
+        OtherGivenNames = personName.getOtherNames() == null ? STRING_EMPTY : personName.getOtherNames();
+        FullName = personName.getFullName() == null ? STRING_EMPTY : personName.getFullName();
+        if (personName.getDateOfBirth() != null && personName.getSex() != null) {
+            agePensionQualifyingYear = new DSSCalc2().getPensionQualifyingYear(personName.getDateOfBirth(), personName.getSex().getId()) + "";
+            agePensionQualifyingAge = (int) Math.ceil(DSSCalc2.getPensionQualifyingAge(personName.getDateOfBirth(), personName.getSex().getId())) + "";
         }
-        if (name.getDateOfBirth() == null)
+        if (personName.getDateOfBirth() == null)
             DOB = "";
         else
-            DOB = com.argus.util.DateTimeUtils.formatAsMEDIUM(name
-                    .getDateOfBirth());
+            DOB = com.argus.util.DateTimeUtils.formatAsMEDIUM(personName.getDateOfBirth());
         Marital = MaritalCode;
-        married = name.isMarried();
+        married = personName.isMarried();
 
-        int n = name.getAge() == null ? 0 : name.getAge().intValue();
+        int n = personName.getAge() == null ? 0 : personName.getAge().intValue();
         age = n == 0 ? "" : "" + n;
 
-        double le = com.argus.financials.projection.data.LifeExpectancy
-                .getValue(n, name.getSexCodeID());
+        double le = LifeExpectancy.getValue(n, personName.getSex().getId());
         lifeExpectancy = le < 0 ? STRING_EMPTY : number.toString(le);
-
     }
 
-    public void init(com.argus.financials.service.PersonService person)
-            throws Exception {
-
+    public void init(PersonService person) throws Exception {
         super.init(person);
         if (person == null)
             return;
 
-        com.argus.financials.etc.PersonName name = person.getPersonName();
-        stateOfHealth = new HealthStateCode().getCodeDescription(person
-                .getHealthStateCodeID());
-        resident = new ResidenceStatusCode().getCodeDescription(person
-                .getResidenceStatusCodeID());
-        init(name);
-
+        IPerson personName = person.getPersonName();
+        IPersonHealth personHealth = personName == null ? null : personName.getPersonHealth();
+        stateOfHealth = new HealthStateCode().getCodeDescription(personHealth == null ? null : personHealth.getHealthStateCodeId());
+        resident = new ResidenceStatusCode().getCodeDescription(personName.getResidenceStatusCodeId());
+        if (personName instanceof PersonName) {
+            init((PersonName) personName);
+        }
     }
 
 }

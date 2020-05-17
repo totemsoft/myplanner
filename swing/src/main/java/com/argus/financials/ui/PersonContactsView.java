@@ -22,18 +22,18 @@ import java.util.TreeSet;
 
 import javax.swing.table.DefaultTableModel;
 
-import com.argus.financials.bean.ObjectTypeConstant;
+import com.argus.financials.api.bean.PersonName;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.code.AddressCode;
 import com.argus.financials.code.BaseCode;
 import com.argus.financials.code.ContactMediaCode;
 import com.argus.financials.code.RelationshipFinanceCode;
-import com.argus.financials.etc.Address;
+import com.argus.financials.domain.hibernate.Occupation;
+import com.argus.financials.etc.AddressDto;
 import com.argus.financials.etc.Contact;
 import com.argus.financials.etc.ContactMedia;
-import com.argus.financials.etc.Occupation;
-import com.argus.financials.etc.PersonName;
+import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.swing.SwingUtil;
 import com.argus.util.ReferenceCode;
 
@@ -50,6 +50,11 @@ public class PersonContactsView extends TableEditView {
     private ContactMediaView fax;
 
     private ContactMediaView email;
+
+    private static ClientService clientService;
+    public static void setClientService(ClientService clientService) {
+        PersonContactsView.clientService = clientService;
+    }
 
     /** Creates new PersonContactsView2 */
     public PersonContactsView() {
@@ -183,8 +188,7 @@ public class PersonContactsView extends TableEditView {
 
             set.addAll(details.entrySet());
 
-            Address clientAddress = ServiceLocator.getInstance()
-                    .getClientPerson().getResidentialAddress();
+            AddressDto clientAddress = clientService.getResidentialAddress();
 
             int i = 0;
             // allocate matrix
@@ -196,10 +200,10 @@ public class PersonContactsView extends TableEditView {
                 if (c == null)
                     continue;
 
-                Address contactAddress = c.getAddress();
+                AddressDto contactAddress = c.getAddress();
                 // same as client
-                if (clientAddress.getPrimaryKeyID().equals(
-                        contactAddress.getParentAddressID()))
+                if (clientAddress.getId().equals(
+                        contactAddress.getParentAddressId()))
                     clientAddress.addChangeListener(contactAddress);
 
                 rowData[i++] = c.getData();
@@ -228,7 +232,7 @@ public class PersonContactsView extends TableEditView {
         return new Integer(ObjectTypeConstant.PERSON);
     }
 
-    public void updateView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void updateView(PersonService person) throws com.argus.financials.api.ServiceException {
 
         details = person.getContacts();
 
@@ -241,7 +245,7 @@ public class PersonContactsView extends TableEditView {
         }
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.api.ServiceException {
 
         person.setContacts((TreeMap) details);
 
@@ -285,12 +289,9 @@ public class PersonContactsView extends TableEditView {
 
         detailsEnabled(true); // has to be first
         contactAddressView.setDefaultCountry();
-
-        // if (DEBUG) System.out.println( "New Contact Object created: " + obj
-        // );
     }
 
-    protected void display(Object obj) throws com.argus.financials.service.client.ServiceException {
+    protected void display(Object obj) throws com.argus.financials.api.ServiceException {
 
         if (obj == null) {
             clearView();
@@ -302,7 +303,7 @@ public class PersonContactsView extends TableEditView {
         name.setObject(c.getName());
 
         // contactAddressView
-        Address contactAddress = c.getAddress();
+        AddressDto contactAddress = c.getAddress();
         contactAddressView.setObject(contactAddress);
         contactAddress.addChangeListener(contactAddressView); // add new
                                                                 // selected
@@ -357,15 +358,13 @@ public class PersonContactsView extends TableEditView {
 
         if (objID.intValue() > 0) {
             if (details.remove(objID) != null)
-                ;// if (DEBUG) System.out.println( "removed Object " + objID
-                    // );
+                ;
             details.put(objID, null); // replace object with null value
             Object[][] o = new Object[5][];
 
         } else {
             if (details.remove(objID) != null) // not saved to server yet
-                ;// if (DEBUG) System.out.println( "removed Object " + objID
-                    // );
+                ;
         }
 
         // remove table row
@@ -378,7 +377,7 @@ public class PersonContactsView extends TableEditView {
 
     }
 
-    private void save(Object obj) throws com.argus.financials.service.client.ServiceException {
+    private void save(Object obj) throws com.argus.financials.api.ServiceException {
 
         Contact c = (Contact) obj;
 
@@ -388,7 +387,7 @@ public class PersonContactsView extends TableEditView {
 
         // contactAddressView
         contactAddressView.saveView(null);
-        c.setAddress((Address) contactAddressView.getObject());
+        c.setAddress((AddressDto) contactAddressView.getObject());
 
         // occupation
         Occupation o = c.getOccupation();
@@ -398,7 +397,7 @@ public class PersonContactsView extends TableEditView {
         }
         ReferenceCode refCode = (ReferenceCode) jComboBoxContactCode
                 .getSelectedItem();
-        c.setContactCodeID(refCode.getCodeIDInteger());
+        c.setContactCodeID(refCode.getCodeId());
 
         // ContactMedia
         phone.saveView(null);

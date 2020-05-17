@@ -44,21 +44,18 @@ public class PropertySourceManager extends BasePropertySource {
 
         String propertyValue = null;
         if (getProperties().containsKey(PLANNER_LOCALE_PROPERTIES)) {
-            propertyValue = getProperties()
-                    .getProperty(PLANNER_LOCALE_PROPERTIES).trim();
+            propertyValue = getProperties().getProperty(PLANNER_LOCALE_PROPERTIES).trim();
             FPSLocale.getInstance().setPropertySource(propertyValue);
         } else
             FPSLocale.getInstance().setPropertySource(null); // default
 
         if (getProperties().containsKey(PLANNER_WORD_PROPERTIES)) {
-            propertyValue = getProperties().getProperty(PLANNER_WORD_PROPERTIES)
-                    .trim();
+            propertyValue = getProperties().getProperty(PLANNER_WORD_PROPERTIES).trim();
             WordSettings.getInstance().setPropertySource(propertyValue);
         }
 
         if (getProperties().containsKey(PLANNER_VIEW_PROPERTIES)) {
-            propertyValue = getProperties().getProperty(PLANNER_VIEW_PROPERTIES)
-                    .trim();
+            propertyValue = getProperties().getProperty(PLANNER_VIEW_PROPERTIES).trim();
             ViewSettings.getInstance().setPropertySource(propertyValue);
         }
 

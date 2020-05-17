@@ -6,13 +6,13 @@
 
 package com.argus.financials.assetallocation;
 
+import com.argus.financials.api.bean.ICode;
+import com.argus.financials.api.code.FinancialTypeEnum;
 import com.argus.financials.bean.Financial;
 import com.argus.financials.bean.db.ApirPicBean;
 import com.argus.financials.bean.db.AssetAllocationDataBean;
 import com.argus.financials.bean.db.IressAssetNameBean;
-import com.argus.financials.code.FinancialTypeID;
 import com.argus.math.FormatedBigDecimal;
-import com.argus.util.ReferenceCode;
 
 /**
  * Finds the asset allocation for a given Financial object. For shares the
@@ -23,13 +23,12 @@ import com.argus.util.ReferenceCode;
  * 
  * @author shibaevv
  * 
- * @see com.argus.financials.assetallocation.AssetAllocationTableModel
- * @see com.argus.financials.assetallocation.CurrentAssetAllocationTableModel
- * @see com.argus.financials.assetallocation.NewAssetAllocationTableModel
+ * @see com.argus.financials.ui.assetallocation.AssetAllocationTableModel
+ * @see com.argus.financials.ui.assetallocation.CurrentAssetAllocationTableModel
+ * @see com.argus.financials.ui.assetallocation.NewAssetAllocationTableModel
  */
-public class FinancialAssetAllocation
+public class FinancialAssetAllocation {
 // !!! The class used behind the implement keyword contains only constants. !!!
-        implements FinancialTypeID {
 
     /** Creates a new instance of FinancialAssetAllocation */
     public FinancialAssetAllocation() {
@@ -48,71 +47,44 @@ public class FinancialAssetAllocation
      */
     public AssetAllocationTableRow findAssetAllocation(Financial f) {
         AssetAllocationTableRow aatr = new AssetAllocationTableRow();
-
-        if (f != null
-        // && f.getFinancialType() != null
-                && f.getFinancialCode() != null) {
-
-            int financialTypeID = UNDEFINED;
-
+        if (f == null) {
+            return aatr;
+        }
+        if (f.getFinancialCode() != null) {
             // do we have a FinancialType?
-            if (f.getFinancialType() != null) {
-                financialTypeID = f.getFinancialTypeID().intValue();
-            }
-
+            Integer financialTypeID = f.getFinancialType() == null ? FinancialTypeEnum.UNDEFINED.getId() : f.getFinancialTypeID();
             // check FinancialTypeID:
-            switch (financialTypeID) {
-            // shares
-            case INVESTMENT_LISTED_SHARES:
-                // case INVESTMENT_SHARES_AUSTRALIAN:
-                // case SUPERANNUATION_LISTED_SHARES:
-                // case SUPERANNUATION_SHARES_AUSTRALIAN:
+            if (financialTypeID == FinancialTypeEnum.INVESTMENT_LISTED_SHARES.getId()) {
+                // INVESTMENT_SHARES_AUSTRALIAN
+                // SUPERANNUATION_LISTED_SHARES
+                // SUPERANNUATION_SHARES_AUSTRALIAN
                 aatr = findShareAssetAllocation(f.getFinancialCode());
-                break;
-
-            // units
-            case INVESTMENT_LISTED_UNIT_TRUST:
-                // case INVESTMENT_LISTED_UNIT_TRUSTS:
-                // case SUPERANNUATION_LISTED_UNIT_TRUST:
-                // case SUPERANNUATION_LISTED_UNIT_TRUSTS:
-                // case SUPERANNUATION_INCOME_FUNDS:
+            } else if (financialTypeID == FinancialTypeEnum.INVESTMENT_LISTED_UNIT_TRUST.getId()) {
+                // INVESTMENT_LISTED_UNIT_TRUSTS:
+                // SUPERANNUATION_LISTED_UNIT_TRUST
+                // SUPERANNUATION_LISTED_UNIT_TRUSTS
+                // SUPERANNUATION_INCOME_FUNDS
                 aatr = findUnitAssetAllocation(f.getFinancialCode());
-                break;
-
-            // other
-            case INVESTMENT_OTHER:
+            } else if (financialTypeID == FinancialTypeEnum.INVESTMENT_OTHER.getId()) {
                 aatr.percent_in_other = new FormatedBigDecimal(100.0);
-                break;
-
-            // property
-            case INVESTMENT_PROPERTY:
+            } else if (financialTypeID == FinancialTypeEnum.INVESTMENT_PROPERTY.getId()) {
                 aatr.percent_in_property = new FormatedBigDecimal(100.0);
-                break;
-
-            // property
-            case UNDEFINED:
+            } else if (financialTypeID == FinancialTypeEnum.UNDEFINED.getId()) {
                 aatr = findByFinancialCode(f.getFinancialCode());
-                break;
-
-            // for the rest we don't know the asset allocation
-            default:
-                break;
+            } else {
+                // for the rest we don't know the asset allocation
             }
-        } else
-        // check if we have at least an FinancialType,
-        // because the financial object could be an "Other" or "Investment
-        // Property"
-        if (f != null && f.getFinancialType() != null) {
-
+        } else if (f.getFinancialType() != null) {
+            // check if we have at least an FinancialType, because the financial object could be an "Other" or "Investment
+            Integer financialTypeID = f.getFinancialTypeID();
             // check if we have an investment property
-            if (f.getFinancialTypeID().intValue() == INVESTMENT_PROPERTY) {
+            if (financialTypeID == FinancialTypeEnum.INVESTMENT_PROPERTY.getId()) {
                 aatr.percent_in_property = new FormatedBigDecimal(100.0);
             }
-            if (f.getFinancialTypeID().intValue() == INVESTMENT_OTHER) {
+            else if (financialTypeID == FinancialTypeEnum.INVESTMENT_OTHER.getId()) {
                 aatr.percent_in_other = new FormatedBigDecimal(100.0);
             }
         }
-
         return aatr;
     }
 
@@ -125,7 +97,7 @@ public class FinancialAssetAllocation
      * @param code -
      *            a financial code
      */
-    private AssetAllocationTableRow findShareAssetAllocation(ReferenceCode code) {
+    private AssetAllocationTableRow findShareAssetAllocation(ICode code) {
         AssetAllocationTableRow aatr = new AssetAllocationTableRow();
 
         if (code != null) {
@@ -164,7 +136,7 @@ public class FinancialAssetAllocation
      * @param code -
      *            a financial code
      */
-    private AssetAllocationTableRow findUnitAssetAllocation(ReferenceCode code) {
+    private AssetAllocationTableRow findUnitAssetAllocation(ICode code) {
         AssetAllocationTableRow aatr = new AssetAllocationTableRow();
 
         if (code != null) {
@@ -220,7 +192,7 @@ public class FinancialAssetAllocation
      * @param code -
      *            a financial code
      */
-    public AssetAllocationTableRow findByFinancialCode(ReferenceCode code) {
+    public AssetAllocationTableRow findByFinancialCode(ICode code) {
         AssetAllocationTableRow aatr = new AssetAllocationTableRow();
 
         if (code != null) {

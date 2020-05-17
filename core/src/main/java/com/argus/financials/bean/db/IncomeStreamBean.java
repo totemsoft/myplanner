@@ -13,10 +13,10 @@ package com.argus.financials.bean.db;
 
 import java.sql.SQLException;
 
+import com.argus.financials.api.code.LinkObjectTypeConstant;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.bean.Financial;
 import com.argus.financials.bean.IncomeStream;
-import com.argus.financials.bean.LinkObjectTypeConstant;
-import com.argus.financials.bean.ObjectTypeConstant;
 
 public class IncomeStreamBean extends AssetSuperannuationBean {
 

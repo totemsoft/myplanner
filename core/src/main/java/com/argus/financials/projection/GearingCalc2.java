@@ -6,15 +6,8 @@
 
 package com.argus.financials.projection;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
-
-import com.argus.beans.format.CurrencyLabelGenerator;
-import com.argus.beans.format.PercentLabelGenerator;
-import com.argus.financials.IGraphView;
+import com.argus.financials.chart.GearingGraphView;
+import com.argus.financials.chart.IGraphView;
 import com.argus.financials.code.BooleanCode;
 import com.argus.financials.code.FrequencyCode;
 import com.argus.financials.code.GearingType;
@@ -23,7 +16,9 @@ import com.argus.financials.code.ModelType;
 import com.argus.financials.tax.au.ITaxConstants;
 import com.argus.financials.tax.au.TaxContainer;
 import com.argus.format.Currency;
+import com.argus.format.CurrencyLabelGenerator;
 import com.argus.format.Percent;
+import com.argus.format.PercentLabelGenerator;
 import com.argus.io.ImageUtils;
 import com.argus.util.DateTimeUtils;
 
@@ -307,11 +302,11 @@ public final class GearingCalc2 extends AssetCalc implements
                     + (long) (d * MILLIS_PER_YEAR)) : null);
 
         } else if (property.equals(REINVEST_INCOME)) {
-            if (value.equalsIgnoreCase("" + BooleanCode.rcYES.getCodeID())
-                    || value.equalsIgnoreCase(BooleanCode.rcYES.getCodeDesc()))
+            if (value.equalsIgnoreCase("" + BooleanCode.rcYES.getId())
+                    || value.equalsIgnoreCase(BooleanCode.rcYES.getDescription()))
                 setReinvestIncome(Boolean.TRUE);
-            else if (value.equalsIgnoreCase("" + BooleanCode.rcNO.getCodeID())
-                    || value.equalsIgnoreCase(BooleanCode.rcNO.getCodeDesc()))
+            else if (value.equalsIgnoreCase("" + BooleanCode.rcNO.getId())
+                    || value.equalsIgnoreCase(BooleanCode.rcNO.getDescription()))
                 setReinvestIncome(Boolean.FALSE);
             else
                 setReinvestIncome(null);
@@ -327,11 +322,11 @@ public final class GearingCalc2 extends AssetCalc implements
             setLoanInterestRate(d);
 
         } else if (property.equals(ADD_INTEREST)) {
-            if (value.equalsIgnoreCase("" + BooleanCode.rcYES.getCodeID())
-                    || value.equalsIgnoreCase(BooleanCode.rcYES.getCodeDesc()))
+            if (value.equalsIgnoreCase("" + BooleanCode.rcYES.getId())
+                    || value.equalsIgnoreCase(BooleanCode.rcYES.getDescription()))
                 setAddIterest(Boolean.TRUE);
-            else if (value.equalsIgnoreCase("" + BooleanCode.rcNO.getCodeID())
-                    || value.equalsIgnoreCase(BooleanCode.rcNO.getCodeDesc()))
+            else if (value.equalsIgnoreCase("" + BooleanCode.rcNO.getId())
+                    || value.equalsIgnoreCase(BooleanCode.rcNO.getDescription()))
                 setAddIterest(Boolean.FALSE);
             else
                 setAddIterest(null);
@@ -1592,9 +1587,7 @@ public final class GearingCalc2 extends AssetCalc implements
     public void initializeReportData(
             com.argus.financials.report.ReportFields reportFields)
             throws Exception {
-        initializeReportData(reportFields,
-                com.argus.financials.service.ServiceLocator.getInstance()
-                        .getClientPerson());
+        initializeReportData(reportFields, clientService);
     }
 
     public void initializeReportData(
@@ -1637,8 +1630,8 @@ public final class GearingCalc2 extends AssetCalc implements
                 .toString(getOtherTaxableIncomeAmount()));
         Boolean b = getReinvestIncome();
         reportFields.setValue(reportFields.Gearing_ReinvestIncome, b == null
-                || !b.booleanValue() ? BooleanCode.rcNO.getCodeDesc()
-                : BooleanCode.rcYES.getCodeDesc());
+                || !b.booleanValue() ? BooleanCode.rcNO.getDescription()
+                : BooleanCode.rcYES.getDescription());
         reportFields.setValue(reportFields.Gearing_CreditLimitAmount, curr
                 .toString(getCreditLimit()));
         reportFields.setValue(reportFields.Gearing_Type, getGearingTypeDesc());

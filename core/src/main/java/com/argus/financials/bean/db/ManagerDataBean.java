@@ -11,9 +11,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.argus.dao.SQLHelper;
+
 /**
- * ApirPicBean is responsible for load and store information form the database
- * table "manager-data".
+ * ApirPicBean is responsible for load and store information form the database table "manager_data".
  * 
  * @author shibaevv
  * @version 0.01
@@ -21,7 +22,12 @@ import java.sql.SQLException;
  */
 public class ManagerDataBean {
 
-    public static final String DATABASE_TABLE_NAME = "manager-data";
+    public static final String DATABASE_TABLE_NAME = "manager_data";
+
+    private transient static SQLHelper sqlHelper;
+    public static void setSqlHelper(SQLHelper sqlHelper) {
+        ManagerDataBean.sqlHelper = sqlHelper;
+    }
 
     // bean properties
     private String identifier; // length: 2
@@ -83,7 +89,7 @@ public class ManagerDataBean {
 
         try {
             // get connection
-            con = DBManager.getInstance().getConnection();
+            con = sqlHelper.getConnection();
 
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
@@ -102,73 +108,32 @@ public class ManagerDataBean {
             if (rs.next()) {
                 // get the data
                 this.identifier = rs.getString("identifier");
-                this.country_code = rs.getString("country-code");
+                this.country_code = rs.getString("country_code");
                 this.code = rs.getString("code");
-                this.full_name = rs.getString("full-name");
+                this.full_name = rs.getString("full_name");
                 this.status = rs.getString("status");
-                this.short_name = rs.getString("short-name");
-                this.brief_name = rs.getString("brief-name");
-                this.very_brief_name = rs.getString("very-brief-name");
-                this.group_code = rs.getString("group-code");
-                this.consolidated_code = rs.getString("consolidated-code");
+                this.short_name = rs.getString("short_name");
+                this.brief_name = rs.getString("brief_name");
+                this.very_brief_name = rs.getString("very_brief_name");
+                this.group_code = rs.getString("group_code");
+                this.consolidated_code = rs.getString("consolidated_code");
                 // this.id = rs.getTimestamp( "id" );
 
                 found = true;
             }
 
             // autocommit is off
-            con.commit();
+            //con.commit();
 
         } catch (SQLException e) {
-            printSQLException(e);
-            con.rollback();
+            sqlHelper.printSQLException(e);
+            //con.rollback();
             throw e;
         } finally {
-            closeRsSql(null, pstmt);
+            sqlHelper.close(null, pstmt, con);
         }
 
         return found;
-    }
-
-    /**
-     * Closes a given ResultSet and PreparedStatement.
-     * 
-     * @param rs -
-     *            the ResultSet to close
-     * @param pstmt -
-     *            the PreparedStatement to close
-     */
-    private void closeRsSql(ResultSet rs, PreparedStatement pstmt) {
-        try {
-            if (rs != null)
-                rs.close();
-            if (pstmt != null)
-                pstmt.close();
-        } catch (java.sql.SQLException e) {
-            // do nothing here
-        }
-    }
-
-    /**
-     * Prints the SQLException's messages, SQLStates and ErrorCode to System.err
-     * 
-     * @param extends -
-     *            a SQLException
-     */
-    private void printSQLException(java.sql.SQLException e) {
-        System.err.println("\n--- SQLException caught ---\n");
-
-        while (e != null) {
-            e.printStackTrace(System.err);
-
-            System.err.println("Message:   " + e.getMessage());
-            System.err.println("SQLState:  " + e.getSQLState());
-            System.err.println("ErrorCode: " + e.getErrorCode());
-
-            e = e.getNextException();
-
-        }
-
     }
 
     /*

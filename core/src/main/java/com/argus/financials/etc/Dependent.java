@@ -6,6 +6,8 @@
 
 package com.argus.financials.etc;
 
+import com.argus.financials.api.bean.IFPSAssignableObject;
+
 /**
  * 
  * @author valeri chibaev
@@ -42,7 +44,7 @@ public class Dependent extends Contact {
     /**
      * Assignable methods
      */
-    public void assign(FPSAssignableObject value) throws ClassCastException {
+    public void assign(IFPSAssignableObject value) throws ClassCastException {
 
         super.assign(value);
 
@@ -64,7 +66,7 @@ public class Dependent extends Contact {
     /**
      * helper methods
      */
-    protected void clear() {
+    public void clear() {
         super.clear();
 
         dobCountryID = null;
@@ -77,7 +79,7 @@ public class Dependent extends Contact {
         Double age = DateTimeUtils.getAgeDouble(dob);
 
         return new Object[] {
-                getPrimaryKeyID(),
+                getId(),
                 name.getFullName(),
                 dob == null ? null : DateTimeUtils.asString(dob, null),
                 age == null ? null : new Integer(age.intValue()),

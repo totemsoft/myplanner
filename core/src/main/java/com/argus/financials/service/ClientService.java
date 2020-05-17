@@ -10,18 +10,22 @@ package com.argus.financials.service;
  */
 
 import java.util.Collection;
+import java.util.Date;
+import java.util.Vector;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.argus.financials.service.client.ServiceException;
-import com.argus.financials.strategy.StrategyGroup;
+import com.argus.financials.api.ServiceException;
+import com.argus.financials.api.bean.IStrategyGroup;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public interface ClientService extends PersonService
 {
+
+    Integer create(Integer ownerId) throws ServiceException, CreateException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void setOwnerPrimaryKey(Object value) throws ServiceException;
@@ -32,13 +36,13 @@ public interface ClientService extends PersonService
 
     public void setActive(boolean value) throws ServiceException;
 
-    public java.util.Date getFeeDate() throws ServiceException;
+    public Date getFeeDate() throws ServiceException;
 
-    public void setFeeDate(java.util.Date value) throws ServiceException;
+    public void setFeeDate(Date value) throws ServiceException;
 
-    public java.util.Date getReviewDate() throws ServiceException;
+    public Date getReviewDate() throws ServiceException;
 
-    public void setReviewDate(java.util.Date value) throws ServiceException;
+    public void setReviewDate(Date value) throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public PersonService getPartner(boolean create) throws ServiceException;
@@ -46,20 +50,20 @@ public interface ClientService extends PersonService
     public Collection getStrategies() throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void storeStrategy(StrategyGroup strategy) throws ServiceException;
+    public void storeStrategy(IStrategyGroup strategy) throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void deleteStrategy(StrategyGroup strategy) throws ServiceException;
+    public void deleteStrategy(IStrategyGroup strategy) throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void implementStrategy(StrategyGroup strategy) throws ServiceException;
+    public void implementStrategy(IStrategyGroup strategy) throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void rollbackStrategy(StrategyGroup strategy) throws ServiceException;
+    public void rollbackStrategy(IStrategyGroup strategy) throws ServiceException;
 
-    public java.util.Collection getCategories() throws ServiceException;
+    public Collection getCategories() throws ServiceException;
 
-    public java.util.Collection getSelectedCategories() throws ServiceException;
+    public Collection getSelectedCategories() throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void addCategory(com.argus.util.ReferenceCode category) throws ServiceException;
@@ -71,6 +75,6 @@ public interface ClientService extends PersonService
     public boolean removeCategory(com.argus.util.ReferenceCode category) throws ServiceException;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public void addSelectedCategories(java.util.Vector selectedCategories) throws ServiceException;
+    public void addSelectedCategories(Vector selectedCategories) throws ServiceException;
 
 }

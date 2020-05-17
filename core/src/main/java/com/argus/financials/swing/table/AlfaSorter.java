@@ -6,6 +6,8 @@
 
 package com.argus.financials.swing.table;
 
+import com.argus.swing.table.MergeSort;
+
 /**
  * 
  * @author valeri chibaev

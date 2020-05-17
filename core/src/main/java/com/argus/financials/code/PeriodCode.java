@@ -15,8 +15,6 @@ package com.argus.financials.code;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.argus.financials.service.ServiceLocator;
-
 public class PeriodCode extends Code {
 
     // public final static Integer = new Integer(1);
@@ -34,14 +32,11 @@ public class PeriodCode extends Code {
 
     private static Map codeMap;
 
-    static {
+    protected Map getCodeMap() {
         if (codeMap == null) {
             codeMap = new TreeMap();
             initCodeMap();
         }
-    }
-
-    protected Map getCodeMap() {
         return codeMap;
     }
 
@@ -50,12 +45,11 @@ public class PeriodCode extends Code {
         codeMap.put(NONE, VALUE_NONE);
 
         try {
-            Map map = ServiceLocator.getInstance().getUtilityService().getCodes(
-                    "PeriodCode");
+            Map map = utilityService.getCodes("PeriodCode");
             if (map == null)
                 return;
             codeMap.putAll(map);
-        } catch (com.argus.financials.service.client.ServiceException re) {
+        } catch (com.argus.financials.api.ServiceException re) {
         }
     }
 

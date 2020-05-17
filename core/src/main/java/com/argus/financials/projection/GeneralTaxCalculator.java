@@ -6,13 +6,8 @@
 
 package com.argus.financials.projection;
 
-/**
- * 
- * @version
- */
-
-import com.argus.beans.AbstractComponentModel;
-import com.argus.beans.MessageSent;
+import com.argus.bean.AbstractComponentModel;
+import com.argus.bean.MessageSent;
 import com.argus.financials.tax.au.ITaxConstants;
 import com.argus.financials.tax.au.TaxContainer;
 

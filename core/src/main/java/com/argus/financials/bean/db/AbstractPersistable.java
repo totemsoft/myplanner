@@ -1,32 +1,56 @@
 package com.argus.financials.bean.db;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
-
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
-import com.argus.financials.bean.IPersistable;
-import com.argus.financials.db.BaseSQLHelper;
-import com.argus.financials.db.SQLServerHelper;
+import com.argus.dao.SQLHelper;
+import com.argus.financials.api.ObjectNotFoundException;
+import com.argus.financials.api.dao.IPersistable;
+import com.argus.financials.api.dao.LinkObjectDao;
+import com.argus.financials.api.dao.ObjectDao;
+import com.argus.financials.api.service.FinancialService;
+import com.argus.financials.dao.PersonDao;
 import com.argus.financials.etc.FPSObject;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.client.ObjectNotFoundException;
 
 public abstract class AbstractPersistable extends FPSObject implements IPersistable {
+
+    /** serialVersionUID */
+    private static final long serialVersionUID = -6401068629850638057L;
+
+    protected transient static SQLHelper sqlHelper;
+    public static void setSqlHelper(SQLHelper sqlHelper) {
+        AbstractPersistable.sqlHelper = sqlHelper;
+    }
+
+    protected transient static ObjectDao objectDao;
+    public static void setObjectDao(ObjectDao objectDao) {
+        AbstractPersistable.objectDao = objectDao;
+    }
+
+    protected transient static LinkObjectDao linkObjectDao;
+    public static void setLinkObjectDao(LinkObjectDao linkObjectDao) {
+        AbstractPersistable.linkObjectDao = linkObjectDao;
+    }
+
+    protected transient static PersonDao personDao;
+    public static void setPersonDao(PersonDao personDao) {
+        AbstractPersistable.personDao = personDao;
+    }
+
+    protected transient static FinancialService financialService;
+    public static void setFinancialService(FinancialService financialService) {
+        AbstractPersistable.financialService = financialService;
+    }
 
     protected AbstractPersistable() {
         super();
     }
 
-    protected AbstractPersistable(Integer ownerPrimaryKeyID) {
-        super(ownerPrimaryKeyID);
+    protected AbstractPersistable(Integer ownerId) {
+        super(ownerId);
     }
 
     /**
@@ -38,9 +62,6 @@ public abstract class AbstractPersistable extends FPSObject implements IPersista
 
     public void load(Integer primaryKeyID, Connection con) throws SQLException,
             ObjectNotFoundException {
-    }
-
-    public void load(ResultSet rs) throws SQLException {
     }
 
     public int store(Connection con) throws SQLException {
@@ -57,31 +78,23 @@ public abstract class AbstractPersistable extends FPSObject implements IPersista
     /**
      * 
      */
-    public BaseSQLHelper getHelper() throws SQLException {
-        return SQLServerHelper.getInstance();
-    }
-
-    /**
-     * 
-     */
     public Connection getConnection() throws SQLException {
-        return ServiceLocator.getInstance().getDataSource().getConnection();
+        return sqlHelper.getConnection();
     }
 
     public void close(ResultSet rs, Statement sql) throws SQLException {
-        getHelper().close(rs, sql);
+        sqlHelper.close(rs, sql);
     }
 
     /**
      * 
      */
     public int getIdentityID(Connection con) throws SQLException {
-        return getHelper().getIdentityID(con);
+        return objectDao.getIdentityID(con);
     }
 
-    public int getNewObjectID(int objectTypeID, Connection con)
-            throws SQLException {
-        return getHelper().getNewObjectID(objectTypeID, con);
+    public int getNewObjectID(int objectTypeID, Connection con) throws SQLException {
+        return objectDao.getNewObjectID(objectTypeID, con);
     }
 
     /**
@@ -95,21 +108,19 @@ public abstract class AbstractPersistable extends FPSObject implements IPersista
      * DEPENDENT, CONTACT, WILL_EXECUTOR, etc) linkObjectTypeID2: 2nd level
      * linkage (e.g. CLIENT$PERSON_2_RELATIONSHIP_FINANCE)
      */
-    public int setLink(int linkObjectTypeID, Connection con)
-            throws java.sql.SQLException {
+    public int setLink(int linkObjectTypeID, Connection con) throws SQLException {
         // first level link
-        return FPSLinkObject.getInstance().link(getOwnerPrimaryKeyID(),
-                getPrimaryKeyID(), linkObjectTypeID, con);
+        return linkObjectDao.link(getOwnerId(), getId(), linkObjectTypeID, con);
 
     }
 
     // second level link
     public int setLink(int linkObjectTypeID1, int objectID2,
-            int linkObjectTypeID2, Connection con) throws java.sql.SQLException {
+            int linkObjectTypeID2, Connection con) throws SQLException {
 
         int linkID = setLink(linkObjectTypeID1, con);
 
-        linkID = FPSLinkObject.getInstance().link(linkID, objectID2,
+        linkID = linkObjectDao.link(linkID, objectID2,
                 linkObjectTypeID2, con);
 
         return linkID;
@@ -117,20 +128,20 @@ public abstract class AbstractPersistable extends FPSObject implements IPersista
     }
 
     public List getLinkedObjects(int linkObjectTypeID, Connection con)
-            throws java.sql.SQLException {
-        if (getPrimaryKeyID() == null)
+            throws SQLException {
+        if (getId() == null)
             return null;
-        return FPSLinkObject.getInstance().getLinkedObjects(
-                getPrimaryKeyID().intValue(), linkObjectTypeID, con);
+        return linkObjectDao.getLinkedObjects(
+                getId().intValue(), linkObjectTypeID, con);
 
     }
 
     protected List getLinkedObjects(int linkObjectTypeID1, int objectID2,
-            int linkObjectTypeID2, Connection con) throws java.sql.SQLException {
-        if (getPrimaryKeyID() == null)
+            int linkObjectTypeID2, Connection con) throws SQLException {
+        if (getId() == null)
             return null;
-        return FPSLinkObject.getInstance().getLinkedObjects(
-                getPrimaryKeyID().intValue(), linkObjectTypeID1, objectID2,
+        return linkObjectDao.getLinkedObjects(
+                getId().intValue(), linkObjectTypeID1, objectID2,
                 linkObjectTypeID2, con);
 
     }
@@ -139,10 +150,10 @@ public abstract class AbstractPersistable extends FPSObject implements IPersista
      * HELPER METHODS
      */
     // Display an SQLException which has occured in this application.
-    protected static void showSQLException(java.sql.SQLException e) {
+    protected static void showSQLException(SQLException e) {
         // Notice that a SQLException is actually a chain of SQLExceptions,
         // let's not forget to print all of them...
-        java.sql.SQLException next = e;
+        SQLException next = e;
         while (next != null) {
             System.err.println(next.getMessage());
             System.err.println("Error Code: " + next.getErrorCode());

@@ -1,9 +1,3 @@
-/*
- * FinancialPlannerApp2.java
- *
- * Created on 6 June 2006, 18:11
- */
-
 package com.argus.financials.ui;
 
 import java.awt.Component;
@@ -16,6 +10,7 @@ import java.io.IOException;
 
 import javax.swing.FocusManager;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
@@ -26,13 +21,15 @@ import javax.swing.WindowConstants;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 
 import org.apache.log4j.Logger;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
 
 import com.argus.financials.config.FPSLocale;
 import com.argus.financials.service.ClientService;
-import com.argus.financials.service.ServiceLocator;
+import com.argus.financials.service.UtilityService;
 import com.argus.financials.swing.FinancialPlannerFocusManager;
 import com.argus.financials.swing.SwingUtil;
+import com.argus.financials.ui.config.AppConfig;
 import com.argus.financials.ui.login.RegistrationView;
 import com.argus.financials.ui.login.UserLogin;
 import com.argus.financials.ui.sql.UpdateManagerApp;
@@ -46,54 +43,79 @@ import com.argus.swing.plaf.MetalTheme;
  *
  * @author  Valera
  */
-public class FinancialPlannerApp extends javax.swing.JFrame
+public class FinancialPlannerApp
+    extends JFrame
     implements FocusListener
 {
+
+    /** serialVersionUID */
+    private static final long serialVersionUID = 7773047659819372527L;
+
     /** logger. */
     private static final Logger LOG = Logger.getLogger(FinancialPlannerApp.class);
+
+    public static final String APP_VERSION = "1.02.b01";
 
     private static final int USER0_IDX = 0;
     private static final int USER_IDX = 1;
     private static final int CLIENT0_IDX = 2;
     private static final int CLIENT_IDX = 3;
 
-    private static FinancialPlannerApp app;
+    private static FinancialPlannerApp instance;
 
     private FinancialPlannerActionMap actionMap;
     private IFinancialPlannerNavigator navigator;
     
     private StatusBarPanel statusBarPanel;
     private SplashWindow splashWindow;// = new SplashWindow("/image/logo/splash.gif", this, 10000);
-    
-    /** Creates new form FinancialPlannerApp */
-    public FinancialPlannerApp(String config) throws Exception
-    {
-        // open/read the application context file
-        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
-        //applicationContext.getBeanFactory().registerScope("session", new org.springframework.web.context.request.SessionScope());
-        ServiceLocator.getInstance().setApplicationContext(applicationContext);
 
-        boolean useTaskBar = true;
-        //useTaskBar = false;
-
-        initComponents(config, useTaskBar);
-
-        syncDBSchema();
-
-        checkLicense();
-
-        // modal dialog
-        displayLogin(!useTaskBar);
+    private static ClientService clientService;
+    private static UtilityService utilityService;
+    public static void setClientService(ClientService clientService) {
+        FinancialPlannerApp.clientService = clientService;
+    }
+    public static void setUtilityService(UtilityService utilityService) {
+        FinancialPlannerApp.utilityService = utilityService;
     }
 
-    public static String getViewCaption() {
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) throws Exception {
+        //final boolean useTaskBar = false;
+        final boolean useTaskBar = true;
+        ApplicationContext applicationContext = SpringApplication.run(AppConfig.class);
+        java.awt.EventQueue.invokeLater(new Runnable() {public void run() {
+            try {
+                instance = new FinancialPlannerApp();
+                instance.initComponents(useTaskBar);
+                instance.syncDBSchema();
+                // modal dialog
+                boolean displayOnDesktop = Boolean.valueOf(System.getProperty("DisplayOnDesktop"));
+                instance.displayLogin(!useTaskBar, displayOnDesktop);
+                //instance.setVisible(true);
+            } catch (Exception e) {
+                LOG.fatal(e.getMessage(), e);
+                JOptionPane.showMessageDialog(
+                    instance,
+                    e.getMessage(),
+                    "Application failed to start",
+                    JOptionPane.ERROR_MESSAGE);
+                System.exit(1);
+            }
+        }});
+    }
+
+    public static String getViewCaption()
+    {
         return "Financial Planner";
     }
 
     
-    private void initComponents(String config, boolean useTaskBar) 
+    private void initComponents(boolean useTaskBar) 
         throws IOException
     {
+        final String config = "financialPlanner.properties";
         actionMap = new FinancialPlannerActionMap(this, this, config);
 
         // LookAndFeel class that implements the native systems look and feel if there is one,
@@ -108,17 +130,17 @@ public class FinancialPlannerApp extends javax.swing.JFrame
 
         FocusManager.setCurrentManager(new FinancialPlannerFocusManager());
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // !!! SWITCH !!!
         navigator = useTaskBar ?
                 (IFinancialPlannerNavigator) new FinancialPlannerNavigator(actionMap) :
                 (IFinancialPlannerNavigator) new FinancialPlannerMenu(actionMap);
         if (navigator instanceof JMenuBar){
-            setJMenuBar((JMenuBar) navigator);
+            this.setJMenuBar((JMenuBar) navigator);
         } else {
             JScrollPane jScrollPane = new JScrollPane();
-            getContentPane().add(jScrollPane, java.awt.BorderLayout.CENTER);
+            this.getContentPane().add(jScrollPane, java.awt.BorderLayout.CENTER);
             jScrollPane.setViewportView((Component) navigator);
         }
 
@@ -129,40 +151,18 @@ public class FinancialPlannerApp extends javax.swing.JFrame
         jp = new JPanel(); jp.add(new JLabel("ClientView: "));
         statusBarPanel.addJComponent(jp, CLIENT0_IDX);
         statusBarPanel.addJComponent(new JLabel(), CLIENT_IDX);
-        getContentPane().add(statusBarPanel, java.awt.BorderLayout.SOUTH);
+        this.getContentPane().add(statusBarPanel, java.awt.BorderLayout.SOUTH);
 
-        setTitle(getViewCaption());
+        this.setTitle(getViewCaption());
         SwingUtil.setIconImage(this, null);
 
         SwingUtils.setDefaultFont(this);
 
-        pack();
-    }
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        final String config = args.length > 0 ? args[0] : "financialPlanner.properties";
-        
-        java.awt.EventQueue.invokeLater(new Runnable() {public void run() {
-            try {
-                app = new FinancialPlannerApp(config);
-                //app.setVisible(true);
-            } catch (Exception e) {
-                LOG.fatal(e.getMessage(), e);
-                JOptionPane.showMessageDialog(
-                        app,
-                        e.getMessage(),
-                        "Application failed to start",
-                        JOptionPane.ERROR_MESSAGE);
-                System.exit(1);
-            }
-        }});
+        this.pack();
     }
 
     public static FinancialPlannerApp getInstance() {
-        return app;
+        return instance;
     }
     
     public void focusGained(FocusEvent e) {
@@ -176,11 +176,10 @@ public class FinancialPlannerApp extends javax.swing.JFrame
     }
 
 
-    private void displayLogin(boolean allowDisplayOnDesktop) {
-
+    private void displayLogin(boolean allowDisplayOnDesktop, boolean displayOnDesktop) {
         // create UserLogin
         boolean exists = UserLogin.exists();
-        final UserLogin loginView = UserLogin.newInstance(allowDisplayOnDesktop);
+        final UserLogin loginView = UserLogin.newInstance(allowDisplayOnDesktop, displayOnDesktop);
         loginView.setUserName(FPSLocale.getInstance().getLastUserName());
 
         if (!exists) {
@@ -205,7 +204,7 @@ public class FinancialPlannerApp extends javax.swing.JFrame
                             }
 
                             setVisible(true);
-                            FinancialPlannerApp.this.pack();
+                            pack();
 
                             if (splashWindow != null)
                                 splashWindow.close();
@@ -252,15 +251,15 @@ public class FinancialPlannerApp extends javax.swing.JFrame
 
     private void register() {
         RegistrationView view = RegistrationView.getInstance();
-        JDialog dlg = SwingUtil.add2Dialog(this, view.getViewCaption(), true,
-                view);
+        JDialog dlg = SwingUtil.add2Dialog(this, view.getViewCaption(), true, view);
         System.exit(0);
     }
 
     private void syncDBSchema() {
         try {
-            ServiceLocator.getInstance().getUtilityService().syncDBSchema();
+            utilityService.syncDBSchema();
         } catch (Exception e) {
+            LOG.fatal(e.getMessage(), e);
             e.printStackTrace(System.err);
 
             if (JOptionPane.showConfirmDialog(SwingUtil.getSharedOwnerFrame(),
@@ -271,7 +270,7 @@ public class FinancialPlannerApp extends javax.swing.JFrame
                     JOptionPane.ERROR_MESSAGE) == JOptionPane.YES_OPTION) {
                 String cmd = "start \"SQL Manager\" /B \"java\" "
                         + UpdateManagerApp.class.getName()
-                        + " force.properties";
+                        + " myplanner.properties";
                 try {
                     Process process = com.argus.io.DOSRunner.getInstance().run(
                             cmd, "/c");
@@ -286,24 +285,10 @@ public class FinancialPlannerApp extends javax.swing.JFrame
         
     }
 
-    private void checkLicense() {
-        try {
-            if (!FPSLocale.isDevelopment()) // <<<<<<<<<<<<<<<!!!!!!!!!!!!!!!!!!!!!!!
-                // remove in production
-                ;// checkLicense();
-
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-
-            logout(1);
-        }
-        
-    }
-
     // HACK code for update client
     public void updateClient() {
         try {
-            ClientService client = ServiceLocator.getInstance().getClientPerson();
+            ClientService client = clientService;
             String clientName = client == null ? "" : client.getPersonName().getFullName();
 
             statusBarPanel.setText(CLIENT_IDX, clientName);
@@ -325,7 +310,7 @@ public class FinancialPlannerApp extends javax.swing.JFrame
 
             actionMap.updateAccessability();
 
-            ClientService clientPerson = ServiceLocator.getInstance().getClientPerson();
+            ClientService clientPerson = clientService;
             String clientName = clientPerson == null ? "" : clientPerson.getPersonName().getFullName();
             statusBarPanel.setText(CLIENT_IDX, clientName);
 

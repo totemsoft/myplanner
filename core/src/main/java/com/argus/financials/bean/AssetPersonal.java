@@ -6,6 +6,8 @@
 
 package com.argus.financials.bean;
 
+import com.argus.financials.api.code.ObjectTypeConstant;
+
 /**
  * 
  * @author valeri chibaev
@@ -14,15 +16,9 @@ package com.argus.financials.bean;
 
 public class AssetPersonal extends Asset {
 
-    // serialver -classpath . com.argus.financial.AssetPersonal
-
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 4626062607026868373L;
 
-    public static final Integer OBJECT_TYPE_ID = new Integer(
-            ObjectTypeConstant.ASSET_PERSONAL);
+    public static final Integer OBJECT_TYPE_ID = ObjectTypeConstant.ASSET_PERSONAL;
 
     public Integer getObjectTypeID() {
         return OBJECT_TYPE_ID;

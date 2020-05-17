@@ -9,7 +9,8 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
-import com.argus.financials.domain.client.refdata.IAddressCode;
+import com.argus.financials.api.bean.IAddressCode;
+import com.argus.financials.api.bean.hibernate.AbstractCode;
 
 @Entity
 @Table(name = IAddressCode.TABLE_NAME)
@@ -22,8 +23,8 @@ public class AddressCode extends AbstractCode implements IAddressCode
 
     @Id
     @Column(name = "AddressCodeID", nullable = false)
-    @Type(type = "com.argus.financials.domain.hibernate.LongType")
-    private Long id;
+    @Type(type = "com.argus.financials.domain.hibernate.IntegerType")
+    private Integer id;
 
     //@Column(name = "AddressCode", nullable = false)
     //private String code;
@@ -34,7 +35,7 @@ public class AddressCode extends AbstractCode implements IAddressCode
     /* (non-Javadoc)
      * @see com.argus.financials.domain.IBase#getId()
      */
-    public Long getId()
+    public Integer getId()
     {
         return id;
     }

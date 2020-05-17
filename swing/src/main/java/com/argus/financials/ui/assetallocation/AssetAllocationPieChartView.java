@@ -117,8 +117,6 @@ public class AssetAllocationPieChartView extends javax.swing.JPanel implements
         String dataSourceName = _title;
         Color[] colors = _colors;
 
-        // com.fiducian.license.FiducianHelper.printFieldNames( _aatr );
-
         if (_aatr != null) {
             // we have some asset allocation, so get the values of cash, fixed
             // interest, property,

@@ -11,14 +11,26 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 
-import com.argus.financials.domain.client.IPerson;
+import com.argus.financials.api.bean.ICountry;
+import com.argus.financials.api.bean.ILanguage;
+import com.argus.financials.api.bean.IMaritalCode;
+import com.argus.financials.api.bean.IOccupation;
+import com.argus.financials.api.bean.IPerson;
+import com.argus.financials.api.bean.IPersonHealth;
+import com.argus.financials.api.bean.IPersonTrustDIYStatus;
+import com.argus.financials.api.bean.ISexCode;
+import com.argus.financials.api.bean.ITitleCode;
 import com.argus.financials.domain.hibernate.refdata.Country;
 import com.argus.financials.domain.hibernate.refdata.MaritalCode;
 import com.argus.financials.domain.hibernate.refdata.SexCode;
 import com.argus.financials.domain.hibernate.refdata.TitleCode;
+import com.argus.financials.etc.db.PersonHealth;
+import com.argus.financials.etc.db.PersonTrustDIYStatus;
+import com.argus.util.DateTimeUtils;
 
 @Entity
 @Table(name = "Person")
@@ -48,25 +60,51 @@ public class Person extends AbstractAuditable<Long> implements IPerson
     @Column(name = "DateOfBirth")
     private Date dateOfBirth;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Country.class)
     @JoinColumn(name = "DOBCountryID")
-    private Country dobCountry;
+    private ICountry dobCountry;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Country.class)
     @JoinColumn(name = "ResidenceCountryCodeID")
-    private Country residenceCountry;
+    private ICountry residenceCountry;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = TitleCode.class)
     @JoinColumn(name = "TitleCodeID")
-    private TitleCode title;
+    private ITitleCode title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = SexCode.class)
     @JoinColumn(name = "SexCodeID")
-    private SexCode sex;
+    private ISexCode sex;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = MaritalCode.class)
     @JoinColumn(name = "MaritalCodeID")
-    private MaritalCode marital;
+    private IMaritalCode marital;
+
+    //@ManyToOne(fetch = FetchType.LAZY, targetEntity = PersonHealth.class)
+    //@JoinColumn(name = "PersonID")
+    @Transient
+    private IPersonHealth personHealth;
+
+    //@ManyToOne(fetch = FetchType.LAZY, targetEntity = PersonTrustDIYStatus.class)
+    //@JoinColumn(name = "PersonID")
+    @Transient
+    private IPersonTrustDIYStatus personTrustDIYStatus;
+
+    //@ManyToOne(fetch = FetchType.LAZY, targetEntity = Occupation.class)
+    //@JoinColumn(name = "PersonID")
+    @Transient
+    private IOccupation occupation;
+
+    //@ManyToOne(fetch = FetchType.LAZY, targetEntity = Language.class)
+    //@JoinColumn(name = "PreferredLanguageID", nullable = true)
+    @Transient
+    private ILanguage preferredLanguage;
+
+    @Column(name = "ReferalSourceCodeID", nullable = true)
+    private Integer referalSourceCodeId;
+
+    @Column(name = "ResidenceStatusCodeID", nullable = true)
+    private Integer residenceStatusCodeId;
 
     @Column(name = "TaxFileNumber")
     private String taxFileNumber;
@@ -78,11 +116,6 @@ public class Person extends AbstractAuditable<Long> implements IPerson
     @Column(name = "SupportToAge")
     private Integer supportToAge;
 
-//  [ResidenceStatusCodeID] [int] NULL,
-//  [PreferredLanguageID] [int] NULL,
-//  [PreferredLanguage] [varchar](20) NULL,
-//  [ReferalSourceCodeID] [int] NULL,
-    
     /* (non-Javadoc)
      * @see com.argus.financials.domain.IBase#getId()
      */
@@ -91,9 +124,6 @@ public class Person extends AbstractAuditable<Long> implements IPerson
         return id;
     }
 
-    /**
-     * @param id the id to set
-     */
     public void setId(Long id)
     {
         this.id = id;
@@ -107,9 +137,6 @@ public class Person extends AbstractAuditable<Long> implements IPerson
         return firstname;
     }
 
-    /**
-     * @param firstname the firstname to set
-     */
     public void setFirstname(String firstname)
     {
         this.firstname = firstname;
@@ -123,9 +150,6 @@ public class Person extends AbstractAuditable<Long> implements IPerson
         return surname;
     }
 
-    /**
-     * @param surname the surname to set
-     */
     public void setSurname(String surname)
     {
         this.surname = surname;
@@ -139,9 +163,6 @@ public class Person extends AbstractAuditable<Long> implements IPerson
         return otherNames;
     }
 
-    /**
-     * @param otherNames the otherNames to set
-     */
     public void setOtherNames(String otherNames)
     {
         this.otherNames = otherNames;
@@ -155,27 +176,18 @@ public class Person extends AbstractAuditable<Long> implements IPerson
         return preferredName;
     }
 
-    /**
-     * @param preferredName the preferredName to set
-     */
     public void setPreferredName(String preferredName)
     {
         this.preferredName = preferredName;
     }
 
-    /**
-     * Calculated
-     * @return
-     */
+    @Transient
     public String getFullName()
     {
         return surname + (firstname == null ? "" : ", " + firstname);
     }
 
-    /**
-     * Calculated
-     * @return
-     */
+    @Transient
     public String getShortName()
     {
         return surname + (firstname == null ? "" : ", " + firstname);
@@ -189,9 +201,6 @@ public class Person extends AbstractAuditable<Long> implements IPerson
         return dateOfBirth;
     }
 
-    /**
-     * @param dateOfBirth the dateOfBirth to set
-     */
     public void setDateOfBirth(Date dateOfBirth)
     {
         this.dateOfBirth = dateOfBirth;
@@ -200,15 +209,12 @@ public class Person extends AbstractAuditable<Long> implements IPerson
     /**
      * @return the dobCountry
      */
-    public Country getDobCountry()
+    public ICountry getDobCountry()
     {
         return dobCountry;
     }
 
-    /**
-     * @param dobCountry the dobCountry to set
-     */
-    public void setDobCountry(Country dobCountry)
+    public void setDobCountry(ICountry dobCountry)
     {
         this.dobCountry = dobCountry;
     }
@@ -216,15 +222,12 @@ public class Person extends AbstractAuditable<Long> implements IPerson
     /**
      * @return the residenceCountry
      */
-    public Country getResidenceCountry()
+    public ICountry getResidenceCountry()
     {
         return residenceCountry;
     }
 
-    /**
-     * @param residenceCountry the residenceCountry to set
-     */
-    public void setResidenceCountry(Country residenceCountry)
+    public void setResidenceCountry(ICountry residenceCountry)
     {
         this.residenceCountry = residenceCountry;
     }
@@ -232,15 +235,12 @@ public class Person extends AbstractAuditable<Long> implements IPerson
     /**
      * @return the title
      */
-    public TitleCode getTitle()
+    public ITitleCode getTitle()
     {
         return title;
     }
 
-    /**
-     * @param title the title to set
-     */
-    public void setTitle(TitleCode title)
+    public void setTitle(ITitleCode title)
     {
         this.title = title;
     }
@@ -248,15 +248,12 @@ public class Person extends AbstractAuditable<Long> implements IPerson
     /**
      * @return the sex
      */
-    public SexCode getSex()
+    public ISexCode getSex()
     {
         return sex;
     }
 
-    /**
-     * @param sex the sex to set
-     */
-    public void setSex(SexCode sex)
+    public void setSex(ISexCode sex)
     {
         this.sex = sex;
     }
@@ -264,17 +261,97 @@ public class Person extends AbstractAuditable<Long> implements IPerson
     /**
      * @return the marital
      */
-    public MaritalCode getMarital()
+    public IMaritalCode getMarital()
     {
         return marital;
     }
 
-    /**
-     * @param marital the marital to set
-     */
-    public void setMarital(MaritalCode marital)
+    public void setMarital(IMaritalCode marital)
     {
         this.marital = marital;
+    }
+
+    /* (non-Javadoc)
+     * @see com.argus.financials.api.bean.IPerson#isMarried()
+     */
+    @Override
+    public boolean isMarried() {
+        return marital != null && IMaritalCode.isMarried(marital.getId());
+    }
+
+    /**
+     * @return the personHealth
+     */
+    public IPersonHealth getPersonHealth() {
+        if (personHealth == null) {
+            personHealth = new PersonHealth();
+        }
+        return personHealth;
+    }
+
+    public void setPersonHealth(IPersonHealth personHealth) {
+        this.personHealth = personHealth;
+    }
+
+    /**
+     * @return the personTrustDIYStatus
+     */
+    public IPersonTrustDIYStatus getPersonTrustDIYStatus() {
+        if (personTrustDIYStatus == null) {
+            personTrustDIYStatus = new PersonTrustDIYStatus();
+        }
+        return personTrustDIYStatus;
+    }
+
+    public void setPersonTrustDIYStatus(IPersonTrustDIYStatus personTrustDIYStatus) {
+        this.personTrustDIYStatus = personTrustDIYStatus;
+    }
+
+    /**
+     * @return the occupation
+     */
+    public IOccupation getOccupation() {
+        if (occupation == null) {
+            occupation = new Occupation();
+        }
+        return occupation;
+    }
+
+    public void setOccupation(IOccupation occupation) {
+        this.occupation = occupation;
+    }
+
+    /**
+     * @return the preferredLanguage
+     */
+    public ILanguage getPreferredLanguage() {
+        return preferredLanguage;
+    }
+
+    public void setPreferredLanguage(ILanguage preferredLanguage) {
+        this.preferredLanguage = preferredLanguage;
+    }
+
+    /**
+     * @return the referalSourceCodeId
+     */
+    public Integer getReferalSourceCodeId() {
+        return referalSourceCodeId;
+    }
+
+    public void setReferalSourceCodeId(Integer referalSourceCodeId) {
+        this.referalSourceCodeId = referalSourceCodeId;
+    }
+
+    /**
+     * @return the residenceStatusCodeId
+     */
+    public Integer getResidenceStatusCodeId() {
+        return residenceStatusCodeId;
+    }
+
+    public void setResidenceStatusCodeId(Integer residenceStatusCodeId) {
+        this.residenceStatusCodeId = residenceStatusCodeId;
     }
 
     /**
@@ -285,9 +362,6 @@ public class Person extends AbstractAuditable<Long> implements IPerson
         return taxFileNumber;
     }
 
-    /**
-     * @param taxFileNumber the taxFileNumber to set
-     */
     public void setTaxFileNumber(String taxFileNumber)
     {
         this.taxFileNumber = taxFileNumber;
@@ -301,12 +375,14 @@ public class Person extends AbstractAuditable<Long> implements IPerson
         return dssRecipient;
     }
 
-    /**
-     * @param dssRecipient the dssRecipient to set
-     */
     public void setDssRecipient(Boolean dssRecipient)
     {
         this.dssRecipient = dssRecipient;
+    }
+
+    @Transient
+    public boolean isDssRecipient() {
+        return Boolean.TRUE.equals(dssRecipient);
     }
 
     /**
@@ -317,12 +393,14 @@ public class Person extends AbstractAuditable<Long> implements IPerson
         return supportToAge;
     }
 
-    /**
-     * @param supportToAge the supportToAge to set
-     */
     public void setSupportToAge(Integer supportToAge)
     {
         this.supportToAge = supportToAge;
+    }
+
+    @Transient
+    public Double getAge() {
+        return DateTimeUtils.getAgeDouble(dateOfBirth);
     }
 
 }

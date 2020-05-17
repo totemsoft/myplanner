@@ -20,8 +20,8 @@ import javax.swing.ActionMap;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import com.argus.beans.format.CurrencyLabelGenerator;
-import com.argus.financials.code.InvalidCodeException;
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.ServiceException;
 import com.argus.financials.code.ModelType;
 import com.argus.financials.code.ModelTypeID;
 import com.argus.financials.config.ViewSettings;
@@ -29,23 +29,25 @@ import com.argus.financials.config.WordSettings;
 import com.argus.financials.etc.ActionEventID;
 import com.argus.financials.etc.DuplicateException;
 import com.argus.financials.etc.ModelTitleRestrictionException;
-import com.argus.financials.io.IOUtils2;
 import com.argus.financials.projection.DocumentNames;
 import com.argus.financials.projection.MoneyCalc;
 import com.argus.financials.projection.data.MortgageScheduleTableModel;
 import com.argus.financials.projection.save.Model;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
-import com.argus.financials.service.client.ServiceException;
 import com.argus.financials.swing.SwingUtil;
+import com.argus.financials.ui.AbstractPanel;
 import com.argus.financials.ui.BaseView;
 import com.argus.financials.ui.FinancialPlannerApp;
 import com.argus.format.Currency;
+import com.argus.format.CurrencyLabelGenerator;
 import com.argus.format.Number2;
 import com.argus.format.Percent;
+import com.argus.io.IOUtils2;
 
-public class MortgageView extends javax.swing.JPanel implements ActionEventID,
+public class MortgageView
+    extends AbstractPanel
+    implements ActionEventID,
         javax.swing.event.ChangeListener,
         com.argus.financials.projection.IMortgageCalcResults,
         com.argus.financials.projection.IMortgageCalcParams,
@@ -63,7 +65,7 @@ public class MortgageView extends javax.swing.JPanel implements ActionEventID,
 
     private static final int BACKWARD = -1;
 
-    private com.argus.financials.GraphView graphView = new com.argus.financials.GraphView();
+    private com.argus.financials.chart.GraphView graphView = new com.argus.financials.chart.GraphView();
 
     private Number2 number = MoneyCalc.getNumberInstance();
 
@@ -78,11 +80,11 @@ public class MortgageView extends javax.swing.JPanel implements ActionEventID,
     private MortgageCalc calculator;
 
     public Integer getDefaultType() {
-        return ModelTypeID.rcLOAN_MORTGAGE_CALC.getCodeIDInteger();
+        return ModelTypeID.rcLOAN_MORTGAGE_CALC.getCodeId();
     }
 
     public String getDefaultTitle() {
-        return ModelTypeID.rcLOAN_MORTGAGE_CALC.getCodeDesc();
+        return ModelTypeID.rcLOAN_MORTGAGE_CALC.getDescription();
     }
 
     /** Creates new form Mortgage */
@@ -120,11 +122,11 @@ public class MortgageView extends javax.swing.JPanel implements ActionEventID,
         if (model.getOwner() != null)
             return model;
 
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
         if (person != null) {
             try {
                 model.setOwner(person.getModels());
-            } catch (com.argus.financials.service.client.ServiceException e) {
+            } catch (com.argus.financials.api.ServiceException e) {
                 e.printStackTrace(System.err);
             }
         }
@@ -178,9 +180,9 @@ public class MortgageView extends javax.swing.JPanel implements ActionEventID,
         enableResultsControls();
 
         jButtonSave
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
+                .setEnabled(clientService != null);
         jButtonSaveAs
-                .setEnabled(ServiceLocator.getInstance().getClientPerson() != null);
+                .setEnabled(clientService != null);
         jButtonDelete.setEnabled(jButtonSave.isEnabled());
         setActionMap();
     }
@@ -1157,7 +1159,7 @@ public class MortgageView extends javax.swing.JPanel implements ActionEventID,
         try {
             ReportFields.generateReport(
                     SwingUtilities.windowForComponent(this),
-                    getReportData(ServiceLocator.getInstance().getClientPerson()),
+                    getReportData(clientService),
                     getDefaultReport());
 
         } catch (Exception e) {
@@ -1554,7 +1556,7 @@ public class MortgageView extends javax.swing.JPanel implements ActionEventID,
      **************************************************************************/
     public void updateView(String modelTitle) throws java.io.IOException {
 
-        PersonService person = ServiceLocator.getInstance().getClientPerson();
+        PersonService person = clientService;
         Model m = person == null ? null : person.getModel(getDefaultType(),
                 modelTitle);
 
@@ -1573,12 +1575,12 @@ public class MortgageView extends javax.swing.JPanel implements ActionEventID,
         // doClear(null);
 
         if (m == null) {
-            updateView(ServiceLocator.getInstance().getClientPerson());
+            updateView(clientService);
         } else {
             // use copy of model
-            Integer id = m.getPrimaryKeyID();
+            Integer id = m.getId();
             m = new Model(m);
-            m.setPrimaryKeyID(id);
+            m.setId(id);
     
             try {
                 calculator.disableUpdate();
@@ -1646,7 +1648,7 @@ public class MortgageView extends javax.swing.JPanel implements ActionEventID,
         }
 
         try {
-            saveView(ServiceLocator.getInstance().getClientPerson());
+            saveView(clientService);
         } catch (Exception e) {
             e.printStackTrace(System.err); // ( e.getMessage() );
             return;
@@ -1718,14 +1720,14 @@ public class MortgageView extends javax.swing.JPanel implements ActionEventID,
         am.put(DATA_REMOVE, new AbstractAction() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
 
-                PersonService person = ServiceLocator.getInstance().getClientPerson();
+                PersonService person = clientService;
                 if (person == null)
                     return;
 
                 try {
                     person.removeModel(getModel());
                     person.storeModels();
-                } catch (com.argus.financials.service.client.ServiceException e) {
+                } catch (com.argus.financials.api.ServiceException e) {
                     e.printStackTrace();
                     return;
                 }
@@ -1771,7 +1773,7 @@ public class MortgageView extends javax.swing.JPanel implements ActionEventID,
         setAddtnlMonthlyPayments(0);
     }
 
-    public com.argus.financials.GraphView getGraphView() {
+    public com.argus.financials.chart.GraphView getGraphView() {
         return this.graphView;
     }
 

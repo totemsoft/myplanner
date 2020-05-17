@@ -6,6 +6,8 @@
 
 package com.argus.financials.bean;
 
+import com.argus.financials.api.code.ObjectTypeConstant;
+
 /**
  * 
  * @author valeri chibaev
@@ -16,16 +18,9 @@ import com.argus.util.DateTimeUtils;
 
 public class AssetCash extends Asset {
 
-    // cd /D D:\projects\Financial Planner\ant\build\classes
-    // serialver -classpath . com.argus.financial.AssetCash
-
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 2553149001369638517L;
 
-    public static final Integer OBJECT_TYPE_ID = new Integer(
-            ObjectTypeConstant.ASSET_CASH);
+    public static final Integer OBJECT_TYPE_ID = ObjectTypeConstant.ASSET_CASH;
 
     // has to be non-static
     public Integer getObjectTypeID() {
@@ -63,7 +58,7 @@ public class AssetCash extends Asset {
             s = NONE;
 
         if (DISPLAY_PKID)
-            s += "(" + getPrimaryKeyID() + ")";
+            s += "(" + getId() + ")";
 
         return s;
     }
@@ -144,10 +139,7 @@ public class AssetCash extends Asset {
             } else {
                 if (r == null) {
                     r = generateIncome(type);
-                    r.setFinancialTypeID(INCOME_INVESTMENT);
-                    // if (DEBUG) r.setFinancialDesc( r.getFinancialDesc() + "
-                    // (" + sGROSS_INCOME + ")" );
-
+                    r.setFinancialTypeId(INCOME_INVESTMENT);
                     regulars.put(GROSS_INCOME, r);
 
                 }
@@ -164,10 +156,7 @@ public class AssetCash extends Asset {
             r = (RegularIncome) regulars.get(UNFRANKED_INCOME);
             if (r == null) {
                 r = generateIncome(type);
-                r.setFinancialTypeID(INCOME_INVESTMENT);
-                // if (DEBUG) r.setFinancialDesc( r.getFinancialDesc() + " (" +
-                // sUNFRANKED_INCOME + ")" );
-
+                r.setFinancialTypeId(INCOME_INVESTMENT);
                 regulars.put(UNFRANKED_INCOME, r);
 
             }
@@ -176,19 +165,13 @@ public class AssetCash extends Asset {
 
             r.setRegularAmount(new java.math.BigDecimal(gross));
             r.setFrequencyCodeID(getFrequencyCodeID());
-            // if (DEBUG) System.out.println( r.toString() + ", RegularAmount="
-            // + r.getRegularAmount() );
-
             break;
         case (iNON_TAXABLE_DRAWDOWN):
             r = (RegularIncome) regulars.get(NON_TAXABLE_DRAWDOWN);
             if (r == null) {
                 r = generateIncome(type);
                 r.setTaxable(false);
-                r.setFinancialTypeID(INCOME_OTHER_TAX_FREE);
-                // if (DEBUG) r.setFinancialDesc( r.getFinancialDesc() + " (" +
-                // sNON_TAXABLE_DRAWDOWN + ")" );
-
+                r.setFinancialTypeId(INCOME_OTHER_TAX_FREE);
                 regulars.put(NON_TAXABLE_DRAWDOWN, r);
 
             }
@@ -203,10 +186,7 @@ public class AssetCash extends Asset {
             r = (RegularExpense) regulars.get(NON_DEDUCTIBLE_EXPENSE);
             if (r == null) {
                 r = generateExpense(type);
-                r.setFinancialTypeID(EXPENSE_SAVING_INVESTMENT); // EXPENSE_SAVING_INVESTMENT
-                // if (DEBUG) r.setFinancialDesc( r.getFinancialDesc() + " (" +
-                // sNON_DEDUCTIBLE_EXPENSE + ")" );
-
+                r.setFinancialTypeId(EXPENSE_SAVING_INVESTMENT); // EXPENSE_SAVING_INVESTMENT
                 regulars.put(NON_DEDUCTIBLE_EXPENSE, r);
 
             }
@@ -223,10 +203,7 @@ public class AssetCash extends Asset {
             r = (RegularExpense) regulars.get(NON_DEDUCTIBLE_DEPOSIT);
             if (r == null) {
                 r = generateExpense(type);
-                r.setFinancialTypeID(EXPENSE_GENERAL); // EXPENSE_OTHER
-                // if (DEBUG) r.setFinancialDesc( r.getFinancialDesc() + " (" +
-                // sNON_DEDUCTIBLE_DEPOSIT + ")" );
-
+                r.setFinancialTypeId(EXPENSE_GENERAL); // EXPENSE_OTHER
                 regulars.put(NON_DEDUCTIBLE_DEPOSIT, r);
 
             }

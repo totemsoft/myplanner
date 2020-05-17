@@ -6,6 +6,8 @@
 
 package com.argus.financials.bean;
 
+import com.argus.financials.api.code.ObjectTypeConstant;
+
 /**
  * 
  * @author valeri chibaev
@@ -18,15 +20,9 @@ import com.argus.util.ReferenceCode;
 
 public class AssetSuperannuation extends Asset {
 
-    // serialver -classpath . com.argus.financial.AssetSuperannuation
-
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = -5812331543957627518L;
 
-    public static final Integer OBJECT_TYPE_ID = new Integer(
-            ObjectTypeConstant.ASSET_SUPERANNUATION);
+    public static final Integer OBJECT_TYPE_ID = ObjectTypeConstant.ASSET_SUPERANNUATION;
 
     public Integer getObjectTypeID() {
         return OBJECT_TYPE_ID;
@@ -59,7 +55,7 @@ public class AssetSuperannuation extends Asset {
             s = NONE;
 
         if (DISPLAY_PKID)
-            s += "(" + getPrimaryKeyID() + ")";
+            s += "(" + getId() + ")";
 
         return s;
     }
@@ -120,7 +116,7 @@ public class AssetSuperannuation extends Asset {
             r = (RegularExpense) regulars.get(TOTAL_EXPENSE);
             if (r == null) {
                 r = generateExpense(type);
-                r.setFinancialTypeID(EXPENSE_GENERAL); // EXPENSE_OTHER
+                r.setFinancialTypeId(EXPENSE_GENERAL); // EXPENSE_OTHER
                 // r.setTaxable(true);
 
                 regulars.put(TOTAL_EXPENSE, r);
@@ -138,12 +134,8 @@ public class AssetSuperannuation extends Asset {
             if (r == null) {
                 r = generateIncome(type);
                 r.setTaxable(false);
-                r.setFinancialTypeID(INCOME_OTHER_TAX_FREE);
-                // if (DEBUG) r.setFinancialDesc( r.getFinancialDesc() + " (" +
-                // sNON_TAXABLE_DRAWDOWN + ")" );
-
+                r.setFinancialTypeId(INCOME_OTHER_TAX_FREE);
                 regulars.put(NON_TAXABLE_DRAWDOWN, r);
-
             }
             r.setStartDate(getDrawdownStartDate());
             r.setEndDate(getDrawdownEndDate());
@@ -162,14 +154,10 @@ public class AssetSuperannuation extends Asset {
             r = (RegularExpense) regulars.get(NON_DEDUCTIBLE_DEPOSIT);
             if (r == null) {
                 r = generateExpense(type);
-                r.setFinancialTypeID(EXPENSE_GENERAL); // EXPENSE_OTHER
+                r.setFinancialTypeId(EXPENSE_GENERAL); // EXPENSE_OTHER
                 // 13.03.2003 Scot advised to get rid of tax deductible flag
                 r.setTaxable(false);
-                // if (DEBUG) r.setFinancialDesc( r.getFinancialDesc() + " (" +
-                // sNON_DEDUCTIBLE_DEPOSIT + ")" );
-
                 regulars.put(NON_DEDUCTIBLE_DEPOSIT, r);
-
             }
             r.setStartDate(getContributionStartDate());
             r.setEndDate(getContributionEndDate());
@@ -312,17 +300,17 @@ public class AssetSuperannuation extends Asset {
     public void setFundTypeID(Integer value) {
         super.setFundTypeID(value);
 
-        if (FundType.rcSUPERANNUATION.getCodeIDInteger()
+        if (FundType.rcSUPERANNUATION.getCodeId()
                 .equals(getFundTypeID()))
-            setFinancialTypeID(SUPERANNUATION_ACCOUNT);
+            setFinancialTypeId(SUPERANNUATION_ACCOUNT);
         else
-            setFinancialTypeID(null);
+            setFinancialTypeId((Integer) null);
     }
 
     public ReferenceCode getFundType() {
         if (getFundTypeID() != null)
             if (getFundTypeID().intValue() == FundType.rcSUPERANNUATION
-                    .getCodeID())
+                    .getId())
                 return FundType.rcSUPERANNUATION;
         return ReferenceCode.CODE_NONE;
     }

@@ -6,14 +6,11 @@
 
 package com.argus.financials.bean;
 
-/**
- * 
- * @author valeri chibaev
- * @version
- */
-
 import java.math.BigDecimal;
 
+import com.argus.financials.api.bean.ICode;
+import com.argus.financials.api.bean.IFPSAssignableObject;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.assetallocation.AssetAllocation;
 import com.argus.financials.assetallocation.AssetAllocationTableRow;
 import com.argus.financials.assetallocation.FinancialAssetAllocation;
@@ -24,22 +21,14 @@ import com.argus.financials.bean.db.UnitPriceDataBean;
 import com.argus.financials.code.FrequencyCode;
 import com.argus.financials.code.FundType;
 import com.argus.financials.code.InvestmentType;
-import com.argus.financials.etc.FPSAssignableObject;
-import com.argus.financials.utils.RateUtils;
 import com.argus.util.DateTimeUtils;
-import com.argus.util.ReferenceCode;
+import com.argus.util.RateUtils;
 
 public abstract class Asset extends Financial {
-    // cd /D D:\projects\Financial Planner\ant\build\classes
-    // serialver -classpath . com.argus.financial.Asset
 
-    // Compatible changes include adding or removing a method or a field.
-    // Incompatible changes include changing an object's hierarchy or
-    // removing the implementation of the Serializable interface.
     static final long serialVersionUID = 2770681708721238798L;
 
-    public static final Integer OBJECT_TYPE_ID = new Integer(
-            ObjectTypeConstant.ASSET);
+    public static final Integer OBJECT_TYPE_ID = ObjectTypeConstant.ASSET;
 
     private String accountNumber;
 
@@ -49,31 +38,31 @@ public abstract class Asset extends Financial {
 
     private Double unitsShares;
 
-    private java.math.BigDecimal purchaseCost;
+    private BigDecimal purchaseCost;
 
-    private java.math.BigDecimal replacementValue;
+    private BigDecimal replacementValue;
 
-    private java.math.BigDecimal unitsSharesPrice;
+    private BigDecimal unitsSharesPrice;
 
     private java.util.Date priceDate;
 
-    private java.math.BigDecimal taxDeductibleAnnualAmount;
+    private BigDecimal taxDeductibleAnnualAmount;
 
     private Integer frequencyCodeID = FrequencyCode.YEARLY;
 
-    private java.math.BigDecimal annualAmount;
+    private BigDecimal annualAmount;
 
-    private java.math.BigDecimal contributionAnnualAmount;
+    private BigDecimal contributionAnnualAmount;
 
-    private java.math.BigDecimal contributionIndexation;
+    private BigDecimal contributionIndexation;
 
     private java.util.Date contributionStartDate;
 
     private java.util.Date contributionEndDate;
 
-    private java.math.BigDecimal drawdownAnnualAmount;
+    private BigDecimal drawdownAnnualAmount;
 
-    private java.math.BigDecimal drawdownIndexation;
+    private BigDecimal drawdownIndexation;
 
     private java.util.Date drawdownStartDate;
 
@@ -93,7 +82,7 @@ public abstract class Asset extends Financial {
     /**
      * Assignable methods
      */
-    public void assign(FPSAssignableObject value) throws ClassCastException {
+    public void assign(IFPSAssignableObject value) throws ClassCastException {
 
         super.assign(value);
 
@@ -139,7 +128,7 @@ public abstract class Asset extends Financial {
     /**
      * helper methods
      */
-    protected void clear() {
+    public void clear() {
         super.clear();
 
         accountNumber = null;
@@ -180,7 +169,7 @@ public abstract class Asset extends Financial {
      **************************************************************************/
     // TODO: move into AssetBean ???
     public void updatePrice() {
-        ReferenceCode financialCode = getFinancialCode();
+        ICode financialCode = getFinancialCode();
         if (financialCode == null)
             return;
 
@@ -207,11 +196,11 @@ public abstract class Asset extends Financial {
                 return;
 
             setPriceDate(unitSharePrice.getPriceDate2());
-            setUnitsSharesPrice(new java.math.BigDecimal(unitSharePrice
+            setUnitsSharesPrice(new BigDecimal(unitSharePrice
                     .getClosePrice()));
 
             Double unitShares = getUnitsShares();
-            setAmount(new java.math.BigDecimal(unitShares == null ? 0.
+            setAmount(new BigDecimal(unitShares == null ? 0.
                     : unitShares.doubleValue() * unitSharePrice.getClosePrice()));
 
             // We do the update here, because we update the amount value in
@@ -228,7 +217,18 @@ public abstract class Asset extends Financial {
     /***************************************************************************
      * get/set methods
      **************************************************************************/
-    public void setAmount(java.math.BigDecimal value) {
+    @Override
+    public BigDecimal getAmount() {
+        BigDecimal value = super.getAmount();
+        if (value == null || value.signum() == 0) {
+            if (unitsShares != null && unitsShares > 0 && purchaseCost != null && purchaseCost.signum() == 1) {
+                value = purchaseCost.multiply(new BigDecimal(unitsShares));
+            }
+        }
+        return value;
+    }
+
+    public void setAmount(BigDecimal value) {
         if (equals(getAmount(), value))
             return;
 
@@ -264,11 +264,11 @@ public abstract class Asset extends Financial {
         setModified(true);
     }
 
-    public java.math.BigDecimal getUnitsSharesPrice() {
+    public BigDecimal getUnitsSharesPrice() {
         return unitsSharesPrice;
     }
 
-    public void setUnitsSharesPrice(java.math.BigDecimal value) {
+    public void setUnitsSharesPrice(BigDecimal value) {
         if (equals(unitsSharesPrice, value))
             return;
 
@@ -320,11 +320,11 @@ public abstract class Asset extends Financial {
         return new InvestmentType().getCodeDescription(getInvestmentTypeID());
     }
 
-    public java.math.BigDecimal getPurchaseCost() {
+    public BigDecimal getPurchaseCost() {
         return purchaseCost;
     }
 
-    protected void setPurchaseCost(java.math.BigDecimal value) {
+    protected void setPurchaseCost(BigDecimal value) {
         if (equals(purchaseCost, value))
             return;
 
@@ -332,11 +332,11 @@ public abstract class Asset extends Financial {
         setModified(true);
     }
 
-    public java.math.BigDecimal getReplacementValue() {
+    public BigDecimal getReplacementValue() {
         return replacementValue;
     }
 
-    protected void setReplacementValue(java.math.BigDecimal value) {
+    protected void setReplacementValue(BigDecimal value) {
         if (equals(replacementValue, value))
             return;
 
@@ -344,27 +344,27 @@ public abstract class Asset extends Financial {
         setModified(true);
     }
 
-    public java.math.BigDecimal getContributionRegularAmount() {
+    public BigDecimal getContributionRegularAmount() {
         return FrequencyCode.getPeriodAmount(frequencyCodeID,
                 getContributionAnnualAmount());
     }
 
     // read only value (stored in db)
-    protected void setContributionRegularAmount(java.math.BigDecimal value) {
+    protected void setContributionRegularAmount(BigDecimal value) {
     }
 
-    public java.math.BigDecimal getTaxDeductibleAnnualAmount() {
+    public BigDecimal getTaxDeductibleAnnualAmount() {
         return taxDeductibleAnnualAmount;
     }
 
-    protected void setTaxDeductibleAnnualAmount(java.math.BigDecimal value) {
+    protected void setTaxDeductibleAnnualAmount(BigDecimal value) {
         if (equals(taxDeductibleAnnualAmount, value))
             return;
         taxDeductibleAnnualAmount = value;
         setModified(true);
     }
 
-    public java.math.BigDecimal getTaxDeductibleRegularAmount() {
+    public BigDecimal getTaxDeductibleRegularAmount() {
         return FrequencyCode.getPeriodAmount(frequencyCodeID,
                 taxDeductibleAnnualAmount);
     }
@@ -385,18 +385,18 @@ public abstract class Asset extends Financial {
         return new FrequencyCode().getCodeDescription(frequencyCodeID);
     }
 
-    public java.math.BigDecimal getAnnualAmount() {
+    public BigDecimal getAnnualAmount() {
         return annualAmount;
     }
 
-    protected void setAnnualAmount(java.math.BigDecimal value) {
+    protected void setAnnualAmount(BigDecimal value) {
         if (equals(annualAmount, value))
             return;
         annualAmount = value;
         setModified(true);
     }
 
-    protected java.math.BigDecimal getContributionAnnualAmount(int year) { // 0,1,...
+    protected BigDecimal getContributionAnnualAmount(int year) { // 0,1,...
         if (!DateTimeUtils.between(getContributionStartDate(),
                 getContributionEndDate(), year))
             return ZERO;
@@ -408,22 +408,22 @@ public abstract class Asset extends Financial {
                         .divide(HUNDRED, BigDecimal.ROUND_HALF_UP), year));
     }
 
-    public java.math.BigDecimal getContributionAnnualAmount() {
+    public BigDecimal getContributionAnnualAmount() {
         return contributionAnnualAmount;
     }
 
-    protected void setContributionAnnualAmount(java.math.BigDecimal value) {
+    protected void setContributionAnnualAmount(BigDecimal value) {
         if (equals(contributionAnnualAmount, value))
             return;
         contributionAnnualAmount = value;
         setModified(true);
     }
 
-    public java.math.BigDecimal getContributionIndexation() {
+    public BigDecimal getContributionIndexation() {
         return contributionIndexation;
     }
 
-    protected void setContributionIndexation(java.math.BigDecimal value) {
+    protected void setContributionIndexation(BigDecimal value) {
         if (equals(contributionIndexation, value))
             return;
         contributionIndexation = value;
@@ -464,22 +464,22 @@ public abstract class Asset extends Financial {
                         HUNDRED, BigDecimal.ROUND_HALF_UP), year));
     }
 
-    public java.math.BigDecimal getDrawdownAnnualAmount() {
+    public BigDecimal getDrawdownAnnualAmount() {
         return drawdownAnnualAmount;
     }
 
-    protected void setDrawdownAnnualAmount(java.math.BigDecimal value) {
+    protected void setDrawdownAnnualAmount(BigDecimal value) {
         if (equals(drawdownAnnualAmount, value))
             return;
         drawdownAnnualAmount = value;
         setModified(true);
     }
 
-    public java.math.BigDecimal getDrawdownIndexation() {
+    public BigDecimal getDrawdownIndexation() {
         return drawdownIndexation;
     }
 
-    protected void setDrawdownIndexation(java.math.BigDecimal value) {
+    protected void setDrawdownIndexation(BigDecimal value) {
         if (equals(drawdownIndexation, value))
             return;
         drawdownIndexation = value;
@@ -519,11 +519,11 @@ public abstract class Asset extends Financial {
         setModified(true);
     }
 
-    public java.math.BigDecimal getFinancialYearAmount() {
+    public BigDecimal getFinancialYearAmount() {
         return getFinancialYearAmountFractional(false);
     }
 
-    public java.math.BigDecimal getFinancialYearAmount(boolean sign) {
+    public BigDecimal getFinancialYearAmount(boolean sign) {
         return getFinancialYearAmountFractional(false, sign);
     }
 

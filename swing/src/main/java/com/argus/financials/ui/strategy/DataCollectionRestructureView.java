@@ -20,17 +20,18 @@ import javax.swing.JOptionPane;
 import com.argus.financials.bean.Financial;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.strategy.StrategyFinancial;
 import com.argus.financials.strategy.StrategyGroup;
 import com.argus.financials.strategy.model.DataCollectionModel;
 import com.argus.financials.strategy.model.DataRestructureModel;
 import com.argus.financials.strategy.model.StrategyGroupData;
 import com.argus.financials.swing.SwingUtil;
+import com.argus.financials.ui.AbstractPanel;
 import com.argus.financials.ui.ListSelection;
 
-public class DataCollectionRestructureView extends javax.swing.JPanel implements
-        javax.swing.event.TreeSelectionListener, com.argus.financials.swing.IReset {
+public class DataCollectionRestructureView
+    extends AbstractPanel
+    implements javax.swing.event.TreeSelectionListener, com.argus.financials.swing.IReset {
 
     private StrategyGroupData sgData;
 
@@ -362,7 +363,7 @@ public class DataCollectionRestructureView extends javax.swing.JPanel implements
 
     }
 
-    public void saveView(PersonService person) throws com.argus.financials.service.client.ServiceException {
+    public void saveView(PersonService person) throws com.argus.financials.api.ServiceException {
 
         // if ( sgData == null )
         // sgData = new StrategyGroupData();
@@ -467,10 +468,10 @@ public class DataCollectionRestructureView extends javax.swing.JPanel implements
             return;
 
         try {
-            ServiceLocator.getInstance().getClientPerson().deleteStrategy(
+            clientService.deleteStrategy(
                     getStrategy());
             SwingUtil.setVisible(this, false);
-        } catch (com.argus.financials.service.client.ServiceException e) {
+        } catch (com.argus.financials.api.ServiceException e) {
             e.printStackTrace(System.err);
         }
 
@@ -483,8 +484,8 @@ public class DataCollectionRestructureView extends javax.swing.JPanel implements
                 "Implement Strategy Dialog", JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
             try {
-                ClientService cp = ServiceLocator.getInstance()
-                        .getClientPerson();
+                ClientService cp = 
+                        clientService;
 
                 cp.implementStrategy(getStrategy());
                 if (!dataRestructureView.model.setImplemented())
@@ -495,7 +496,7 @@ public class DataCollectionRestructureView extends javax.swing.JPanel implements
 
                 SwingUtil.setVisible(this, false);
 
-            } catch (com.argus.financials.service.client.ServiceException e) {
+            } catch (com.argus.financials.api.ServiceException e) {
                 e.printStackTrace(System.err);
             }
 
@@ -512,8 +513,8 @@ public class DataCollectionRestructureView extends javax.swing.JPanel implements
                 "Rollback Strategy Dialog", JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
             try {
-                ClientService cp = ServiceLocator.getInstance()
-                        .getClientPerson();
+                ClientService cp = 
+                        clientService;
 
                 cp.rollbackStrategy(getStrategy());
                 if (!dataRestructureView.model.setRollbacked())
@@ -524,7 +525,7 @@ public class DataCollectionRestructureView extends javax.swing.JPanel implements
 
                 SwingUtil.setVisible(this, false);
 
-            } catch (com.argus.financials.service.client.ServiceException e) {
+            } catch (com.argus.financials.api.ServiceException e) {
                 e.printStackTrace(System.err);
             }
 
@@ -535,7 +536,7 @@ public class DataCollectionRestructureView extends javax.swing.JPanel implements
     }
 
     private StrategyGroup getSelectedStrategyGroup(ClientService clientPerson)
-            throws com.argus.financials.service.client.ServiceException {
+            throws com.argus.financials.api.ServiceException {
 
         java.util.Collection set = clientPerson.getStrategies();
         if (set == null || set.size() == 0)

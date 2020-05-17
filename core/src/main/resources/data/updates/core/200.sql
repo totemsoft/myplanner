@@ -6,7 +6,7 @@ INSERT INTO DBVersion (CurrentVersion, PreviousVersion)
  GO
 
 --------------------------------------------------------------
--- create user - [trial] 9998
+-- create user - [trial/Passw0rd] 9998
 --------------------------------------------------------------
 --INSERT INTO Object (ObjectTypeID) VALUES (2);
 UPDATE Object SET ObjectTypeID = 2 WHERE ObjectID = 9998;

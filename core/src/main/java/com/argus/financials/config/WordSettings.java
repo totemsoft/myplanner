@@ -196,7 +196,7 @@ public class WordSettings extends BasePropertySource {
         String planTemplateDirectory = getPlanTemplateDirectory();
         File file = new File(planTemplateDirectory);
         if (!file.exists()) {
-            file = new File(FPSLocale.getUserDirectory(), planTemplateDirectory);
+            file = new File(IOUtils.getUserDirectory(), planTemplateDirectory);
         }
         return file;
     }

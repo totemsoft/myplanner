@@ -20,8 +20,6 @@ import com.argus.financials.ui.NameView;
 
 public class RegistrationView extends javax.swing.JPanel {
 
-    private static boolean DEBUG = false;
-
     private static RegistrationView view;
 
     /** Creates new form RegistrationView */

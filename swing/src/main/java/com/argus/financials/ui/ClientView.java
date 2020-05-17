@@ -6,16 +6,16 @@
 
 package com.argus.financials.ui;
 
-import com.argus.financials.bean.ObjectTypeConstant;
+import com.argus.financials.api.InvalidCodeException;
+import com.argus.financials.api.bean.UserPreferences;
+import com.argus.financials.api.code.ObjectTypeConstant;
 import com.argus.financials.code.Advisers;
-import com.argus.financials.code.InvalidCodeException;
 import com.argus.financials.config.ViewSettings;
 import com.argus.financials.config.WordSettings;
 import com.argus.financials.etc.Contact;
 import com.argus.financials.report.ReportFields;
 import com.argus.financials.service.ClientService;
 import com.argus.financials.service.PersonService;
-import com.argus.financials.service.ServiceLocator;
 import com.argus.financials.swing.SwingUtil;
 
 public final class ClientView extends PersonView2 {
@@ -25,6 +25,15 @@ public final class ClientView extends PersonView2 {
     public static final int GOALS_INTERESTS = ++LAST;
 
     private static ClientView view;
+
+    private static ClientService clientService;
+    private static UserPreferences userPreferences;
+    public static void setClientService(ClientService clientService) {
+        ClientView.clientService = clientService;
+    }
+    public static void setUserPreferences(UserPreferences userPreferences) {
+        ClientView.userPreferences = userPreferences;
+    }
 
     /** Creates new ClientView */
     public ClientView() {
@@ -101,7 +110,7 @@ public final class ClientView extends PersonView2 {
 
     }
 
-    public void updateView() throws com.argus.financials.service.client.ServiceException {
+    public void updateView() throws com.argus.financials.api.ServiceException {
 
         ClientService person = (ClientService) getPerson();
         if (person == null)
@@ -117,7 +126,7 @@ public final class ClientView extends PersonView2 {
 
     }
 
-    public void saveView() throws com.argus.financials.service.client.ServiceException,
+    public void saveView() throws com.argus.financials.api.ServiceException,
             InvalidCodeException {
 
         ClientService person = (ClientService) getPerson();
@@ -130,11 +139,11 @@ public final class ClientView extends PersonView2 {
         Object obj = jComboBoxAdviser.getSelectedItem();
         if (obj == null)
         {
-            person.setOwnerPrimaryKey(ServiceLocator.getInstance().getUserPreferences().getUser().getId());
+            person.setOwnerPrimaryKey(userPreferences.getUser().getId());
         }
         else
         {
-            person.setOwnerPrimaryKey(((Contact) obj).getPrimaryKeyID());
+            person.setOwnerPrimaryKey(((Contact) obj).getId());
         }
 
         person.setActive(jCheckBoxClientActive.isSelected());
@@ -159,8 +168,8 @@ public final class ClientView extends PersonView2 {
         return new Integer(ObjectTypeConstant.CLIENT_PERSON);
     }
 
-    protected PersonService getPerson() throws com.argus.financials.service.client.ServiceException {
-        return ServiceLocator.getInstance().getClientPerson();
+    protected PersonService getPerson() throws com.argus.financials.api.ServiceException {
+        return clientService;
     }
 
     protected String getDefaultReport() {

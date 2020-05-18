@@ -8,7 +8,7 @@ package com.argus.financials.tax.au;
 
 /**
  * 
- * @author Serguei Piltiaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 class TaxOffsets extends TaxRule {

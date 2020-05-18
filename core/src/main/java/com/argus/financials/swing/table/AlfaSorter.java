@@ -10,7 +10,7 @@ import com.argus.swing.table.MergeSort;
 
 /**
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * 
  * Sorts the contents, based on alfabetical order.
  * 

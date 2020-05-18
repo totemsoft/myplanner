@@ -10,7 +10,7 @@ import com.argus.financials.projection.DocumentNames;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public abstract class DSSCalculator implements DocumentNames {
 

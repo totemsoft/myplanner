@@ -8,7 +8,7 @@ package com.argus.financials.swing.table;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 public class ReferenceDataComboBoxModel extends javax.swing.AbstractListModel

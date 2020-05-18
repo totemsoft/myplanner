@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 
 /**
- * @author Valeri SHIBAEV
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class Pair<T1, T2> implements Serializable
 {

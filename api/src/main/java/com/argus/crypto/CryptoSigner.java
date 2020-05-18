@@ -16,7 +16,7 @@ import java.security.spec.X509EncodedKeySpec;
  * The signaturs are generated and validated with the DSA algorithm.
  * A public and private key is used by the DSA algorithm to produce a signature.
  *
- * @author  shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class CryptoSigner {  
     

@@ -13,7 +13,7 @@ import javax.swing.text.Document;
  * The class calculates a new value for the number of shares/untis * the
  * share/unit price
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version 0.01
  * 
  * @see com.argus.financials.ui.financials.AddAssetInvestmentView

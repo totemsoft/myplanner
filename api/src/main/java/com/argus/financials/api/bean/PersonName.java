@@ -10,7 +10,7 @@ import java.util.Date;
 
 /**
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 

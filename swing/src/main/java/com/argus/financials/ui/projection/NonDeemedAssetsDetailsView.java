@@ -26,7 +26,7 @@ import com.argus.util.ReferenceCode;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class NonDeemedAssetsDetailsView extends BasePanel {
 

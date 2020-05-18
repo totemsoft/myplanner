@@ -10,7 +10,7 @@ import com.argus.financials.api.APConstants;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 

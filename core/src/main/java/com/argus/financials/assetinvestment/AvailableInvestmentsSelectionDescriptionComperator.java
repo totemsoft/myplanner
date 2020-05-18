@@ -11,7 +11,7 @@ package com.argus.financials.assetinvestment;
  * sort a vector of these objects. It compares the description attribute of the
  * objects.
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version 0.01
  * 
  * @see com.argus.financials.assetinvestment.AvailableInvestmentsSearch

@@ -8,7 +8,7 @@ package com.argus.financials.db;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 public class UserManagmentDataVerifier implements DataVerifier {

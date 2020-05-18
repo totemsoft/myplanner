@@ -15,7 +15,7 @@ import com.argus.financials.service.UtilityService;
 /**
  * Helper class for setting up the web application.
  * It must be configured as a listener on in the web application <code>web.xml</code>.
- * @author Valeri Shibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class SetupContextListener extends ContextLoaderListener
 {

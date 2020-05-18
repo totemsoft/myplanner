@@ -20,7 +20,7 @@ import com.argus.financials.bean.db.UnitInformationSearchBean;
  * AssetInvestmentAvailableInvestmentsSearch is responsible for load and store
  * information form the database tables "apir-pic" and "iress-asset-name".
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version 0.01
  * 
  * @see com.argus.financials.ui.financials.AddAssetInvestmentView

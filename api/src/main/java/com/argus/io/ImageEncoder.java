@@ -6,7 +6,7 @@ package com.argus.io;
 
 /**
  *
- * @author  valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 
 public interface ImageEncoder {

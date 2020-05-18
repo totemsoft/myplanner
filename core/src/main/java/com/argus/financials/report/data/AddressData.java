@@ -10,7 +10,7 @@ import com.argus.financials.etc.AddressDto;
 
 /**
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 
 public class AddressData extends BaseData {

@@ -13,13 +13,13 @@ import com.argus.util.StringUtils;
  * This class is responsible for general encryption and decryption of data.
  * It uses the Triple DES Encryption algorithm (DES-EDE). 
  *
- * @author  shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  **/
 public class CryptoCipher {
 
     private Cipher              _desCipher;
     private KeyGenerator        _keygen;
-    private SecretKey           _secret_key;        
+    private SecretKey           _secret_key;
     private SecretKeyFactory    _factory;
     private DESedeKeySpec       _keySpec;
 
@@ -34,11 +34,11 @@ public class CryptoCipher {
      */
     public CryptoCipher() 
     throws 
-        java.security.NoSuchAlgorithmException, 
-        java.security.NoSuchAlgorithmException, 
-        java.security.spec.InvalidKeySpecException, 
+        java.security.NoSuchAlgorithmException,
+        java.security.NoSuchAlgorithmException,
+        java.security.spec.InvalidKeySpecException,
         java.security.InvalidKeyException, 
-        javax.crypto.NoSuchPaddingException        
+        javax.crypto.NoSuchPaddingException
     {
         // JCE security provider
         //Security.addProvider(new com.sun.crypto.provider.SunJCE());        

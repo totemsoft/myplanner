@@ -17,7 +17,7 @@ import com.argus.dao.SQLHelper;
  * IressAssetNameBean is responsible for loading and storing information form
  * the database table "AssetAllocationData".
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version 0.01
  * @since 19/07/2002
  */

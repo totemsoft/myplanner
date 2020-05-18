@@ -5,7 +5,7 @@ import com.argus.financials.service.ClientService;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class AbstractBasePanel extends BasePanel {
 

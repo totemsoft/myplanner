@@ -8,7 +8,7 @@ package com.argus.financials.bean;
 
 /**
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * 
  * extension to Financial used to disperse/finance assets and regular
  * income/expense-liability

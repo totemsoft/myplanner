@@ -8,7 +8,7 @@ package com.argus.financials.bean.db;
 
 /**
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 

@@ -8,7 +8,7 @@ package com.argus.math;
 
 /**
  *
- * @author  thomassh
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 /*
  * FormatedBigDecimal.java

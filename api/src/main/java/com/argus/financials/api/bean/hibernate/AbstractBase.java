@@ -8,7 +8,7 @@ import com.argus.financials.api.bean.IBase;
 
 /**
  * Base class for all objects.
- * @author vchibaev (Valeri SHIBAEV)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 @MappedSuperclass
 public abstract class AbstractBase<T> implements IBase<T>, Serializable

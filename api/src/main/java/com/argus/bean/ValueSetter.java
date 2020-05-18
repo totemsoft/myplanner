@@ -8,7 +8,7 @@ package com.argus.bean;
 
 /**
  * 
- * @author Administrator
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 public interface ValueSetter {

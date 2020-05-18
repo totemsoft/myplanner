@@ -8,7 +8,7 @@ package com.argus.financials.assetallocation;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 public class AssetAllocation implements java.io.Serializable, java.lang.Cloneable {

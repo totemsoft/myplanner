@@ -11,7 +11,7 @@ import com.argus.financials.api.bean.IPerson;
 
 /**
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 
 public class OccupationData extends BaseData {

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 public class DummyMetaData implements java.sql.ResultSetMetaData {

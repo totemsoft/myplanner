@@ -8,7 +8,7 @@ import java.net.InetAddress;
 /**
 * This class creates a unique user id (UUID) for a computer.
 *
-* @author  shibaevv
+* @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
 */
 public class CryptoUUID
 {

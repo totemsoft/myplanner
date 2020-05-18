@@ -10,7 +10,7 @@ import com.argus.financials.api.bean.hibernate.AbstractBase;
 
 /**
  * Base class for all auditable objects.
- * @author vchibaev (Valeri SHIBAEV)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 @MappedSuperclass
 public abstract class AbstractAuditable<T> extends AbstractBase<T>

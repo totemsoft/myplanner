@@ -8,7 +8,7 @@ package com.argus.financials.ui.projection;
 
 /**
  * 
- * @author kevinm
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 
 import java.awt.Cursor;

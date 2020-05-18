@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 public class UpdateableTableRow implements ISmartTableRow {

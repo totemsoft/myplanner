@@ -8,7 +8,7 @@ package com.argus.financials.tax.au;
 
 /**
  * 
- * @author Administrator
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 

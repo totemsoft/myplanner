@@ -7,7 +7,7 @@ import com.argus.financials.api.dao.EntityDao;
 
 /**
  * Base class for all codes.
- * @author vchibaev (Valeri SHIBAEV)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 //@Component
 @MappedSuperclass

@@ -16,7 +16,7 @@ import com.argus.dao.SQLHelper;
 /**
  * ApirPicBean is responsible for load and store information form the database table "manager_data".
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version 0.01
  * @since 15/08/2002
  */

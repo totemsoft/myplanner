@@ -12,7 +12,7 @@ import com.argus.util.DateTimeUtils;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class PersonInfo {
 

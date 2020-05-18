@@ -8,7 +8,7 @@ import com.argus.financials.dao.UserDao;
 import com.argus.financials.domain.hibernate.User;
 
 /**
- * @author vchibaev (Valeri SHIBAEV)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 @Repository
 public class UserDaoImpl extends BaseDAOImpl implements UserDao

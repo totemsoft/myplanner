@@ -7,7 +7,7 @@ import com.argus.financials.domain.hibernate.Client;
 import com.argus.financials.domain.hibernate.ClientView;
 
 /**
- * @author vchibaev (Valeri SHIBAEV)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public interface ClientDao extends BaseDAO
 {

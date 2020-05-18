@@ -16,7 +16,7 @@ import java.util.EventObject;
  * Company:
  * </p>
  * 
- * @author unascribed
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version 1.0
  */
 

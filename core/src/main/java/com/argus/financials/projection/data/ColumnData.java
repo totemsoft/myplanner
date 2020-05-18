@@ -10,7 +10,7 @@ package com.argus.financials.projection.data;
  * Helper class used to define the column properties used for a JTable and its
  * associated TableModel.
  * 
- * @author thomass
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 public class ColumnData {

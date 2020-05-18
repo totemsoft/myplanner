@@ -11,7 +11,7 @@ import com.argus.financials.api.dao.EntityDao;
 import com.argus.financials.dao.PersonDao;
 
 /**
- * @author vchibaev (Valeri SHIBAEV)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 @Repository
 public class PersonDaoImpl extends BaseDAOImpl implements PersonDao {

@@ -8,7 +8,7 @@ package com.argus.math;
 
 /**
  *
- * @author  valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version 
  */
 

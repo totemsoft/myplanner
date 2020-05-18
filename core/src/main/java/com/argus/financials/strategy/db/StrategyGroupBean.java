@@ -8,7 +8,7 @@ package com.argus.financials.strategy.db;
 
 /**
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 
 import java.sql.Connection;

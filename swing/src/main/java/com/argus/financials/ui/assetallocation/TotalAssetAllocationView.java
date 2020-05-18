@@ -13,7 +13,7 @@ import java.awt.Color;
  * percentage in cash, fixed interest, australian shares, international shares,
  * property, others and the total sum.
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class TotalAssetAllocationView extends javax.swing.JPanel {
 

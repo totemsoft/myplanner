@@ -15,7 +15,7 @@ import com.argus.financials.swing.SwingUtil;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class AssetInvestmentSelectionByView extends javax.swing.JPanel {
 

@@ -21,7 +21,7 @@ package com.argus.util;
 
 /**
  *
- * @author  Valeri Shibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  *
  */
 

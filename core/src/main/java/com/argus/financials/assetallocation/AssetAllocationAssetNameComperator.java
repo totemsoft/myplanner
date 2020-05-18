@@ -10,7 +10,7 @@ package com.argus.financials.assetallocation;
  * Comperator to compare "AssetAllocationTableRow" objects, it's used to sort a
  * vector of these objects. It compares the asset name of the objects.
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version 0.01
  * 
  * @see com.argus.financials.assetallocation.AssetAllocationTableRow

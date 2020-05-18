@@ -8,7 +8,7 @@ package com.argus.financials.etc;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class ModelTitleRestrictionException extends java.lang.Exception {
 

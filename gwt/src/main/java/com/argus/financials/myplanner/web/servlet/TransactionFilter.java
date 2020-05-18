@@ -22,7 +22,7 @@ import com.argus.financials.utils.ThreadLocalUtils;
 import com.argus.util.DateUtils;
 
 /**
- * @author vchibaev (Valeri SHIBAEV)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class TransactionFilter implements Filter {
 

@@ -15,7 +15,7 @@ import com.argus.financials.assetallocation.IAssetAllocation;
  * display the new asset allocation. The class can load and store the asset
  * allocation from and to a StrategyCollection.
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  * 
  * @see com.argus.financials.ui.assetallocation.AssetAllocationTableModel

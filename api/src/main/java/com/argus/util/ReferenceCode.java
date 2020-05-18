@@ -4,7 +4,7 @@ import com.argus.financials.api.bean.ICode;
 
 /**
  *
- * @author  valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version 
  *
  *  instances of this class has to be used as Reference Code storage

@@ -20,7 +20,7 @@ package com.argus.swing;
 
 /**
  *
- * @author  valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 
 import com.argus.io.IOUtils;

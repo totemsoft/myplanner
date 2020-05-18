@@ -11,7 +11,7 @@ import java.util.Comparator;
 
 /**
  * TODO: @see BeanUtils 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  * @param <T>
  */

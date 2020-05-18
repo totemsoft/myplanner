@@ -16,7 +16,7 @@ import com.argus.financials.api.bean.IClientView;
 import com.argus.financials.api.bean.IUser;
 
 /**
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 @Service
 public interface UserService

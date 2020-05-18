@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 
- * @author Valeri SHIBAEV (mailto:shibaevv@apollosoft.net)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 @Component
 public interface Pdf

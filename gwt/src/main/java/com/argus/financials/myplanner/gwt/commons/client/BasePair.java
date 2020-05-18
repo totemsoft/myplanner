@@ -1,7 +1,7 @@
 package com.argus.financials.myplanner.gwt.commons.client;
 
 /**
- * @author Valeri SHIBAEV
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class BasePair extends Pair<Integer, String>
 {

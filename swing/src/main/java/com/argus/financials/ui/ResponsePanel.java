@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class ResponsePanel extends javax.swing.JDialog {
 

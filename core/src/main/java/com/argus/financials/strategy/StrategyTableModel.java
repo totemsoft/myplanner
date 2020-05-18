@@ -8,7 +8,7 @@ package com.argus.financials.strategy;
 
 /**
  * 
- * @author thomass
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 public class StrategyTableModel extends javax.swing.table.AbstractTableModel {

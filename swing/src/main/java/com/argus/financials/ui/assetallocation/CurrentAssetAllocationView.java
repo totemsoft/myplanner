@@ -33,7 +33,7 @@ import com.argus.math.FormatedBigDecimal;
 /**
  * Displays the current asset allocation and allows to change it.
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class CurrentAssetAllocationView extends AssetAllocationView implements
         IAssetAllocation {

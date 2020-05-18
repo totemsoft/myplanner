@@ -11,7 +11,7 @@ import com.argus.financials.api.service.FinancialService;
 
 /**
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 
 import com.argus.financials.bean.Assets;

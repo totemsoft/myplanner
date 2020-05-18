@@ -11,7 +11,7 @@ import java.io.Writer;
 
 /**
  *
- * @author  Administrator
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 
 public abstract class XMLOutput implements IXMLOutput {

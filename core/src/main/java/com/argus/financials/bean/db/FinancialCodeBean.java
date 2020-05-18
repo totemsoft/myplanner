@@ -20,7 +20,7 @@ import com.argus.util.ReferenceCode;
  * ApirPicBean is responsible for load and store information form the database
  * table "FinancialCode".
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version 0.01
  * @since 25/07/2002
  */

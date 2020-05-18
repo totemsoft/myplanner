@@ -44,8 +44,8 @@ import com.argus.swing.table.TreeTableModel;
  * 
  * @version 1.2 10/27/98
  * 
- * @author Philip Milne
- * @author Scott Violet
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class JTreeTable extends JTable {
 

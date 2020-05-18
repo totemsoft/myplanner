@@ -8,7 +8,7 @@ package com.argus.financials.api.code;
 
 /**
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  * 
  * XXXXXXYYY ( 6(ObjectTypeID1) + 3(ObjectTypeID2) = 9 digits max for int)

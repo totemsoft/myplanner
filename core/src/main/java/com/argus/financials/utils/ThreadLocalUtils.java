@@ -5,7 +5,7 @@ import java.util.Date;
 import com.argus.financials.domain.hibernate.User;
 
 /**
- * @author Valeri SHIBAEV (mailto:shibaevv@apollosoft.net)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public final class ThreadLocalUtils
 {

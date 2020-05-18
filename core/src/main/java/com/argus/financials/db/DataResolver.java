@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 public interface DataResolver {

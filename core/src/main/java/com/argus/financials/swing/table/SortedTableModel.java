@@ -11,7 +11,7 @@ package com.argus.financials.swing.table;
  * DefaultTableModel. Full implementation is required to satisfy the broad
  * requirements.
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  * 
  * A sorter for TableModels. The sorter has a model (conforming to TableModel)
@@ -27,7 +27,7 @@ package com.argus.financials.swing.table;
  * returns 0 to denote that they are equivalent.
  * 
  * @version 1.5 12/17/97
- * @author Philip Milne
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 
 import java.awt.event.InputEvent;

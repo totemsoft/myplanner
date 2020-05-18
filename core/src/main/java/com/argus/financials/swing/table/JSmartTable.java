@@ -8,7 +8,7 @@ package com.argus.financials.swing.table;
 
 /**
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * 
  * HEADER1 (Bold,LEADING) HEADER2 (Bold,LEADING) HEADER3 (Bold,CENTER) HEADER4
  * (Bold,TRAILING) HEADER5 (Bold,TRAILING)

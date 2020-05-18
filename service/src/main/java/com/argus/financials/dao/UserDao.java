@@ -3,7 +3,7 @@ package com.argus.financials.dao;
 import com.argus.financials.domain.hibernate.User;
 
 /**
- * @author vchibaev (Valeri SHIBAEV)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public interface UserDao extends BaseDAO
 {

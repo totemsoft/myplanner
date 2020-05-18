@@ -20,7 +20,7 @@ import com.argus.format.DecimalField;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public abstract class AssetAllocationView
     extends AbstractPanel

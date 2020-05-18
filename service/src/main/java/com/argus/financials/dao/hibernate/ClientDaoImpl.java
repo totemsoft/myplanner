@@ -19,7 +19,7 @@ import com.argus.financials.domain.hibernate.ClientView;
 import com.argus.util.DateTimeUtils;
 
 /**
- * @author vchibaev (Valeri SHIBAEV)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 @Repository
 public class ClientDaoImpl extends BaseDAOImpl implements ClientDao

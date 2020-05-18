@@ -9,7 +9,7 @@ import com.argus.financials.service.client.EntityService;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public abstract class AbstractPanel extends javax.swing.JPanel {
 

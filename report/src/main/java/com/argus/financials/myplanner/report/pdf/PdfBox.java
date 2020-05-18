@@ -34,7 +34,7 @@ import org.w3c.dom.Node;
 
 /**
  * 
- * @author Valeri SHIBAEV (mailto:shibaevv@apollosoft.net)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class PdfBox extends BasePdf implements Pdf {
 

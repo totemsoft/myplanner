@@ -39,7 +39,7 @@ import com.argus.math.FormatedBigDecimal;
  * display the asset allocation. The class can load and store the asset
  * allocation for a given person.
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  * 
  * @see com.argus.financials.ui.assetallocation.CurrentAssetAllocationTableModel

@@ -41,7 +41,7 @@ import com.argus.swing.plaf.MetalTheme;
 
 /**
  *
- * @author  Valera
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class FinancialPlannerApp
     extends JFrame

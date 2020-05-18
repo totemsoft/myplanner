@@ -16,7 +16,7 @@ import com.argus.swing.SwingUtils;
 
 /**
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 
 public class WordSettings extends BasePropertySource {

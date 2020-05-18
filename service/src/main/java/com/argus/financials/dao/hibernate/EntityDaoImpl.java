@@ -16,7 +16,7 @@ import com.argus.financials.domain.hibernate.refdata.State;
 import com.argus.financials.domain.hibernate.refdata.TitleCode;
 
 /**
- * @author vchibaev (Valeri SHIBAEV)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 @Repository
 public class EntityDaoImpl extends BaseDAOImpl implements EntityDao

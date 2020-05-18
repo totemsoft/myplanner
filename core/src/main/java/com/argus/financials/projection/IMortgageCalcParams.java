@@ -8,7 +8,7 @@ package com.argus.financials.projection;
 
 /**
  * 
- * @author thomass
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 public interface IMortgageCalcParams {

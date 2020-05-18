@@ -11,7 +11,7 @@ import com.klg.jclass.chart.JCChart;
 
 /**
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 

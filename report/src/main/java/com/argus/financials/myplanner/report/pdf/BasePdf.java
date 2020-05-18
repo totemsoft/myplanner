@@ -23,7 +23,7 @@ import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
 /**
- * @author Valeri SHIBAEV (mailto:shibaevv@apollosoft.net)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public abstract class BasePdf
 {
@@ -91,7 +91,7 @@ public abstract class BasePdf
 
     /**
      * Looks for magic markers within the given file to identify the file's type.
-     * @author pgallot
+     * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
      * @param f a File to test
      * @return a FileID
      */

@@ -27,7 +27,7 @@ import com.l2fprod.common.swing.JTaskPaneGroup;
 
 /**
  *
- * @author  Valera
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class FinancialPlannerNavigator extends com.l2fprod.common.swing.JTaskPane
     implements IFinancialPlannerNavigator

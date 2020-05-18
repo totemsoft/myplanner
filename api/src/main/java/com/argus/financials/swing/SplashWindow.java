@@ -8,7 +8,7 @@ package com.argus.financials.swing;
 
 /**
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 
 import java.awt.Dimension;

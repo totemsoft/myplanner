@@ -8,7 +8,7 @@ package com.argus.financials.ui.strategy;
 
 /**
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 
 import java.util.Vector;

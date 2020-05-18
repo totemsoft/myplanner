@@ -19,7 +19,7 @@ import javax.swing.JTextField;
  * Example 1: "john doe" will be transformed into "John Doe" Example 2:
  * "john-bill doe" will be transformed into "John-Bill Doe"
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 public class NameInputVerifier extends javax.swing.InputVerifier {

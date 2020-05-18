@@ -14,7 +14,7 @@ import java.util.Vector;
  * Internal all rows are stored in a vector object. Each row is an instance of
  * the "AvailableInvestmentsTableRow" class.
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version 0.01
  * 
  * @see com.argus.financials.assetinvestment.AvailableInvestmentsSearch

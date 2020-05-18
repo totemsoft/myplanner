@@ -22,7 +22,7 @@ import com.argus.financials.assetinvestment.AvailableInvestmentsTableRow;
  * IressAssetNameBean is responsible for load and store information form the
  * database table "iress_asset_name".
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version 0.01
  * @since 19/07/2002
  */

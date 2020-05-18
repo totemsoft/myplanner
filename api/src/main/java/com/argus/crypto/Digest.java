@@ -13,7 +13,7 @@ import com.argus.util.StringUtils;
 
 /**
  *
- * @author  Administrator
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class Digest {
     

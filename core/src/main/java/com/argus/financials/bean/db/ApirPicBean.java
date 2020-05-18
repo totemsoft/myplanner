@@ -20,7 +20,7 @@ import com.argus.financials.assetinvestment.AvailableInvestmentsTableRow;
  * ApirPicBean is responsible for load and store information form the database
  * table "apir_pic".
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version 0.01
  * @since 19/07/2002
  */

@@ -18,8 +18,8 @@ package com.argus.format;
  * <p>Description: </p>
  * <p>Copyright: Copyright (c) 2004</p>
  * <p>Company: Argus Software Pty Ltd</p>
- * @author Valeri SHIBAEV
- * @author Last Updated By:   $Author: Valera $
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version                   $Revision: 1.1 $
  */
 

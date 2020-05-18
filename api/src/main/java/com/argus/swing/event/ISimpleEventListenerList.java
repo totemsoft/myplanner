@@ -20,7 +20,7 @@ package com.argus.swing.event;
 
 /**
  *
- * @author  valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version 
  *
  * @link see javax.swing.event.EventListenerList

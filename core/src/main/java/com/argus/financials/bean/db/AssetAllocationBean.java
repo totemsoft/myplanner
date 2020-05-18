@@ -20,7 +20,7 @@ import com.argus.financials.code.BooleanCode;
  * AssetAllocationTableBean is responsible for creating,loading and storing
  * information form the database table "AssetAllocation".
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class AssetAllocationBean {
     // constants

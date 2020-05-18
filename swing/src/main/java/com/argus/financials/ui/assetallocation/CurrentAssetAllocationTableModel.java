@@ -26,7 +26,7 @@ import com.argus.math.FormatedBigDecimal;
  * display the current asset allocation. The class can load and store the asset
  * allocation from and to a DataCollectionModel.
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  * 
  * @see com.argus.financials.ui.assetallocation.AssetAllocationTableModel

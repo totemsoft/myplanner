@@ -8,7 +8,7 @@ package com.argus.qaa;
 
 /**
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  * 
  * (1, 'RadioBox (Single Answer)') (2, 'CheckBox (Multiple Answer)') (3,

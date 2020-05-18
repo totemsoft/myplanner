@@ -11,7 +11,7 @@ import java.text.NumberFormat;
 /**
  * A Specialised cell renderer that formats a number to currency format.
  * 
- * @author thomass
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 public class CurrencyRenderer extends

@@ -17,7 +17,7 @@ package com.argus.financials.report.data;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  * 
  */

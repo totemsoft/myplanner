@@ -34,7 +34,7 @@ import com.argus.util.ReferenceCode;
 /**
  * Description of the Class
  * 
- * @author Valeri Chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @created 24 July 2001, 13:11
  */
 public class ClientServiceImpl extends PersonServiceImpl implements ClientService {

@@ -45,7 +45,7 @@ import com.argus.util.KeyValue;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class DSSViewNew extends AbstractBasePanel implements DocumentNames,
         com.argus.financials.swing.ICloseDialog, ActionEventID {

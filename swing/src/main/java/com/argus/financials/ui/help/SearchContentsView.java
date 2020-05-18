@@ -11,7 +11,7 @@ import com.argus.financials.ui.IMenuCommand;
 
 /**
  * 
- * @author dannyn
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class SearchContentsView extends javax.swing.JPanel {
 

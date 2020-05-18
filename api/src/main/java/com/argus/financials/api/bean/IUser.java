@@ -1,7 +1,7 @@
 package com.argus.financials.api.bean;
 
 /**
- * @author vchibaev (Valeri SHIBAEV)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public interface IUser extends IPerson
 {

@@ -8,8 +8,7 @@ package com.argus.util;
 
 /**
  *
- * @author
- * @version 
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class KeyValue {
     Object key   = null;

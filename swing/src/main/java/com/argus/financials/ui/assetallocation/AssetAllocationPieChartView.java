@@ -32,7 +32,7 @@ import com.klg.jclass.chart.data.JCDefaultDataSource;
 /**
  * This class creates and displays a pie chart for a given asset allocation.
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class AssetAllocationPieChartView extends javax.swing.JPanel implements
         com.argus.io.ImageEncoder {

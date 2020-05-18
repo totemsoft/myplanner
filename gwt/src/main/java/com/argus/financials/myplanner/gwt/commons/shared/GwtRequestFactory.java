@@ -12,7 +12,7 @@ import com.google.gwt.requestfactory.shared.Service;
 
 /**
  * Data-oriented way.
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public interface GwtRequestFactory extends RequestFactory
 {

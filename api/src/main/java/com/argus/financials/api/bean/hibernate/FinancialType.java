@@ -15,7 +15,7 @@ import com.argus.financials.api.code.FinancialTypeID;
 
 /**
  * @see FinancialTypeID
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 @Entity
 @Table(name = "FinancialType")

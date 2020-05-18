@@ -9,7 +9,7 @@ import com.argus.financials.api.bean.IState;
 import com.argus.financials.api.bean.ITitleCode;
 
 /**
- * @author vchibaev (Valeri SHIBAEV)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public interface EntityDao
 {

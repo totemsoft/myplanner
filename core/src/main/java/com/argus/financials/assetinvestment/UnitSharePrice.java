@@ -10,7 +10,7 @@ package com.argus.financials.assetinvestment;
  * Interface to access the price date, open price and close price of a unit or
  * share.
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version 0.01
  * 
  * @see com.argus.financials.ui.financials.AddAssetInvestmentView

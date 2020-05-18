@@ -38,7 +38,7 @@ import com.argus.financials.assetinvestment.AvailableInvestmentsTableRow;
  * 
  * </PRE>
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version 0.01
  * @since 22/08/2002
  */

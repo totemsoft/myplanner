@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  * Displays the column's text of the last row of a table in blue color. Every
  * other row is displayed in black.
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * 
  * @see com.argus.financials.ui.assetallocation.AssetAllocationView
  * @see com.argus.financials.ui.assetallocation.ui.assetallocation.AssetAllocationTableModel

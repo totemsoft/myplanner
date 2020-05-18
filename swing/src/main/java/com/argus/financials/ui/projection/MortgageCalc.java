@@ -8,7 +8,7 @@ package com.argus.financials.ui.projection;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version 0.2
  */
 

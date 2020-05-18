@@ -12,7 +12,7 @@ import com.argus.financials.api.bean.IStrategyGroup;
 
 /**
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 
 import com.argus.financials.bean.Financials;

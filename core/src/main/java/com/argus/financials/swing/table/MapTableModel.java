@@ -8,7 +8,7 @@ package com.argus.financials.swing.table;
 
 /**
  * 
- * @author valeri chibaev
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  * 
  * In a chain of data manipulators some behaviour is common. TableMap provides
@@ -19,7 +19,7 @@ package com.argus.financials.swing.table;
  * into a chain of table filters should have no effect.
  * 
  * @version 1.4 12/17/97
- * @author Philip Milne
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 
 import java.util.Vector;

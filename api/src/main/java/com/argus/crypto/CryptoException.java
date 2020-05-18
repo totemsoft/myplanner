@@ -18,8 +18,8 @@ package com.argus.crypto;
  * <p>Description: </p>
  * <p>Copyright: Copyright (c) 2005</p>
  * <p>Company: Argus Software Pty Ltd</p>
- * @author Valeri SHIBAEV
- * @author Last Updated By:   $Author: Valera $
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version                   $Revision: 1.1.1.1 $
  *							  $Date: 2006/02/23 21:46:36 $
  */

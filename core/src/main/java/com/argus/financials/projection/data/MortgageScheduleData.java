@@ -10,7 +10,7 @@ package com.argus.financials.projection.data;
  * This class is based on the Value Object pattern, it contains the monthly
  * payment schedule of a Mortgage.
  * 
- * @author thomass
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 public class MortgageScheduleData {

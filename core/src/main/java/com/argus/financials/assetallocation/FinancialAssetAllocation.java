@@ -21,7 +21,7 @@ import com.argus.math.FormatedBigDecimal;
  * </BR> For units the method looks into the asset allocation table
  * (AssetAllocationData) to get the allocation for the given Financial object.
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * 
  * @see com.argus.financials.ui.assetallocation.AssetAllocationTableModel
  * @see com.argus.financials.ui.assetallocation.CurrentAssetAllocationTableModel

@@ -19,7 +19,7 @@ package com.argus.financials.model;
  */
 
 /**
- * @author Administrator
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  *
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates

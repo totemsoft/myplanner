@@ -16,7 +16,7 @@ import com.argus.format.Currency;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public class ETPPartialWithdrawalView extends javax.swing.JPanel {
 

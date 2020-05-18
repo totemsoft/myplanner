@@ -3,7 +3,7 @@ package com.argus.financials.api.bean;
 import java.util.Date;
 
 /**
- * @author vchibaev (Valeri SHIBAEV)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public interface IClient extends IPerson
 {

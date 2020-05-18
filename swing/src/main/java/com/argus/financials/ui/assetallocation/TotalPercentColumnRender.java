@@ -19,7 +19,7 @@ import com.argus.math.FormatedBigDecimal;
  * Displays the text of a column in black, if the value is less or equal 100
  * (%). If it's bigger than 100, than it's displayed in red.
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * 
  * @see com.argus.financials.ui.assetallocation.AssetAllocationView
  * @see com.argus.financials.ui.assetallocation.ui.assetallocation.AssetAllocationTableModel

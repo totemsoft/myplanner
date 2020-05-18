@@ -10,7 +10,7 @@ import com.argus.financials.api.code.FinancialClassID;
 
 /**
  * 
- * @author valeric
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 
 import com.argus.financials.code.FinancialClass;

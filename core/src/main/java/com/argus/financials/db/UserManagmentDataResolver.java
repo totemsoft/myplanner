@@ -17,7 +17,7 @@ import com.argus.util.KeyValue;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @version
  */
 public class UserManagmentDataResolver implements DataResolver {

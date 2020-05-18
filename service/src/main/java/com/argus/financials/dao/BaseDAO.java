@@ -3,7 +3,7 @@ package com.argus.financials.dao;
 import java.util.List;
 
 /**
- * @author vchibaev (Valeri SHIBAEV)
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
 public interface BaseDAO
 {

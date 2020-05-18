@@ -10,7 +10,7 @@ import com.google.gwt.requestfactory.shared.Violation;
 
 /**
  * 
- * @author shibaevv
+ * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  *
  * @param <T> value type
  */

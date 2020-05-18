@@ -53,7 +53,7 @@ import com.argus.financials.table.CashflowTableModel;
 @ImportResource({"applicationContext.xml"})
 public class ServiceConfig {
 
-    @Autowired private IWordReport report;// = new com.argus.activex.wordreport.WordReportJava2COM();
+    @Autowired(required = false) private IWordReport report;// = new com.argus.activex.wordreport.WordReportJava2COM();
 
     @Autowired private ClientService clientService;
     @Autowired private FinancialService financialService;

@@ -11,7 +11,7 @@
 
     <!--context:component-scan base-package="com.argus.financials.service" /-->
 
-    <bean id="report"  class="com.argus.activex.wordreport.WordReportJava2COM" />
+    <bean id="report"  class="com.argus.financials.myplanner.report.word.WordReportRtf" />
 
     <bean id="businessService"  class="com.argus.financials.service.impl.BusinessServiceImpl" />
     <bean id="entityService"    class="com.argus.financials.service.impl.EntityServiceImpl" />

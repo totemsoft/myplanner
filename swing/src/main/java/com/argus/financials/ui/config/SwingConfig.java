@@ -42,7 +42,7 @@ import com.argus.financials.ui.strategy.FinancialViewActionMap;
 })
 public class SwingConfig {
 
-    @Autowired private IWordReport report;// = new com.argus.activex.wordreport.WordReportJava2COM();
+    @Autowired(required = false) private IWordReport report;// = new com.argus.activex.wordreport.WordReportJava2COM();
 
     @Autowired private ClientService clientService;
     @Autowired private EntityService entityService;

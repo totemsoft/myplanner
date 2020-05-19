@@ -5,7 +5,7 @@
     <parent>
         <groupId>au.com.totemsoft.myplanner</groupId>
         <artifactId>myplanner</artifactId>
-        <version>${revision}</version>
+        <version>1.0.0</version>
     </parent>
     <artifactId>myplanner-swing</artifactId>
     <packaging>jar</packaging>
@@ -25,6 +25,7 @@
         <dependency>
             <groupId>com.l2fprod</groupId>
             <artifactId>l2fprod-common-all</artifactId>
+            <version>6.9.1</version>
         </dependency>
     </dependencies>
 
@@ -40,4 +41,11 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>FreeHEP</id>
+            <name>Free HEP Repository</name>
+            <url>http://java.freehep.org/maven2/</url>
+        </repository>
+    </repositories>
 </project>

@@ -15,7 +15,7 @@ mvn dependency:tree -DoutputFile=dependency.txt
     </parent>
     <groupId>au.com.totemsoft.myplanner</groupId>
     <artifactId>myplanner</artifactId>
-    <version>${revision}</version>
+    <version>1.0.0</version>
     <packaging>pom</packaging>
     <name>MyPlanner</name>
     <description>MyPlanner</description>
@@ -28,7 +28,7 @@ mvn dependency:tree -DoutputFile=dependency.txt
         <developer>
             <id>shibaevv</id>
             <name>Valeri Chibaev</name>
-            <email>mail at totemsoft.com.au</email>
+            <email>totemsoft.com.au at gmail.com</email>
             <organization>Totem Software Pty Ltd</organization>
             <roles>
                 <role>Solution Architect</role>
@@ -57,16 +57,16 @@ mvn dependency:tree -DoutputFile=dependency.txt
     <properties>
         <revision>1.0.0</revision>
 
-        <application.version>${revision}</application.version>
+        <application.version>1.0.0</application.version>
 
         <java2com.version>1.4.0</java2com.version>
         <jclass.version>5.0.0</jclass.version>
 
         <junit.version>4.8.1</junit.version>
 
-        <cdi.version>1</cdi.version>
-        <commons-io.version>2.1</commons-io.version>
+        <commons-io.version>2.5</commons-io.version>
         <commons-jxpath.version>1.3</commons-jxpath.version>
+
         <itext.version>4.2.1</itext.version>
         <itextpdf.version>5.5.1</itextpdf.version>
         <pdfbox.version>1.8.6</pdfbox.version>
@@ -117,8 +117,9 @@ mvn dependency:tree -DoutputFile=dependency.txt
         </dependency>
 
         <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
         </dependency>
 
         <dependency>
@@ -136,15 +137,10 @@ mvn dependency:tree -DoutputFile=dependency.txt
         </dependency>
  
         <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>${cdi.version}</version>
-        </dependency>
-        <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-            <version>2.5</version>
         </dependency>
+
         <dependency>
             <groupId>net.sourceforge.jtds</groupId>
             <artifactId>jtds</artifactId>
@@ -156,28 +152,22 @@ mvn dependency:tree -DoutputFile=dependency.txt
             <dependency>
                 <groupId>au.com.totemsoft.myplanner</groupId>
                 <artifactId>myplanner-api</artifactId>
-                <version>${project.version}</version>
+                <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>au.com.totemsoft.myplanner</groupId>
                 <artifactId>myplanner-report</artifactId>
-                <version>${project.version}</version>
+                <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>au.com.totemsoft.myplanner</groupId>
                 <artifactId>myplanner-core</artifactId>
-                <version>${project.version}</version>
+                <version>1.0.0</version>
             </dependency>
             <dependency>
                 <groupId>au.com.totemsoft.myplanner</groupId>
                 <artifactId>myplanner-service</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.l2fprod</groupId>
-                <artifactId>l2fprod-common-all</artifactId>
-                <version>6.9.1</version>
+                <version>1.0.0</version>
             </dependency>
 
             <dependency>
@@ -200,6 +190,11 @@ mvn dependency:tree -DoutputFile=dependency.txt
                 <scope>provided</scope>
             </dependency>
 
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>2.5</version>
+            </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
@@ -234,42 +229,4 @@ mvn dependency:tree -DoutputFile=dependency.txt
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <!--
-        http://maven.apache.org/guides/mini/guide-building-for-different-environments.html
-    -->
-    <profiles>
-        <profile>
-            <id>local</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <application.env>local</application.env>
-                <application.context.root>myplanner</application.context.root>
-                <tx.managerLookupClass>org.hibernate.transaction.BTMTransactionManagerLookup</tx.managerLookupClass>
-                <hibernate.transaction.jta.platform>org.hibernate.service.jta.platform.internal.BitronixJtaPlatform</hibernate.transaction.jta.platform>
-                <hibernate.cache.region.factory_class>org.hibernate.cache.infinispan.InfinispanRegionFactory</hibernate.cache.region.factory_class>
-                <hibernate.cache.infinispan.cachemanager></hibernate.cache.infinispan.cachemanager>
-            </properties>
-        </profile>
-        <profile>
-            <id>dev</id>
-            <properties>
-                <application.env>dev</application.env>
-                <application.context.root>myplanner-dev</application.context.root>
-                <hibernate.cache.region.factory_class>org.jboss.as.jpa.hibernate4.infinispan.InfinispanRegionFactory</hibernate.cache.region.factory_class>
-                <hibernate.cache.infinispan.cachemanager>java:jboss/infinispan/container/hibernate</hibernate.cache.infinispan.cachemanager>
-                <tx.managerLookupClass>org.hibernate.transaction.JBossTransactionManagerLookup</tx.managerLookupClass>
-                <hibernate.transaction.jta.platform>org.hibernate.service.jta.platform.internal.JBossAppServerJtaPlatform</hibernate.transaction.jta.platform>
-            </properties>
-        </profile>
-    </profiles>
-
-    <repositories>
-        <repository>
-            <id>FreeHEP</id>
-            <name>Free HEP Repository</name>
-            <url>http://java.freehep.org/maven2/</url>
-        </repository>
-    </repositories>
 </project>

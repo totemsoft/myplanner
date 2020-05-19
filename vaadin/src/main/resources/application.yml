@@ -1,3 +1,57 @@
+# https://docs.spring.io/spring-boot/docs/2.2.0.RELEASE/reference/html/appendix-application-properties.html#common-application-properties
+
+logging:
+  file: myplanner.log
+  level:
+    root: INFO
+    org.atmosphere: warn
+
+spring:
+  # IDENTITY (ContextIdApplicationContextInitializer)
+  application:
+    index: 1
+    name: MyPlanner
+
+# DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+  datasource:
+    continue-on-error: false
+    driver-class-name: net.sourceforge.jtds.jdbc.Driver
+    url: 'jdbc:jtds:sqlserver://192.168.56.101:1433/MyPlanner'
+    username: sa
+    password: superuser
+#     url: 'jdbc:jtds:sqlserver://jms-sqlserver-ex.cfdvijddkwak.ap-southeast-2.rds.amazonaws.com:1433/MyPlanner'
+#     username: xcelerate
+#     password: Passw0rd
+    # Fully qualified name of the connection pool implementation to use. By default, it is auto-detected from the classpath.
+    #type: com.zaxxer.hikari.HikariDataSource
+    #hikari:
+    type: org.apache.tomcat.jdbc.pool.DataSource
+    tomcat:
+      initial-size: 1
+      max-active: 8
+      max-idle: 4
+      min-idle: 0
+      max-wait: 5000 # Number of ms to wait before throwing an exception if no connection is available
+      min-evictable-idle-time-millis: 1000
+      test-on-borrow: true
+      test-on-return: false
+      test-while-idle: false
+      validation-query: 'select 1 from DBVersion'
+
+# JPA (JpaBaseConfiguration, HibernateJpaAutoConfiguration)
+  jpa:
+    show-sql: true
+    database: SQL_SERVER
+    open-in-view: false
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate.dialect: org.hibernate.dialect.SQLServer2008Dialect
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+
 server:
   port: 8090
   servlet:
@@ -6,7 +60,3 @@ server:
 # Ensure application is run in Vaadin 14/npm mode
 vaadin:
   compatibilityMode: false
-
-logging:
-  level:
-    org.atmosphere: warn

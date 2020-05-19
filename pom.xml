@@ -15,7 +15,7 @@ mvn dependency:tree -DoutputFile=dependency.txt
     </parent>
     <groupId>au.com.totemsoft.myplanner</groupId>
     <artifactId>myplanner</artifactId>
-    <version>1.0.0</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
     <name>MyPlanner</name>
     <description>MyPlanner</description>
@@ -57,7 +57,7 @@ mvn dependency:tree -DoutputFile=dependency.txt
     <properties>
         <revision>1.0.0</revision>
 
-        <application.version>1.0.0</application.version>
+        <application.version>${revision}</application.version>
 
         <java2com.version>1.4.0</java2com.version>
         <jclass.version>5.0.0</jclass.version>
@@ -92,6 +92,31 @@ mvn dependency:tree -DoutputFile=dependency.txt
                         <exclude>com/argus/financials/myplanner/report/word/WordReportJava2COM.java</exclude>
                     </excludes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <!--version>1.2.2</version-->
+                <configuration>
+                    <updatePomFile>true</updatePomFile>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -152,22 +177,22 @@ mvn dependency:tree -DoutputFile=dependency.txt
             <dependency>
                 <groupId>au.com.totemsoft.myplanner</groupId>
                 <artifactId>myplanner-api</artifactId>
-                <version>1.0.0</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>au.com.totemsoft.myplanner</groupId>
                 <artifactId>myplanner-report</artifactId>
-                <version>1.0.0</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>au.com.totemsoft.myplanner</groupId>
                 <artifactId>myplanner-core</artifactId>
-                <version>1.0.0</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>au.com.totemsoft.myplanner</groupId>
                 <artifactId>myplanner-service</artifactId>
-                <version>1.0.0</version>
+                <version>${revision}</version>
             </dependency>
 
             <dependency>

@@ -4,7 +4,7 @@
     <parent>
         <groupId>au.com.totemsoft.myplanner</groupId>
         <artifactId>myplanner</artifactId>
-        <version>1.0.0</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>myplanner-gwt</artifactId>
     <packaging>war</packaging>

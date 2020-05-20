@@ -38,7 +38,7 @@ import com.argus.financials.ui.strategy.FinancialViewActionMap;
 
 @Configuration
 @ComponentScan(basePackages = {
-    "com.argus.financials.config" // ServiceConfig
+    "com.argus.financials.config" // @see com.argus.financials.config.ServiceConfig
 })
 public class SwingConfig {
 

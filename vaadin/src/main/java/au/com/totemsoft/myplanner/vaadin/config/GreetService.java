@@ -1,4 +1,4 @@
-package au.com.totemsoft.myplanner;
+package au.com.totemsoft.myplanner.vaadin.config;
 
 import org.springframework.stereotype.Service;
 

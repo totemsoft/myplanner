@@ -1,4 +1,4 @@
-package au.com.totemsoft.myplanner;
+package au.com.totemsoft.myplanner.vaadin;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
@@ -9,6 +9,9 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.PWA;
+
+import au.com.totemsoft.myplanner.vaadin.config.GreetService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -31,6 +34,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 @CssImport("./styles/shared-styles.css")
 @CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
 public class MainView extends VerticalLayout {
+
+    /** serialVersionUID */
+    private static final long serialVersionUID = -5251118342434269823L;
 
     /**
      * Construct a new Vaadin view.

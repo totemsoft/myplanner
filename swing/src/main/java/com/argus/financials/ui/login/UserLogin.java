@@ -44,7 +44,7 @@ public final class UserLogin
 
     public void setActionListener(java.awt.event.ActionListener al) {
         // to notify main form
-        jButtonOK.addActionListener(al);
+        buttonOK.addActionListener(al);
         jButtonCancel.addActionListener(al);
 
         jButtonRegister.addActionListener(al);
@@ -62,7 +62,7 @@ public final class UserLogin
 
         setUserName(l.getLastUserName());
 
-        jPasswordFieldConfirm.setVisible(false);
+        passwordFieldConfirm.setVisible(false);
         jLabelConfirm.setVisible(false);
 
         jButtonChangePassword.setVisible(false);
@@ -84,9 +84,9 @@ public final class UserLogin
         jPanelNewUserControls = new javax.swing.JPanel();
         jButtonRegister = new javax.swing.JButton();
         jPanelExistingUser = new javax.swing.JPanel();
-        jPasswordField = new javax.swing.JPasswordField();
-        jTextFieldUserID = new javax.swing.JTextField();
-        jPasswordFieldConfirm = new javax.swing.JPasswordField();
+        passwordField = new javax.swing.JPasswordField();
+        textFieldLogin = new javax.swing.JTextField();
+        passwordFieldConfirm = new javax.swing.JPasswordField();
         jTextFieldServerName = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -94,7 +94,7 @@ public final class UserLogin
         jLabelServerName = new javax.swing.JLabel();
         jCheckBoxDisplayOnDesktop = new javax.swing.JCheckBox();
         jPanelControls = new javax.swing.JPanel();
-        jButtonOK = new javax.swing.JButton();
+        buttonOK = new javax.swing.JButton();
         jButtonCancel = new javax.swing.JButton();
         jButtonChangePassword = new javax.swing.JButton();
 
@@ -145,7 +145,7 @@ public final class UserLogin
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        jPanelExistingUser.add(jPasswordField, gridBagConstraints);
+        jPanelExistingUser.add(passwordField, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -154,7 +154,7 @@ public final class UserLogin
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 150;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        jPanelExistingUser.add(jTextFieldUserID, gridBagConstraints);
+        jPanelExistingUser.add(textFieldLogin, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -162,7 +162,7 @@ public final class UserLogin
         gridBagConstraints.gridwidth = java.awt.GridBagConstraints.REMAINDER;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 10);
-        jPanelExistingUser.add(jPasswordFieldConfirm, gridBagConstraints);
+        jPanelExistingUser.add(passwordFieldConfirm, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -222,21 +222,21 @@ public final class UserLogin
 
         add(jPanelExistingUser);
 
-        jButtonOK.setText("OK");
-        jButtonOK.setSelected(true);
-        jButtonOK.addActionListener(new java.awt.event.ActionListener() {
+        buttonOK.setText("OK");
+        buttonOK.setSelected(true);
+        buttonOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonOKActionPerformed(evt);
+                buttonOKActionPerformed(evt);
             }
         });
 
-        jPanelControls.add(jButtonOK);
+        jPanelControls.add(buttonOK);
 
         jButtonCancel.setText("Cancel");
         jButtonCancel.setDefaultCapable(false);
         jButtonCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonOKActionPerformed(evt);
+                buttonOKActionPerformed(evt);
             }
         });
 
@@ -271,26 +271,26 @@ public final class UserLogin
         }
     }// GEN-LAST:event_formAncestorAdded
 
-    private void jButtonOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonOKActionPerformed
+    private void buttonOKActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonOKActionPerformed
 
         // reset password fields
-        jPasswordField.setText("");
-        jPasswordFieldConfirm.setText("");
+        passwordField.setText("");
+        passwordFieldConfirm.setText("");
 
         // hide these ..
-        jPasswordFieldConfirm.setVisible(false);
+        passwordFieldConfirm.setVisible(false);
         jLabelConfirm.setVisible(false);
 
-    }// GEN-LAST:event_jButtonOKActionPerformed
+    }// GEN-LAST:event_buttonOKActionPerformed
 
     private void jButtonChangePasswordActionPerformed(
             java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButtonChangePasswordActionPerformed
 
         // reset password fields
-        jPasswordField.setText("");
-        jPasswordFieldConfirm.setText("");
+        passwordField.setText("");
+        passwordFieldConfirm.setText("");
 
-        jPasswordFieldConfirm.setVisible(true);
+        passwordFieldConfirm.setVisible(true);
         jLabelConfirm.setVisible(true);
 
     }// GEN-LAST:event_jButtonChangePasswordActionPerformed
@@ -310,11 +310,11 @@ public final class UserLogin
 
     private javax.swing.JPanel jPanelExistingUser;
 
-    private javax.swing.JPasswordField jPasswordField;
+    private javax.swing.JPasswordField passwordField;
 
-    private javax.swing.JTextField jTextFieldUserID;
+    private javax.swing.JTextField textFieldLogin;
 
-    private javax.swing.JButton jButtonOK;
+    private javax.swing.JButton buttonOK;
 
     private javax.swing.JButton jButtonRegister;
 
@@ -324,7 +324,7 @@ public final class UserLogin
 
     private javax.swing.JTextField jTextFieldServerName;
 
-    private javax.swing.JPasswordField jPasswordFieldConfirm;
+    private javax.swing.JPasswordField passwordFieldConfirm;
 
     private javax.swing.JLabel jLabelNewUserInfo;
 
@@ -339,21 +339,21 @@ public final class UserLogin
     }
 
     public javax.swing.JButton getDefaultButton() {
-        return jButtonOK;
+        return buttonOK;
     }
 
     public String getUserName() {
-        return jTextFieldUserID.getText();
+        return textFieldLogin.getText();
     }
 
     public void setUserName(String value) {
-        jTextFieldUserID.setText(value);
-        if (jTextFieldUserID.getText().length() > 0)
-            jPasswordField.requestFocus();
+        textFieldLogin.setText(value);
+        if (textFieldLogin.getText().length() > 0)
+            passwordField.requestFocus();
     }
 
     public String getUserPassword() {
-        return new String(jPasswordField.getPassword());
+        return new String(passwordField.getPassword());
     }
 
     public String getLastError() {

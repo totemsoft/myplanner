@@ -1,10 +1,15 @@
-package au.com.totemsoft.myplanner;
+package au.com.totemsoft.myplanner.vaadin;
 
+import javax.inject.Inject;
+
+import org.apache.commons.lang3.StringUtils;
+
+import com.argus.financials.api.bean.IUser;
+import com.argus.financials.api.service.UserService;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.CssImport;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
@@ -18,20 +23,22 @@ public class LoginView extends VerticalLayout {
     /** serialVersionUID */
     private static final long serialVersionUID = -1170060631447434100L;
 
+    @Inject private UserService userService;
+
     public LoginView() {
-        final TextField textFieldUserID = new TextField("User ID");
+        final TextField textFieldLogin = new TextField("Login");
         final PasswordField passwordField = new PasswordField("Password");
-        final Button buttonOK = new Button("OK");
+        final Button buttonOK = new Button("OK",
+            e -> login(textFieldLogin.getValue(), passwordField.getValue()));
         buttonOK.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         buttonOK.addClickShortcut(Key.ENTER);
-        buttonOK.addAttachListener(
-            e -> login(textFieldUserID.getValue(), passwordField.getValue()));
         addClassName("centered-content");
-        add(textFieldUserID, passwordField, buttonOK);
+        add(textFieldLogin, passwordField, buttonOK);
     }
 
     private void login(String username, String password) {
-        Notification.show(username);
+        IUser user = userService.login(username, password);
+        //log.info(user);
     }
 
 }

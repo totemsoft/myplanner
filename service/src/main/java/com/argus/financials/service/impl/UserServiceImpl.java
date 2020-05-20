@@ -69,6 +69,11 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public IUser login(String login, String password) throws ServiceException, ObjectNotFoundException
     {
+        // validate
+        if (StringUtils.isBlank(login) || StringUtils.isBlank(password)) {
+            return null;
+        }
+        //
         try
         {
             String passwordDigest = Digest.digest(password);

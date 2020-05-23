@@ -2,8 +2,6 @@ package au.com.totemsoft.myplanner.vaadin;
 
 import javax.inject.Inject;
 
-import com.argus.financials.api.bean.IUser;
-import com.argus.financials.api.service.UserService;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -12,6 +10,9 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
+
+import au.com.totemsoft.myplanner.api.bean.IUser;
+import au.com.totemsoft.myplanner.api.service.UserService;
 
 @Route(value = "login")
 @CssImport("./styles/shared-styles.css")

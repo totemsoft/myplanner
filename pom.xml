@@ -89,7 +89,7 @@ mvn dependency:tree -DoutputFile=dependency.txt
                     <source>${jdk.version}</source>
                     <target>${jdk.version}</target>
                     <excludes>
-                        <exclude>com/argus/financials/myplanner/report/word/WordReportJava2COM.java</exclude>
+                        <exclude>au/com/totemsoft/myplanner/report/word/WordReportJava2COM.java</exclude>
                     </excludes>
                 </configuration>
             </plugin>

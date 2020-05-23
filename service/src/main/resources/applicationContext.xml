@@ -9,6 +9,6 @@
     <import resource="classpath:spring/spring-inc-dao.xml" />
     <import resource="classpath:spring/spring-inc-service.xml" />
 
-    <bean id="userPreferences" class="com.argus.financials.api.bean.UserPreferences" />
+    <bean id="userPreferences" class="au.com.totemsoft.myplanner.api.bean.UserPreferences" />
 
 </beans>

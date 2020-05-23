@@ -2,13 +2,13 @@
 2020-05-18 19:43:00.976  INFO 55253 --- [main] c.a.financials.ui.FinancialPlannerApp    : No active profile set, falling back to default profiles: default
 2020-05-18 19:43:02.381  INFO 55253 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
 2020-05-18 19:43:02.417  INFO 55253 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 19ms. Found 0 repository interfaces.
-2020-05-18 19:43:02.617  WARN 55253 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.CannotLoadBeanClassException: Cannot find class [com.argus.activex.wordreport.WordReportJava2COM] for bean with name 'report' defined in class path resource [spring/spring-inc-service.xml]; nested exception is java.lang.ClassNotFoundException: com.argus.activex.wordreport.WordReportJava2COM
+2020-05-18 19:43:02.617  WARN 55253 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.CannotLoadBeanClassException: Cannot find class [au.com.totemsoft.activex.wordreport.WordReportJava2COM] for bean with name 'report' defined in class path resource [spring/spring-inc-service.xml]; nested exception is java.lang.ClassNotFoundException: au.com.totemsoft.activex.wordreport.WordReportJava2COM
 2020-05-18 19:43:02.636  INFO 55253 --- [main] ConditionEvaluationReportLoggingListener : 
 
 Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
 2020-05-18 19:43:02.650 ERROR 55253 --- [main] o.s.boot.SpringApplication               : Application run failed
 
-org.springframework.beans.factory.CannotLoadBeanClassException: Cannot find class [com.argus.activex.wordreport.WordReportJava2COM] for bean with name 'report' defined in class path resource [spring/spring-inc-service.xml]; nested exception is java.lang.ClassNotFoundException: com.argus.activex.wordreport.WordReportJava2COM
+org.springframework.beans.factory.CannotLoadBeanClassException: Cannot find class [au.com.totemsoft.activex.wordreport.WordReportJava2COM] for bean with name 'report' defined in class path resource [spring/spring-inc-service.xml]; nested exception is java.lang.ClassNotFoundException: au.com.totemsoft.activex.wordreport.WordReportJava2COM
 	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveBeanClass(AbstractBeanFactory.java:1477) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.determineTargetType(AbstractAutowireCapableBeanFactory.java:682) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.predictBeanType(AbstractAutowireCapableBeanFactory.java:649) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
@@ -24,8 +24,8 @@ org.springframework.beans.factory.CannotLoadBeanClassException: Cannot find clas
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
-	at com.argus.financials.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
-Caused by: java.lang.ClassNotFoundException: com.argus.activex.wordreport.WordReportJava2COM
+	at au.com.totemsoft.myplanner.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
+Caused by: java.lang.ClassNotFoundException: au.com.totemsoft.activex.wordreport.WordReportJava2COM
 	at java.net.URLClassLoader.findClass(URLClassLoader.java:381) ~[na:1.8.0_60]
 	at java.lang.ClassLoader.loadClass(ClassLoader.java:424) ~[na:1.8.0_60]
 	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331) ~[na:1.8.0_60]
@@ -42,13 +42,13 @@ Caused by: java.lang.ClassNotFoundException: com.argus.activex.wordreport.WordRe
 2020-05-18 19:48:42.094  INFO 58540 --- [main] c.a.financials.ui.FinancialPlannerApp    : No active profile set, falling back to default profiles: default
 2020-05-18 19:48:43.179  INFO 58540 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
 2020-05-18 19:48:43.215  INFO 58540 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 19ms. Found 0 repository interfaces.
-2020-05-18 19:48:43.503  WARN 58540 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.CannotLoadBeanClassException: Cannot find class [com.argus.activex.wordreport.WordReportRtf] for bean with name 'report' defined in class path resource [spring/spring-inc-service.xml]; nested exception is java.lang.ClassNotFoundException: com.argus.activex.wordreport.WordReportRtf
+2020-05-18 19:48:43.503  WARN 58540 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.CannotLoadBeanClassException: Cannot find class [au.com.totemsoft.activex.wordreport.WordReportRtf] for bean with name 'report' defined in class path resource [spring/spring-inc-service.xml]; nested exception is java.lang.ClassNotFoundException: au.com.totemsoft.activex.wordreport.WordReportRtf
 2020-05-18 19:48:43.521  INFO 58540 --- [main] ConditionEvaluationReportLoggingListener : 
 
 Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
 2020-05-18 19:48:43.532 ERROR 58540 --- [main] o.s.boot.SpringApplication               : Application run failed
 
-org.springframework.beans.factory.CannotLoadBeanClassException: Cannot find class [com.argus.activex.wordreport.WordReportRtf] for bean with name 'report' defined in class path resource [spring/spring-inc-service.xml]; nested exception is java.lang.ClassNotFoundException: com.argus.activex.wordreport.WordReportRtf
+org.springframework.beans.factory.CannotLoadBeanClassException: Cannot find class [au.com.totemsoft.activex.wordreport.WordReportRtf] for bean with name 'report' defined in class path resource [spring/spring-inc-service.xml]; nested exception is java.lang.ClassNotFoundException: au.com.totemsoft.activex.wordreport.WordReportRtf
 	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveBeanClass(AbstractBeanFactory.java:1477) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.determineTargetType(AbstractAutowireCapableBeanFactory.java:682) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.predictBeanType(AbstractAutowireCapableBeanFactory.java:649) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
@@ -64,8 +64,8 @@ org.springframework.beans.factory.CannotLoadBeanClassException: Cannot find clas
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
-	at com.argus.financials.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
-Caused by: java.lang.ClassNotFoundException: com.argus.activex.wordreport.WordReportRtf
+	at au.com.totemsoft.myplanner.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
+Caused by: java.lang.ClassNotFoundException: au.com.totemsoft.activex.wordreport.WordReportRtf
 	at java.net.URLClassLoader.findClass(URLClassLoader.java:381) ~[na:1.8.0_60]
 	at java.lang.ClassLoader.loadClass(ClassLoader.java:424) ~[na:1.8.0_60]
 	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331) ~[na:1.8.0_60]
@@ -117,7 +117,7 @@ org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
-	at com.argus.financials.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
+	at au.com.totemsoft.myplanner.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
 Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker': Invocation of init method failed; nested exception is org.springframework.boot.context.properties.source.InvalidConfigurationPropertyValueException: Property spring.datasource.schema with value 'class path resource [dbo]' is invalid: The specified resource does not exist.
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:603) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
@@ -196,7 +196,7 @@ org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
-	at com.argus.financials.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
+	at au.com.totemsoft.myplanner.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
 Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker': Invocation of init method failed; nested exception is org.springframework.boot.context.properties.source.InvalidConfigurationPropertyValueException: Property spring.datasource.schema with value 'class path resource [dbo]' is invalid: The specified resource does not exist.
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:603) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
@@ -275,7 +275,7 @@ org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
-	at com.argus.financials.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
+	at au.com.totemsoft.myplanner.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
 Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker': Invocation of init method failed; nested exception is org.springframework.boot.context.properties.source.InvalidConfigurationPropertyValueException: Property spring.datasource.schema with value 'class path resource [dbo]' is invalid: The specified resource does not exist.
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:603) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
@@ -348,7 +348,7 @@ org.springframework.beans.factory.BeanCreationException: Error creating bean wit
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
-	at com.argus.financials.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
+	at au.com.totemsoft.myplanner.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
 Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean]: Factory method 'entityManagerFactory' threw exception; nested exception is java.lang.AbstractMethodError
 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:185) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:640) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
@@ -417,7 +417,7 @@ org.springframework.beans.factory.BeanCreationException: Error creating bean wit
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
-	at com.argus.financials.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
+	at au.com.totemsoft.myplanner.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
 Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean]: Factory method 'entityManagerFactory' threw exception; nested exception is java.lang.AbstractMethodError
 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:185) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:640) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
@@ -492,7 +492,7 @@ org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
-	at com.argus.financials.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
+	at au.com.totemsoft.myplanner.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
 Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Tomcat.class]: Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker': Invocation of init method failed; nested exception is org.springframework.boot.context.properties.source.InvalidConfigurationPropertyValueException: Property spring.datasource.schema with value 'class path resource [dbo]' is invalid: The specified resource does not exist.
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:603) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
@@ -571,7 +571,7 @@ org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215) [spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
-	at com.argus.financials.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
+	at au.com.totemsoft.myplanner.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) [classes/:na]
 Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Tomcat.class]: Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker': Invocation of init method failed; nested exception is org.springframework.boot.context.properties.source.InvalidConfigurationPropertyValueException: Property spring.datasource.schema with value 'class path resource [dbo]' is invalid: The specified resource does not exist.
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:603) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517) ~[spring-beans-5.2.0.RELEASE.jar:5.2.0.RELEASE]
@@ -617,7 +617,7 @@ Caused by: org.springframework.boot.context.properties.source.InvalidConfigurati
 2020-05-18 20:21:47.387  INFO 77963 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 15ms. Found 0 repository interfaces.
 2020-05-18 20:21:47.689  INFO 77963 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
 2020-05-18 20:21:50.040  INFO 77963 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2020-05-18 20:21:50.051  WARN 77963 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'swingConfig': Unsatisfied dependency expressed through field 'report'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.argus.financials.report.IWordReport' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2020-05-18 20:21:50.051  WARN 77963 --- [main] s.c.a.AnnotationConfigApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'swingConfig': Unsatisfied dependency expressed through field 'report'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'au.com.totemsoft.myplanner.report.IWordReport' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
 2020-05-18 20:21:50.052  INFO 77963 --- [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
 2020-05-18 20:21:50.068  INFO 77963 --- [main] ConditionEvaluationReportLoggingListener : 
 
@@ -630,7 +630,7 @@ APPLICATION FAILED TO START
 
 Description:
 
-Field report in com.argus.financials.ui.config.SwingConfig required a bean of type 'com.argus.financials.report.IWordReport' that could not be found.
+Field report in au.com.totemsoft.myplanner.ui.config.SwingConfig required a bean of type 'au.com.totemsoft.myplanner.report.IWordReport' that could not be found.
 
 The injection point has the following annotations:
 	- @org.springframework.beans.factory.annotation.Autowired(required=true)
@@ -638,7 +638,7 @@ The injection point has the following annotations:
 
 Action:
 
-Consider defining a bean of type 'com.argus.financials.report.IWordReport' in your configuration.
+Consider defining a bean of type 'au.com.totemsoft.myplanner.report.IWordReport' in your configuration.
 
 2020-05-18 20:24:40.922  INFO 79756 --- [main] c.a.financials.ui.FinancialPlannerApp    : Starting FinancialPlannerApp on 192-168-1-101.tpgi.com.au with PID 79756 (/Users/shibaevv/git/myplanner/swing/target/classes started by shibaevv in /Users/shibaevv/git/myplanner/swing)
 2020-05-18 20:24:40.927  INFO 79756 --- [main] c.a.financials.ui.FinancialPlannerApp    : No active profile set, falling back to default profiles: default
@@ -753,7 +753,7 @@ java.sql.SQLException: Network error IOException: Operation timed out
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315) ~[spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) ~[spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215) ~[spring-boot-2.2.0.RELEASE.jar:2.2.0.RELEASE]
-	at com.argus.financials.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) ~[classes/:na]
+	at au.com.totemsoft.myplanner.ui.FinancialPlannerApp.main(FinancialPlannerApp.java:87) ~[classes/:na]
 Caused by: java.net.ConnectException: Operation timed out
 	at java.net.PlainSocketImpl.socketConnect(Native Method) ~[na:1.8.0_60]
 	at java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:350) ~[na:1.8.0_60]
@@ -793,3 +793,397 @@ Caused by: java.net.ConnectException: Operation timed out
 2020-05-18 21:20:46.822  INFO 24973 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
 2020-05-18 21:20:47.891  INFO 24973 --- [main] c.a.financials.ui.FinancialPlannerApp    : Started FinancialPlannerApp in 5.095 seconds (JVM running for 5.864)
 2020-05-18 21:21:40.405  INFO 24973 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-05-23 12:28:45.364  INFO 68513 --- [main] a.c.t.m.swing.FinancialPlannerApp        : Starting FinancialPlannerApp on 192-168-1-101.tpgi.com.au with PID 68513 (/Users/shibaevv/git/myplanner/swing/target/classes started by shibaevv in /Users/shibaevv/git/myplanner/swing)
+2020-05-23 12:28:45.371  INFO 68513 --- [main] a.c.t.m.swing.FinancialPlannerApp        : No active profile set, falling back to default profiles: default
+2020-05-23 12:28:45.882  INFO 68513 --- [main] a.c.t.m.swing.FinancialPlannerApp        : Started FinancialPlannerApp in 1.319 seconds (JVM running for 2.672)
+2020-05-23 12:31:20.996  INFO 70110 --- [main] a.c.t.m.swing.FinancialPlannerApp        : Starting FinancialPlannerApp on 192-168-1-101.tpgi.com.au with PID 70110 (/Users/shibaevv/git/myplanner/swing/target/classes started by shibaevv in /Users/shibaevv/git/myplanner/swing)
+2020-05-23 12:31:21.006  INFO 70110 --- [main] a.c.t.m.swing.FinancialPlannerApp        : No active profile set, falling back to default profiles: default
+2020-05-23 12:31:21.472  INFO 70110 --- [main] a.c.t.m.swing.FinancialPlannerApp        : Started FinancialPlannerApp in 1.382 seconds (JVM running for 2.885)
+2020-05-23 12:31:45.850  INFO 70410 --- [main] a.c.t.m.swing.FinancialPlannerApp        : Starting FinancialPlannerApp on 192-168-1-101.tpgi.com.au with PID 70410 (/Users/shibaevv/git/myplanner/swing/target/classes started by shibaevv in /Users/shibaevv/git/myplanner/swing)
+2020-05-23 12:31:45.859  INFO 70410 --- [main] a.c.t.m.swing.FinancialPlannerApp        : No active profile set, falling back to default profiles: default
+2020-05-23 12:31:46.266  INFO 70410 --- [main] a.c.t.m.swing.FinancialPlannerApp        : Started FinancialPlannerApp in 1.306 seconds (JVM running for 2.685)
+2020-05-23 12:43:53.974  INFO 77274 --- [main] a.c.t.m.swing.FinancialPlannerApp        : Starting FinancialPlannerApp on 192-168-1-101.tpgi.com.au with PID 77274 (/Users/shibaevv/git/myplanner/swing/target/classes started by shibaevv in /Users/shibaevv/git/myplanner/swing)
+2020-05-23 12:43:53.978  INFO 77274 --- [main] a.c.t.m.swing.FinancialPlannerApp        : No active profile set, falling back to default profiles: default
+2020-05-23 12:43:54.975  INFO 77274 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-05-23 12:43:55.008  INFO 77274 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 20ms. Found 0 repository interfaces.
+2020-05-23 12:43:55.320  INFO 77274 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-23 12:47:21.931  INFO 79269 --- [main] a.c.t.m.swing.FinancialPlannerApp        : Starting FinancialPlannerApp on 192-168-1-101.tpgi.com.au with PID 79269 (/Users/shibaevv/git/myplanner/swing/target/classes started by shibaevv in /Users/shibaevv/git/myplanner/swing)
+2020-05-23 12:47:21.938  INFO 79269 --- [main] a.c.t.m.swing.FinancialPlannerApp        : No active profile set, falling back to default profiles: default
+2020-05-23 12:47:23.450  INFO 79269 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-05-23 12:47:23.500  INFO 79269 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 26ms. Found 0 repository interfaces.
+2020-05-23 12:47:24.161  INFO 79269 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-23 12:54:52.815  INFO 83779 --- [main] a.c.t.m.swing.FinancialPlannerApp        : Starting FinancialPlannerApp on 192-168-1-101.tpgi.com.au with PID 83779 (/Users/shibaevv/git/myplanner/swing/target/classes started by shibaevv in /Users/shibaevv/git/myplanner/swing)
+2020-05-23 12:54:52.819  INFO 83779 --- [main] a.c.t.m.swing.FinancialPlannerApp        : No active profile set, falling back to default profiles: default
+2020-05-23 12:54:53.742  INFO 83779 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-05-23 12:54:53.772  INFO 83779 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 18ms. Found 0 repository interfaces.
+2020-05-23 12:54:54.077  INFO 83779 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-23 12:54:56.420  INFO 83779 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-05-23 12:54:57.410  INFO 83779 --- [main] a.c.t.m.swing.FinancialPlannerApp        : Started FinancialPlannerApp in 5.145 seconds (JVM running for 6.004)
+2020-05-23 12:58:04.490  INFO 83779 --- [SpringContextShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2020-05-23 12:58:15.034  INFO 85681 --- [main] a.c.t.m.swing.FinancialPlannerApp        : Starting FinancialPlannerApp on 192-168-1-101.tpgi.com.au with PID 85681 (/Users/shibaevv/git/myplanner/swing/target/classes started by shibaevv in /Users/shibaevv/git/myplanner/swing)
+2020-05-23 12:58:15.041  INFO 85681 --- [main] a.c.t.m.swing.FinancialPlannerApp        : No active profile set, falling back to default profiles: default
+2020-05-23 12:58:16.606  INFO 85681 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-05-23 12:58:16.654  INFO 85681 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 27ms. Found 0 repository interfaces.
+2020-05-23 12:58:17.298  INFO 85681 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-05-23 12:58:21.150  INFO 85681 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-05-23 12:58:26.008  INFO 85681 --- [main] a.c.t.m.swing.FinancialPlannerApp        : Started FinancialPlannerApp in 11.876 seconds (JVM running for 13.283)
+2020-05-23 13:00:40.603  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.604  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.604  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.604  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.604  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.604  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.605  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.605  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.605  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.605  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.605  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.605  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.605  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.605  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.605  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.606  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.606  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.606  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.606  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.606  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.606  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.606  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.606  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.606  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.606  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.607  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.607  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.607  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.607  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.607  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.607  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.608  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.608  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.608  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.608  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.608  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.608  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.608  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.608  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.608  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.608  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.609  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.609  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.609  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.609  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.609  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.609  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.609  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.609  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.609  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.609  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.610  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.610  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.610  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.610  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.610  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.610  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.610  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.610  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.611  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.611  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.611  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.611  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.611  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.611  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.611  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.611  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.611  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.612  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.612  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.612  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.612  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.612  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.612  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.612  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.612  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.613  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.613  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.613  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.613  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.613  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.613  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.613  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.613  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.613  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.614  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.614  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.614  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.614  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.
+2020-05-23 13:00:40.614  WARN 85681 --- [AWT-EventQueue-0] java.util.jar                            : Duplicate name in Manifest: Depends-On.
+Ensure that the manifest does not have duplicate entries, and
+that blank lines separate individual sections in both your
+manifest and in the META-INF/MANIFEST.MF entry in the jar file.

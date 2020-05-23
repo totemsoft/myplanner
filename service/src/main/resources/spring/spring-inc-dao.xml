@@ -9,19 +9,19 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
     default-autowire="byName" default-lazy-init="true">
 
-    <!--context:component-scan base-package="com.argus.financials.dao" /-->
+    <!--context:component-scan base-package="au.com.totemsoft.myplanner.dao" /-->
 
-    <bean id="sqlHelper"        class="com.argus.financials.dao.hibernate.SQLServerHelper" />
+    <bean id="sqlHelper"        class="au.com.totemsoft.myplanner.dao.hibernate.SQLServerHelper" />
 
-    <bean id="objectDao"        class="com.argus.financials.dao.hibernate.ObjectDaoImpl" />
-    <bean id="linkObjectDao"    class="com.argus.financials.dao.hibernate.LinkObjectDaoImpl" />
+    <bean id="objectDao"        class="au.com.totemsoft.myplanner.dao.hibernate.ObjectDaoImpl" />
+    <bean id="linkObjectDao"    class="au.com.totemsoft.myplanner.dao.hibernate.LinkObjectDaoImpl" />
 
-    <bean id="businessDao"      class="com.argus.financials.dao.hibernate.BusinessDaoImpl" />
-    <bean id="clientDao"        class="com.argus.financials.dao.hibernate.ClientDaoImpl" />
-    <bean id="entityDao"        class="com.argus.financials.dao.hibernate.EntityDaoImpl" />
-    <bean id="financialCodeDao" class="com.argus.financials.dao.hibernate.FinancialCodeDaoImpl" />
-    <bean id="occupationDao"    class="com.argus.financials.dao.hibernate.OccupationDaoImpl" />
-    <bean id="personDao"        class="com.argus.financials.dao.hibernate.PersonDaoImpl" />
-    <bean id="userDao"          class="com.argus.financials.dao.hibernate.UserDaoImpl" />
+    <bean id="businessDao"      class="au.com.totemsoft.myplanner.dao.hibernate.BusinessDaoImpl" />
+    <bean id="clientDao"        class="au.com.totemsoft.myplanner.dao.hibernate.ClientDaoImpl" />
+    <bean id="entityDao"        class="au.com.totemsoft.myplanner.dao.hibernate.EntityDaoImpl" />
+    <bean id="financialCodeDao" class="au.com.totemsoft.myplanner.dao.hibernate.FinancialCodeDaoImpl" />
+    <bean id="occupationDao"    class="au.com.totemsoft.myplanner.dao.hibernate.OccupationDaoImpl" />
+    <bean id="personDao"        class="au.com.totemsoft.myplanner.dao.hibernate.PersonDaoImpl" />
+    <bean id="userDao"          class="au.com.totemsoft.myplanner.dao.hibernate.UserDaoImpl" />
 
 </beans>

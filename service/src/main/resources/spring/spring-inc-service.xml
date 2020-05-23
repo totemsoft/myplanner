@@ -9,16 +9,16 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
     default-autowire="byName" default-lazy-init="true">
 
-    <!--context:component-scan base-package="com.argus.financials.service" /-->
+    <!--context:component-scan base-package="au.com.totemsoft.myplanner.service" /-->
 
-    <bean id="report"  class="com.argus.financials.myplanner.report.word.WordReportRtf" />
+    <bean id="report"  class="au.com.totemsoft.myplanner.report.word.WordReportRtf" />
 
-    <bean id="businessService"  class="com.argus.financials.service.impl.BusinessServiceImpl" />
-    <bean id="entityService"    class="com.argus.financials.service.impl.EntityServiceImpl" />
-    <bean id="financialService" class="com.argus.financials.service.impl.FinancialServiceImpl" />
-    <bean id="personService"    class="com.argus.financials.service.impl.PersonServiceImpl" />
-    <bean id="clientService"    class="com.argus.financials.service.impl.ClientServiceImpl" />
-    <bean id="userService"      class="com.argus.financials.service.impl.UserServiceImpl" />
-    <bean id="utilityService"   class="com.argus.financials.service.impl.UtilityServiceImpl" />
+    <bean id="businessService"  class="au.com.totemsoft.myplanner.service.impl.BusinessServiceImpl" />
+    <bean id="entityService"    class="au.com.totemsoft.myplanner.service.impl.EntityServiceImpl" />
+    <bean id="financialService" class="au.com.totemsoft.myplanner.service.impl.FinancialServiceImpl" />
+    <bean id="personService"    class="au.com.totemsoft.myplanner.service.impl.PersonServiceImpl" />
+    <bean id="clientService"    class="au.com.totemsoft.myplanner.service.impl.ClientServiceImpl" />
+    <bean id="userService"      class="au.com.totemsoft.myplanner.service.impl.UserServiceImpl" />
+    <bean id="utilityService"   class="au.com.totemsoft.myplanner.service.impl.UtilityServiceImpl" />
 
 </beans>

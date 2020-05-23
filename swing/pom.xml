@@ -35,7 +35,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.argus.financials.ui.FinancialPlannerApp</mainClass>
+                    <mainClass>au.com.totemsoft.myplanner.ui.FinancialPlannerApp</mainClass>
                 </configuration>
             </plugin>
         </plugins>

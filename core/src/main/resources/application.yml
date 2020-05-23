@@ -23,12 +23,12 @@ spring:
   datasource:
     continue-on-error: false
     driver-class-name: net.sourceforge.jtds.jdbc.Driver
-#     url: 'jdbc:jtds:sqlserver://192.168.56.101:1433/MyPlanner'
-#     username: sa
-#     password: superuser
-    url: 'jdbc:jtds:sqlserver://jms-sqlserver-ex.cfdvijddkwak.ap-southeast-2.rds.amazonaws.com:1433/MyPlanner'
-    username: xcelerate
-    password: Passw0rd
+    url: 'jdbc:jtds:sqlserver://192.168.56.101:1433/MyPlanner'
+    username: sa
+    password: superuser
+#     url: 'jdbc:jtds:sqlserver://jms-sqlserver-ex.cfdvijddkwak.ap-southeast-2.rds.amazonaws.com:1433/MyPlanner'
+#     username: xcelerate
+#     password: Passw0rd
     # Fully qualified name of the connection pool implementation to use. By default, it is auto-detected from the classpath.
     #type: com.zaxxer.hikari.HikariDataSource
     #hikari:

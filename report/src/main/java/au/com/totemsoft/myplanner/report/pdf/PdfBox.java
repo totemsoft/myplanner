@@ -19,16 +19,17 @@ import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.pdfbox.cos.COSStream;
-import org.apache.pdfbox.io.RandomAccessBuffer;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.common.COSObjectable;
+import org.apache.pdfbox.pdmodel.interactive.annotation.PDAnnotationWidget;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
-import org.apache.pdfbox.pdmodel.interactive.form.PDChoiceField;
+import org.apache.pdfbox.pdmodel.interactive.form.PDChoice;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
-import org.apache.pdfbox.pdmodel.interactive.form.PDRadioCollection;
+import org.apache.pdfbox.pdmodel.interactive.form.PDRadioButton;
 import org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField;
-import org.apache.pdfbox.pdmodel.interactive.form.PDXFA;
+import org.apache.pdfbox.pdmodel.interactive.form.PDXFAResource;
+//import org.apache.pdfbox.pdmodel.interactive.form.PDXFA;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -95,10 +96,10 @@ public class PdfBox extends BasePdf implements Pdf {
                     if (field == null) {
                         continue; // eg CONTEXT
                     }
-                    if (field instanceof PDChoiceField) {
+                    if (field instanceof PDChoice) {
                         // continue;
                     }
-                    if (field instanceof PDRadioCollection) {
+                    if (field instanceof PDRadioButton) {
                         continue;
                     }
                     if (field instanceof PDSignatureField) {
@@ -118,7 +119,7 @@ public class PdfBox extends BasePdf implements Pdf {
             }
             // xml input
             if (dataStream != null) {
-                PDXFA xfa = form.getXFA();
+                PDXFAResource xfa = form.getXFA();
                 if (xfa == null) {
                     throw new IOException("The XFA resource does not exist.");
                 }
@@ -140,13 +141,14 @@ public class PdfBox extends BasePdf implements Pdf {
                 //
                 Source source = new DOMSource(xfaDoc);
                 //
-                COSStream cosout = new COSStream(new RandomAccessBuffer());
-                OutputStream out = cosout.createUnfilteredStream();
+                //COSStream cosout = new COSStream(new RandomAccessBuffer());
+                COSStream cosout = new COSStream();
+                OutputStream out = cosout.createRawOutputStream();
                 StreamResult result = new StreamResult(out);
                 TransformerFactory.newInstance().newTransformer().transform(source, result);
                 dataStream.close();
                 //
-                PDXFA xfaout = new PDXFA(cosout);
+                PDXFAResource xfaout = new PDXFAResource(cosout);
                 form.setXFA(xfaout);
             }
             //
@@ -163,9 +165,10 @@ public class PdfBox extends BasePdf implements Pdf {
     }
 
     private void pdfTemplateField(Map<String, Object> params, PDField field, String parentName) throws IOException {
-        List<COSObjectable> kids = field.getKids();
+        //List<COSObjectable> kids = field.getKids();
+        List<PDAnnotationWidget> kids = field.getWidgets();
         if (kids != null) {
-            Iterator<COSObjectable> iter = kids.iterator();
+            Iterator<PDAnnotationWidget> iter = kids.iterator();
             if (!parentName.equals(field.getPartialName())) {
                 parentName = parentName + "." + field.getPartialName();
             }
@@ -184,10 +187,10 @@ public class PdfBox extends BasePdf implements Pdf {
             String value;
             if (field instanceof PDSignatureField) {
                 value = "PDSignatureField";
-            } else if (field instanceof PDRadioCollection) {
-                value = ((PDRadioCollection) field).getPartialName();
+            } else if (field instanceof PDRadioButton) {
+                value = ((PDRadioButton) field).getPartialName();
             } else {
-                value = field.getValue();
+                value = field.getValueAsString();
             }
             if (LOG.isDebugEnabled())
                 LOG.debug(name + " = " + value);

@@ -69,8 +69,7 @@ mvn dependency:tree -DoutputFile=dependency.txt
 
         <itext.version>4.2.1</itext.version>
         <itextpdf.version>5.5.1</itextpdf.version>
-        <pdfbox.version>1.8.6</pdfbox.version>
-        <!--pdfbox.version>2.0.15</pdfbox.version-->
+        <pdfbox.version>[2.0.15,)</pdfbox.version>
 
         <jdk.version>1.8</jdk.version>
         <maven.compiler.source>1.8</maven.compiler.source>

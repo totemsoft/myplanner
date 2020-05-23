@@ -67,8 +67,7 @@ mvn dependency:tree -DoutputFile=dependency.txt
         <commons-io.version>2.5</commons-io.version>
         <commons-jxpath.version>1.3</commons-jxpath.version>
 
-        <itext.version>4.2.1</itext.version>
-        <itextpdf.version>5.5.1</itextpdf.version>
+        <itextpdf.version>5.5.9</itextpdf.version>
         <pdfbox.version>[2.0.15,)</pdfbox.version>
 
         <jdk.version>1.8</jdk.version>
@@ -236,11 +235,6 @@ mvn dependency:tree -DoutputFile=dependency.txt
                 </exclusions>
             </dependency>
 
-            <dependency>
-                <groupId>com.lowagie</groupId>
-                <artifactId>itext</artifactId>
-                <version>${itext.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.itextpdf</groupId>
                 <artifactId>itextpdf</artifactId>

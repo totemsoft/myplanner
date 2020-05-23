@@ -2,8 +2,6 @@ package au.com.totemsoft.myplanner.vaadin;
 
 import javax.inject.Inject;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.argus.financials.api.bean.IUser;
 import com.argus.financials.api.service.UserService;
 import com.vaadin.flow.component.Key;

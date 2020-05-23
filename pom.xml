@@ -96,7 +96,7 @@ mvn dependency:tree -DoutputFile=dependency.txt
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
-                <!--version>1.2.2</version-->
+                <version>1.1.0</version>
                 <configuration>
                     <updatePomFile>true</updatePomFile>
                     <flattenMode>resolveCiFriendliesOnly</flattenMode>

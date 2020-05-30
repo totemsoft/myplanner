@@ -18,13 +18,14 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import au.com.totemsoft.crypto.Digest;
 import au.com.totemsoft.dao.SQLHelper;
 import au.com.totemsoft.myplanner.api.ObjectNotFoundException;
 import au.com.totemsoft.myplanner.api.ServiceException;
@@ -50,18 +51,20 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger LOG = Logger.getLogger(UserServiceImpl.class);
 
-    @Autowired private ClientDao clientDao;
+    @Inject private PasswordEncoder passwordEncoder;
 
-    @Autowired private UserDao userDao;
+    @Inject private ClientDao clientDao;
 
-    @Autowired private SQLHelper sqlHelper;
+    @Inject private UserDao userDao;
 
-    @Autowired private ObjectDao objectDao;
-    @Autowired private LinkObjectDao linkObjectDao;
+    @Inject private SQLHelper sqlHelper;
 
-    @Autowired private UserPreferences userPreferences;
+    @Inject private ObjectDao objectDao;
+    @Inject private LinkObjectDao linkObjectDao;
 
-    @Autowired private ClientService clientService;
+    @Inject private UserPreferences userPreferences;
+
+    @Inject private ClientService clientService;
 
     /* (non-Javadoc)
      * @see au.com.totemsoft.myplanner.service.UserService#findUserByLoginPassword(java.lang.String, java.lang.String)
@@ -70,39 +73,33 @@ public class UserServiceImpl implements UserService {
     public IUser login(String login, String password) throws ServiceException, ObjectNotFoundException
     {
         // validate
-        if (StringUtils.isBlank(login) || StringUtils.isBlank(password)) {
+        if (StringUtils.isBlank(login)) {
             return null;
         }
         //
-        try
-        {
-            String passwordDigest = Digest.digest(password);
-            User user = userDao.findByLoginPassword(login, passwordDigest);
-            if (user == null)
-            {
-                user = userDao.findByLogin(login);
-                if (user == null)
-                {
+        try {
+            String passwordEncoded = passwordEncoder.encode(password);
+            User user = userDao.findByLoginPassword(login, passwordEncoded);
+            if (user == null) {
+                user = userDao.findByLoginNullPassword(login);
+                if (user == null) {
                     throw new ObjectNotFoundException("There is no user \"" + login
                         + "\" registered in the system.");
                 }
-                else if (StringUtils.isBlank(user.getPassword()))
-                {
+                if (StringUtils.isBlank(user.getPassword())) {
                     // save new password (if reset to blank, eg via sql)
-                    user.setPassword(passwordDigest);
+                    user.setPassword(passwordEncoded);
                     userDao.save(user);
                 }
             }
             userPreferences.setUser(user);
-            System.out.println("New user logged in: " + userPreferences.getUser());
+            LOG.info("New user logged in: " + userPreferences.getUser());
             return user;
         }
-        catch (ObjectNotFoundException e)
-        {
+        catch (ObjectNotFoundException e) {
             throw e;
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             throw new ServiceException(e);
         }
     }
@@ -112,7 +109,7 @@ public class UserServiceImpl implements UserService {
      */
     public void logout() throws ServiceException
     {
-        System.out.println("User logged out: " + userPreferences.getUser());
+        LOG.info("User logged out: " + userPreferences.getUser());
         userPreferences.setUser(null);
     }
 

@@ -1,43 +1,43 @@
 package au.com.totemsoft.myplanner.vaadin;
 
-import javax.inject.Inject;
+import java.util.List;
+import java.util.Map;
 
-import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dependency.CssImport;
+import org.apache.commons.lang.StringUtils;
+
+import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.login.LoginForm;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.PasswordField;
-import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
-import au.com.totemsoft.myplanner.api.bean.IUser;
-import au.com.totemsoft.myplanner.api.service.UserService;
-
 @Route(value = "login")
-@CssImport("./styles/shared-styles.css")
-@CssImport(value = "./styles/vaadin-text-field-styles.css", themeFor = "vaadin-text-field")
-public class LoginView extends VerticalLayout {
+@PageTitle("Login | Elixir CRM")
+public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     /** serialVersionUID */
     private static final long serialVersionUID = -1170060631447434100L;
 
-    @Inject private UserService userService;
+    private LoginForm login = new LoginForm();
 
     public LoginView() {
-        final TextField textFieldLogin = new TextField("Login");
-        final PasswordField passwordField = new PasswordField("Password");
-        final Button buttonOK = new Button("OK",
-            e -> login(textFieldLogin.getValue(), passwordField.getValue()));
-        buttonOK.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        buttonOK.addClickShortcut(Key.ENTER);
-        addClassName("centered-content");
-        add(textFieldLogin, passwordField, buttonOK);
+        addClassName("login-view");
+        setSizeFull();
+        setAlignItems(Alignment.CENTER);
+        setJustifyContentMode(JustifyContentMode.CENTER);
+        login.setAction("login");
+        add(new H1("Elixir"), login);
     }
 
-    private void login(String username, String password) {
-        IUser user = userService.login(username, password);
-        //log.info(user);
+    @Override
+    public void beforeEnter(BeforeEnterEvent event) {
+        // inform the user about an authentication error
+        List<String> errors = event.getLocation().getQueryParameters().getParameters().get("error");
+        if (errors != null && !errors.isEmpty() && StringUtils.isNotBlank(errors.get(0))) {
+            login.setError(true);
+        }
     }
 
 }

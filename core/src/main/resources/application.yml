@@ -54,24 +54,14 @@ spring:
     database: SQL_SERVER
     open-in-view: false
     hibernate:
-      ddl-auto: none
+      #ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
         #physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
         #implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
     properties:
-      hibernate.jdbc.time_zone: UTC
+      #hibernate.jdbc.time_zone: UTC
       hibernate.dialect: org.hibernate.dialect.SQLServer2008Dialect
       hibernate.cache.use_second_level_cache: false
       hibernate.cache.use_query_cache: false
-
-  messages:
-    basename: i18n/messages
-
-  main:
-    allow-bean-definition-overriding: true
-
-  mvc:
-    favicon:
-      enabled: false

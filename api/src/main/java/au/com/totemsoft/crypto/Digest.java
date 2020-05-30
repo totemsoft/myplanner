@@ -22,7 +22,7 @@ public class Digest {
 
     /** Creates a new instance of Digest */
     private Digest() {}
-    
+
     public static String digest( String value ) 
 	{ 
 		try {

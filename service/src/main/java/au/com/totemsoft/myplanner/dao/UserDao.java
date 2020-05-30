@@ -5,8 +5,7 @@ import au.com.totemsoft.myplanner.domain.hibernate.User;
 /**
  * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
-public interface UserDao extends BaseDAO
-{
+public interface UserDao extends BaseDAO {
 
     /**
      * 
@@ -14,6 +13,13 @@ public interface UserDao extends BaseDAO
      * @return
      */
     User findByLogin(String login);
+
+    /**
+     * 
+     * @param login - null password
+     * @return
+     */
+    User findByLoginNullPassword(String login);
 
     /**
      * 

@@ -19,7 +19,10 @@ spring:
     index: 1
     name: MyPlanner
 
-# DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
+  jmx:
+    enabled: false
+
+  # DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
   datasource:
     continue-on-error: false
     driver-class-name: net.sourceforge.jtds.jdbc.Driver
@@ -45,16 +48,30 @@ spring:
       test-while-idle: false
       validation-query: 'select 1 from DBVersion'
 
-# JPA (JpaBaseConfiguration, HibernateJpaAutoConfiguration)
+  # JPA (JpaBaseConfiguration, HibernateJpaAutoConfiguration)
   jpa:
     show-sql: true
     database: SQL_SERVER
     open-in-view: false
     hibernate:
+      ddl-auto: none
       naming:
-        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
+        #physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        #implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
     properties:
+      hibernate.jdbc.time_zone: UTC
       hibernate.dialect: org.hibernate.dialect.SQLServer2008Dialect
       hibernate.cache.use_second_level_cache: false
       hibernate.cache.use_query_cache: false
+
+  messages:
+    basename: i18n/messages
+
+  main:
+    allow-bean-definition-overriding: true
+
+  mvc:
+    favicon:
+      enabled: false

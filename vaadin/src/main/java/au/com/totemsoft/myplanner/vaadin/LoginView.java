@@ -14,7 +14,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "login")
-@PageTitle("Login | Elixir CRM")
+@PageTitle("Login | MyPlanner")
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     /** serialVersionUID */
@@ -28,7 +28,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
         login.setAction("login");
-        add(new H1("Elixir"), login);
+        add(new H1("MyPlanner"), login);
     }
 
     @Override

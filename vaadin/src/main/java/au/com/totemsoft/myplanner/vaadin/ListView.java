@@ -5,7 +5,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 @Route(value = "", layout = MainLayout.class)
-@PageTitle("Menu | Elixir CRM")
+@PageTitle("Menu | MyPlanner")
 public class ListView extends VerticalLayout {
 
 }

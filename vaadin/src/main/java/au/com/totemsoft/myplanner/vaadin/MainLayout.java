@@ -24,7 +24,7 @@ public class MainLayout extends AppLayout {
     }
 
     private void createHeader() {
-        H1 logo = new H1("Elixir CRM");
+        H1 logo = new H1("MyPlanner");
         logo.addClassName("logo");
 
         Anchor logout = new Anchor("logout", "Log out");

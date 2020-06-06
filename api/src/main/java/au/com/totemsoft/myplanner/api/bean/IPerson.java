@@ -25,7 +25,7 @@ public interface IPerson extends IBase<Long>
 //  [PreferredLanguageID] [int] NULL,
 //  [PreferredLanguage] [varchar](20) NULL,
 //  [ReferalSourceCodeID] [int] NULL,
-    
+
     String getFirstname();
     void setFirstname(String firstname);
 
@@ -40,7 +40,7 @@ public interface IPerson extends IBase<Long>
 
     String getFullName();
     String getShortName();
-    
+
     Date getDateOfBirth();
     void setDateOfBirth(Date dateOfBirth);
 
@@ -83,7 +83,7 @@ public interface IPerson extends IBase<Long>
 
     Boolean getDssRecipient();
     void setDssRecipient(Boolean dssRecipient);
-    boolean isDssRecipient();
+    boolean dssRecipient();
 
     Integer getSupportToAge();
     void setSupportToAge(Integer supportToAge);

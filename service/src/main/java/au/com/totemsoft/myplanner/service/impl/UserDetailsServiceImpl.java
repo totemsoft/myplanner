@@ -11,12 +11,17 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import au.com.totemsoft.myplanner.api.bean.IUser;
+import au.com.totemsoft.myplanner.api.bean.UserPreferences;
 import au.com.totemsoft.myplanner.dao.UserDao;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Inject private UserDao userDao;
+
+    @Inject private UserPreferences userPreferences;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     @Override
@@ -25,6 +30,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
+        userPreferences.setUser(user);
+        log.info("New user logged in: " + userPreferences.getUser());
         return User.withUsername(username)
             .password(user.getPassword())
             .roles("USER")

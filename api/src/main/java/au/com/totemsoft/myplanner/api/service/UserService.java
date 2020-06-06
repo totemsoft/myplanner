@@ -55,7 +55,7 @@ public interface UserService
      * @return
      * @throws ServiceException
      */
-    List<? extends IClientView> findClients(Map<String, Object> criteria, int start, int length) throws ServiceException;
+    List<IClientView> findClients(Map<String, Object> criteria, int start, int length) throws ServiceException;
 
     /**
      * 

@@ -24,6 +24,8 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
+import org.apache.commons.lang.StringUtils;
+
 import au.com.totemsoft.myplanner.api.InvalidCodeException;
 import au.com.totemsoft.myplanner.api.bean.DbConstant;
 import au.com.totemsoft.myplanner.api.bean.IAddress;
@@ -697,80 +699,70 @@ public final class ClientSearch extends AbstractPanel {
     }
 
     private Map<String, Object> getSelectionCriteria() throws au.com.totemsoft.myplanner.api.ServiceException {
-
         Map<String, Object> criteria = new HashMap<String, Object>();
-        if (jCheckBoxDisplayAll.isSelected())
+        if (jCheckBoxDisplayAll.isSelected()) {
             return criteria;
-
+        }
+        //
         IUser user = userPreferences.getUser();
         Integer userTypeId = user == null ? null : user.getTypeId();
         boolean supportPerson = AdviserTypeCode.isSupportPerson(userTypeId);
-        if (!supportPerson)
-        {
+        if (!supportPerson) {
             criteria.put(DbConstant.ADVISORID, user.getId());
         }
-        else if (jCheckBoxAllUsersClients.isSelected())
-        {
+        else if (jCheckBoxAllUsersClients.isSelected()) {
             criteria.put(DbConstant.ALL_USERS_CLIENTS, Boolean.TRUE);
-        }
-        else
-        {
+        } else {
             Object obj = jComboBoxAdviser.getSelectedItem();
             Contact cs = (Contact) obj;
             PersonName name = cs == null || cs == Advisers.NONE ? null : cs.getName();
-            if (name == null || name.getSurname().trim().length() == 0)
-            {
+            if (name == null || StringUtils.isBlank(name.getSurname())) {
                 criteria.put(DbConstant.ADVISORID, user.getId());
-            }
-            else
-            {
+            } else {
                 Integer adviserId = cs.getId();
-                if (adviserId != null)
+                if (adviserId != null && adviserId > 0) {
                     criteria.put(DbConstant.ADVISORID, adviserId);
+                }
             }
         }
-
-        // String s = (String) jComboBoxFamilyName.getSelectedItem();
-        // //.getText();
+        //
         String s = (String) jComboBoxFamilyName.getText();
-        if (s != null && s.length() > 0)
-            criteria.put(IPerson.SURNAME, s);
-
-        // s = (String) jComboBoxFirstName.getSelectedItem(); //.getText();
+        if (StringUtils.isNotBlank(s)) {
+            criteria.put(IPerson.SURNAME, s.trim());
+        }
+        //
         s = (String) jComboBoxFirstName.getText();
-        if (s != null && s.length() > 0)
-            criteria.put(IPerson.FIRST_NAME, s);
-
+        if (StringUtils.isNotBlank(s)) {
+            criteria.put(IPerson.FIRST_NAME, s.trim());
+        }
+        //
         s = jTextFieldDOB.getText();
-        if (s != null && s.length() > 0) {
+        if (StringUtils.isNotBlank(s)) {
             s = DateTimeUtils.getJdbcDate(s);
             criteria.put(IPerson.DATE_OF_BIRTH, s);
         }
-
+        //
         s = (String) jComboBoxCountry.getSelectedItem();
         Integer countryCodeID = new CountryCode().getCodeID(s);
-        if (countryCodeID != null
-                && !countryCodeID.equals(ICountry.AUSTRALIA_ID))
+        if (countryCodeID != null && countryCodeID > 0 && !countryCodeID.equals(ICountry.AUSTRALIA_ID))
             criteria.put(IAddress.COUNTRY, countryCodeID);
-
+        //
         s = (String) jTextFieldPostCode.getText();
-        s = s.trim();
-        if (s != null && s.length() > 0) {
-            criteria.put(IAddress.POSTCODE, s);
+        if (StringUtils.isNotBlank(s)) {
+            criteria.put(IAddress.POSTCODE, s.trim());
         }
-
+        //
         s = (String) jComboBoxState.getSelectedItem();
         Integer stateCodeID = new StateCode(countryCodeID).getCodeID(s);
-        if (stateCodeID != null)
+        if (stateCodeID != null && stateCodeID > 0)
             criteria.put(IAddress.STATE, stateCodeID);
-
+        //
         return criteria;
-
     }
 
     private Object[][] getRowData() {
         try {
-            List<? extends IClientView> data = userService.findClients(getSelectionCriteria(), 0, -1);
+            List<IClientView> data = userService.findClients(getSelectionCriteria(), 0, -1);
             if (data == null)
                 return new Object[0][COLUMN_COUNT];
             Object[][] rowData = new Object[data.size()][COLUMN_COUNT];

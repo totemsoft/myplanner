@@ -168,7 +168,7 @@ public class PersonDto extends PersonName implements IPerson {
         modified = true;
     }
 
-    public boolean isDssRecipient() {
+    public boolean dssRecipient() {
         return Boolean.TRUE.equals(dssRecipient);
     }
 

@@ -8,6 +8,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Type;
 
 import au.com.totemsoft.myplanner.api.bean.IClientView;
@@ -33,6 +35,7 @@ public class ClientView extends Person implements IClientView
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "addressID")
+    @NotFound(action = NotFoundAction.IGNORE)
     private Address address;
 
     @Column(name = "Phone")
@@ -52,65 +55,74 @@ public class ClientView extends Person implements IClientView
 
     @Column(name = "EmailWork")
     private String emailWork;
-    
-    /* (non-Javadoc)
-     * @see au.com.totemsoft.myplanner.domain.IOwnerBase#getOwnerId()
-     */
+
+    @Override
     public Long getOwnerId()
     {
         return ownerId;
     }
 
+    @Override
     public String getOwnerFirstname()
     {
         return ownerFirstname;
     }
 
+    @Override
     public String getOwnerSurname()
     {
         return ownerSurname;
     }
 
+    @Override
     public String getOwnerShortName()
     {
         return ownerSurname + (ownerFirstname == null ? "" : ", " + ownerFirstname);
     }
 
+    //@Override
     public Address getAddress()
     {
         return address;
     }
 
+    @Override
     public String getEMail()
     {
         return email;
     }
 
+    @Override
     public String getEmailWork()
     {
         return emailWork;
     }
 
+    @Override
     public String getFax()
     {
         return fax;
     }
 
+    @Override
     public String getFaxWork()
     {
         return faxWork;
     }
 
+    @Override
     public String getPhone()
     {
         return phone;
     }
 
+    @Override
     public String getPhoneWork()
     {
         return phoneWork;
     }
 
+    @Override
     public String getDetails()
     {
         String result = "Address: " + (address == null ? "" : address.getDetails());

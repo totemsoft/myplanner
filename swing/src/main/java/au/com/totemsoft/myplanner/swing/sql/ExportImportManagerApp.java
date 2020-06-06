@@ -650,7 +650,7 @@ public class ExportImportManagerApp
 
         private void init() throws ServiceException {
             Map<String, Object> criteria = new HashMap<String, Object>();
-            List<? extends IClientView> clients = userService.findClients(criteria, 0, -1);
+            List<IClientView> clients = userService.findClients(criteria, 0, -1);
             int size = clients == null ? 0 : clients.size();
             Map users = new TreeMap();
             for (int i = 0; i < size; i++) {

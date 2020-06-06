@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Type;
 
 import au.com.totemsoft.myplanner.api.bean.ICountry;
@@ -60,24 +62,29 @@ public class Person extends AbstractAuditable<Long> implements IPerson
     @Column(name = "DateOfBirth")
     private Date dateOfBirth;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Country.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Country.class)
     @JoinColumn(name = "DOBCountryID")
+    @NotFound(action = NotFoundAction.IGNORE)
     private ICountry dobCountry;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Country.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Country.class)
     @JoinColumn(name = "ResidenceCountryCodeID")
+    @NotFound(action = NotFoundAction.IGNORE)
     private ICountry residenceCountry;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = TitleCode.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = TitleCode.class)
     @JoinColumn(name = "TitleCodeID")
+    @NotFound(action = NotFoundAction.IGNORE)
     private ITitleCode title;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = SexCode.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = SexCode.class)
     @JoinColumn(name = "SexCodeID")
+    @NotFound(action = NotFoundAction.IGNORE)
     private ISexCode sex;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = MaritalCode.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = MaritalCode.class)
     @JoinColumn(name = "MaritalCodeID")
+    @NotFound(action = NotFoundAction.IGNORE)
     private IMaritalCode marital;
 
     //@ManyToOne(fetch = FetchType.LAZY, targetEntity = PersonHealth.class)
@@ -116,172 +123,158 @@ public class Person extends AbstractAuditable<Long> implements IPerson
     @Column(name = "SupportToAge")
     private Integer supportToAge;
 
-    /* (non-Javadoc)
-     * @see au.com.totemsoft.myplanner.domain.IBase#getId()
-     */
+    @Override
     public Long getId()
     {
         return id;
     }
 
+    //@Override
     public void setId(Long id)
     {
         this.id = id;
     }
 
-    /**
-     * @return the firstname
-     */
+    @Override
     public String getFirstname()
     {
         return firstname;
     }
 
+    @Override
     public void setFirstname(String firstname)
     {
         this.firstname = firstname;
     }
 
-    /**
-     * @return the surname
-     */
+    @Override
     public String getSurname()
     {
         return surname;
     }
 
+    @Override
     public void setSurname(String surname)
     {
         this.surname = surname;
     }
 
-    /**
-     * @return the otherNames
-     */
+    @Override
     public String getOtherNames()
     {
         return otherNames;
     }
 
+    @Override
     public void setOtherNames(String otherNames)
     {
         this.otherNames = otherNames;
     }
 
-    /**
-     * @return the preferredName
-     */
+    @Override
     public String getPreferredName()
     {
         return preferredName;
     }
 
+    @Override
     public void setPreferredName(String preferredName)
     {
         this.preferredName = preferredName;
     }
 
+    @Override
     @Transient
     public String getFullName()
     {
         return surname + (firstname == null ? "" : ", " + firstname);
     }
 
+    @Override
     @Transient
     public String getShortName()
     {
         return surname + (firstname == null ? "" : ", " + firstname);
     }
 
-    /**
-     * @return the dateOfBirth
-     */
+    @Override
     public Date getDateOfBirth()
     {
         return dateOfBirth;
     }
 
+    @Override
     public void setDateOfBirth(Date dateOfBirth)
     {
         this.dateOfBirth = dateOfBirth;
     }
 
-    /**
-     * @return the dobCountry
-     */
+    @Override
     public ICountry getDobCountry()
     {
         return dobCountry;
     }
 
+    @Override
     public void setDobCountry(ICountry dobCountry)
     {
         this.dobCountry = dobCountry;
     }
 
-    /**
-     * @return the residenceCountry
-     */
+    @Override
     public ICountry getResidenceCountry()
     {
         return residenceCountry;
     }
 
+    @Override
     public void setResidenceCountry(ICountry residenceCountry)
     {
         this.residenceCountry = residenceCountry;
     }
 
-    /**
-     * @return the title
-     */
+    @Override
     public ITitleCode getTitle()
     {
         return title;
     }
 
+    @Override
     public void setTitle(ITitleCode title)
     {
         this.title = title;
     }
 
-    /**
-     * @return the sex
-     */
+    @Override
     public ISexCode getSex()
     {
         return sex;
     }
 
+    @Override
     public void setSex(ISexCode sex)
     {
         this.sex = sex;
     }
 
-    /**
-     * @return the marital
-     */
+    @Override
     public IMaritalCode getMarital()
     {
         return marital;
     }
 
+    @Override
     public void setMarital(IMaritalCode marital)
     {
         this.marital = marital;
     }
 
-    /* (non-Javadoc)
-     * @see au.com.totemsoft.myplanner.api.bean.IPerson#isMarried()
-     */
     @Override
     public boolean isMarried() {
         return marital != null && IMaritalCode.isMarried(marital.getId());
     }
 
-    /**
-     * @return the personHealth
-     */
+    @Override
     public IPersonHealth getPersonHealth() {
         if (personHealth == null) {
             personHealth = new PersonHealth();
@@ -289,13 +282,12 @@ public class Person extends AbstractAuditable<Long> implements IPerson
         return personHealth;
     }
 
+    @Override
     public void setPersonHealth(IPersonHealth personHealth) {
         this.personHealth = personHealth;
     }
 
-    /**
-     * @return the personTrustDIYStatus
-     */
+    @Override
     public IPersonTrustDIYStatus getPersonTrustDIYStatus() {
         if (personTrustDIYStatus == null) {
             personTrustDIYStatus = new PersonTrustDIYStatus();
@@ -303,13 +295,12 @@ public class Person extends AbstractAuditable<Long> implements IPerson
         return personTrustDIYStatus;
     }
 
+    @Override
     public void setPersonTrustDIYStatus(IPersonTrustDIYStatus personTrustDIYStatus) {
         this.personTrustDIYStatus = personTrustDIYStatus;
     }
 
-    /**
-     * @return the occupation
-     */
+    @Override
     public IOccupation getOccupation() {
         if (occupation == null) {
             occupation = new Occupation();
@@ -317,87 +308,84 @@ public class Person extends AbstractAuditable<Long> implements IPerson
         return occupation;
     }
 
+    @Override
     public void setOccupation(IOccupation occupation) {
         this.occupation = occupation;
     }
 
-    /**
-     * @return the preferredLanguage
-     */
+    @Override
     public ILanguage getPreferredLanguage() {
         return preferredLanguage;
     }
 
+    @Override
     public void setPreferredLanguage(ILanguage preferredLanguage) {
         this.preferredLanguage = preferredLanguage;
     }
 
-    /**
-     * @return the referalSourceCodeId
-     */
+    @Override
     public Integer getReferalSourceCodeId() {
         return referalSourceCodeId;
     }
 
+    @Override
     public void setReferalSourceCodeId(Integer referalSourceCodeId) {
         this.referalSourceCodeId = referalSourceCodeId;
     }
 
-    /**
-     * @return the residenceStatusCodeId
-     */
+    @Override
     public Integer getResidenceStatusCodeId() {
         return residenceStatusCodeId;
     }
 
+    @Override
     public void setResidenceStatusCodeId(Integer residenceStatusCodeId) {
         this.residenceStatusCodeId = residenceStatusCodeId;
     }
 
-    /**
-     * @return the taxFileNumber
-     */
+    @Override
     public String getTaxFileNumber()
     {
         return taxFileNumber;
     }
 
+    @Override
     public void setTaxFileNumber(String taxFileNumber)
     {
         this.taxFileNumber = taxFileNumber;
     }
 
-    /**
-     * @return the dssRecipient
-     */
+    @Override
     public Boolean getDssRecipient()
     {
         return dssRecipient;
     }
 
+    @Override
     public void setDssRecipient(Boolean dssRecipient)
     {
         this.dssRecipient = dssRecipient;
     }
 
+    @Override
     @Transient
-    public boolean isDssRecipient() {
+    public boolean dssRecipient() {
         return Boolean.TRUE.equals(dssRecipient);
     }
 
-    /**
-     * @return the supportToAge
-     */
+    @Override
     public Integer getSupportToAge()
     {
         return supportToAge;
     }
 
+    @Override
     public void setSupportToAge(Integer supportToAge)
     {
         this.supportToAge = supportToAge;
     }
 
+    @Override
     @Transient
     public Double getAge() {
         return DateTimeUtils.getAgeDouble(dateOfBirth);

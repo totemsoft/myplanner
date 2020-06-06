@@ -15,6 +15,7 @@ package au.com.totemsoft.myplanner.service.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -124,23 +125,23 @@ public class UserServiceImpl implements UserService {
     /* (non-Javadoc)
      * @see au.com.totemsoft.myplanner.service.UserService#findClients(java.util.Map, int, int)
      */
-    public List<? extends IClientView> findClients(Map<String, Object> criteria, int start, int length)
+    public List<IClientView> findClients(Map<String, Object> criteria, int start, int length)
         throws ServiceException
     {
         // add user
         IUser user = userPreferences.getUser();
-        Integer userTypeId = user == null ? null : user.getTypeId();
-        boolean supportPerson = AdviserTypeCode.isSupportPerson(userTypeId);
-        if (!supportPerson)
-        {
-            criteria.put(DbConstant.ADVISORID, user.getId());
+        if (user == null) {
+            return Collections.emptyList();
         }
-        else
-        {
+        //
+        boolean supportPerson = AdviserTypeCode.isSupportPerson(user.getTypeId());
+        if (!supportPerson) {
+            criteria.put(DbConstant.ADVISORID, user.getId());
+        } else {
             criteria.put(DbConstant.ALL_USERS_CLIENTS, Boolean.TRUE);
         }
         //
-        return clientDao.findClients(criteria, start, length);
+        return Collections.unmodifiableList(clientDao.findClients(criteria, start, length));
     }
 
     /* (non-Javadoc)
@@ -149,23 +150,18 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public Long persist(IClient client) throws ServiceException
     {
-        try
-        {
-            if (client == null || client.getId() == null)
-            {
+        try {
+            if (client == null || client.getId() == null) {
                 // TODO: save via hibernate
                 IUser user = userPreferences.getUser();
                 Integer clientId = clientService.create(user.getId().intValue());
                 return clientId.longValue();
-            }
-            else
-            {
+            } else  {
                 // TODO: implement save
                 return client.getId();
             }
         }
-        catch (Exception e)
-        {
+        catch (Exception e) {
             LOG.error(e.getMessage(), e);
             throw new ServiceException(e.getMessage(), e);
         }

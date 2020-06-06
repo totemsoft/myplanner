@@ -1864,7 +1864,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
 
         sql.setObject(++i, person.getDobCountry() == null ? null : person.getDobCountry().getId());
         sql.setString(++i, person.getTaxFileNumber());
-        sql.setString(++i, person.isDssRecipient() ? BooleanCode.rcYES.getCode() : BooleanCode.rcNO.getCode());
+        sql.setString(++i, person.dssRecipient() ? BooleanCode.rcYES.getCode() : BooleanCode.rcNO.getCode());
         ILanguage preferredLanguage = person.getPreferredLanguage();
         sql.setObject(++i, preferredLanguage == null ? null : preferredLanguage.getId());
         sql.setString(++i, preferredLanguage == null ? null : preferredLanguage.getCode());

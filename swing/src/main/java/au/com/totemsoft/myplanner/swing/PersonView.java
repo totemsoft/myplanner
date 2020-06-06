@@ -1269,7 +1269,7 @@ public abstract class PersonView extends BaseView {
         jComboBoxSmoker.setSelectedItem(smoker ? BooleanCode.rcYES : BooleanCode.rcNO);
 
         jCheckBoxHospitalCover.setSelected(personHealth == null ? false : personHealth.isHospitalCover());
-        jCheckBoxDSSRecipient.setSelected(personName.isDssRecipient());
+        jCheckBoxDSSRecipient.setSelected(personName.dssRecipient());
 
         if (personHealth != null) {
             id = personHealth.getHealthStateCodeId();

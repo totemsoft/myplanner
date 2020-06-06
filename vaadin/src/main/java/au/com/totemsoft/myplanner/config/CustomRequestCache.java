@@ -1,4 +1,4 @@
-package au.com.totemsoft.myplanner.security;
+package au.com.totemsoft.myplanner.config;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

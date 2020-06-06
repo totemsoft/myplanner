@@ -7,7 +7,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.ComponentScan;
 
 import au.com.totemsoft.myplanner.config.ServiceConfig;
-import au.com.totemsoft.myplanner.security.SecurityConfig;
 
 /**
  * The entry point of the Spring Boot application.
@@ -18,8 +17,7 @@ import au.com.totemsoft.myplanner.security.SecurityConfig;
 @ComponentScan(
     basePackages = { "au.com.totemsoft.myplanner.vaadin.config" },
     basePackageClasses = {
-        SecurityConfig.class,
-        ServiceConfig.class
+        ServiceConfig.class // from core module
     }
 )
 public class Application extends SpringBootServletInitializer {

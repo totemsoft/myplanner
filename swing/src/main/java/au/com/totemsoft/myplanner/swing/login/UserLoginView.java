@@ -1,5 +1,5 @@
 /*
- * UserLogin.java
+ * UserLoginView.java
  *
  * Created on 19 July 2001, 13:04
  */
@@ -13,28 +13,28 @@ import au.com.totemsoft.myplanner.config.PropertySourceManager;
 import au.com.totemsoft.myplanner.swing.AbstractPanel;
 import au.com.totemsoft.swing.SwingUtil;
 
-public final class UserLogin
+public final class UserLoginView
     extends AbstractPanel
     implements au.com.totemsoft.swing.IDefaultButton
 {
 
-    private static UserLogin view;
+    private static UserLoginView view;
 
     private String lastError;
 
-    /** Creates new form UserLogin */
-    private UserLogin(boolean allowDisplayOnDesktop, boolean displayOnDesktop) {
+    /** Creates new form UserLoginView */
+    private UserLoginView(boolean allowDisplayOnDesktop, boolean displayOnDesktop) {
         initComponents();
         initComponents2(allowDisplayOnDesktop, displayOnDesktop);
     }
 
-    public static UserLogin getInstance() {
+    public static UserLoginView getInstance() {
         return view;
     }
 
-    public static UserLogin newInstance(boolean allowDisplayOnDesktop, boolean displayOnDesktop) {
+    public static UserLoginView newInstance(boolean allowDisplayOnDesktop, boolean displayOnDesktop) {
         if (view == null)
-            view = new UserLogin(allowDisplayOnDesktop, displayOnDesktop);
+            view = new UserLoginView(allowDisplayOnDesktop, displayOnDesktop);
         return view;
     }
 

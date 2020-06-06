@@ -11,18 +11,18 @@ import au.com.totemsoft.crypto.Digest;
 /**
  * 
  */
-public class WebLogin extends javax.swing.JPanel {
+public class LoginView extends javax.swing.JPanel {
 
-    private static WebLogin view;
+    private static LoginView view;
 
     /** Creates new form WebDBLogin */
-    public WebLogin() {
+    public LoginView() {
         initComponents();
     }
 
-    public static WebLogin getInstance() {
+    public static LoginView getInstance() {
         if (view == null)
-            view = new WebLogin();
+            view = new LoginView();
         return view;
     }
 

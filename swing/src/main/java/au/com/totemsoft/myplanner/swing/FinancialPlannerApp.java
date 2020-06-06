@@ -29,7 +29,7 @@ import au.com.totemsoft.myplanner.service.ClientService;
 import au.com.totemsoft.myplanner.service.UtilityService;
 import au.com.totemsoft.myplanner.swing.config.AppConfig;
 import au.com.totemsoft.myplanner.swing.login.RegistrationView;
-import au.com.totemsoft.myplanner.swing.login.UserLogin;
+import au.com.totemsoft.myplanner.swing.login.UserLoginView;
 import au.com.totemsoft.myplanner.swing.sql.UpdateManagerApp;
 import au.com.totemsoft.swing.FinancialPlannerFocusManager;
 import au.com.totemsoft.swing.SplashWindow;
@@ -177,9 +177,9 @@ public class FinancialPlannerApp
 
 
     private void displayLogin(boolean allowDisplayOnDesktop, boolean displayOnDesktop) {
-        // create UserLogin
-        boolean exists = UserLogin.exists();
-        final UserLogin loginView = UserLogin.newInstance(allowDisplayOnDesktop, displayOnDesktop);
+        // create UserLoginView
+        boolean exists = UserLoginView.exists();
+        final UserLoginView loginView = UserLoginView.newInstance(allowDisplayOnDesktop, displayOnDesktop);
         loginView.setUserName(FPSLocale.getInstance().getLastUserName());
 
         if (!exists) {
@@ -244,7 +244,7 @@ public class FinancialPlannerApp
     }
 
     private void logout(int status) {
-        UserLogin login = UserLogin.getInstance();
+        UserLoginView login = UserLoginView.getInstance();
         if (login != null) login.logout();
         System.exit(status);
     }

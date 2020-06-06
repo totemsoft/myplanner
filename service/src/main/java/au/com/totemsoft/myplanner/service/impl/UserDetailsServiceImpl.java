@@ -16,7 +16,7 @@ import au.com.totemsoft.myplanner.dao.UserDao;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-     @Inject private UserDao userDao;
+    @Inject private UserDao userDao;
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     @Override

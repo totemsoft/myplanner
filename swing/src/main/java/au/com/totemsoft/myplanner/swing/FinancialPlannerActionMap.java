@@ -47,7 +47,7 @@ import au.com.totemsoft.myplanner.swing.help.HelpBrokerView;
 import au.com.totemsoft.myplanner.swing.help.SearchContentsView;
 import au.com.totemsoft.myplanner.swing.iso.InvRisk;
 import au.com.totemsoft.myplanner.swing.iso.InvRiskPartner;
-import au.com.totemsoft.myplanner.swing.login.UserLogin;
+import au.com.totemsoft.myplanner.swing.login.UserLoginView;
 import au.com.totemsoft.myplanner.swing.plan.PlanWriter;
 import au.com.totemsoft.myplanner.swing.plan.PlanWriterTemplate;
 import au.com.totemsoft.myplanner.swing.projection.AllocatedPensionViewNew;
@@ -558,7 +558,7 @@ public class FinancialPlannerActionMap
     }
 
     private void logout() {
-        UserLogin.getInstance().logout();
+        UserLoginView.getInstance().logout();
     }
 
     /**

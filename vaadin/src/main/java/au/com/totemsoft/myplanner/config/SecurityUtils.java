@@ -1,4 +1,4 @@
-package au.com.totemsoft.myplanner.security;
+package au.com.totemsoft.myplanner.config;
 
 import java.util.stream.Stream;
 

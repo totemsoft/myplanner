@@ -19,7 +19,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     /** serialVersionUID */
     private static final long serialVersionUID = -1170060631447434100L;
 
-    private LoginForm login = new LoginForm();
+    private final LoginForm login = new LoginForm();
 
     public LoginView() {
         addClassName("login-view");

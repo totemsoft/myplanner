@@ -762,7 +762,7 @@ public final class ClientSearch extends AbstractPanel {
 
     private Object[][] getRowData() {
         try {
-            List<IClientView> data = userService.findClients(getSelectionCriteria(), 0, -1);
+            List<IClientView> data = userService.findClients(getSelectionCriteria(), 0, 0);
             if (data == null)
                 return new Object[0][COLUMN_COUNT];
             Object[][] rowData = new Object[data.size()][COLUMN_COUNT];

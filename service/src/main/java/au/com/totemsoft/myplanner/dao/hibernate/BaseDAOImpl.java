@@ -68,7 +68,7 @@ public class BaseDAOImpl implements BaseDAO
         {
             qry.setFirstResult(start);
         }
-        if (length >= 0)
+        if (length > 0)
         {
             qry.setMaxResults(length);
         }

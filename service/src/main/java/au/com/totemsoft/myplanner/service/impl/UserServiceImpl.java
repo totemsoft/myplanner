@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -132,6 +133,10 @@ public class UserServiceImpl implements UserService {
         IUser user = userPreferences.getUser();
         if (user == null) {
             return Collections.emptyList();
+        }
+        //
+        if (criteria == null) {
+            criteria = new HashMap<>();
         }
         //
         boolean supportPerson = AdviserTypeCode.isSupportPerson(user.getTypeId());

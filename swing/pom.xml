@@ -36,6 +36,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <mainClass>au.com.totemsoft.myplanner.ui.FinancialPlannerApp</mainClass>
+                    <excludeDevtools>false</excludeDevtools>
                 </configuration>
             </plugin>
         </plugins>

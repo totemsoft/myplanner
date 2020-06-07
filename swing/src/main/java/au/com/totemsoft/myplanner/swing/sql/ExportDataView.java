@@ -506,7 +506,7 @@ public class ExportDataView
 
         try {
             Map<String, Object> criteria = new HashMap<String, Object>();
-            List<IClientView> clients = userService.findClients(criteria, 0, -1);
+            List<IClientView> clients = userService.findClients(criteria, 0, 0);
             int size = clients == null ? 0 : clients.size();
             Vector data = new Vector(size);
             for (IClientView c : clients) {

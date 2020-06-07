@@ -49,9 +49,9 @@ public interface UserService
 
     /**
      * 
-     * @param criteria
-     * @param start
-     * @param length
+     * @param criteria - can be empty on null
+     * @param start - default 0
+     * @param length - default 0
      * @return
      * @throws ServiceException
      */

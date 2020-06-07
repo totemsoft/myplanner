@@ -116,6 +116,7 @@
                     <mainClass>au.com.totemsoft.myplanner.vaadin.Application</mainClass>
                     <wait>500</wait>
                     <maxAttempts>240</maxAttempts>
+                    <excludeDevtools>false</excludeDevtools>
                 </configuration>
             </plugin>
 

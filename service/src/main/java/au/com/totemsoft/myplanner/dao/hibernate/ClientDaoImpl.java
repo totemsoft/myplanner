@@ -50,6 +50,7 @@ public class ClientDaoImpl extends BaseDAOImpl implements ClientDao
                 sql += " AND surname LIKE :surname";
                 parameters.put("surname", surname + "%");
             }
+            //
             fn = IPerson.FIRST_NAME;
             if (criteria.containsKey(fn))
             {
@@ -57,6 +58,7 @@ public class ClientDaoImpl extends BaseDAOImpl implements ClientDao
                 sql += " AND firstname LIKE :firstname";
                 parameters.put("firstname", firstname + "%");
             }
+            //
             fn = IPerson.DATE_OF_BIRTH;
             if (criteria.containsKey(fn))
             {
@@ -67,6 +69,7 @@ public class ClientDaoImpl extends BaseDAOImpl implements ClientDao
                     parameters.put("dateOfBirth", DateTimeUtils.getDate(dateOfBirth));
                 }
             }
+            //
             fn = IAddress.COUNTRY;
             if (criteria.containsKey(fn))
             {
@@ -77,6 +80,7 @@ public class ClientDaoImpl extends BaseDAOImpl implements ClientDao
                     parameters.put("countryId", NumberUtils.createLong(countryCode));
                 }
             }
+            //
             fn = IAddress.STATE;
             if (criteria.containsKey(fn))
             {
@@ -87,6 +91,7 @@ public class ClientDaoImpl extends BaseDAOImpl implements ClientDao
                     parameters.put("stateId", NumberUtils.createLong(stateCode));
                 }
             }
+            //
             fn = IAddress.POSTCODE;
             if (criteria.containsKey(fn))
             {
@@ -97,6 +102,7 @@ public class ClientDaoImpl extends BaseDAOImpl implements ClientDao
                     parameters.put("postcode", NumberUtils.createInteger(postcode));
                 }
             }
+            //
             if (criteria.containsKey(DbConstant.ALL_USERS_CLIENTS)
                 && Boolean.TRUE.equals(criteria.get(DbConstant.ALL_USERS_CLIENTS)))
             {

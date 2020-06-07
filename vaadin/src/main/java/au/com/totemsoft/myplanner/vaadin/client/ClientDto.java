@@ -6,21 +6,25 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Builder
 @Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
 public class ClientDto {
 
-    private final Long id;
+    private Long id;
 
-    private final String name;
+    private String name;
 
-    private final Date dateOfBirth;
+    private Date dateOfBirth;
 
-    private final String country;
+    private String country;
 
 }

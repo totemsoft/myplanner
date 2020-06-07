@@ -464,7 +464,7 @@ public final class ClientSearch extends AbstractPanel {
         ((SortedTableModel) tm).removeRow(selectedRow);
         try {
             IClient client = userService.findClient(clientId.longValue());
-            userService.remove(client);
+            userService.removeClient(client);
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }

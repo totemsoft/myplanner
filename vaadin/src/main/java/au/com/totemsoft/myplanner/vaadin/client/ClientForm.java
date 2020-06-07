@@ -14,6 +14,8 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.shared.Registration;
 
+import au.com.totemsoft.myplanner.domain.dto.ClientDto;
+
 public class ClientForm extends FormLayout {
 
     /** serialVersionUID */

@@ -49,7 +49,7 @@ public interface UserService
 
     /**
      * 
-     * @param criteria - can be empty on null
+     * @param criteria - can be empty or null
      * @param start - default 0
      * @param length - default 0
      * @return
@@ -63,7 +63,7 @@ public interface UserService
      * @return
      * @throws ServiceException
      */
-    Long persist(IClient client) throws ServiceException;
+    Long saveClient(IClient client) throws ServiceException;
 
     /**
      * 
@@ -71,6 +71,6 @@ public interface UserService
      * @return
      * @throws ServiceException
      */
-    Long remove(IClient client) throws ServiceException;
+    Long removeClient(IClient client) throws ServiceException;
 
 }

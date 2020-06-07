@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
@@ -17,7 +19,8 @@ import com.vaadin.flow.router.Route;
 
 import au.com.totemsoft.myplanner.api.bean.IClientView;
 import au.com.totemsoft.myplanner.api.service.UserService;
-import au.com.totemsoft.myplanner.vaadin.client.ClientDto;
+import au.com.totemsoft.myplanner.domain.dto.ClientDto;
+import au.com.totemsoft.myplanner.service.ClientService;
 import au.com.totemsoft.myplanner.vaadin.client.ClientForm;
 
 @Route(value = "", layout = MainLayout.class)
@@ -27,6 +30,8 @@ public class ClientsView extends VerticalLayout {
 
     /** serialVersionUID */
     private static final long serialVersionUID = -6231446012104860018L;
+
+    @Inject private ClientService clientService;
 
     private final UserService userService;
 
@@ -45,7 +50,7 @@ public class ClientsView extends VerticalLayout {
         //
         this.form = new ClientForm();
         this.form.addListener(ClientForm.SaveEvent.class, this::saveClient);
-        this.form.addListener(ClientForm.DeleteEvent.class, this::deleteClient);
+        this.form.addListener(ClientForm.DeleteEvent.class, this::removeClient);
         this.form.addListener(ClientForm.CloseEvent.class, e -> closeEditor());
         //
         Div content = new Div(grid, form);
@@ -57,14 +62,16 @@ public class ClientsView extends VerticalLayout {
         closeEditor();
     }
 
-    private void deleteClient(ClientForm.DeleteEvent evt) {
-        //userService.delete(evt.getClient());
+    private void removeClient(ClientForm.DeleteEvent evt) {
+        ClientDto client = evt.getClient();
+        //clientService.remove(client);
         updateList();
         closeEditor();
     }
 
     private void saveClient(ClientForm.SaveEvent evt) {
-        //userService.save(evt.getClient());
+        ClientDto client = evt.getClient();
+        //clientService.save(client);
         updateList();
         closeEditor();
     }
@@ -85,7 +92,7 @@ public class ClientsView extends VerticalLayout {
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
         filterText.addValueChangeListener(e -> updateList());
 
-        Button addClientButton = new Button("Add Client", click -> addClient());
+        Button addClientButton = new Button("Add Client", e -> addClient());
         HorizontalLayout toolbar = new HorizontalLayout(filterText, addClientButton);
         toolbar.addClassName("toolbar");
         return toolbar;

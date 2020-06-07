@@ -149,11 +149,9 @@ public class UserServiceImpl implements UserService {
         return Collections.unmodifiableList(clientDao.findClients(criteria, start, length));
     }
 
-    /* (non-Javadoc)
-     * @see au.com.totemsoft.myplanner.service.UserService#persist(au.com.totemsoft.myplanner.domain.hibernate.Client)
-     */
+    @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public Long persist(IClient client) throws ServiceException
+    public Long saveClient(IClient client) throws ServiceException
     {
         try {
             if (client == null || client.getId() == null) {
@@ -176,7 +174,7 @@ public class UserServiceImpl implements UserService {
      * @see au.com.totemsoft.myplanner.service.UserService#remove(au.com.totemsoft.myplanner.domain.hibernate.Client)
      */
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
-    public Long remove(IClient client) throws ServiceException
+    public Long removeClient(IClient client) throws ServiceException
     {
         Connection con = null;
         try {

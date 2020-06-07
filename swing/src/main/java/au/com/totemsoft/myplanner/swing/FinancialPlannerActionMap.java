@@ -590,7 +590,7 @@ public class FinancialPlannerActionMap
 
         try {
             // new client will be created
-            Integer newClientID = userService.persist(null).intValue();
+            Integer newClientID = userService.saveClient(null).intValue();
 
             // close all visible forms (visible = false)
             SwingUtil.closeAll();

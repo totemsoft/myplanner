@@ -71,7 +71,7 @@ public class ClientsView extends VerticalLayout {
 
     private void saveClient(ClientForm.SaveEvent evt) {
         ClientDto client = evt.getClient();
-        //clientService.save(client);
+        clientService.saveClient(client);
         updateList();
         closeEditor();
     }
@@ -107,6 +107,9 @@ public class ClientsView extends VerticalLayout {
         if (client == null) {
             closeEditor();
         } else {
+            if (client.getId() == null) {
+                client.setId(clientService.createClient());
+            }
             form.setClient(client);
             form.setVisible(true);
             addClassName("editing");

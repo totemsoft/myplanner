@@ -17,11 +17,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import au.com.totemsoft.myplanner.api.ObjectNotFoundException;
 import au.com.totemsoft.myplanner.api.ServiceException;
 import au.com.totemsoft.myplanner.api.bean.IStrategyGroup;
+import au.com.totemsoft.myplanner.api.bean.IUser;
 import au.com.totemsoft.myplanner.api.code.LinkObjectTypeConstant;
 import au.com.totemsoft.myplanner.code.BooleanCode;
+import au.com.totemsoft.myplanner.domain.dto.ClientDto;
 import au.com.totemsoft.myplanner.service.ClientService;
 import au.com.totemsoft.myplanner.service.CreateException;
 import au.com.totemsoft.myplanner.service.FinderException;
@@ -37,11 +42,9 @@ import au.com.totemsoft.util.ReferenceCode;
  * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  * @created 24 July 2001, 13:11
  */
+@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class ClientServiceImpl extends PersonServiceImpl implements ClientService {
 
-    /*
-     * 
-     */
     private PersonServiceImpl partner;
 
     private boolean active;
@@ -54,6 +57,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
         super();
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Override
     // value has to be Integer
     public void setOwnerPrimaryKey(Object value) throws ServiceException {
         Integer id = value == null ? null : ((Number) value).intValue();
@@ -110,17 +115,11 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
 
     }
 
-    /**
-     * Description of the Method
-     * 
-     * @return Description of the Return Value
-     * @exception ServiceException
-     *                Description of the Exception
-     * @exception CreateException
-     *                Description of the Exception
-     */
-    public Integer create(Integer ownerId) throws ServiceException, CreateException {
-
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Override
+    public Long createClient() throws ServiceException, CreateException {
+        final IUser user = userPreferences.getUser();
+        final Integer ownerId = user.getId().intValue();
         PreparedStatement sql = null;
         try {
             Connection con = sqlHelper.getConnection();
@@ -135,11 +134,12 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
             sql.setInt(1, personId);
             sql.executeUpdate();
             // link user and client
-            if (ownerId != null)
+            if (ownerId != null) {
                 linkObjectDao.link(ownerId, personId, USER_2_CLIENT, con);
+            }
             setId(personId);
             sqlHelper.close(con);
-            return personId;
+            return personId.longValue();
         } catch (SQLException e) {
             throw new CreateException(e.getMessage());
         } catch (Exception e) {
@@ -151,6 +151,13 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
                 throw new ServiceException(e.getMessage());
             }
         }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Override
+    public void saveClient(ClientDto client) {
+        // TODO Auto-generated method stub
+        
     }
 
     /**
@@ -296,6 +303,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
      * @exception ServiceException
      *                Description of the Exception
      */
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Override
     public PersonService getPartner(boolean create) throws ServiceException {
 
         if (partner == null) {
@@ -404,6 +413,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
 
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Override
     public void storeStrategy(IStrategyGroup strategy) throws ServiceException {
         if (strategy == null)
             return;
@@ -419,6 +430,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
         }
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Override
     public void deleteStrategy(IStrategyGroup strategy) throws ServiceException {
         if (strategy == null || strategy.getId() == null)
             return;
@@ -433,6 +446,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
         }
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Override
     public void implementStrategy(IStrategyGroup strategy) throws ServiceException {
         if (strategy == null || strategy.getId() == null)
             return;
@@ -450,6 +465,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
         }
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Override
     public void rollbackStrategy(IStrategyGroup strategy) throws ServiceException {
         if (strategy == null || strategy.getId() == null)
             return;
@@ -639,6 +656,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
 
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Override
     public void addCategory(au.com.totemsoft.util.ReferenceCode category)
             throws ServiceException {
 
@@ -682,6 +701,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
 
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Override
     public boolean removeCategory(ReferenceCode category)
             throws ServiceException {
         if (category == null)
@@ -717,6 +738,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
         return true;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Override
     public void updateCategory(au.com.totemsoft.util.ReferenceCode category)
             throws ServiceException {
         if (category == null)
@@ -745,6 +768,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
         }
     }
 
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Override
     public void addSelectedCategories(java.util.Vector selectedCategories)
             throws ServiceException {
         if (selectedCategories == null)

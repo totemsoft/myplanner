@@ -155,12 +155,11 @@ public class UserServiceImpl implements UserService {
     {
         try {
             if (client == null || client.getId() == null) {
-                // TODO: save via hibernate
-                IUser user = userPreferences.getUser();
-                Integer clientId = clientService.create(user.getId().intValue());
-                return clientId.longValue();
+                Long clientId = clientService.createClient();
+                return clientId;
             } else  {
                 // TODO: implement save
+                //clientService.save(client);
                 return client.getId();
             }
         }

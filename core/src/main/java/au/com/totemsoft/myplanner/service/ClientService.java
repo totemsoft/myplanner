@@ -14,20 +14,18 @@ import java.util.Date;
 import java.util.Vector;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import au.com.totemsoft.myplanner.api.ServiceException;
 import au.com.totemsoft.myplanner.api.bean.IStrategyGroup;
+import au.com.totemsoft.myplanner.domain.dto.ClientDto;
 
 @Service
-@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-public interface ClientService extends PersonService
-{
+public interface ClientService extends PersonService {
 
-    Integer create(Integer ownerId) throws ServiceException, CreateException;
+    Long createClient() throws ServiceException, CreateException;
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    void saveClient(ClientDto client);
+
     public void setOwnerPrimaryKey(Object value) throws ServiceException;
 
     public boolean validatePassword(String password) throws ServiceException;
@@ -44,37 +42,28 @@ public interface ClientService extends PersonService
 
     public void setReviewDate(Date value) throws ServiceException;
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public PersonService getPartner(boolean create) throws ServiceException;
 
     public Collection getStrategies() throws ServiceException;
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void storeStrategy(IStrategyGroup strategy) throws ServiceException;
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void deleteStrategy(IStrategyGroup strategy) throws ServiceException;
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void implementStrategy(IStrategyGroup strategy) throws ServiceException;
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void rollbackStrategy(IStrategyGroup strategy) throws ServiceException;
 
     public Collection getCategories() throws ServiceException;
 
     public Collection getSelectedCategories() throws ServiceException;
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void addCategory(au.com.totemsoft.util.ReferenceCode category) throws ServiceException;
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void updateCategory(au.com.totemsoft.util.ReferenceCode category) throws ServiceException;
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public boolean removeCategory(au.com.totemsoft.util.ReferenceCode category) throws ServiceException;
 
-    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     public void addSelectedCategories(Vector selectedCategories) throws ServiceException;
 
 }

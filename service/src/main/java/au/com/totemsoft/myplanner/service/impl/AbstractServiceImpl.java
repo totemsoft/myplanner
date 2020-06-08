@@ -16,13 +16,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import au.com.totemsoft.myplanner.api.RemoveException;
 import au.com.totemsoft.myplanner.api.ServiceException;
 import au.com.totemsoft.myplanner.api.bean.DbConstant;
+import au.com.totemsoft.myplanner.api.bean.UserPreferences;
 import au.com.totemsoft.myplanner.bean.db.AbstractPersistable;
 import au.com.totemsoft.myplanner.etc.FPSObject;
 
 public abstract class AbstractServiceImpl extends AbstractPersistable implements DbConstant {
+
+    @Inject protected UserPreferences userPreferences;
 
     protected AbstractServiceImpl() {
         super();

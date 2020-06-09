@@ -79,16 +79,16 @@ public final class ClientView extends PersonView2 {
 
     // End of variables declaration
 
-    public void display(Integer clientPersonID,
+    public void display(Number clientId,
             java.awt.event.FocusListener[] listeners, boolean inFrame) {
 
-        if (clientPersonID == null)
+        if (clientId == null) {
             return;
-
-        if (!exists())
+        }
+        if (!exists()) {
             getClientView();
-
-        if (!clientPersonID.equals(view.getPrimaryKey())) {
+        }
+        if (clientId.longValue() != ((Number) view.getPrimaryKey()).longValue()) {
             try {
                 view.updateView();
             } catch (Exception e) {
@@ -96,7 +96,6 @@ public final class ClientView extends PersonView2 {
                 return;
             }
         }
-
         // add/show view
         if (inFrame)
             // Component comp, final java.awt.event.FocusListener [] listeners,

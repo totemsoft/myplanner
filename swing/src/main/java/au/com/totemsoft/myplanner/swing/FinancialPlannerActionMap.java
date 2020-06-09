@@ -590,12 +590,12 @@ public class FinancialPlannerActionMap
 
         try {
             // new client will be created
-            Integer newClientID = userService.saveClient(null).intValue();
+            Long clientId = clientService.createClient();
 
             // close all visible forms (visible = false)
             SwingUtil.closeAll();
 
-            displayClient(newClientID);
+            displayClient(clientId);
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
@@ -644,9 +644,9 @@ public class FinancialPlannerActionMap
 
     }
 
-    public void displayClient(final Integer clientPersonID) {
+    public void displayClient(final Number clientId) {
         // SwingUtilities.invokeLater( new Runnable() { public void run() {
-        ClientView.getClientView().display(clientPersonID,
+        ClientView.getClientView().display(clientId,
                 focusListeners, true);
         // } } );
     }

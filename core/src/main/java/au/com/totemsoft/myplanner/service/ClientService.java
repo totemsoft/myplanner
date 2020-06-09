@@ -26,6 +26,8 @@ public interface ClientService extends PersonService {
 
     void saveClient(ClientDto client);
 
+    void removeClient(ClientDto client);
+
     public void setOwnerPrimaryKey(Object value) throws ServiceException;
 
     public boolean validatePassword(String password) throws ServiceException;

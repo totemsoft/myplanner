@@ -17,6 +17,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +28,9 @@ import au.com.totemsoft.myplanner.api.bean.IStrategyGroup;
 import au.com.totemsoft.myplanner.api.bean.IUser;
 import au.com.totemsoft.myplanner.api.code.LinkObjectTypeConstant;
 import au.com.totemsoft.myplanner.code.BooleanCode;
+import au.com.totemsoft.myplanner.dao.ClientDao;
 import au.com.totemsoft.myplanner.domain.dto.ClientDto;
+import au.com.totemsoft.myplanner.domain.hibernate.Client;
 import au.com.totemsoft.myplanner.service.ClientService;
 import au.com.totemsoft.myplanner.service.CreateException;
 import au.com.totemsoft.myplanner.service.FinderException;
@@ -44,6 +48,8 @@ import au.com.totemsoft.util.ReferenceCode;
  */
 @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public class ClientServiceImpl extends PersonServiceImpl implements ClientService {
+
+    @Inject private ClientDao clientDao;
 
     private PersonServiceImpl partner;
 
@@ -125,8 +131,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
             Connection con = sqlHelper.getConnection();
             // get new ObjectID for client
             Integer personId = getNewObjectID(CLIENT_PERSON, con);
-            // add to person table
-            sql = con.prepareStatement("INSERT INTO person (PersonID) VALUES (?)");
+            // add to Person table
+            sql = con.prepareStatement("INSERT INTO Person (PersonID) VALUES (?)");
             sql.setInt(1, personId);
             sql.executeUpdate();
             // add to ClientPerson table
@@ -156,8 +162,21 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     @Override
     public void saveClient(ClientDto client) {
-        // TODO Auto-generated method stub
-        
+        Client c = clientDao.findById(client.getId());
+        if (c != null) {
+            
+            LOG.info("saveClient: " + client);
+        }
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Override
+    public void removeClient(ClientDto client) {
+        Client c = clientDao.findById(client.getId());
+        if (c != null) {
+            clientDao.delete(c);
+            LOG.info("removeClient: " + client);
+        }
     }
 
     /**

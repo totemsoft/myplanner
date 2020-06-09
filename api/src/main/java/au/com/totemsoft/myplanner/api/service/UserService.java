@@ -63,14 +63,6 @@ public interface UserService
      * @return
      * @throws ServiceException
      */
-    Long saveClient(IClient client) throws ServiceException;
-
-    /**
-     * 
-     * @param client
-     * @return
-     * @throws ServiceException
-     */
     Long removeClient(IClient client) throws ServiceException;
 
 }

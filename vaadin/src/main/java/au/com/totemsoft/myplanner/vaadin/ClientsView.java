@@ -64,7 +64,7 @@ public class ClientsView extends VerticalLayout {
 
     private void removeClient(ClientForm.DeleteEvent evt) {
         ClientDto client = evt.getClient();
-        //clientService.remove(client);
+        clientService.removeClient(client);
         updateList();
         closeEditor();
     }

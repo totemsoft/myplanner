@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.Type;
@@ -185,16 +186,30 @@ public class Person extends AbstractAuditable<Long> implements IPerson
 
     @Override
     @Transient
-    public String getFullName()
-    {
-        return surname + (firstname == null ? "" : ", " + firstname);
+    public String getFullName() {
+        String shortName = getShortName();
+        if (marital == null) {
+            return shortName;
+        }
+        if (StringUtils.isBlank(shortName)) {
+            return null;
+        }
+        return marital.getCode() + " " + shortName;
     }
 
     @Override
     @Transient
-    public String getShortName()
-    {
-        return surname + (firstname == null ? "" : ", " + firstname);
+    public String getShortName() {
+        if (StringUtils.isBlank(surname) && StringUtils.isBlank(firstname)) {
+            return null;
+        }
+        if (StringUtils.isBlank(surname)) {
+            return firstname;
+        }
+        if (StringUtils.isBlank(firstname)) {
+            return surname;
+        }
+        return surname + ", " + firstname;
     }
 
     @Override

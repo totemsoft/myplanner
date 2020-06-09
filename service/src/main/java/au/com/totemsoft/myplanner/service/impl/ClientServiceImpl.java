@@ -32,6 +32,7 @@ import au.com.totemsoft.myplanner.dao.ClientDao;
 import au.com.totemsoft.myplanner.dao.PersonDao;
 import au.com.totemsoft.myplanner.domain.dto.ClientDto;
 import au.com.totemsoft.myplanner.domain.hibernate.Client;
+import au.com.totemsoft.myplanner.domain.hibernate.Person;
 import au.com.totemsoft.myplanner.service.ClientService;
 import au.com.totemsoft.myplanner.service.CreateException;
 import au.com.totemsoft.myplanner.service.FinderException;
@@ -73,13 +74,11 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
         Integer id = value == null ? null : ((Number) value).intValue();
         if (equals(id, getOwnerId()))
             return;
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             linkObjectDao.unlink(getOwnerId(), getId(), USER_2_CLIENT, con);
             if (id != null)
                 linkObjectDao.link(id, getId(), USER_2_CLIENT, con);
             setOwnerId(id);
-            sqlHelper.close(con);
         } catch (SQLException e) {
             throw new ServiceException(e.getMessage());
         }
@@ -89,8 +88,7 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
         PreparedStatement sql = null;
         ResultSet rs = null;
         boolean validate = false;
-        try {
-            Connection con = this.sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             sql = con.prepareStatement(
             // "SELECT ClientPersonID FROM ClientPerson WHERE ( ClientPersonID =
             // ?)"
@@ -109,7 +107,6 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
             close(rs, sql);
             rs = null;
             sql = null;
-            sqlHelper.close(con);
 
             return validate;
         } catch (SQLException e) {
@@ -130,32 +127,38 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
         final IUser user = userPreferences.getUser();
         final Integer ownerId = user.getId().intValue();
 
-//        personDao
-//        Client c = new Client();
-//        c.set
-//        clientDao.persist(c);
-//        LOG.info("saveClient: " + c.getId());
-//        return c.getId();
-
         PreparedStatement sql = null;
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             // get new ObjectID for client
             Integer personId = getNewObjectID(CLIENT_PERSON, con);
+
             // add to Person table
+//            Person p = new Person();
+//            p.setId(personId.longValue());
+//            personDao.persist(p);
+//            personDao.flushAndClear();
             sql = con.prepareStatement("INSERT INTO Person (PersonID) VALUES (?)");
             sql.setInt(1, personId);
             sql.executeUpdate();
+            LOG.info("createClient: person #" + personId);
+
             // add to ClientPerson table
+//            Client c = new Client();
+//            c.setId(personId.longValue());
+//            clientDao.persist(c);
+//            clientDao.flushAndClear();
             sql = con.prepareStatement("INSERT INTO ClientPerson (ClientPersonID) VALUES (?)");
             sql.setInt(1, personId);
             sql.executeUpdate();
+            LOG.info("createClient: client #" + personId);
+
             // link user and client
             if (ownerId != null) {
                 linkObjectDao.link(ownerId, personId, USER_2_CLIENT, con);
             }
             setId(personId);
-            sqlHelper.close(con);
+
+            //
             return personId.longValue();
         } catch (SQLException e) {
             throw new CreateException(e.getMessage());
@@ -215,14 +218,9 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
      */
     public Integer findByPrimaryKey(Integer personID) throws ServiceException,
             FinderException {
-
-        Connection con = null;
         PreparedStatement sql = null;
         ResultSet rs = null;
-
-        try {
-            con = this.sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // sql = con.
             sql = con.prepareStatement(
             // "SELECT ClientPersonID FROM ClientPerson WHERE ( ClientPersonID =
@@ -275,8 +273,6 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
         } finally {
             try {
                 close(rs, sql);
-                if (con != null)
-                    sqlHelper.close(con);
             } catch (SQLException e) {
                 throw new ServiceException(e.getMessage());
             }
@@ -370,11 +366,9 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
         if (partner != null)
             return partner.getId();
 
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             List list = getLinkedObjects(CLIENT_2_PERSON, PARTNER,
                     CLIENT$PERSON_2_RELATIONSHIP_FINANCE, con);
-            sqlHelper.close(con);
             return list == null || list.size() == 0 ? null : (Integer) list
                     .get(list.size() - 1);
             // last one with max ID
@@ -392,11 +386,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
      *                Description of the Exception
      */
     public Collection getStrategies() throws ServiceException {
-
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             Collection result = getStrategies(con);
-            sqlHelper.close(con);
             return result;
         } catch (SQLException e) {
             throw new ServiceException(e.getMessage());
@@ -449,12 +440,10 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
     public void storeStrategy(IStrategyGroup strategy) throws ServiceException {
         if (strategy == null)
             return;
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             StrategyGroupBean sgb = new StrategyGroupBean(strategy);
             sgb.setOwnerId(getId());
             sgb.store(con);
-            sqlHelper.close(con);
         } catch (SQLException e) {
             e.printStackTrace();
             throw new ServiceException(e.getMessage());
@@ -466,12 +455,10 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
     public void deleteStrategy(IStrategyGroup strategy) throws ServiceException {
         if (strategy == null || strategy.getId() == null)
             return;
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             linkObjectDao.unlink(getId(),
                     strategy.getId(),
                     LinkObjectTypeConstant.PERSON_2_STRATEGYGROUP, con);
-            sqlHelper.close(con);
         } catch (SQLException e) {
             throw new ServiceException(e.getMessage());
         }
@@ -553,10 +540,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
      *                Description of the Exception
      */
     private void storePartner() throws ServiceException {
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             storePartner(con);
-            sqlHelper.close(con);
         } catch (SQLException e) {
             throw new ServiceException(e.getMessage());
         }
@@ -586,11 +571,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
      * Category
      **************************************************************************/
     public Collection getCategories() throws ServiceException {
-
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             Collection result = getCategories(con);
-            sqlHelper.close(con);
             return result;
         } catch (SQLException e) {
             throw new ServiceException(e.getMessage());
@@ -635,11 +617,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
     }
 
     public Collection getSelectedCategories() throws ServiceException {
-
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             Collection result = getSelectedCategories(con);
-            sqlHelper.close(con);
             return result;
         } catch (SQLException e) {
             throw new ServiceException(e.getMessage());
@@ -701,10 +680,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
             category.setDescription(desc);
         }
 
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             addCategory(category, con);
-            sqlHelper.close(con);
         } catch (SQLException e) {
             throw new ServiceException(e.getMessage());
         }
@@ -739,10 +716,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
         if (category == null)
             return true;
 
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             boolean result = removeCategory(category, con);
-            sqlHelper.close(con);
             return result;
         } catch (SQLException e) {
             throw new ServiceException(e.getMessage());
@@ -775,10 +750,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
             throws ServiceException {
         if (category == null)
             return;
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             updateCategory(category, con);
-            sqlHelper.close(con);
         } catch (SQLException e) {
             throw new ServiceException(e.getMessage());
         }
@@ -805,10 +778,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
             throws ServiceException {
         if (selectedCategories == null)
             return;
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             addSelectedCategories(selectedCategories, con);
-            sqlHelper.close(con);
         } catch (SQLException e) {
             throw new ServiceException(e.getMessage());
         }

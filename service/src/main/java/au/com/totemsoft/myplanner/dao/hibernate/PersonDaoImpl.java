@@ -3,7 +3,8 @@ package au.com.totemsoft.myplanner.dao.hibernate;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Repository;
 
 import au.com.totemsoft.myplanner.api.bean.PersonName;
@@ -16,11 +17,8 @@ import au.com.totemsoft.myplanner.dao.PersonDao;
 @Repository
 public class PersonDaoImpl extends BaseDAOImpl implements PersonDao {
 
-    @Autowired private EntityDao entityDao;
+    @Inject private EntityDao entityDao;
 
-    /* (non-Javadoc)
-     * @see au.com.totemsoft.myplanner.dao.PersonDao#load(java.sql.ResultSet, au.com.totemsoft.myplanner.etc.PersonName)
-     */
     @Override
     public void load(ResultSet rs, PersonName personName) throws SQLException {
         Number sexCodeId = (Number) rs.getObject("SexCodeID");

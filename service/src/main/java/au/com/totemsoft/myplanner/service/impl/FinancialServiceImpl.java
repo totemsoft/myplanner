@@ -120,9 +120,7 @@ public class FinancialServiceImpl implements FinancialService {
      */
     @Override
     public Financial findFinancial(Integer personId, Integer financialId) {
-        Connection con = null;
-        try {
-            con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             PreparedStatement sql = null;
             ResultSet rs = null;
             Integer objectTypeId = null;
@@ -150,12 +148,6 @@ public class FinancialServiceImpl implements FinancialService {
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw new ServiceException(e.getMessage());
-        } finally {
-            try {
-                sqlHelper.close(con);
-            } catch (SQLException e) {
-                throw new ServiceException(e.getMessage());
-            }
         }
     }
 
@@ -164,10 +156,7 @@ public class FinancialServiceImpl implements FinancialService {
      */
     @Override
     public Map<Integer, Map<Integer, Financial>> findFinancials(Integer personId, Integer strategyGroupId) {
-        Connection con = null;
-        try {
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             PreparedStatement sql = null;
             ResultSet rs = null;
             Map<Integer, Map<Integer, Financial>> result = null;
@@ -228,12 +217,6 @@ public class FinancialServiceImpl implements FinancialService {
             sqlHelper.printSQLException(e);
             //con.rollback();
             throw new ServiceException(e.getMessage());
-        } finally {
-            try {
-                sqlHelper.close(con);
-            } catch (SQLException e) {
-                throw new ServiceException(e.getMessage());
-            }
         }
     }
 

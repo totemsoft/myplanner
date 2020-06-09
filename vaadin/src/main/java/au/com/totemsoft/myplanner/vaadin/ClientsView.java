@@ -109,6 +109,7 @@ public class ClientsView extends VerticalLayout {
         } else {
             if (client.getId() == null) {
                 client.setId(clientService.createClient());
+                updateList();
             }
             form.setClient(client);
             form.setVisible(true);

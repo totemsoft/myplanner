@@ -101,12 +101,10 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
      * into database invoke create(...) method
      */
     public Integer persist(Integer ownerPersonID) throws ServiceException {
-        try {
+        try (Connection con = sqlHelper.getConnection();) {
             PersonServiceImpl pb = new PersonServiceImpl(this);
             pb.setOwnerId(ownerPersonID);
-            Connection con = sqlHelper.getConnection();
             Integer personID = pb.create(con);
-            sqlHelper.close(con);
             return personID;
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -161,12 +159,10 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
      * 
      */
     public void storePerson() throws ServiceException {
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             storePerson(con);
             if (financialGoal != null)
                 storeFinancialGoal(con);
-            sqlHelper.close(con);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
             throw new ServiceException(e.getMessage(), e);
@@ -176,13 +172,11 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     public void storeFinancials(Map financials, FinancialGoal financialGoal) throws ServiceException {
         if (financials == null && financialGoal == null)
             return;
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             if (financials != null)
                 storeFinancials(financials); // first
             if (financialGoal != null)
                 storeFinancialGoal(con); // second (will use financial data)
-            sqlHelper.close(con);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
             throw new ServiceException(e.getMessage());
@@ -192,10 +186,8 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     public void storeComments() throws ServiceException {
         if (comments == null)
             return;
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             storeComments(con);
-            sqlHelper.close(con);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
             throw new ServiceException(e.getMessage());
@@ -205,10 +197,8 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     public void storeSurveys() throws ServiceException {
         if (surveys == null)
             return;
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             storeSurveys(con);
-            sqlHelper.close(con);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
             throw new ServiceException(e.getMessage());
@@ -218,10 +208,8 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     public void storeModels() throws ServiceException {
         if (models == null)
             return;
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             storeModels(con);
-            sqlHelper.close(con);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
             throw new ServiceException(e.getMessage());
@@ -231,10 +219,8 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     public void storeEmployerBusiness() throws ServiceException {
         if (business == null)
             return;
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             storeEmployerBusiness(con);
-            sqlHelper.close(con);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
             throw new ServiceException(e.getMessage());
@@ -350,9 +336,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
      */
     public IBusiness getEmployerBusiness() throws ServiceException {
         if (business == null) {
-            Connection con = null;
-            try {
-                con = sqlHelper.getConnection();
+            try (Connection con = sqlHelper.getConnection();) {
                 List list = getLinkedObjects(PERSON_2_BUSINESS, 0, PERSON$BUSINESS_2_OCCUPATION, con);
                 if (list != null && !list.isEmpty()) {
                     Integer businessId = (Integer) list.get(0);
@@ -364,12 +348,6 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
             } catch (ObjectNotFoundException e) {
                 business = null;
                 throw e;
-            } finally {
-                try {
-                    sqlHelper.close(con);
-                } catch (SQLException e) {
-                    throw new ServiceException(e);
-                }
             }
         }
         return business;
@@ -562,12 +540,8 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     }
 
     public Map getStrategyGroupFinancials(Integer strategyGroupID, boolean complex) throws ServiceException {
-
-        Connection con = null;
-        try {
-            con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             Map result = getStrategyGroupFinancials(con, strategyGroupID, complex);
-            sqlHelper.close(con);
             return result;
         } catch (SQLException e) {
             e.printStackTrace(System.err);
@@ -597,66 +571,63 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         if (financials == null)
             return;
 
-        Connection con = sqlHelper.getConnection();
-
-        // iterate through all financial records of this type
-        // and close them, call remove(null)
-        Iterator iter = financials.entrySet().iterator();
-        while (iter.hasNext()) {
-            Map.Entry entry = (Map.Entry) iter.next();
-
-            Integer objectTypeID = (Integer) entry.getKey();
-            Map map = (Map) entry.getValue();
-
-            // create dummy FinancialBean object (derived ones - of course)
-            // will be used to remove ALL Financial objects of this type
-            FinancialBean fb = null;
-
-            Iterator iter2 = map.entrySet().iterator();
-            while (iter2.hasNext()) {
-                Map.Entry entry2 = (Map.Entry) iter2.next();
-                Integer objID = (Integer) entry2.getKey();
-                Financial f = (Financial) entry2.getValue();
-
-                if (fb == null)
-                    fb = ObjectClass.createNewInstance(objectTypeID);
-                // if ( fb == null )
-                // continue; // wrong objectTypeID (e.g. SurplusItem)
-
-                if (f == null) {
-                    // remove
-                    if (objID > 0) { // this removed on client
-                        fb.setOwnerId(this.getId());
-
-                        fb.setId(objID);
-                        fb.remove(con); // delete object
+        try (Connection con = sqlHelper.getConnection();) {
+            // iterate through all financial records of this type
+            // and close them, call remove(null)
+            Iterator iter = financials.entrySet().iterator();
+            while (iter.hasNext()) {
+                Map.Entry entry = (Map.Entry) iter.next();
+    
+                Integer objectTypeID = (Integer) entry.getKey();
+                Map map = (Map) entry.getValue();
+    
+                // create dummy FinancialBean object (derived ones - of course)
+                // will be used to remove ALL Financial objects of this type
+                FinancialBean fb = null;
+    
+                Iterator iter2 = map.entrySet().iterator();
+                while (iter2.hasNext()) {
+                    Map.Entry entry2 = (Map.Entry) iter2.next();
+                    Integer objID = (Integer) entry2.getKey();
+                    Financial f = (Financial) entry2.getValue();
+    
+                    if (fb == null)
+                        fb = ObjectClass.createNewInstance(objectTypeID);
+                    // if ( fb == null )
+                    // continue; // wrong objectTypeID (e.g. SurplusItem)
+    
+                    if (f == null) {
+                        // remove
+                        if (objID > 0) { // this removed on client
+                            fb.setOwnerId(this.getId());
+    
+                            fb.setId(objID);
+                            fb.remove(con); // delete object
+                        }
+    
+                    } else {
+                        if (!f.isGenerated()) {
+                            f.setOwnerId(getId());
+                            fb.setFinancial(f);
+                            fb.store(con);
+                        }
+    
                     }
-
-                } else {
-                    if (!f.isGenerated()) {
-                        f.setOwnerId(getId());
-                        fb.setFinancial(f);
-                        fb.store(con);
-                    }
-
+    
                 }
-
+    
+                updatePrimaryKey(map);
+                removeNullValues(map);
+    
+                if (fb != null)
+                    fb.setFinancial(null);
             }
-
-            updatePrimaryKey(map);
-            removeNullValues(map);
-
-            if (fb != null)
-                fb.setFinancial(null);
         }
-
-        sqlHelper.close(con);
     }
 
     // delete all person current financials
     protected void deleteFinancials() throws SQLException {
-        Connection con = sqlHelper.getConnection();
-        try {
+        try (Connection con = sqlHelper.getConnection();) {
             Map financials = findFinancials();
             if (financials == null) {
                 return;
@@ -682,8 +653,6 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         } catch (Exception e) {
             e.printStackTrace(System.err);
             throw new ServiceException(e.getMessage());
-        } finally {
-            sqlHelper.close(con);
         }
     }
 
@@ -694,12 +663,8 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
 
         if (contacts == null) {
 
-            Connection con = null;
             List list = null;
-
-            try {
-                con = sqlHelper.getConnection();
-
+            try (Connection con = sqlHelper.getConnection();) {
                 list = getLinkedObjects(PERSON_2_PERSON, CONTACT,
                         PERSON_2_RELATIONSHIP_FINANCE, con);
 
@@ -719,8 +684,6 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
                     new ContactBean(c).load(personID, con);
                     contacts.put(personID, c);
                 }
-                if (con != null)
-                    sqlHelper.close(con);
             } catch (SQLException e) {
                 e.printStackTrace(System.err);
                 throw new ServiceException(e.getMessage());
@@ -793,12 +756,8 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
 
         if (dependents == null) {
 
-            Connection con = null;
             List list = null;
-
-            try {
-                con = sqlHelper.getConnection();
-
+            try (Connection con = sqlHelper.getConnection();) {
                 list = getLinkedObjects(PERSON_2_PERSON, DEPENDENT,
                         PERSON_2_RELATIONSHIP_FINANCE, con);
 
@@ -822,7 +781,6 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
 
                     dependents.put(personID, d);
                 }
-                sqlHelper.close(con);
             } catch (SQLException e) {
                 e.printStackTrace(System.err);
                 throw new ServiceException(e.getMessage());
@@ -900,12 +858,7 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     public FinancialGoal getFinancialGoal() throws ServiceException {
 
         int personID = this.getPersonID();
-
-        Connection con = null;
-
-        try {
-            con = this.sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             List list = linkObjectDao.getLinkedObjects(personID,
                     PERSON_2_FINANCIALGOAL, con);
 
@@ -918,7 +871,6 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
                 financialGoal.setId((Integer) list.get(0));
                 new FinancialGoalBean(financialGoal).load(con);
             }
-            sqlHelper.close(con);
             return financialGoal;
         } catch (Exception e) {
             e.printStackTrace(System.err);
@@ -967,13 +919,9 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
 
         int personID = this.getPersonID();
 
-        Connection con = null;
         PreparedStatement sql = null;
         ResultSet rs = null;
-
-        try {
-            con = this.sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             sql = con
                     .prepareStatement(
                             "SELECT cm.*"
@@ -1004,8 +952,6 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         } finally {
             try {
                 close(rs, sql);
-                if (con != null)
-                    sqlHelper.close(con);
             } catch (SQLException e) {
                 e.printStackTrace(System.err);
                 throw new ServiceException(e.getMessage());
@@ -1082,13 +1028,9 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
 
         int personID = this.getPersonID();
 
-        Connection con = null;
         PreparedStatement sql = null;
         ResultSet rs = null;
-
-        try {
-            con = this.sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             sql = con
                     .prepareStatement(
                             "SELECT c.*"
@@ -1128,8 +1070,6 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         } finally {
             try {
                 close(rs, sql);
-                if (con != null)
-                    sqlHelper.close(con);
             } catch (SQLException e) {
                 e.printStackTrace(System.err);
                 throw new ServiceException(e.getMessage());
@@ -1208,14 +1148,9 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
 
     public Integer getSurveyID(int surveyTypeID)
             throws ServiceException, ObjectNotFoundException {
-
-        Connection con = null;
         PreparedStatement sql = null;
         ResultSet rs = null;
-
-        try {
-            con = this.sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // search for person specific surveys (already saved)
             sql = con.prepareStatement("SELECT ObjectID1 FROM Link"
                     + " WHERE ( ObjectID1 IN ( SELECT ObjectID2"
@@ -1263,8 +1198,6 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         } finally {
             try {
                 close(rs, sql);
-                if (con != null)
-                    sqlHelper.close(con);
             } catch (SQLException e) {
                 e.printStackTrace(System.err);
                 throw new ServiceException(e.getMessage());
@@ -1321,12 +1254,8 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
 
         // if ( models == null ) {
         models = new ModelCollection();
-
-        Connection con = null;
-        try {
-            con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             loadModels(con);
-            sqlHelper.close(con);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
             throw new ServiceException(e.getMessage());
@@ -1492,11 +1421,8 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
 
     public Collection getPlans(Integer planTypeID)
             throws ServiceException {
-
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             Collection result = getPlans(planTypeID, con);
-            sqlHelper.close(con);
             return result;
         } catch (SQLException e) {
             e.printStackTrace(System.err);
@@ -1596,10 +1522,8 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
             plan.setDescription(desc);
         }
 
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             int result = storePlan(plan, planTypeID, con);
-            sqlHelper.close(con);
             return result;
         } catch (SQLException e) {
             e.printStackTrace(System.err);
@@ -1687,14 +1611,12 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
         if (plan == null || planID <= 0)
             return false;
 
-        try {
-            Connection con = sqlHelper.getConnection();
+        try (Connection con = sqlHelper.getConnection();) {
             Integer ownerID = getPlanOwner(planTypeID);
             int linkID = linkObjectDao.unlink(
                     ownerID == null ? GLOBAL_PLAN_TEMPLATE : ownerID,
                     // getPersonID(),
                     planID, LinkObjectTypeConstant.PERSON_2_PLAN, con);
-            sqlHelper.close(con);
             return linkID > 0;
         } catch (SQLException e) {
             e.printStackTrace(System.err);
@@ -1709,9 +1631,9 @@ public class PersonServiceImpl extends AbstractServiceImpl implements PersonServ
     public void load(Integer personID) throws SQLException,
             ObjectNotFoundException {
 
-        Connection con = sqlHelper.getConnection();
-        load(personID, con);
-        sqlHelper.close(con);
+        try (Connection con = sqlHelper.getConnection();) {
+            load(personID, con);
+        }
     }
 
     public void load(Integer personID, Connection con) throws SQLException,

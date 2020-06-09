@@ -33,6 +33,17 @@ public class BaseDAOImpl implements BaseDAO
         return em;
     }
 
+    @Override
+    public void flush() {
+        em.flush();
+    }
+
+    @Override
+    public void flushAndClear() {
+        em.flush();
+        em.clear();
+    }
+
     public <T> T findById(Class<T> clazz, Object id)
     {
         return id == null ? null : getEntityManager().find(clazz, id);

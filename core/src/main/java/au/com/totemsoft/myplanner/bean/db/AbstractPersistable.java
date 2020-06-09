@@ -12,7 +12,6 @@ import au.com.totemsoft.myplanner.api.dao.IPersistable;
 import au.com.totemsoft.myplanner.api.dao.LinkObjectDao;
 import au.com.totemsoft.myplanner.api.dao.ObjectDao;
 import au.com.totemsoft.myplanner.api.service.FinancialService;
-import au.com.totemsoft.myplanner.dao.PersonDao;
 import au.com.totemsoft.myplanner.etc.FPSObject;
 
 public abstract class AbstractPersistable extends FPSObject implements IPersistable {
@@ -35,8 +34,8 @@ public abstract class AbstractPersistable extends FPSObject implements IPersista
         AbstractPersistable.linkObjectDao = linkObjectDao;
     }
 
-    protected transient static PersonDao personDao;
-    public static void setPersonDao(PersonDao personDao) {
+    protected transient static PersonBeanDao personDao;
+    public static void setPersonDao(PersonBeanDao personDao) {
         AbstractPersistable.personDao = personDao;
     }
 

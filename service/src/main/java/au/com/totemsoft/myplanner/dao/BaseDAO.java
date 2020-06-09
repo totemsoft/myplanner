@@ -5,8 +5,10 @@ import java.util.List;
 /**
  * @author Valeri CHIBAEV (mailto:apollosoft.net.au@gmail.com)
  */
-public interface BaseDAO
-{
+public interface BaseDAO {
+
+    void flush();
+    void flushAndClear();
 
     /**
      * 

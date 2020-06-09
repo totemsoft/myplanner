@@ -188,13 +188,13 @@ public class Person extends AbstractAuditable<Long> implements IPerson
     @Transient
     public String getFullName() {
         String shortName = getShortName();
-        if (marital == null) {
+        if (title == null) {
             return shortName;
         }
         if (StringUtils.isBlank(shortName)) {
             return null;
         }
-        return marital.getCode() + " " + shortName;
+        return title.getCode() + " " + shortName;
     }
 
     @Override

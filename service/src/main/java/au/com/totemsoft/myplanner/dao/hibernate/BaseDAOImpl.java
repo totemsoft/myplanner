@@ -74,19 +74,18 @@ public class BaseDAOImpl implements BaseDAO
         }
     }
 
-    /* (non-Javadoc)
-     * @see au.com.totemsoft.myplanner.dao.BaseDAO#save(java.lang.Object)
-     */
-    public void save(Object entity)
-    {
+    @Override
+    public void persist(Object entity) {
         getEntityManager().persist(entity);
     }
 
-    /* (non-Javadoc)
-     * @see au.com.totemsoft.myplanner.dao.BaseDAO#delete(java.lang.Object)
-     */
-    public void delete(Object entity)
-    {
+    @Override
+    public void merge(Object entity) {
+        getEntityManager().merge(entity);
+    }
+
+    @Override
+    public void remove(Object entity) {
         getEntityManager().remove(entity);
     }
 

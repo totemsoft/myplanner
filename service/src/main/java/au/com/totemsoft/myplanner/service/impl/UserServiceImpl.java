@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
                 if (StringUtils.isBlank(user.getPassword())) {
                     // save new password (if reset to blank, eg via sql)
                     user.setPassword(passwordEncoded);
-                    userDao.save(user);
+                    userDao.persist(user);
                 }
             }
             userPreferences.setUser(user);

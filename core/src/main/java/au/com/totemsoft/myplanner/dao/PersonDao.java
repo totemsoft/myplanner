@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import au.com.totemsoft.myplanner.api.bean.PersonName;
 
-public interface PersonDao {
+public interface PersonDao /*extends BaseDAO*/ {
 
     void load(ResultSet rs, PersonName personName) throws SQLException;
 

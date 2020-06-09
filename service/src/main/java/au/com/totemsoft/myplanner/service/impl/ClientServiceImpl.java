@@ -29,6 +29,7 @@ import au.com.totemsoft.myplanner.api.bean.IUser;
 import au.com.totemsoft.myplanner.api.code.LinkObjectTypeConstant;
 import au.com.totemsoft.myplanner.code.BooleanCode;
 import au.com.totemsoft.myplanner.dao.ClientDao;
+import au.com.totemsoft.myplanner.dao.PersonDao;
 import au.com.totemsoft.myplanner.domain.dto.ClientDto;
 import au.com.totemsoft.myplanner.domain.hibernate.Client;
 import au.com.totemsoft.myplanner.service.ClientService;
@@ -51,6 +52,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
 
     @Inject private ClientDao clientDao;
 
+    @Inject private PersonDao personDao;
+
     private PersonServiceImpl partner;
 
     private boolean active;
@@ -65,8 +68,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     @Override
-    // value has to be Integer
     public void setOwnerPrimaryKey(Object value) throws ServiceException {
+        // value has to be Integer
         Integer id = value == null ? null : ((Number) value).intValue();
         if (equals(id, getOwnerId()))
             return;
@@ -126,6 +129,14 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
     public Long createClient() throws ServiceException, CreateException {
         final IUser user = userPreferences.getUser();
         final Integer ownerId = user.getId().intValue();
+
+//        personDao
+//        Client c = new Client();
+//        c.set
+//        clientDao.persist(c);
+//        LOG.info("saveClient: " + c.getId());
+//        return c.getId();
+
         PreparedStatement sql = null;
         try {
             Connection con = sqlHelper.getConnection();
@@ -174,7 +185,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
     public void removeClient(ClientDto client) {
         Client c = clientDao.findById(client.getId());
         if (c != null) {
-            clientDao.delete(c);
+            //c.setActive(false);
+            clientDao.remove(c);
             LOG.info("removeClient: " + client);
         }
     }

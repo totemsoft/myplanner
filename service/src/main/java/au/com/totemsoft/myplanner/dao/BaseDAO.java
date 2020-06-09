@@ -25,8 +25,10 @@ public interface BaseDAO
      */
     <T> List<T> findAll(Class<T> clazz);
 
-    void save(Object entity);
+    void persist(Object entity);
 
-    void delete(Object entity);
+    void merge(Object entity);
+
+    void remove(Object entity);
 
 }

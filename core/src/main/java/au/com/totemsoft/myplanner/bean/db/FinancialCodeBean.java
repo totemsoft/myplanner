@@ -81,13 +81,11 @@ public class FinancialCodeBean implements FinancialTypeID {
     public boolean findByFinancialCodeIdAndFinancialTypeId(
             String financial_code_id, String financialTypeID)
             throws SQLException {
-        Connection con = sqlHelper.getConnection();
         boolean found = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
-
-        try {
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
             pstmt_StringBuffer.append("FROM ");
@@ -113,16 +111,11 @@ public class FinancialCodeBean implements FinancialTypeID {
 
                 found = true;
             }
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(rs, pstmt, con);
+            sqlHelper.close(rs, pstmt);
         }
 
         return found;
@@ -148,13 +141,11 @@ public class FinancialCodeBean implements FinancialTypeID {
     public boolean findByFinancialCodeDescAndFinancialTypeId(
             String financialCodeDesc, String financialTypeID)
             throws SQLException {
-        Connection con = sqlHelper.getConnection();
         boolean found = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
-
-        try {
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
             pstmt_StringBuffer.append("FROM ");
@@ -181,16 +172,11 @@ public class FinancialCodeBean implements FinancialTypeID {
 
                 found = true;
             }
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(rs, pstmt, con);
+            sqlHelper.close(rs, pstmt);
         }
 
         return found;
@@ -208,13 +194,11 @@ public class FinancialCodeBean implements FinancialTypeID {
     public boolean findByFinancialCodeDescAndFinancialCodeId(
             String financialCodeDesc, String financial_code_id)
             throws SQLException {
-        Connection con = sqlHelper.getConnection();
         boolean found = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
-
-        try {
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
             pstmt_StringBuffer.append("FROM ");
@@ -241,16 +225,11 @@ public class FinancialCodeBean implements FinancialTypeID {
 
                 found = true;
             }
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(rs, pstmt, con);
+            sqlHelper.close(rs, pstmt);
         }
 
         return found;
@@ -269,13 +248,11 @@ public class FinancialCodeBean implements FinancialTypeID {
     public boolean findByFinancialCodeDescAndFinancialTypeIdAndFinancialCode(
             String financialCodeDesc, String financialTypeID,
             String financial_code) throws SQLException {
-        Connection con = sqlHelper.getConnection();
         boolean found = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
-
-        try {
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("SELECT DISTINCT * ");
             pstmt_StringBuffer.append("FROM ");
@@ -304,16 +281,11 @@ public class FinancialCodeBean implements FinancialTypeID {
 
                 found = true;
             }
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(rs, pstmt, con);
+            sqlHelper.close(rs, pstmt);
         }
 
         return found;
@@ -332,13 +304,11 @@ public class FinancialCodeBean implements FinancialTypeID {
     public boolean findByFinancialCodeDescAndFinancialTypeIdAndFinancialCodeId(
             String financialCodeDesc, int financialTypeID, int financial_code_id)
             throws SQLException {
-        Connection con = sqlHelper.getConnection();
         boolean found = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
-
-        try {
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("SELECT DISTINCT * ");
             pstmt_StringBuffer.append("FROM ");
@@ -369,16 +339,11 @@ public class FinancialCodeBean implements FinancialTypeID {
 
                 found = true;
             }
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(rs, pstmt, con);
+            sqlHelper.close(rs, pstmt);
         }
 
         return found;
@@ -402,13 +367,11 @@ public class FinancialCodeBean implements FinancialTypeID {
 
     public boolean findByFinancialCodeAndFinancialTypeId(String financial_code,
             String financialTypeID) throws SQLException {
-        Connection con = sqlHelper.getConnection();
         boolean found = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
-
-        try {
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
             pstmt_StringBuffer.append("FROM ");
@@ -443,7 +406,7 @@ public class FinancialCodeBean implements FinancialTypeID {
             //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(rs, pstmt, con);
+            sqlHelper.close(rs, pstmt);
         }
 
         return found;

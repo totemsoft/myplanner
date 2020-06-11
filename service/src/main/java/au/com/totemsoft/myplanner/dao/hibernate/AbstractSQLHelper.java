@@ -47,16 +47,6 @@ public abstract class AbstractSQLHelper implements SQLHelper {
         return dataSource.getConnection();
     }
 
-    /* (non-Javadoc)
-     * @see au.com.totemsoft.dao.SQLHelper#close(java.sql.Connection)
-     */
-    @Override
-    public void close(Connection con) throws SQLException {
-        if (con != null) {
-            con.close();
-        }
-    }
-
     /**
      * extra helper method to return connection to the pool/close all resources
      */
@@ -82,15 +72,6 @@ public abstract class AbstractSQLHelper implements SQLHelper {
         }
         if (msg.length() > 0)
             throw new SQLException(msg);
-    }
-
-    /* (non-Javadoc)
-     * @see au.com.totemsoft.dao.SQLHelper#close(java.sql.ResultSet, java.sql.Statement, java.sql.Connection)
-     */
-    @Override
-    public void close(ResultSet rs, Statement sql, Connection con) throws SQLException {
-        close(rs, sql);
-        close(con);
     }
 
     /* (non-Javadoc)

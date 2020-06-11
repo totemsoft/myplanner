@@ -122,16 +122,11 @@ public class ProductInformationBean {
      */
     private boolean findByColumnName(String column_name, String id)
             throws java.sql.SQLException {
-        Connection con = null;
         boolean found = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
-
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
             pstmt_StringBuffer.append("FROM ");
@@ -184,16 +179,11 @@ public class ProductInformationBean {
 
                 found = true;
             }
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(null, pstmt, con);
+            sqlHelper.close(null, pstmt);
         }
 
         return found;
@@ -207,16 +197,11 @@ public class ProductInformationBean {
      */
     public boolean containsCodeFullName(int code, String full_name)
             throws java.sql.SQLException {
-        Connection con = null;
         boolean found = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
-
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
             pstmt_StringBuffer.append("FROM ");
@@ -237,16 +222,11 @@ public class ProductInformationBean {
             if (rs.next()) {
                 found = true;
             }
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(null, pstmt, con);
+            sqlHelper.close(null, pstmt);
         }
 
         return found;

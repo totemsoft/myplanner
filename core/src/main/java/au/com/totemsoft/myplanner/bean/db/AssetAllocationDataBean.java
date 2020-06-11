@@ -65,15 +65,10 @@ public class AssetAllocationDataBean {
      * entry must be set before creating a new entry.
      */
     public void create() throws java.sql.SQLException {
-        Connection con = null;
         PreparedStatement pstmt = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
         int status = 0;
-
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("INSERT INTO ");
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
@@ -101,16 +96,11 @@ public class AssetAllocationDataBean {
             pstmt.setDouble(9, this.id);
 
             status = pstmt.executeUpdate();
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(null, pstmt, con);
+            sqlHelper.close(null, pstmt);
         }
     }
 
@@ -123,16 +113,11 @@ public class AssetAllocationDataBean {
      * @return true = found an entry
      */
     public boolean findByCode(String code) throws java.sql.SQLException {
-        Connection con = null;
         boolean found = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
-
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
             pstmt_StringBuffer.append("FROM ");
@@ -169,16 +154,11 @@ public class AssetAllocationDataBean {
 
                 found = true;
             }
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(null, pstmt, con);
+            sqlHelper.close(null, pstmt);
         }
 
         return found;
@@ -209,16 +189,11 @@ public class AssetAllocationDataBean {
      */
     private boolean findByColumnName(String column_name, String id)
             throws java.sql.SQLException {
-        Connection con = null;
         boolean found = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
-
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("SELECT * FROM ");
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
@@ -248,16 +223,11 @@ public class AssetAllocationDataBean {
 
                 found = true;
             }
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(null, pstmt, con);
+            sqlHelper.close(null, pstmt);
         }
 
         return found;

@@ -9,9 +9,7 @@ public interface SQLHelper {
 
     Connection getConnection() throws SQLException;
 
-    void close(Connection con) throws SQLException;
     void close(ResultSet rs, Statement sql) throws SQLException;
-    void close(ResultSet rs, Statement sql, Connection con) throws SQLException;
 
     /**
      * Prints the SQLException's messages, SQLStates and ErrorCode to System.err

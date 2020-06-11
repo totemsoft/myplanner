@@ -298,16 +298,11 @@ public class AssetAllocationBean {
     /**
      */
     public void delete(Integer aaid) throws java.sql.SQLException {
-        Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
         int status = 0;
-
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             pstmt_StringBuffer = new StringBuffer();
 
             // build sql query
@@ -338,10 +333,9 @@ public class AssetAllocationBean {
 
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(null, pstmt, con);
+            sqlHelper.close(null, pstmt);
         }
     }
 

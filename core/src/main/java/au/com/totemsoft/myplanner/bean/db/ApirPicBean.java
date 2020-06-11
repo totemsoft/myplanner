@@ -73,24 +73,15 @@ public class ApirPicBean {
 
     private static final int INITIAL_VECTOR_GROWTH_SIZE = 32;
 
-    /** Creates new ApirPicBean */
-    public ApirPicBean() {
-    }
-
     /**
      * Creates a new entry in the "apir_pic" table. The properties for the new
      * entry must be set before creating a new entry.
      */
     public void create() throws java.sql.SQLException {
-        Connection con = null;
         PreparedStatement pstmt = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
         int status = 0;
-
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("INSERT INTO ");
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
@@ -111,16 +102,11 @@ public class ApirPicBean {
             pstmt.setInt(7, this.id);
 
             status = pstmt.executeUpdate();
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(null, pstmt, con);
+            sqlHelper.close(null, pstmt);
         }
     }
 
@@ -129,15 +115,10 @@ public class ApirPicBean {
      * must be set before storing it.
      */
     public void store() throws java.sql.SQLException {
-        Connection con = null;
         PreparedStatement pstmt = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
         int status = 0;
-
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("UPDATE ");
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
@@ -163,16 +144,11 @@ public class ApirPicBean {
             pstmt.setString(7, this.apir_pic);
 
             status = pstmt.executeUpdate();
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(null, pstmt, con);
+            sqlHelper.close(null, pstmt);
         }
     }
 
@@ -232,21 +208,15 @@ public class ApirPicBean {
      */
     private Vector findByKeywordsSearch(String keywords, String column_name)
             throws java.sql.SQLException {
-        Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
         StringTokenizer keywords_StringTokenizer = null;
         int token_count = 0;
         int number_of_tokens = 0;
-
         Vector table_rows = new Vector(INITIAL_VECTOR_SIZE,
                 INITIAL_VECTOR_GROWTH_SIZE);
-
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // check if we have some keywords
             if (keywords != null && keywords.length() > 0) {
                 // split keywords String into tokens (single keywords)
@@ -294,15 +264,11 @@ public class ApirPicBean {
                     table_rows.add(table_row);
                 }
             }
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(rs, pstmt, con);
+            sqlHelper.close(rs, pstmt);
         }
 
         return table_rows;
@@ -321,16 +287,11 @@ public class ApirPicBean {
      */
     private boolean findByColumnName(String column_name, String id)
             throws java.sql.SQLException {
-        Connection con = null;
         boolean found = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
-
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
             pstmt_StringBuffer.append("FROM ");
@@ -356,16 +317,11 @@ public class ApirPicBean {
                 // this.id = rs.getInt( "id" );
                 found = true;
             }
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(null, pstmt, con);
+            sqlHelper.close(null, pstmt);
         }
 
         return found;

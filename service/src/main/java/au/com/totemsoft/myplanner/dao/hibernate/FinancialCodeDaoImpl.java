@@ -57,11 +57,10 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
      */
     @Override
     public FinancialCode findByColumnName(String column_name, String id) throws SQLException {
-        Connection con = sqlHelper.getConnection();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer sql = new StringBuffer();
-        try {
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             sql.append("SELECT * ");
             sql.append("FROM ");
@@ -81,15 +80,12 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
                 result.setCode(rs.getString("FinancialCode"));
                 result.setDescription(rs.getString("FinancialCodeDesc"));
             }
-            // autocommit is off
-            //con.commit();
             return result;
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(rs, pstmt, con);
+            sqlHelper.close(rs, pstmt);
         }
     }
 
@@ -101,7 +97,6 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
         if (StringUtils.isBlank(keywords) || StringUtils.isBlank(column_name)) {
             return new Vector();
         }
-        Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer sql = new StringBuffer();
@@ -111,10 +106,7 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
 
         Vector table_rows = new Vector();
         column_name = column_name.trim();
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // check if we have some keywords
             if (keywords != null && keywords.length() > 0) {
                 // split keywords String into tokens (single keywords)
@@ -162,15 +154,12 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
                     table_rows.add(table_row);
                 }
             }
-            // autocommit is off
-            //con.commit();
             return table_rows;
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(rs, pstmt, con);
+            sqlHelper.close(rs, pstmt);
         }
     }
 
@@ -180,11 +169,10 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
     @Override
     public void create(FinancialCode entity) throws SQLException {
         Integer financialTypeId = entity.getFinancialTypeId();
-        Connection con = sqlHelper.getConnection();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer sql = new StringBuffer();
-        try {
+        try (Connection con = sqlHelper.getConnection();) {
             // get max. FinancialCodeID
             // build sql query
             sql.append("SELECT MAX(FinancialCodeID) ");
@@ -226,18 +214,11 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
             pstmt.setString(4, entity.getDescription());
 
             /*int status = */pstmt.executeUpdate();
-
-            // autocommit is off
-            //con.commit();
-
-            // System.out.println( "FinancialCode created: " + this );
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(null, pstmt, con);
+            sqlHelper.close(null, pstmt);
         }
     }
 
@@ -246,10 +227,9 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
      */
     @Override
     public void store(FinancialCode entity) throws SQLException {
-        Connection con = sqlHelper.getConnection();
         PreparedStatement pstmt = null;
         StringBuffer sql = new StringBuffer();
-        try {
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             sql.append("UPDATE ");
             sql.append("[" + FinancialCode.TABLE_NAME + "] ");
@@ -273,18 +253,11 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
             pstmt.setInt(4, entity.getId());
 
             int count = pstmt.executeUpdate();
-
-            // autocommit is off
-            //con.commit();
-
-            System.out.println("" + count + " FinancialCode updated: " + this);
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(null, pstmt, con);
+            sqlHelper.close(null, pstmt);
         }
     }
 

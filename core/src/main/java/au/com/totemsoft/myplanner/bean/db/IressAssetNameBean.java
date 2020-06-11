@@ -129,15 +129,10 @@ public class IressAssetNameBean {
      * entry must be set before creating a new entry.
      */
     public void create() throws java.sql.SQLException {
-        Connection con = null;
         PreparedStatement pstmt = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
         int status = 0;
-
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("INSERT INTO ");
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
@@ -185,16 +180,11 @@ public class IressAssetNameBean {
             pstmt.setDouble(19, this.gics);
 
             status = pstmt.executeUpdate();
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(null, pstmt, con);
+            sqlHelper.close(null, pstmt);
         }
     }
 
@@ -256,10 +246,9 @@ public class IressAssetNameBean {
      *         criteria
      */
     public Vector findByKeywordsSearchDescription(String keywords, String column_name) throws java.sql.SQLException {
-        if (StringUtils.isBlank(keywords) || StringUtils.isBlank(column_name))
+        if (StringUtils.isBlank(keywords) || StringUtils.isBlank(column_name)) {
             return new Vector();
-
-        Connection con = null;
+        }
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer sql = new StringBuffer();
@@ -269,10 +258,7 @@ public class IressAssetNameBean {
 
         Vector table_rows = new Vector(INITIAL_VECTOR_SIZE, INITIAL_VECTOR_GROWTH_SIZE);
         column_name = column_name.trim();
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // check if we have some keywords
             if (keywords != null && keywords.length() > 0) {
                 // split keywords String into tokens (single keywords)
@@ -318,15 +304,11 @@ public class IressAssetNameBean {
                     table_rows.add(table_row);
                 }
             }
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(rs, pstmt, con);
+            sqlHelper.close(rs, pstmt);
         }
 
         return table_rows;
@@ -363,16 +345,11 @@ public class IressAssetNameBean {
      */
     private boolean findByColumnName(String column_name, String id)
             throws java.sql.SQLException {
-        Connection con = null;
         boolean found = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
-
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("SELECT * FROM ");
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
@@ -412,16 +389,11 @@ public class IressAssetNameBean {
 
                 found = true;
             }
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(null, pstmt, con);
+            sqlHelper.close(null, pstmt);
         }
 
         return found;

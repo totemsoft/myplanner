@@ -75,15 +75,10 @@ public class UnitPriceDataBean implements UnitSharePrice {
      * entry must be set before creating a new entry.
      */
     public void create() throws java.sql.SQLException {
-        Connection con = null;
         PreparedStatement pstmt = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
         int status = 0;
-
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("INSERT INTO ");
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
@@ -102,16 +97,11 @@ public class UnitPriceDataBean implements UnitSharePrice {
             // pstmt.setString ( 6, this.id );
 
             status = pstmt.executeUpdate();
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(null, pstmt, con);
+            sqlHelper.close(null, pstmt);
         }
     }
 
@@ -120,15 +110,10 @@ public class UnitPriceDataBean implements UnitSharePrice {
      * must be set before storing it.
      */
     public void store() throws java.sql.SQLException {
-        Connection con = null;
         PreparedStatement pstmt = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
         int status = 0;
-
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("UPDATE ");
             pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
@@ -151,16 +136,11 @@ public class UnitPriceDataBean implements UnitSharePrice {
             pstmt.setInt(5, this.code);
 
             status = pstmt.executeUpdate();
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(null, pstmt, con);
+            sqlHelper.close(null, pstmt);
         }
     }
 
@@ -173,16 +153,11 @@ public class UnitPriceDataBean implements UnitSharePrice {
      * @return true = found an entry
      */
     public boolean findByCode(String id) throws java.sql.SQLException {
-        Connection con = null;
         boolean found = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
-
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
             pstmt_StringBuffer.append("FROM ");
@@ -225,16 +200,11 @@ public class UnitPriceDataBean implements UnitSharePrice {
                 this.exit_price = rs.getDouble("exit_price");
                 this.id = rs.getString("id");
             }
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(null, pstmt, con);
+            sqlHelper.close(null, pstmt);
         }
 
         return found;
@@ -267,16 +237,11 @@ public class UnitPriceDataBean implements UnitSharePrice {
      */
     private boolean findByColumnName(String column_name, String id,
             String add_sql_str) throws java.sql.SQLException {
-        Connection con = null;
         boolean found = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         StringBuffer pstmt_StringBuffer = new StringBuffer();
-
-        try {
-            // get connection
-            con = sqlHelper.getConnection();
-
+        try (Connection con = sqlHelper.getConnection();) {
             // build sql query
             pstmt_StringBuffer.append("SELECT * ");
             pstmt_StringBuffer.append("FROM ");
@@ -307,16 +272,11 @@ public class UnitPriceDataBean implements UnitSharePrice {
 
                 found = true;
             }
-
-            // autocommit is off
-            //con.commit();
-
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
         } finally {
-            sqlHelper.close(null, pstmt, con);
+            sqlHelper.close(null, pstmt);
         }
 
         return found;

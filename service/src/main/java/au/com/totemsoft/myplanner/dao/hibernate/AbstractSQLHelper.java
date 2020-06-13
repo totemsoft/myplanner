@@ -47,36 +47,16 @@ public abstract class AbstractSQLHelper implements SQLHelper {
         return dataSource.getConnection();
     }
 
-    /**
-     * extra helper method to return connection to the pool/close all resources
-     */
+    @Override
     public void close(ResultSet rs, Statement sql) throws SQLException {
-        String msg = "";
-        try {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    msg = e.getMessage() + '\n';
-                }
-            }
-            if (sql != null) {
-                try {
-                    sql.close();
-                } catch (SQLException e) {
-                    msg += e.getMessage() + '\n';
-                }
-            }
-        } catch (Exception e) {
-            msg += e.getMessage();
+        if (rs != null) {
+            rs.close();
         }
-        if (msg.length() > 0)
-            throw new SQLException(msg);
+        if (sql != null) {
+            sql.close();
+        }
     }
 
-    /* (non-Javadoc)
-     * @see au.com.totemsoft.dao.SQLHelper#printSQLException(java.sql.SQLException)
-     */
     @Override
     public void printSQLException(SQLException e) {
         System.err.println("\n--- SQLException caught ---\n");

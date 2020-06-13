@@ -123,26 +123,16 @@ public class ProductInformationBean {
     private boolean findByColumnName(String column_name, String id)
             throws java.sql.SQLException {
         boolean found = false;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("SELECT * ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE [" + column_name + "] = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT * ");
+        sql.append("FROM ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE [" + column_name + "] = ? ");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
-
-            rs = pstmt.executeQuery();
-
-            // do we have any result?
+            ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                // get the data
                 this.identifier = rs.getString("identifier");
                 this.code = rs.getInt("code");
                 this.full_name = rs.getString("full_name");
@@ -155,8 +145,7 @@ public class ProductInformationBean {
                 this.legal_type_code = rs.getString("legal_type_code");
                 this.region_code = rs.getString("region_code");
                 this.asset_type_code = rs.getString("asset_type_code");
-                this.cash_distribution_code = rs
-                        .getString("cash_distribution_code");
+                this.cash_distribution_code = rs.getString("cash_distribution_code");
                 this.trustee_code = rs.getString("trustee_code");
                 this.custodian_code = rs.getString("custodian_code");
                 // this.commencement_date = rs.getTimestamp( "commencement_date");
@@ -166,8 +155,7 @@ public class ProductInformationBean {
                 this.unit_linked = rs.getInt("unit_linked");
                 this.valuation_frequency = rs.getString("valuation_frequency");
                 this.declared_yield = rs.getInt("declared_yield");
-                this.rate_of_return_advance = rs
-                        .getInt("rate_of_return_advance");
+                this.rate_of_return_advance = rs.getInt("rate_of_return_advance");
                 this.category = rs.getString("category");
                 this.subcategory = rs.getString("subcategory");
                 this.manager_group_code = rs.getString("manager_group_code");
@@ -176,14 +164,12 @@ public class ProductInformationBean {
                 this.gearing_comments = rs.getString("gearing_comments");
                 this.special_features = rs.getString("special_features");
                 // this.id = rs.getTimestamp( "id" );
-
                 found = true;
             }
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
 
         return found;
@@ -198,35 +184,25 @@ public class ProductInformationBean {
     public boolean containsCodeFullName(int code, String full_name)
             throws java.sql.SQLException {
         boolean found = false;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("SELECT * ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE [code] = ? ");
-            pstmt_StringBuffer.append("AND ");
-            pstmt_StringBuffer.append("[full_name] = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT * ");
+        sql.append("FROM ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE [code] = ? ");
+        sql.append("AND ");
+        sql.append("[full_name] = ? ");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setInt(1, code);
             pstmt.setString(2, full_name);
-
-            rs = pstmt.executeQuery();
-
-            // do we have any result?
+            ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 found = true;
             }
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
 
         return found;

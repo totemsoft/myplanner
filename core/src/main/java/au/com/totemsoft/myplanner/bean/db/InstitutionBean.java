@@ -56,48 +56,36 @@ public class InstitutionBean {
      * FinancialCodeID!)
      */
     public void create() throws java.sql.SQLException {
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        int status = 0;
         try (Connection con = sqlHelper.getConnection();) {
             // get max. FinancialCodeID
-            // build sql query
-            pstmt_StringBuffer.append("SELECT MAX(institutionID) ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-            rs = pstmt.executeQuery();
-
-            // do we have any result?
-            if (rs.next()) {
-                // get the data
-                this.institutionID = rs.getInt(1);
-                // create new "unique" FinancialCodeID
-                this.institutionID++;
+            StringBuffer sql = new StringBuffer();
+            sql.append("SELECT MAX(institutionID) ");
+            sql.append("FROM ");
+            sql.append("[" + DATABASE_TABLE_NAME + "] ");
+            try (PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
+                ResultSet rs = pstmt.executeQuery();
+                // do we have any result?
+                if (rs.next()) {
+                    this.institutionID = rs.getInt(1);
+                    // create new "unique" FinancialCodeID
+                    this.institutionID++;
+                }
+                rs.close();
             }
-            // close ResultSet and PreparedStatement
-            sqlHelper.close(rs, pstmt);
 
-            // build sql query
-            pstmt_StringBuffer.append("INSERT INTO ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("(institutionID, institutionName) ");
-            pstmt_StringBuffer.append("VALUES ( ?, ? )");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
-            pstmt.setInt(1, this.institutionID);
-            pstmt.setString(2, this.institutionName);
-
-            status = pstmt.executeUpdate();
+            sql = new StringBuffer();
+            sql.append("INSERT INTO ");
+            sql.append("[" + DATABASE_TABLE_NAME + "] ");
+            sql.append("(institutionID, institutionName) ");
+            sql.append("VALUES ( ?, ? )");
+            try (PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
+                pstmt.setInt(1, this.institutionID);
+                pstmt.setString(2, this.institutionName);
+                int status = pstmt.executeUpdate();
+            }
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(rs, pstmt);
         }
     }
 
@@ -106,29 +94,20 @@ public class InstitutionBean {
      * entry must be set before storing it.
      */
     public void store() throws java.sql.SQLException {
-        PreparedStatement pstmt = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        int status = 0;
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("UPDATE ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("SET ");
-            pstmt_StringBuffer.append("institutionName = ? ");
-            pstmt_StringBuffer.append("WHERE InstitutionID = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("UPDATE ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("SET ");
+        sql.append("institutionName = ? ");
+        sql.append("WHERE InstitutionID = ? ");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, this.institutionName);
             pstmt.setInt(2, this.institutionID);
-
-            status = pstmt.executeUpdate();
+            int status = pstmt.executeUpdate();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
     }
 
@@ -171,36 +150,25 @@ public class InstitutionBean {
     private boolean findByColumnName(String column_name, String id)
             throws java.sql.SQLException {
         boolean found = false;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("SELECT * ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE [" + column_name + "] = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT * ");
+        sql.append("FROM ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE [" + column_name + "] = ? ");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
-
-            rs = pstmt.executeQuery();
-
+            ResultSet rs = pstmt.executeQuery();
             // do we have any result?
             if (rs.next()) {
-                // get the data
                 this.institutionID = rs.getInt("InstitutionID");
                 this.institutionName = rs.getString("InstitutionName");
-
                 found = true;
             }
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(rs, pstmt);
         }
 
         return found;

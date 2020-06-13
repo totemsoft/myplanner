@@ -65,26 +65,19 @@ public class AssetAllocationDataBean {
      * entry must be set before creating a new entry.
      */
     public void create() throws java.sql.SQLException {
-        PreparedStatement pstmt = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        int status = 0;
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("INSERT INTO ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("(");
-            pstmt_StringBuffer
-                    .append("code, inCash, inFixedInterest, inAustShares, inIntnlShares,  ");
-            pstmt_StringBuffer.append("inProperty, inOther, dataDate, id");
-            pstmt_StringBuffer.append(")");
-            pstmt_StringBuffer.append("VALUES ");
-            pstmt_StringBuffer.append("(");
-            pstmt_StringBuffer.append("?, ?, ?, ?, ?, ?, ?, ?, ? ");
-            pstmt_StringBuffer.append(")");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("INSERT INTO ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("(");
+        sql.append("code, inCash, inFixedInterest, inAustShares, inIntnlShares,  ");
+        sql.append("inProperty, inOther, dataDate, id");
+        sql.append(")");
+        sql.append("VALUES ");
+        sql.append("(");
+        sql.append("?, ?, ?, ?, ?, ?, ?, ?, ? ");
+        sql.append(")");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setInt(1, this.code);
             pstmt.setDouble(2, this.inCash);
             pstmt.setDouble(3, this.inFixedInterest);
@@ -94,13 +87,10 @@ public class AssetAllocationDataBean {
             pstmt.setDouble(7, this.inOther);
             pstmt.setString(8, this.dataDate);
             pstmt.setDouble(9, this.id);
-
-            status = pstmt.executeUpdate();
+            int status = pstmt.executeUpdate();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
     }
 
@@ -114,34 +104,25 @@ public class AssetAllocationDataBean {
      */
     public boolean findByCode(String code) throws java.sql.SQLException {
         boolean found = false;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("SELECT * ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE [code] = ? ");
-            pstmt_StringBuffer.append("AND [DataDate] = ");
-            pstmt_StringBuffer.append("(");
-            pstmt_StringBuffer.append("SELECT max([DataDate]) ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE [code] = ? ");
-            pstmt_StringBuffer.append(")");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT * ");
+        sql.append("FROM ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE [code] = ? ");
+        sql.append("AND [DataDate] = ");
+        sql.append("(");
+        sql.append("SELECT max([DataDate]) ");
+        sql.append("FROM ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE [code] = ? ");
+        sql.append(")");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, code);
             pstmt.setString(2, code);
-
-            rs = pstmt.executeQuery();
-
+            ResultSet rs = pstmt.executeQuery();
             // do we have any result?
             if (rs.next()) {
-                // get the data
                 this.code = rs.getInt("code");
                 this.inCash = rs.getDouble("InCash");
                 this.inFixedInterest = rs.getDouble("InFixedInterest");
@@ -151,14 +132,12 @@ public class AssetAllocationDataBean {
                 this.inOther = rs.getDouble("InOther");
                 this.dataDate = rs.getString("DataDate");
                 this.id = rs.getDouble("id");
-
                 found = true;
             }
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
 
         return found;
@@ -190,27 +169,18 @@ public class AssetAllocationDataBean {
     private boolean findByColumnName(String column_name, String id)
             throws java.sql.SQLException {
         boolean found = false;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("SELECT * FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE ");
-            pstmt_StringBuffer.append("[" + column_name + "] = ?");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT * FROM ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE ");
+        sql.append("[" + column_name + "] = ?");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
             pstmt.setString(2, id);
-
-            rs = pstmt.executeQuery();
-
+            ResultSet rs = pstmt.executeQuery();
             // do we have any result?
             if (rs.next()) {
-                // get the data
                 this.code = rs.getInt("code");
                 this.inCash = rs.getDouble("InCash");
                 this.inFixedInterest = rs.getDouble("InFixedInterest");
@@ -220,14 +190,12 @@ public class AssetAllocationDataBean {
                 this.inOther = rs.getDouble("InOther");
                 this.dataDate = rs.getString("DataDate");
                 this.id = rs.getDouble("id");
-
                 found = true;
             }
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
 
         return found;

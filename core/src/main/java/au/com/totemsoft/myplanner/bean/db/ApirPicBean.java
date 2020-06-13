@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import org.apache.commons.lang.StringUtils;
+
 import au.com.totemsoft.dao.SQLHelper;
 import au.com.totemsoft.myplanner.assetinvestment.AvailableInvestmentsTableRow;
 
@@ -78,20 +80,13 @@ public class ApirPicBean {
      * entry must be set before creating a new entry.
      */
     public void create() throws java.sql.SQLException {
-        PreparedStatement pstmt = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        int status = 0;
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("INSERT INTO ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer
-                    .append("(identifier, [apir_pic], [apir_full_name], [apir_short_name], [apir_brief_name], code, id) ");
-            pstmt_StringBuffer.append("VALUES ( ?, ?, ?, ?, ?, ?, ? )");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer()
+            .append("INSERT INTO ")
+            .append("[" + DATABASE_TABLE_NAME + "] ")
+            .append("(identifier, [apir_pic], [apir_full_name], [apir_short_name], [apir_brief_name], code, id) ")
+            .append("VALUES ( ?, ?, ?, ?, ?, ?, ? )");
+        try (Connection con = sqlHelper.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, this.identifier);
             pstmt.setString(2, this.apir_pic);
             pstmt.setString(3, this.apir_full_name);
@@ -101,12 +96,10 @@ public class ApirPicBean {
             // pstmt.setTimestamp ( 7, this.id_old );
             pstmt.setInt(7, this.id);
 
-            status = pstmt.executeUpdate();
+            int status = pstmt.executeUpdate();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
     }
 
@@ -115,25 +108,19 @@ public class ApirPicBean {
      * must be set before storing it.
      */
     public void store() throws java.sql.SQLException {
-        PreparedStatement pstmt = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        int status = 0;
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("UPDATE ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("SET ");
-            pstmt_StringBuffer.append("identifier = ?, ");
-            pstmt_StringBuffer.append("[apir_full_name] = ?, ");
-            pstmt_StringBuffer.append("[apir_short_name] = ?, ");
-            pstmt_StringBuffer.append("[apir_brief_name] = ?, ");
-            pstmt_StringBuffer.append("code = ?,  ");
-            pstmt_StringBuffer.append("id = ? ");
-            pstmt_StringBuffer.append("WHERE [apir_pic] = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("UPDATE ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("SET ");
+        sql.append("identifier = ?, ");
+        sql.append("[apir_full_name] = ?, ");
+        sql.append("[apir_short_name] = ?, ");
+        sql.append("[apir_brief_name] = ?, ");
+        sql.append("code = ?,  ");
+        sql.append("id = ? ");
+        sql.append("WHERE [apir_pic] = ? ");
+        try (Connection con = sqlHelper.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, this.identifier);
             pstmt.setString(2, this.apir_full_name);
             pstmt.setString(3, this.apir_short_name);
@@ -143,12 +130,10 @@ public class ApirPicBean {
             pstmt.setInt(6, this.id);
             pstmt.setString(7, this.apir_pic);
 
-            status = pstmt.executeUpdate();
+            int status = pstmt.executeUpdate();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
     }
 
@@ -208,70 +193,55 @@ public class ApirPicBean {
      */
     private Vector findByKeywordsSearch(String keywords, String column_name)
             throws java.sql.SQLException {
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        StringTokenizer keywords_StringTokenizer = null;
+        Vector result = new Vector();
+        // check if we have some keywords
+        if (StringUtils.isBlank(keywords)) {
+            return result;
+        }
+        // split keywords String into tokens (single keywords)
+        final StringTokenizer keywords_StringTokenizer = new StringTokenizer(keywords);
+        final int number_of_tokens = keywords_StringTokenizer.countTokens();
         int token_count = 0;
-        int number_of_tokens = 0;
-        Vector table_rows = new Vector(INITIAL_VECTOR_SIZE,
-                INITIAL_VECTOR_GROWTH_SIZE);
-        try (Connection con = sqlHelper.getConnection();) {
-            // check if we have some keywords
-            if (keywords != null && keywords.length() > 0) {
-                // split keywords String into tokens (single keywords)
-                keywords_StringTokenizer = new StringTokenizer(keywords);
-                number_of_tokens = keywords_StringTokenizer.countTokens();
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT DISTINCT ");
+        sql.append("[apir_pic], [apir_full_name], code ");
+        sql.append("FROM [" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE ");
+        // add all tokens (single keywords) to the query
+        while (keywords_StringTokenizer.hasMoreTokens()) {
+            // do we need to add "AND "?
+            if (token_count > 0 && token_count < number_of_tokens) {
+                sql.append(SEARCH_OPERATOR + " ");
+            }
+            sql.append("([" + column_name + " ] LIKE '%" + keywords_StringTokenizer.nextToken() + "%') ");
+            token_count++;
+        }
+        // order by description
+        sql.append("ORDER BY [" + column_name + "] ");
+        try (Connection con = sqlHelper.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
+            ResultSet rs = pstmt.executeQuery();
+            // have we any result
+            while (rs.next()) {
+                // create new row
+                AvailableInvestmentsTableRow table_row = new AvailableInvestmentsTableRow();
 
-                // build pstmt query
-                pstmt_StringBuffer.append("SELECT DISTINCT ");
-                pstmt_StringBuffer
-                        .append("[apir_pic], [apir_full_name], code ");
-                pstmt_StringBuffer
-                        .append("FROM [" + DATABASE_TABLE_NAME + "] ");
-                pstmt_StringBuffer.append("WHERE ");
-                // add all tokens (single keywords) to the query
-                while (keywords_StringTokenizer.hasMoreTokens()) {
-                    // do we need to add "AND "?
-                    if (token_count > 0 && token_count < number_of_tokens) {
-                        pstmt_StringBuffer.append(SEARCH_OPERATOR + " ");
-                    }
-
-                    pstmt_StringBuffer.append("([" + column_name + " ] LIKE '%"
-                            + keywords_StringTokenizer.nextToken() + "%') ");
-                    token_count++;
-                }
-                // order by description
-                pstmt_StringBuffer.append("ORDER BY [" + column_name + "] ");
-
-                // set and execute query
-                pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-                rs = pstmt.executeQuery();
-
-                // have we any result?
-                while (rs.next()) {
-                    // create new row
-                    AvailableInvestmentsTableRow table_row = new AvailableInvestmentsTableRow();
-
-                    // fill it with data
-                    table_row.origin = checkString(DATABASE_TABLE_NAME);
-                    table_row.investmentCode = checkString(rs
-                            .getString("apir_pic"));
-                    table_row.description = checkString(rs
-                            .getString("apir_full_name"));
-                    table_row.code = checkString(rs.getString("code"));
-                    // store row
-                    table_rows.add(table_row);
-                }
+                // fill it with data
+                table_row.origin = checkString(DATABASE_TABLE_NAME);
+                table_row.investmentCode = checkString(rs
+                        .getString("apir_pic"));
+                table_row.description = checkString(rs
+                        .getString("apir_full_name"));
+                table_row.code = checkString(rs.getString("code"));
+                // store row
+                result.add(table_row);
             }
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(rs, pstmt);
         }
 
-        return table_rows;
+        return result;
     }
 
     /**
@@ -288,23 +258,16 @@ public class ApirPicBean {
     private boolean findByColumnName(String column_name, String id)
             throws java.sql.SQLException {
         boolean found = false;
-        PreparedStatement pstmt = null;
         ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("SELECT * ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE [" + column_name + "] = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT * ");
+        sql.append("FROM ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE [" + column_name + "] = ? ");
+        try (Connection con = sqlHelper.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
-
             rs = pstmt.executeQuery();
-
             // do we have any result?
             if (rs.next()) {
                 // get the data
@@ -320,8 +283,6 @@ public class ApirPicBean {
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
 
         return found;

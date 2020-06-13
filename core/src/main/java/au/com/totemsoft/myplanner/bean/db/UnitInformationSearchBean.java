@@ -227,27 +227,27 @@ public class UnitInformationSearchBean {
         boolean found = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
+        StringBuffer sql = new StringBuffer();
         try (Connection con = sqlHelper.getConnection();) {
             // build pstmt query
-            pstmt_StringBuffer.append("SELECT DISTINCT ");
-            pstmt_StringBuffer
+            sql.append("SELECT DISTINCT ");
+            sql
                     .append("b.code, b.[full_name], a.[full_name] AS institution, c.[apir_pic] ");
 
-            pstmt_StringBuffer.append("FROM ["
+            sql.append("FROM ["
                     + MANAGER_DATA_DATABASE_TABLE_NAME + "] a, ");
-            pstmt_StringBuffer.append("["
+            sql.append("["
                     + PRODUCT_INFORMATION_DATABASE_TABLE_NAME + "] b, ");
-            pstmt_StringBuffer.append("[" + APIR_PIC_DATABASE_TABLE_NAME
+            sql.append("[" + APIR_PIC_DATABASE_TABLE_NAME
                     + "] c");
 
-            pstmt_StringBuffer.append("WHERE ");
-            pstmt_StringBuffer
+            sql.append("WHERE ");
+            sql
                     .append("a.code = b.[manager_code] AND b.code = c.code AND");
-            pstmt_StringBuffer.append(column_name + " = ? ");
+            sql.append(column_name + " = ? ");
 
             // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
+            pstmt = con.prepareStatement(sql.toString());
 
             pstmt.setString(1, id);
 

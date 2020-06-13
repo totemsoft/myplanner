@@ -82,7 +82,12 @@ public abstract class AbstractPersistable extends FPSObject implements IPersista
     }
 
     public void close(ResultSet rs, Statement sql) throws SQLException {
-        sqlHelper.close(rs, sql);
+        if (rs != null) {
+            rs.close();
+        }
+        if (sql != null) {
+            sql.close();
+        }
     }
 
     /**

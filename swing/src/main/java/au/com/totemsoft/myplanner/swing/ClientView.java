@@ -88,7 +88,8 @@ public final class ClientView extends PersonView2 {
         if (!exists()) {
             getClientView();
         }
-        if (clientId.longValue() != ((Number) view.getPrimaryKey()).longValue()) {
+        Number currentClientId = (Number) view.getPrimaryKey();
+        if (!clientId.equals(currentClientId)) {
             try {
                 view.updateView();
             } catch (Exception e) {

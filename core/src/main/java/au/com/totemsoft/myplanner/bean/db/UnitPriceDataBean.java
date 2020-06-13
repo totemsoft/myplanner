@@ -76,18 +76,18 @@ public class UnitPriceDataBean implements UnitSharePrice {
      */
     public void create() throws java.sql.SQLException {
         PreparedStatement pstmt = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
+        StringBuffer sql = new StringBuffer();
         int status = 0;
         try (Connection con = sqlHelper.getConnection();) {
             // build sql query
-            pstmt_StringBuffer.append("INSERT INTO ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer
+            sql.append("INSERT INTO ");
+            sql.append("[" + DATABASE_TABLE_NAME + "] ");
+            sql
                     .append("(identifier, code, [price_date], [entry_price], [exit_price]) ");
-            pstmt_StringBuffer.append("VALUES ( ?, ?, ?, ?, ? )");
+            sql.append("VALUES ( ?, ?, ?, ?, ? )");
 
             // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
+            pstmt = con.prepareStatement(sql.toString());
 
             pstmt.setString(1, this.identifier);
             pstmt.setInt(2, this.code);
@@ -111,22 +111,22 @@ public class UnitPriceDataBean implements UnitSharePrice {
      */
     public void store() throws java.sql.SQLException {
         PreparedStatement pstmt = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
+        StringBuffer sql = new StringBuffer();
         int status = 0;
         try (Connection con = sqlHelper.getConnection();) {
             // build sql query
-            pstmt_StringBuffer.append("UPDATE ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("SET ");
-            pstmt_StringBuffer.append("identifier = ?, ");
-            pstmt_StringBuffer.append("[price_date] = ?, ");
-            pstmt_StringBuffer.append("[entry_price] = ?, ");
-            pstmt_StringBuffer.append("[exit_price] = ?  ");
-            // pstmt_StringBuffer.append ( "id = ? " );
-            pstmt_StringBuffer.append("WHERE code = ? ");
+            sql.append("UPDATE ");
+            sql.append("[" + DATABASE_TABLE_NAME + "] ");
+            sql.append("SET ");
+            sql.append("identifier = ?, ");
+            sql.append("[price_date] = ?, ");
+            sql.append("[entry_price] = ?, ");
+            sql.append("[exit_price] = ?  ");
+            // sql.append ( "id = ? " );
+            sql.append("WHERE code = ? ");
 
             // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
+            pstmt = con.prepareStatement(sql.toString());
 
             pstmt.setString(1, this.identifier);
             pstmt.setString(2, this.price_date);
@@ -156,23 +156,23 @@ public class UnitPriceDataBean implements UnitSharePrice {
         boolean found = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
+        StringBuffer sql = new StringBuffer();
         try (Connection con = sqlHelper.getConnection();) {
             // build sql query
-            pstmt_StringBuffer.append("SELECT * ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE [code] = ? ");
-            pstmt_StringBuffer.append("AND [price_date] = ");
-            pstmt_StringBuffer.append("(");
-            pstmt_StringBuffer.append("SELECT max([price_date]) ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE [code] = ? ");
-            pstmt_StringBuffer.append(")");
+            sql.append("SELECT * ");
+            sql.append("FROM ");
+            sql.append("[" + DATABASE_TABLE_NAME + "] ");
+            sql.append("WHERE [code] = ? ");
+            sql.append("AND [price_date] = ");
+            sql.append("(");
+            sql.append("SELECT max([price_date]) ");
+            sql.append("FROM ");
+            sql.append("[" + DATABASE_TABLE_NAME + "] ");
+            sql.append("WHERE [code] = ? ");
+            sql.append(")");
 
             // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
+            pstmt = con.prepareStatement(sql.toString());
 
             // transform String to int
             int code_int = -1;
@@ -240,20 +240,20 @@ public class UnitPriceDataBean implements UnitSharePrice {
         boolean found = false;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
+        StringBuffer sql = new StringBuffer();
         try (Connection con = sqlHelper.getConnection();) {
             // build sql query
-            pstmt_StringBuffer.append("SELECT * ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE [" + column_name + "] = ? ");
+            sql.append("SELECT * ");
+            sql.append("FROM ");
+            sql.append("[" + DATABASE_TABLE_NAME + "] ");
+            sql.append("WHERE [" + column_name + "] = ? ");
 
             if (add_sql_str != null) {
-                pstmt_StringBuffer.append(" " + add_sql_str);
+                sql.append(" " + add_sql_str);
             }
 
             // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
+            pstmt = con.prepareStatement(sql.toString());
 
             pstmt.setString(1, id);
 

@@ -129,36 +129,27 @@ public class IressAssetNameBean {
      * entry must be set before creating a new entry.
      */
     public void create() throws java.sql.SQLException {
-        PreparedStatement pstmt = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        int status = 0;
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("INSERT INTO ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("(");
-            pstmt_StringBuffer.append("code, [asset_full_name], ");
-            pstmt_StringBuffer
-                    .append("issuerName, issuerAbbName, issuerShortName, issuerType, ");
-            pstmt_StringBuffer.append("securityType, ");
-            pstmt_StringBuffer.append("exchange, industrySubgroup, ");
-            pstmt_StringBuffer
-                    .append("description, shortDescription, abbDescription, ");
-            pstmt_StringBuffer.append("assetBacking, ");
-            pstmt_StringBuffer.append("issuerCode, issuerExchange, ");
-            pstmt_StringBuffer
-                    .append("industrySubgroupDesc, industryGroupDesc, ");
-            pstmt_StringBuffer.append("isin, gics ");
-            pstmt_StringBuffer.append(")");
-            pstmt_StringBuffer.append("VALUES ");
-            pstmt_StringBuffer.append("(");
-            pstmt_StringBuffer.append("?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ");
-            pstmt_StringBuffer.append("?, ?, ?, ?, ?, ?, ?, ?, ? ");
-            pstmt_StringBuffer.append(")");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("INSERT INTO ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("(");
+        sql.append("code, [asset_full_name], ");
+        sql.append("issuerName, issuerAbbName, issuerShortName, issuerType, ");
+        sql.append("securityType, ");
+        sql.append("exchange, industrySubgroup, ");
+        sql.append("description, shortDescription, abbDescription, ");
+        sql.append("assetBacking, ");
+        sql.append("issuerCode, issuerExchange, ");
+        sql.append("industrySubgroupDesc, industryGroupDesc, ");
+        sql.append("isin, gics ");
+        sql.append(")");
+        sql.append("VALUES ");
+        sql.append("(");
+        sql.append("?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ");
+        sql.append("?, ?, ?, ?, ?, ?, ?, ?, ? ");
+        sql.append(")");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, this.code);
             pstmt.setString(2, this.asset_full_name);
             pstmt.setString(3, this.issuerName);
@@ -178,13 +169,10 @@ public class IressAssetNameBean {
             pstmt.setString(17, this.industryGroupDesc);
             pstmt.setString(18, this.isin);
             pstmt.setDouble(19, this.gics);
-
-            status = pstmt.executeUpdate();
+            int status = pstmt.executeUpdate();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
     }
 
@@ -246,72 +234,55 @@ public class IressAssetNameBean {
      *         criteria
      */
     public Vector findByKeywordsSearchDescription(String keywords, String column_name) throws java.sql.SQLException {
+        Vector result = new Vector();
+        // check if we have some keywords
         if (StringUtils.isBlank(keywords) || StringUtils.isBlank(column_name)) {
-            return new Vector();
+            return result;
         }
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer sql = new StringBuffer();
-        StringTokenizer tok = null;
-        int token_count = 0;
-        int number_of_tokens = 0;
-
-        Vector table_rows = new Vector(INITIAL_VECTOR_SIZE, INITIAL_VECTOR_GROWTH_SIZE);
         column_name = column_name.trim();
-        try (Connection con = sqlHelper.getConnection();) {
-            // check if we have some keywords
-            if (keywords != null && keywords.length() > 0) {
-                // split keywords String into tokens (single keywords)
-                tok = new StringTokenizer(keywords);
-                number_of_tokens = tok.countTokens();
-
-                // build pstmt query
-                sql.append("SELECT DISTINCT ");
-                sql.append("[code], [asset_full_name], [issuerName] ");
-                sql.append("FROM [" + DATABASE_TABLE_NAME + "] ");
-                sql.append("WHERE (");
-                // add all tokens (single keywords) to the query
-                while (tok.hasMoreTokens()) {
-                    // do we need to add "AND "?
-                    if (token_count > 0 && token_count < number_of_tokens) {
-                        sql.append(SEARCH_OPERATOR + " ");
-                    }
-                    sql.append("([" + column_name + "] LIKE '%" + tok.nextToken() + "%') ");
-                    token_count++;
-                }
-                sql.append(") ");
-                // order by description
-                sql.append("ORDER BY [" + column_name + "] ");
-
-                // set and execute query
-                pstmt = con.prepareStatement(sql.toString());
-                rs = pstmt.executeQuery();
-
-                // have we any result?
-                while (rs.next()) {
-                    // create new row
-                    AvailableInvestmentsTableRow table_row = new AvailableInvestmentsTableRow();
-
-                    // fill it with data
-                    table_row.origin = checkString(DATABASE_TABLE_NAME);
-                    table_row.investmentCode = checkString(rs.getString("code"));
-                    table_row.description = checkString(rs
-                            .getString("asset_full_name"));
-                    table_row.code = checkString(rs.getString("code"));
-                    table_row.institution = checkString(rs
-                            .getString("issuerName"));
-                    // store row
-                    table_rows.add(table_row);
-                }
+        // split keywords String into tokens (single keywords)
+        final StringTokenizer tok = new StringTokenizer(keywords);
+        final int number_of_tokens = tok.countTokens();
+        int token_count = 0;
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT DISTINCT ");
+        sql.append("[code], [asset_full_name], [issuerName] ");
+        sql.append("FROM [" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE (");
+        // add all tokens (single keywords) to the query
+        while (tok.hasMoreTokens()) {
+            // do we need to add "AND "?
+            if (token_count > 0 && token_count < number_of_tokens) {
+                sql.append(SEARCH_OPERATOR + " ");
             }
+            sql.append("([" + column_name + "] LIKE '%" + tok.nextToken() + "%') ");
+            token_count++;
+        }
+        sql.append(") ");
+        // order by description
+        sql.append("ORDER BY [" + column_name + "] ");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                // create new row
+                AvailableInvestmentsTableRow table_row = new AvailableInvestmentsTableRow();
+                // fill it with data
+                table_row.origin = checkString(DATABASE_TABLE_NAME);
+                table_row.investmentCode = checkString(rs.getString("code"));
+                table_row.description = checkString(rs.getString("asset_full_name"));
+                table_row.code = checkString(rs.getString("code"));
+                table_row.institution = checkString(rs.getString("issuerName"));
+                // store row
+                result.add(table_row);
+            }
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(rs, pstmt);
         }
 
-        return table_rows;
+        return result;
     }
 
     /**
@@ -346,26 +317,16 @@ public class IressAssetNameBean {
     private boolean findByColumnName(String column_name, String id)
             throws java.sql.SQLException {
         boolean found = false;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("SELECT * FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE ");
-            pstmt_StringBuffer.append("[" + column_name + "] = ?");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT * FROM ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE ");
+        sql.append("[" + column_name + "] = ?");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
-
-            rs = pstmt.executeQuery();
-
-            // do we have any result?
+            ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                // get the data
                 this.code = rs.getString("code");
                 this.asset_full_name = rs.getString("asset_full_name");
                 this.issuerName = rs.getString("IssuerName");
@@ -381,19 +342,16 @@ public class IressAssetNameBean {
                 this.assetBacking = rs.getDouble("AssetBacking");
                 this.issuerCode = rs.getString("IssuerCode");
                 this.issuerExchange = rs.getString("IssuerExchange");
-                this.industrySubgroupDesc = rs
-                        .getString("IndustrySubgroupDesc");
+                this.industrySubgroupDesc = rs.getString("IndustrySubgroupDesc");
                 this.industryGroupDesc = rs.getString("IndustryGroupDesc");
                 this.isin = rs.getString("ISIN");
                 this.gics = rs.getDouble("GICS");
-
                 found = true;
             }
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
 
         return found;

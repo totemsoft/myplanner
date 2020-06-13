@@ -49,179 +49,144 @@ public class AssetAllocationBean {
     /**
      */
     public void store(Connection con) throws java.sql.SQLException {
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
+        StringBuffer sql = new StringBuffer();
         int status = 0;
+        if (assetAllocation.getAssetAllocationID() == null
+         || assetAllocation.getAssetAllocationID().intValue() < 0) {
+            // insert new row
+            sql = new StringBuffer();
+            sql.append("INSERT INTO ");
+            sql.append("[" + DATABASE_TABLE_NAME + "] ");
+            sql.append("( Amount, InCash, InFixedInterest, "
+                    + "InAustShares, InIntnlShares, InProperty, InOther, "
+                    + "Include ) ");
+            sql.append("VALUES ( ?, ?, ?, ?, ?, ?, ?, ? ) ");
 
-        try {
-            if (assetAllocation.getAssetAllocationID() == null
-                    || assetAllocation.getAssetAllocationID().intValue() < 0) {
-                // insert new row
-                pstmt_StringBuffer = new StringBuffer();
+            // set and execute query
+            PreparedStatement pstmt = con.prepareStatement(sql.toString());
+            if (assetAllocation.getAmount() == null)
+                pstmt.setNull(1, java.sql.Types.DOUBLE);
+            else
+                pstmt.setDouble(1, assetAllocation.getAmount().doubleValue());
 
-                // build sql query
-                pstmt_StringBuffer.append("INSERT INTO ");
-                pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-                pstmt_StringBuffer.append("( Amount, InCash, InFixedInterest, "
-                        + "InAustShares, InIntnlShares, InProperty, InOther, "
-                        + "Include ) ");
-                pstmt_StringBuffer.append("VALUES ( ?, ?, ?, ?, ?, ?, ?, ? ) ");
+            if (assetAllocation.getInCash() == null)
+                pstmt.setNull(2, java.sql.Types.DOUBLE);
+            else
+                pstmt.setDouble(2, assetAllocation.getInCash().doubleValue());
 
-                // set and execute query
-                pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
+            if (assetAllocation.getInFixedInterest() == null)
+                pstmt.setNull(3, java.sql.Types.DOUBLE);
+            else
+                pstmt.setDouble(3, assetAllocation.getInFixedInterest().doubleValue());
 
-                if (assetAllocation.getAmount() == null)
-                    pstmt.setNull(1, java.sql.Types.DOUBLE);
-                else
-                    pstmt.setDouble(1, assetAllocation.getAmount()
-                            .doubleValue());
+            if (assetAllocation.getInAustShares() == null)
+                pstmt.setNull(4, java.sql.Types.DOUBLE);
+            else
+                pstmt.setDouble(4, assetAllocation.getInAustShares().doubleValue());
 
-                if (assetAllocation.getInCash() == null)
-                    pstmt.setNull(2, java.sql.Types.DOUBLE);
-                else
-                    pstmt.setDouble(2, assetAllocation.getInCash()
-                            .doubleValue());
+            if (assetAllocation.getInIntnlShares() == null)
+                pstmt.setNull(5, java.sql.Types.DOUBLE);
+            else
+                pstmt.setDouble(5, assetAllocation.getInIntnlShares().doubleValue());
 
-                if (assetAllocation.getInFixedInterest() == null)
-                    pstmt.setNull(3, java.sql.Types.DOUBLE);
-                else
-                    pstmt.setDouble(3, assetAllocation.getInFixedInterest()
-                            .doubleValue());
+            if (assetAllocation.getInProperty() == null)
+                pstmt.setNull(6, java.sql.Types.DOUBLE);
+            else
+                pstmt.setDouble(6, assetAllocation.getInProperty().doubleValue());
 
-                if (assetAllocation.getInAustShares() == null)
-                    pstmt.setNull(4, java.sql.Types.DOUBLE);
-                else
-                    pstmt.setDouble(4, assetAllocation.getInAustShares()
-                            .doubleValue());
+            if (assetAllocation.getInOther() == null)
+                pstmt.setNull(7, java.sql.Types.DOUBLE);
+            else
+                pstmt.setDouble(7, assetAllocation.getInOther().doubleValue());
 
-                if (assetAllocation.getInIntnlShares() == null)
-                    pstmt.setNull(5, java.sql.Types.DOUBLE);
-                else
-                    pstmt.setDouble(5, assetAllocation.getInIntnlShares()
-                            .doubleValue());
-
-                if (assetAllocation.getInProperty() == null)
-                    pstmt.setNull(6, java.sql.Types.DOUBLE);
-                else
-                    pstmt.setDouble(6, assetAllocation.getInProperty()
-                            .doubleValue());
-
-                if (assetAllocation.getInOther() == null)
-                    pstmt.setNull(7, java.sql.Types.DOUBLE);
-                else
-                    pstmt.setDouble(7, assetAllocation.getInOther()
-                            .doubleValue());
-
-                if (assetAllocation.getInclude() == null) {
-                    pstmt.setNull(8, java.sql.Types.CHAR);
-                } else {
-                    if (assetAllocation.getInclude().equals(Boolean.TRUE))
-                        pstmt.setString(8, BooleanCode.rcYES.getCode());
-                    else
-                        pstmt.setNull(8, java.sql.Types.CHAR);
-                }
-
-                status = pstmt.executeUpdate();
-                pstmt.close();
-
-                // build sql query to get ID
-                pstmt_StringBuffer = new StringBuffer();
-                pstmt_StringBuffer
-                        .append("SELECT MAX(AssetAllocationID) FROM ");
-                pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "]");
-
-                // set and execute query
-                pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-                rs = pstmt.executeQuery();
-
-                // do we have any result?
-                if (rs.next()) {
-                    // get the data
-                    assetAllocation.setAssetAllocationID(new Integer(rs
-                            .getInt(1)));
-                }
-
+            if (assetAllocation.getInclude() == null) {
+                pstmt.setNull(8, java.sql.Types.CHAR);
             } else {
-                // update row
-                pstmt_StringBuffer = new StringBuffer();
-
-                // build sql query
-                pstmt_StringBuffer.append("UPDATE ");
-                pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-                pstmt_StringBuffer.append("SET ");
-                pstmt_StringBuffer.append("Amount = ?, ");
-                pstmt_StringBuffer.append("InCash = ?, ");
-                pstmt_StringBuffer.append("InFixedInterest = ?, ");
-                pstmt_StringBuffer.append("InAustShares = ?, ");
-                pstmt_StringBuffer.append("InIntnlShares = ?, ");
-                pstmt_StringBuffer.append("InProperty = ?, ");
-                pstmt_StringBuffer.append("InOther = ?, ");
-                pstmt_StringBuffer.append("Include = ? ");
-                pstmt_StringBuffer.append("WHERE AssetAllocationID = ? ");
-
-                // set and execute query
-                pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
-                if (assetAllocation.getAmount() == null)
-                    pstmt.setNull(1, java.sql.Types.DOUBLE);
+                if (assetAllocation.getInclude().equals(Boolean.TRUE))
+                    pstmt.setString(8, BooleanCode.rcYES.getCode());
                 else
-                    pstmt.setDouble(1, assetAllocation.getAmount()
-                            .doubleValue());
-
-                if (assetAllocation.getInCash() == null)
-                    pstmt.setNull(2, java.sql.Types.DOUBLE);
-                else
-                    pstmt.setDouble(2, assetAllocation.getInCash()
-                            .doubleValue());
-
-                if (assetAllocation.getInFixedInterest() == null)
-                    pstmt.setNull(3, java.sql.Types.DOUBLE);
-                else
-                    pstmt.setDouble(3, assetAllocation.getInFixedInterest()
-                            .doubleValue());
-
-                if (assetAllocation.getInAustShares() == null)
-                    pstmt.setNull(4, java.sql.Types.DOUBLE);
-                else
-                    pstmt.setDouble(4, assetAllocation.getInAustShares()
-                            .doubleValue());
-
-                if (assetAllocation.getInIntnlShares() == null)
-                    pstmt.setNull(5, java.sql.Types.DOUBLE);
-                else
-                    pstmt.setDouble(5, assetAllocation.getInIntnlShares()
-                            .doubleValue());
-
-                if (assetAllocation.getInProperty() == null)
-                    pstmt.setNull(6, java.sql.Types.DOUBLE);
-                else
-                    pstmt.setDouble(6, assetAllocation.getInProperty()
-                            .doubleValue());
-
-                if (assetAllocation.getInOther() == null)
-                    pstmt.setNull(7, java.sql.Types.DOUBLE);
-                else
-                    pstmt.setDouble(7, assetAllocation.getInOther()
-                            .doubleValue());
-
-                if (assetAllocation.getInclude() == null) {
                     pstmt.setNull(8, java.sql.Types.CHAR);
-                } else {
-                    if (assetAllocation.getInclude().equals(Boolean.TRUE))
-                        pstmt.setString(8, BooleanCode.rcYES.getCode());
-                    else
-                        pstmt.setNull(8, java.sql.Types.CHAR);
-                }
-
-                pstmt.setInt(9, assetAllocation.getAssetAllocationID()
-                        .intValue());
-
-                status = pstmt.executeUpdate();
-                pstmt.close();
             }
-        } finally {
-            sqlHelper.close(rs, pstmt);
+            status = pstmt.executeUpdate();
+            pstmt.close();
+
+            // build sql query to get ID
+            sql = new StringBuffer();
+            sql.append("SELECT MAX(AssetAllocationID) FROM ");
+            sql.append("[" + DATABASE_TABLE_NAME + "]");
+            pstmt = con.prepareStatement(sql.toString());
+            ResultSet rs = pstmt.executeQuery();
+            // do we have any result?
+            if (rs.next()) {
+                assetAllocation.setAssetAllocationID(rs.getInt(1));
+            }
+            rs.close();
+            pstmt.close();
+        } else {
+            // update row
+            sql = new StringBuffer();
+            sql.append("UPDATE ");
+            sql.append("[" + DATABASE_TABLE_NAME + "] ");
+            sql.append("SET ");
+            sql.append("Amount = ?, ");
+            sql.append("InCash = ?, ");
+            sql.append("InFixedInterest = ?, ");
+            sql.append("InAustShares = ?, ");
+            sql.append("InIntnlShares = ?, ");
+            sql.append("InProperty = ?, ");
+            sql.append("InOther = ?, ");
+            sql.append("Include = ? ");
+            sql.append("WHERE AssetAllocationID = ? ");
+
+            // set and execute query
+            PreparedStatement pstmt = con.prepareStatement(sql.toString());
+            if (assetAllocation.getAmount() == null)
+                pstmt.setNull(1, java.sql.Types.DOUBLE);
+            else
+                pstmt.setDouble(1, assetAllocation.getAmount().doubleValue());
+
+            if (assetAllocation.getInCash() == null)
+                pstmt.setNull(2, java.sql.Types.DOUBLE);
+            else
+                pstmt.setDouble(2, assetAllocation.getInCash().doubleValue());
+
+            if (assetAllocation.getInFixedInterest() == null)
+                pstmt.setNull(3, java.sql.Types.DOUBLE);
+            else
+                pstmt.setDouble(3, assetAllocation.getInFixedInterest().doubleValue());
+
+            if (assetAllocation.getInAustShares() == null)
+                pstmt.setNull(4, java.sql.Types.DOUBLE);
+            else
+                pstmt.setDouble(4, assetAllocation.getInAustShares().doubleValue());
+
+            if (assetAllocation.getInIntnlShares() == null)
+                pstmt.setNull(5, java.sql.Types.DOUBLE);
+            else
+                pstmt.setDouble(5, assetAllocation.getInIntnlShares().doubleValue());
+
+            if (assetAllocation.getInProperty() == null)
+                pstmt.setNull(6, java.sql.Types.DOUBLE);
+            else
+                pstmt.setDouble(6, assetAllocation.getInProperty().doubleValue());
+
+            if (assetAllocation.getInOther() == null)
+                pstmt.setNull(7, java.sql.Types.DOUBLE);
+            else
+                pstmt.setDouble(7, assetAllocation.getInOther().doubleValue());
+
+            if (assetAllocation.getInclude() == null) {
+                pstmt.setNull(8, java.sql.Types.CHAR);
+            } else {
+                if (assetAllocation.getInclude().equals(Boolean.TRUE))
+                    pstmt.setString(8, BooleanCode.rcYES.getCode());
+                else
+                    pstmt.setNull(8, java.sql.Types.CHAR);
+            }
+
+            pstmt.setInt(9, assetAllocation.getAssetAllocationID().intValue());
+            status = pstmt.executeUpdate();
+            pstmt.close();
         }
     }
 
@@ -246,96 +211,59 @@ public class AssetAllocationBean {
     public boolean findByPrimaryKey(Connection con, Integer id)
             throws java.sql.SQLException, ObjectNotFoundException {
         boolean found = false;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-
-        try {
-            // build sql query
-            pstmt_StringBuffer.append("SELECT * ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE [AssetAllocationID] = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT * ");
+        sql.append("FROM ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE [AssetAllocationID] = ? ");
+        try (PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setInt(1, id.intValue());
-
-            rs = pstmt.executeQuery();
-
+            ResultSet rs = pstmt.executeQuery();
             // do we have any result?
             if (rs.next()) {
                 found = true;
                 // get the data
-                assetAllocation.setAssetAllocationID(new Integer(rs
-                        .getInt("AssetAllocationID")));
-                assetAllocation.setAmount(new Double(rs.getDouble("Amount")));
-                assetAllocation.setInCash(new Double(rs.getDouble("InCash")));
-                assetAllocation.setInFixedInterest(new Double(rs
-                        .getDouble("InFixedInterest")));
-                assetAllocation.setInAustShares(new Double(rs
-                        .getDouble("InAustShares")));
-                assetAllocation.setInIntnlShares(new Double(rs
-                        .getDouble("InIntnlShares")));
-                assetAllocation.setInProperty(new Double(rs
-                        .getDouble("InProperty")));
-                assetAllocation.setInOther(new Double(rs.getDouble("InOther")));
-                assetAllocation.setInclude(new Boolean(((rs
-                        .getString("Include") == null) ? false : true)));
+                assetAllocation.setAssetAllocationID(rs.getInt("AssetAllocationID"));
+                assetAllocation.setAmount(rs.getDouble("Amount"));
+                assetAllocation.setInCash(rs.getDouble("InCash"));
+                assetAllocation.setInFixedInterest(rs.getDouble("InFixedInterest"));
+                assetAllocation.setInAustShares(rs.getDouble("InAustShares"));
+                assetAllocation.setInIntnlShares(rs.getDouble("InIntnlShares"));
+                assetAllocation.setInProperty(rs.getDouble("InProperty"));
+                assetAllocation.setInOther(rs.getDouble("InOther"));
+                assetAllocation.setInclude(rs.getString("Include") != null);
             } else {
-                throw new ObjectNotFoundException(
-                        "Can not find Asset Allocation ID: " + id);
+                throw new ObjectNotFoundException("Can not find Asset Allocation ID: " + id);
             }
-
-        } finally {
-            sqlHelper.close(rs, pstmt);
+            rs.close();
         }
-
         return found;
     }
 
     /**
      */
     public void delete(Integer aaid) throws java.sql.SQLException {
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        int status = 0;
         try (Connection con = sqlHelper.getConnection();) {
-            pstmt_StringBuffer = new StringBuffer();
-
-            // build sql query
-            pstmt_StringBuffer
-                    .append("UPDATE Financial SET AssetAllocationID = NULL ");
-            pstmt_StringBuffer.append("WHERE AssetAllocationID = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
-            pstmt.setInt(1, aaid.intValue());
-
-            status = pstmt.executeUpdate();
-
-            pstmt_StringBuffer = new StringBuffer();
-
-            // build sql query
-            pstmt_StringBuffer.append("DELETE FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE AssetAllocationID = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
-            pstmt.setInt(1, aaid.intValue());
-
-            status = pstmt.executeUpdate();
-
+            //
+            StringBuffer sql = new StringBuffer();
+            sql.append("UPDATE Financial SET AssetAllocationID = NULL ");
+            sql.append("WHERE AssetAllocationID = ? ");
+            try (PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
+                pstmt.setInt(1, aaid.intValue());
+                int status = pstmt.executeUpdate();
+            }
+            //
+            sql = new StringBuffer();
+            sql.append("DELETE FROM ");
+            sql.append("[" + DATABASE_TABLE_NAME + "] ");
+            sql.append("WHERE AssetAllocationID = ? ");
+            try (PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
+                pstmt.setInt(1, aaid.intValue());
+                int status = pstmt.executeUpdate();
+            }
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
     }
 

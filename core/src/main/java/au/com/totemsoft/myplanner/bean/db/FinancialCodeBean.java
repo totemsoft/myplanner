@@ -82,40 +82,30 @@ public class FinancialCodeBean implements FinancialTypeID {
             String financial_code_id, String financialTypeID)
             throws SQLException {
         boolean found = false;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("SELECT * ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE [FinancialCodeID] = ? ");
-            pstmt_StringBuffer.append("AND   [FinancialTypeID] = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT * ");
+        sql.append("FROM ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE [FinancialCodeID] = ? ");
+        sql.append("AND   [FinancialTypeID] = ? ");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, financial_code_id);
             pstmt.setString(2, financialTypeID);
 
-            rs = pstmt.executeQuery();
-
+            ResultSet rs = pstmt.executeQuery();
             // do we have any result?
             if (rs.next()) {
-                // get the data
                 this.financialCodeID = rs.getInt("FinancialCodeID");
                 this.financialTypeID = rs.getInt("FinancialTypeID");
                 this.financialCode = rs.getString("FinancialCode");
                 this.financialCodeDesc = rs.getString("FinancialCodeDesc");
-
                 found = true;
             }
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(rs, pstmt);
         }
 
         return found;
@@ -142,41 +132,30 @@ public class FinancialCodeBean implements FinancialTypeID {
             String financialCodeDesc, String financialTypeID)
             throws SQLException {
         boolean found = false;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("SELECT * ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE [FinancialCodeDesc] LIKE '%"
-                    + financialCodeDesc + "%'");
-            pstmt_StringBuffer.append("AND   [FinancialTypeID] = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT * ");
+        sql.append("FROM ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE [FinancialCodeDesc] LIKE '%" + financialCodeDesc + "%'");
+        sql.append("AND   [FinancialTypeID] = ? ");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             // pstmt.setString ( 1, financialCodeDesc );
             pstmt.setString(1, financialTypeID);
 
-            rs = pstmt.executeQuery();
-
+            ResultSet rs = pstmt.executeQuery();
             // do we have any result?
             if (rs.next()) {
-                // get the data
                 this.financialCodeID = rs.getInt("FinancialCodeID");
                 this.financialTypeID = rs.getInt("FinancialTypeID");
                 this.financialCode = rs.getString("FinancialCode");
                 this.financialCodeDesc = rs.getString("FinancialCodeDesc");
-
                 found = true;
             }
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(rs, pstmt);
         }
 
         return found;
@@ -195,41 +174,30 @@ public class FinancialCodeBean implements FinancialTypeID {
             String financialCodeDesc, String financial_code_id)
             throws SQLException {
         boolean found = false;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("SELECT * ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE [FinancialCodeDesc] LIKE '%"
-                    + financialCodeDesc + "%'");
-            pstmt_StringBuffer.append("AND   [FinancialCodeID] = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT * ");
+        sql.append("FROM ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE [FinancialCodeDesc] LIKE '%" + financialCodeDesc + "%'");
+        sql.append("AND   [FinancialCodeID] = ? ");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             // pstmt.setString ( 1, financialCodeDesc );
             pstmt.setString(1, financial_code_id);
 
-            rs = pstmt.executeQuery();
-
+            ResultSet rs = pstmt.executeQuery();
             // do we have any result?
             if (rs.next()) {
-                // get the data
                 this.financialCodeID = rs.getInt("FinancialCodeID");
                 this.financialTypeID = rs.getInt("FinancialTypeID");
                 this.financialCode = rs.getString("FinancialCode");
                 this.financialCodeDesc = rs.getString("FinancialCodeDesc");
-
                 found = true;
             }
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(rs, pstmt);
         }
 
         return found;
@@ -249,43 +217,30 @@ public class FinancialCodeBean implements FinancialTypeID {
             String financialCodeDesc, String financialTypeID,
             String financial_code) throws SQLException {
         boolean found = false;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("SELECT DISTINCT * ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE [FinancialCodeDesc] LIKE '%"
-                    + financialCodeDesc + "%'");
-            pstmt_StringBuffer.append("AND   [FinancialTypeID] = ? ");
-            pstmt_StringBuffer.append("AND   [FinancialCode] LIKE '%"
-                    + financial_code + "%'");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT DISTINCT * ");
+        sql.append("FROM [" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE [FinancialCodeDesc] LIKE '%" + financialCodeDesc + "%'");
+        sql.append("AND [FinancialTypeID] = ? ");
+        sql.append("AND [FinancialCode] LIKE '%" + financial_code + "%'");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             // pstmt.setString ( 1, financialCodeDesc );
             pstmt.setString(1, financialTypeID);
 
-            rs = pstmt.executeQuery();
-
+            ResultSet rs = pstmt.executeQuery();
             // do we have any result?
             if (rs.next()) {
-                // get the data
                 this.financialCodeID = rs.getInt("FinancialCodeID");
                 this.financialTypeID = rs.getInt("FinancialTypeID");
                 this.financialCode = rs.getString("FinancialCode");
                 this.financialCodeDesc = rs.getString("FinancialCodeDesc");
-
                 found = true;
             }
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(rs, pstmt);
         }
 
         return found;
@@ -305,45 +260,31 @@ public class FinancialCodeBean implements FinancialTypeID {
             String financialCodeDesc, int financialTypeID, int financial_code_id)
             throws SQLException {
         boolean found = false;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("SELECT DISTINCT * ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE [FinancialCodeDesc] LIKE '%"
-                    + financialCodeDesc + "%'");
-            pstmt_StringBuffer.append("AND   [FinancialTypeID] = ? ");
-            pstmt_StringBuffer
-                    .append(financial_code_id > 0 ? "AND   [FinancialCodeID] = ? "
-                            : "AND   [FinancialCodeID] IS NULL ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT DISTINCT * ");
+        sql.append("FROM [" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE [FinancialCodeDesc] LIKE '%" + financialCodeDesc + "%'");
+        sql.append("AND [FinancialTypeID] = ? ");
+        sql.append(financial_code_id > 0 ? "AND [FinancialCodeID] = ? " : "AND [FinancialCodeID] IS NULL ");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setInt(1, financialTypeID);
             if (financial_code_id > 0)
                 pstmt.setInt(2, financial_code_id);
 
-            rs = pstmt.executeQuery();
-
+            ResultSet rs = pstmt.executeQuery();
             // do we have any result?
             if (rs.next()) {
-                // get the data
                 this.financialCodeID = rs.getInt("FinancialCodeID");
                 this.financialTypeID = rs.getInt("FinancialTypeID");
                 this.financialCode = rs.getString("FinancialCode");
                 this.financialCodeDesc = rs.getString("FinancialCodeDesc");
-
                 found = true;
             }
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(rs, pstmt);
         }
 
         return found;
@@ -368,45 +309,30 @@ public class FinancialCodeBean implements FinancialTypeID {
     public boolean findByFinancialCodeAndFinancialTypeId(String financial_code,
             String financialTypeID) throws SQLException {
         boolean found = false;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("SELECT * ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE [FinancialCode] = ? ");
-            pstmt_StringBuffer.append("AND   [FinancialTypeID] = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT * ");
+        sql.append("FROM ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE [FinancialCode] = ? ");
+        sql.append("AND   [FinancialTypeID] = ? ");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, financial_code);
             pstmt.setString(2, financialTypeID);
 
-            rs = pstmt.executeQuery();
-
+            ResultSet rs = pstmt.executeQuery();
             // do we have any result?
             if (rs.next()) {
-                // get the data
                 this.financialCodeID = rs.getInt("FinancialCodeID");
                 this.financialTypeID = rs.getInt("FinancialTypeID");
                 this.financialCode = rs.getString("FinancialCode");
                 this.financialCodeDesc = rs.getString("FinancialCodeDesc");
-
                 found = true;
             }
-
-            // autocommit is off
-            //con.commit();
-
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
-            //con.rollback();
             throw e;
-        } finally {
-            sqlHelper.close(rs, pstmt);
         }
 
         return found;

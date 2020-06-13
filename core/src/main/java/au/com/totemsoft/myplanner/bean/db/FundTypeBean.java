@@ -52,48 +52,36 @@ public class FundTypeBean {
      * FinancialCodeID!)
      */
     public void create() throws java.sql.SQLException {
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        int status = 0;
         try (Connection con = sqlHelper.getConnection();) {
             // get max. FinancialCodeID
-            // build sql query
-            pstmt_StringBuffer.append("SELECT MAX(FundTypeID) ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
+            StringBuffer sql = new StringBuffer();
+            sql.append("SELECT MAX(FundTypeID) ");
+            sql.append("FROM ");
+            sql.append("[" + DATABASE_TABLE_NAME + "] ");
             // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-            rs = pstmt.executeQuery();
-
-            // do we have any result?
-            if (rs.next()) {
-                // get the data
-                this.fundTypeID = rs.getInt(1);
-                // create new "unique" FinancialCodeID
-                this.fundTypeID++;
+            try (PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
+                ResultSet rs = pstmt.executeQuery();
+                // do we have any result?
+                if (rs.next()) {
+                    this.fundTypeID = rs.getInt(1);
+                    // create new "unique" FinancialCodeID
+                    this.fundTypeID++;
+                }
+                rs.close();
             }
-            // close ResultSet and PreparedStatement
-            sqlHelper.close(rs, pstmt);
 
-            // build sql query
-            pstmt_StringBuffer.append("INSERT INTO ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("(FundTypeID, FundTypeDesc) ");
-            pstmt_StringBuffer.append("VALUES ( ?, ? )");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
-            pstmt.setInt(1, this.fundTypeID);
-            pstmt.setString(2, this.fundTypeDesc);
-
-            status = pstmt.executeUpdate();
+            sql.append("INSERT INTO ");
+            sql.append("[" + DATABASE_TABLE_NAME + "] ");
+            sql.append("(FundTypeID, FundTypeDesc) ");
+            sql.append("VALUES ( ?, ? )");
+            try (PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
+                pstmt.setInt(1, this.fundTypeID);
+                pstmt.setString(2, this.fundTypeDesc);
+                int status = pstmt.executeUpdate();
+            }
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
     }
 
@@ -102,29 +90,20 @@ public class FundTypeBean {
      * entry must be set before storing it.
      */
     public void store() throws java.sql.SQLException {
-        PreparedStatement pstmt = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        int status = 0;
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("UPDATE ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("SET ");
-            pstmt_StringBuffer.append("FundTypeDesc = ? ");
-            pstmt_StringBuffer.append("WHERE FundTypeID = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("UPDATE ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("SET ");
+        sql.append("FundTypeDesc = ? ");
+        sql.append("WHERE FundTypeID = ? ");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, this.fundTypeDesc);
             pstmt.setInt(2, this.fundTypeID);
-
-            status = pstmt.executeUpdate();
+            int status = pstmt.executeUpdate();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
     }
 
@@ -168,36 +147,25 @@ public class FundTypeBean {
     private boolean findByColumnName(String column_name, String id)
             throws java.sql.SQLException {
         boolean found = false;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer pstmt_StringBuffer = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            pstmt_StringBuffer.append("SELECT * ");
-            pstmt_StringBuffer.append("FROM ");
-            pstmt_StringBuffer.append("[" + DATABASE_TABLE_NAME + "] ");
-            pstmt_StringBuffer.append("WHERE [" + column_name + "] = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(pstmt_StringBuffer.toString());
-
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT * ");
+        sql.append("FROM ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE [" + column_name + "] = ? ");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
-
-            rs = pstmt.executeQuery();
-
+            ResultSet rs = pstmt.executeQuery();
             // do we have any result?
             if (rs.next()) {
-                // get the data
                 this.fundTypeID = rs.getInt("FundTypeID");
                 this.fundTypeDesc = rs.getString("FundTypeDesc");
-
                 found = true;
             }
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(rs, pstmt);
         }
 
         return found;

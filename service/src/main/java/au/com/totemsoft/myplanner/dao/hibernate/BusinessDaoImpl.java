@@ -39,16 +39,11 @@ public class BusinessDaoImpl implements BusinessDao {
      * 
      */
     public Business load(Integer businessId) throws SQLException, ObjectNotFoundException {
-        Connection con = null;
-        PreparedStatement sql = null;
-        ResultSet rs = null;
-        try {
-            con = sqlHelper.getConnection();
-            sql = con.prepareStatement("SELECT b.*" + " FROM Business b"
-                    + " WHERE (b.BusinessID=?)", ResultSet.TYPE_FORWARD_ONLY,
-                    ResultSet.CONCUR_READ_ONLY);
-            sql.setInt(1, businessId);
-            rs = sql.executeQuery();
+        String sql = "SELECT b.*" + " FROM Business b WHERE (b.BusinessID=?)";
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql);) {
+            pstmt.setInt(1, businessId);
+            ResultSet rs = pstmt.executeQuery();
             if (!rs.next()) {
                 throw new ObjectNotFoundException("Can not find Business ID: " + businessId);
             }
@@ -65,80 +60,66 @@ public class BusinessDaoImpl implements BusinessDao {
             result.setWebSiteName(rs.getString("WebSiteName"));
             result.setDateCreated(rs.getDate("DateCreated"));
             result.setDateModified(rs.getDate("DateModified"));
+            rs.close();
             //
             return result;
-        } finally {
-            sqlHelper.close(rs, sql);
-            con.close();
         }
     }
 
-    /* (non-Javadoc)
-     * @see au.com.totemsoft.myplanner.dao.BusinessDao#store(au.com.totemsoft.myplanner.api.bean.IBusiness, java.sql.Connection)
-     */
     @Override
     public int store(IBusiness business, Connection con) throws SQLException {
         Integer businessId = business.getId();
         if (businessId == null) {
-            PreparedStatement sql = null;
-            try {
-                // get new ObjectID for person
-                businessId = objectDao.getNewObjectID(ObjectTypeConstant.BUSINESS, con);
-                // add to Business table
-                sql = con.prepareStatement("INSERT INTO Business (BusinessID) VALUES (?)");
-                sql.setInt(1, businessId);
-                sql.executeUpdate();
-            } finally {
-                sqlHelper.close(null, sql);
+            // get new ObjectID for person
+            businessId = objectDao.getNewObjectID(ObjectTypeConstant.BUSINESS, con);
+            // add to Business table
+            String sql = "INSERT INTO Business (BusinessID) VALUES (?)";
+            try (PreparedStatement pstmt = con.prepareStatement(sql);) {
+                pstmt.setInt(1, businessId);
+                pstmt.executeUpdate();
             }
         }
-
-        PreparedStatement sql = con
-                .prepareStatement(
-                        "UPDATE Business SET"
-                                + " ParentBusinessID=?, IndustryCodeID=?, BusinessStructureCodeID=?"
-                                + ", LegalName=?, TradingName=?, BusinessNumber=?, TaxFileNumber=?, WebSiteName=?"
-                                + ", DateModified=getDate()"
-                                + " WHERE BusinessID=?",
-                        ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-        int i = 0;
-        sql.setObject(++i, business.getParentId());
-        sql.setObject(++i, business.getIndustryCodeID());
-        sql.setObject(++i, business.getBusinessStructureCodeID());
-        sql.setString(++i, business.getLegalName());
-        sql.setString(++i, business.getTradingName());
-        sql.setString(++i, business.getBusinessNumber());
-        sql.setString(++i, business.getTaxFileNumber());
-        sql.setString(++i, business.getWebSiteName());
-        sql.setObject(++i, businessId);
-        sql.executeUpdate();
+        //
+        String sql = "UPDATE Business SET"
+            + " ParentBusinessID=?, IndustryCodeID=?, BusinessStructureCodeID=?"
+            + ", LegalName=?, TradingName=?, BusinessNumber=?, TaxFileNumber=?, WebSiteName=?"
+            + ", DateModified=getDate()"
+            + " WHERE BusinessID=?";
+        try (PreparedStatement pstmt = con.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);) {
+            int i = 0;
+            pstmt.setObject(++i, business.getParentId());
+            pstmt.setObject(++i, business.getIndustryCodeID());
+            pstmt.setObject(++i, business.getBusinessStructureCodeID());
+            pstmt.setString(++i, business.getLegalName());
+            pstmt.setString(++i, business.getTradingName());
+            pstmt.setString(++i, business.getBusinessNumber());
+            pstmt.setString(++i, business.getTaxFileNumber());
+            pstmt.setString(++i, business.getWebSiteName());
+            pstmt.setObject(++i, businessId);
+            pstmt.executeUpdate();
+        }
+        //
         return businessId;
     }
 
     public Integer find(IBusiness business) throws SQLException {
-        Connection con = null;
-        PreparedStatement sql = null;
-        ResultSet rs = null;
-        try {
-            con = sqlHelper.getConnection();
-            sql = con.prepareStatement("SELECT BusinessID"
-                + " FROM Business" + " WHERE" + " ( LegalName = ? )"
-                + " OR ( TradingName = ? )" + " OR ( BusinessNumber = ? )"
-                + " OR ( TaxFileNumber = ? )", ResultSet.TYPE_FORWARD_ONLY,
-                ResultSet.CONCUR_READ_ONLY);
+        String sql = "SELECT BusinessID"
+            + " FROM Business" + " WHERE" + " ( LegalName = ? )"
+            + " OR ( TradingName = ? )" + " OR ( BusinessNumber = ? )"
+            + " OR ( TaxFileNumber = ? )";
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql);) {
             int i = 0;
-            sql.setString(++i, business.getLegalName());
-            sql.setString(++i, business.getTradingName());
-            sql.setString(++i, business.getBusinessNumber());
-            sql.setString(++i, business.getTaxFileNumber());
-            rs = sql.executeQuery();
-            if (rs.next()) {
-                return (Integer) rs.getObject(1);
+            pstmt.setString(++i, business.getLegalName());
+            pstmt.setString(++i, business.getTradingName());
+            pstmt.setString(++i, business.getBusinessNumber());
+            pstmt.setString(++i, business.getTaxFileNumber());
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    return (Integer) rs.getObject(1);
+                }
+                return null;
             }
-            return null;
-        } finally {
-            sqlHelper.close(rs, sql);
-            con.close();
         }
     }
 

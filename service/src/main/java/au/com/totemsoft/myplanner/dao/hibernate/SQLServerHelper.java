@@ -32,26 +32,14 @@ public class SQLServerHelper extends AbstractSQLHelper {
     // will close Statement(sql) and ResultSet(rs)
     public synchronized int getIdentityID(Connection con, String tableName)
             throws SQLException {
-
-        // tableName is not important for SQL Server (as we are using
-        // @@IDENTITY)
-
-        Statement sql = con.createStatement();
-
+        // tableName is not important for SQL Server (as we are using @@IDENTITY)
         // MS-SQL Server specific !!!
-        ResultSet rs = sql.executeQuery("SELECT @@IDENTITY AS NEW_IDENTITY");
-
-        int id = -1;
-        try {
+        try (Statement sql = con.createStatement();
+                ResultSet rs = sql.executeQuery("SELECT @@IDENTITY AS NEW_IDENTITY");) {
             if (!rs.next())
                 throw new SQLException("FAILED to get IDENTITY");
-
-            id = rs.getInt("NEW_IDENTITY");
-        } finally {
-            close(rs, sql); // can throws SQLException !!!
+            return rs.getInt("NEW_IDENTITY");
         }
-        return id;
-
     }
 
     /**
@@ -70,31 +58,18 @@ public class SQLServerHelper extends AbstractSQLHelper {
     public boolean checkDBAttached(Connection con, String dbName)
         throws SQLException 
     {
-        PreparedStatement st = null;
-        ResultSet rs = null;
-        try {
-            st = con.prepareStatement(
-                "SELECT name FROM master.dbo.sysdatabases WHERE name = N'" + dbName + "'");
-        
-            rs = st.executeQuery();
-        
+        String sql = "SELECT name FROM master.dbo.sysdatabases WHERE name = N'" + dbName + "'";
+        try (PreparedStatement stmt = con.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();) {
             if (!rs.next()) {
                 return false;
             }
-        
-        } finally {
-            close(rs, st);
         }
-        
-        Statement stmt = null;
-        try {
-            stmt = con.createStatement();
+        try (Statement stmt = con.createStatement();) {
             stmt.execute("USE " + dbName);
             return true;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
-        } finally {
-            stmt.close();
         }
         detachDatabase(con, null, dbName);
         return false;

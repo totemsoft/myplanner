@@ -247,38 +247,26 @@ public class LinkObjectDaoImpl implements LinkObjectDao {
     public List getLinkedObjects(int ownerPrimaryKeyID,
             int linkObjectTypeID, // first level linkage
             boolean toObjectID1, Connection con) throws SQLException {
-
-        List list = null;
-
-        PreparedStatement sql = null;
-        ResultSet rs = null;
-
-        try {
-            sql = con.prepareStatement(toObjectID1 ? "SELECT ObjectID2"
-                    + " FROM Link"
-                    + " WHERE ( ObjectID1=? ) AND ( LinkObjectTypeID=? )"
-                    + " AND ( LogicallyDeleted IS NULL )" : "SELECT ObjectID1"
-                    + " FROM Link"
-                    + " WHERE ( ObjectID2=? ) AND ( LinkObjectTypeID=? )"
-                    + " AND ( LogicallyDeleted IS NULL )",
-                    ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-
-            sql.setInt(1, ownerPrimaryKeyID);
-            sql.setInt(2, linkObjectTypeID);
-            rs = sql.executeQuery();
-
+        String sql = toObjectID1 ? "SELECT ObjectID2"
+            + " FROM Link"
+            + " WHERE ( ObjectID1=? ) AND ( LinkObjectTypeID=? )"
+            + " AND ( LogicallyDeleted IS NULL )" : "SELECT ObjectID1"
+            + " FROM Link"
+            + " WHERE ( ObjectID2=? ) AND ( LinkObjectTypeID=? )"
+            + " AND ( LogicallyDeleted IS NULL )";
+        try (PreparedStatement pstm = con.prepareStatement(sql);) {
+            pstm.setInt(1, ownerPrimaryKeyID);
+            pstm.setInt(2, linkObjectTypeID);
+            ResultSet rs = pstm.executeQuery();
+            List list = null;
             while (rs.next()) {
                 if (list == null)
                     list = new ArrayList();
                 list.add(rs.getObject(toObjectID1 ? "ObjectID2" : "ObjectID1"));
             }
-
+            rs.close();
             return list;
-
-        } finally {
-            sqlHelper.close(rs, sql);
         }
-
     }
 
     public List getLinkedObjects(
@@ -297,65 +285,49 @@ public class LinkObjectDaoImpl implements LinkObjectDao {
                                                                         // level
                                                                         // linkage
             Connection con) throws SQLException {
-
-        ArrayList list = null;
-
-        PreparedStatement sql = null;
-        ResultSet rs = null;
-
-        try {
-            sql = con
-                    .prepareStatement(
-                            toObjectID1 ? "SELECT ObjectID2"
-                                    + " FROM Link"
-                                    + " WHERE ( ObjectID1 = ? ) AND ( LinkObjectTypeID = ? )"
-                                    + " AND ( LinkID IN"
-                                    + " (SELECT ObjectID1"
-                                    + " FROM Link"
-                                    + " WHERE"
-                                    + (objectID2 <= 0 ? " ( ObjectID2 IS NULL )"
-                                            : " ( ObjectID2 = ? )")
-                                    + " AND ( LinkObjectTypeID = ? )"
-                                    + " AND ( LogicallyDeleted IS NULL )"
-                                    + " )"
-                                    + " AND ( LogicallyDeleted IS NULL )"
-                                    + " )"
-                                    : "SELECT ObjectID1"
-                                            + " FROM Link"
-                                            + " WHERE ( ObjectID2 = ? ) AND ( LinkObjectTypeID = ? )"
-                                            + " AND ( LinkID IN"
-                                            + " (SELECT ObjectID2"
-                                            + " FROM Link"
-                                            + " WHERE"
-                                            + (objectID2 <= 0 ? " ( ObjectID1 IS NULL )"
-                                                    : " ( ObjectID1 = ? )")
-                                            + " AND ( LinkObjectTypeID = ? )"
-                                            + " AND ( LogicallyDeleted IS NULL )"
-                                            + " )"
-                                            + " AND ( LogicallyDeleted IS NULL )"
-                                            + " )",
-                            ResultSet.TYPE_FORWARD_ONLY,
-                            ResultSet.CONCUR_READ_ONLY);
-
+        String sql = toObjectID1 ? "SELECT ObjectID2"
+            + " FROM Link"
+            + " WHERE ( ObjectID1 = ? ) AND ( LinkObjectTypeID = ? )"
+            + " AND ( LinkID IN"
+            + " (SELECT ObjectID1"
+            + " FROM Link"
+            + " WHERE"
+            + (objectID2 <= 0 ? " ( ObjectID2 IS NULL )" : " ( ObjectID2 = ? )")
+            + " AND ( LinkObjectTypeID = ? )"
+            + " AND ( LogicallyDeleted IS NULL )"
+            + " )"
+            + " AND ( LogicallyDeleted IS NULL )"
+            + " )"
+            : "SELECT ObjectID1"
+                + " FROM Link"
+                + " WHERE ( ObjectID2 = ? ) AND ( LinkObjectTypeID = ? )"
+                + " AND ( LinkID IN"
+                + " (SELECT ObjectID2"
+                + " FROM Link"
+                + " WHERE"
+                + (objectID2 <= 0 ? " ( ObjectID1 IS NULL )" : " ( ObjectID1 = ? )")
+                + " AND ( LinkObjectTypeID = ? )"
+                + " AND ( LogicallyDeleted IS NULL )"
+                + " )"
+                + " AND ( LogicallyDeleted IS NULL )"
+                + " )";
+        try (PreparedStatement pstm = con.prepareStatement(sql);) {
             int i = 0;
-            sql.setInt(++i, ownerPrimaryKeyID);
-            sql.setInt(++i, linkObjectTypeID1);
+            pstm.setInt(++i, ownerPrimaryKeyID);
+            pstm.setInt(++i, linkObjectTypeID1);
             if (objectID2 > 0)
-                sql.setInt(++i, objectID2);
-            sql.setInt(++i, linkObjectTypeID2);
-            rs = sql.executeQuery();
-
+                pstm.setInt(++i, objectID2);
+            pstm.setInt(++i, linkObjectTypeID2);
+            ResultSet rs = pstm.executeQuery();
+            ArrayList list = null;
             while (rs.next()) {
                 if (list == null)
                     list = new ArrayList();
                 list.add(rs.getObject(toObjectID1 ? "ObjectID2" : "ObjectID1"));
             }
+            rs.close();
             return list;
-
-        } finally {
-            sqlHelper.close(rs, sql);
         }
-
     }
 
 }

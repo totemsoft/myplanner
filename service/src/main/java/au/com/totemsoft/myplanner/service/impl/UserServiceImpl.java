@@ -178,29 +178,29 @@ public class UserServiceImpl implements UserService {
     }
 
     public Integer create() throws ServiceException, CreateException {
-        PreparedStatement sql = null;
-        try {
+        try (Connection con = sqlHelper.getConnection();) {
             // advisorTypeCodeID has to have a value
             Integer advisorTypeCodeID = 1;
             // LoginName has to have a value
             String loginName = "loginName";
-            Connection con = sqlHelper.getConnection();
             Integer personId = objectDao.getNewObjectID(ObjectTypeConstant.USER_PERSON, con);
 
-            sql = con.prepareStatement("INSERT INTO person (PersonID) VALUES (?)");
-            sql.setInt(1, personId);
-            sql.executeUpdate();
+            String sql = "INSERT INTO person (PersonID) VALUES (?)";
+            try (PreparedStatement pstm = con.prepareStatement(sql);) {
+                pstm.setInt(1, personId);
+                pstm.executeUpdate();
+            }
 
-            sql = con.prepareStatement("INSERT INTO UserPerson"
-                            + " (UserPersonID, AdviserTypeCodeID, LoginName, LoginPassword)"
-                            + " VALUES (?, ?, ?, ?)");
-
-            sql.setInt(1, personId);
-            sql.setObject(2, advisorTypeCodeID, java.sql.Types.INTEGER);
-            sql.setString(3, loginName);
-            sql.setString(4, null);
-
-            sql.executeUpdate();
+            sql = "INSERT INTO UserPerson"
+                + " (UserPersonID, AdviserTypeCodeID, LoginName, LoginPassword)"
+                + " VALUES (?, ?, ?, ?)";
+            try (PreparedStatement pstm = con.prepareStatement(sql);) {
+                pstm.setInt(1, personId);
+                pstm.setObject(2, advisorTypeCodeID, java.sql.Types.INTEGER);
+                pstm.setString(3, loginName);
+                pstm.setString(4, null);
+                pstm.executeUpdate();
+            }
 
             /*
              * // link XXX and user if ( getOwnerPrimaryKeyID() != null )
@@ -208,18 +208,11 @@ public class UserServiceImpl implements UserService {
              * personID, XXX_2_USER, con );
              */
 //            setId(personID);
-            con.close();
             return personId;
         } catch (SQLException e) {
             throw new CreateException(e.getMessage());
         } catch (Exception e) {
             throw new ServiceException(e.getMessage());
-        } finally {
-            try {
-                sqlHelper.close(null, sql);
-            } catch (SQLException sqle) {
-                throw new ServiceException(sqle.getMessage());
-            }
         }
     }
 

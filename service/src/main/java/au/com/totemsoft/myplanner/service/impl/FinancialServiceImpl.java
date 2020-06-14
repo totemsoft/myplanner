@@ -121,28 +121,19 @@ public class FinancialServiceImpl implements FinancialService {
     @Override
     public Financial findFinancial(Integer personId, Integer financialId) {
         try (Connection con = sqlHelper.getConnection();) {
-            PreparedStatement sql = null;
-            ResultSet rs = null;
             Integer objectTypeId = null;
-            try {
-                sql = con.prepareStatement(
-                    "SELECT ObjectTypeID FROM Object WHERE ObjectID = ?",
-                    ResultSet.TYPE_FORWARD_ONLY,
-                    ResultSet.CONCUR_READ_ONLY);
-    
+            String sql = "SELECT ObjectTypeID FROM Object WHERE ObjectID = ?";
+            try (PreparedStatement pstm = con.prepareStatement(sql);) {
                 int i = 0;
-                sql.setInt(++i, financialId);
-                rs = sql.executeQuery();
-    
-                // save id, typeId ONLY
-                if (!rs.next()) {
-                    return null;
+                pstm.setInt(++i, financialId);
+                try (ResultSet rs = pstm.executeQuery();) {
+                    // save id, typeId ONLY
+                    if (!rs.next()) {
+                        return null;
+                    }
+                    objectTypeId = rs.getInt("ObjectTypeID");
                 }
-                objectTypeId = rs.getInt("ObjectTypeID");
-            } finally {
-                sqlHelper.close(rs, sql);
             }
-
             FinancialBean fb = ObjectClass.createNewInstance(objectTypeId);
             return initFinancial(financialId, personId, fb, con);
         } catch (SQLException e) {
@@ -157,54 +148,45 @@ public class FinancialServiceImpl implements FinancialService {
     @Override
     public Map<Integer, Map<Integer, Financial>> findFinancials(Integer personId, Integer strategyGroupId) {
         try (Connection con = sqlHelper.getConnection();) {
-            PreparedStatement sql = null;
-            ResultSet rs = null;
             Map<Integer, Map<Integer, Financial>> result = null;
             // get object id's for ALL person financial
-            try {
-                sql = con.prepareStatement(
-                    "SELECT FinancialID, ObjectID, ObjectTypeID"
+            String sql = "SELECT FinancialID, ObjectID, ObjectTypeID"
                     + " FROM Financial, Object"
                     + " WHERE"
                     + " (FinancialID IN"
                     + " (SELECT ObjectID2 FROM Link WHERE ObjectID1 = ? AND LinkObjectTypeID = ? AND LogicallyDeleted IS NULL)"
                     + " ) AND (NextID IS NULL)"
                     + (strategyGroupId == null ? " AND (StrategyGroupID IS NULL)" : " AND (StrategyGroupID = ?)")
-                    + " AND (FinancialID = ObjectID)",
-                    ResultSet.TYPE_FORWARD_ONLY,
-                    ResultSet.CONCUR_READ_ONLY);
-
+                    + " AND (FinancialID = ObjectID)";
+            try (PreparedStatement pstm = con.prepareStatement(sql);) {
                 int i = 0;
-                sql.setInt(++i, personId.intValue());
-                sql.setInt(++i, LinkObjectTypeConstant.PERSON_2_FINANCIAL); // 1004
+                pstm.setInt(++i, personId.intValue());
+                pstm.setInt(++i, LinkObjectTypeConstant.PERSON_2_FINANCIAL); // 1004
                 if (strategyGroupId != null) {
-                    sql.setInt(++i, strategyGroupId.intValue());
+                    pstm.setInt(++i, strategyGroupId.intValue());
                 }
-                rs = sql.executeQuery();
-
-                // save id, typeId ONLY
-                while (rs.next()) {
+                try (ResultSet rs = pstm.executeQuery()) {
+                    // save id, typeId ONLY
+                    while (rs.next()) {
+                        if (result == null) {
+                            result = new TreeMap<Integer, Map<Integer, Financial>>(new CodeComparator<Integer>());
+                        }
+                        Integer id = rs.getInt("FinancialID");
+                        Integer objectTypeId = rs.getInt("ObjectTypeID");
+                        // get/create map for this object type
+                        Map<Integer, Financial> map = result.get(objectTypeId);
+                        if (map == null) {
+                            // map = new TreeMap();
+                            map = new TreeMap<Integer, Financial>(new CodeComparator<Integer>());
+                            result.put(objectTypeId, map);
+                        }
+                        map.put(id, null); // load Financial object later (on request)
+                    }
                     if (result == null) {
-                        result = new TreeMap<Integer, Map<Integer, Financial>>(new CodeComparator<Integer>());
+                        return null;
                     }
-                    Integer id = rs.getInt("FinancialID");
-                    Integer objectTypeId = rs.getInt("ObjectTypeID");
-                    // get/create map for this object type
-                    Map<Integer, Financial> map = result.get(objectTypeId);
-                    if (map == null) {
-                        // map = new TreeMap();
-                        map = new TreeMap<Integer, Financial>(new CodeComparator<Integer>());
-                        result.put(objectTypeId, map);
-                    }
-                    map.put(id, null); // load Financial object later (on request)
                 }
-                if (result == null) {
-                    return null;
-                }
-            } finally {
-                sqlHelper.close(rs, sql);
             }
-
             // create ALL objects for ALL object types
             // init null Financial objects (if any) for this object type
             Iterator<Integer> iter = result.keySet().iterator();

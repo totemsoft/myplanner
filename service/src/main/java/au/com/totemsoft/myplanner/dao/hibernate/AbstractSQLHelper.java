@@ -18,7 +18,6 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -45,16 +44,6 @@ public abstract class AbstractSQLHelper implements SQLHelper {
     @Override
     public Connection getConnection() throws SQLException {
         return dataSource.getConnection();
-    }
-
-    @Override
-    public void close(ResultSet rs, Statement sql) throws SQLException {
-        if (rs != null) {
-            rs.close();
-        }
-        if (sql != null) {
-            sql.close();
-        }
     }
 
     @Override
@@ -96,10 +85,9 @@ public abstract class AbstractSQLHelper implements SQLHelper {
          * (ObjectTypeID) VALUES (?)" ); sql.setInt( 1, objectTypeID );
          * sql.executeUpdate();
          */
-        Statement sql = con.createStatement();
-        sql.executeUpdate("INSERT INTO Object (ObjectTypeID) VALUES ("
-                + objectTypeID + ")");
-        sql.close(); // new
+        try (Statement stmt = con.createStatement();) {
+            stmt.executeUpdate("INSERT INTO Object (ObjectTypeID) VALUES (" + objectTypeID + ")");
+        }
 
         return getIdentityID(con);
 
@@ -157,8 +145,7 @@ public abstract class AbstractSQLHelper implements SQLHelper {
         String createScript = "data/updates/core/0.sql";
         List list = parse(createScript);
         // add to Map, send to execute
-        try {
-            Statement stmt = con.createStatement();
+        try (Statement stmt = con.createStatement();) {
             for (int i = 0; i < list.size(); i++) {
                 String sql = (String) list.get(i);
                 //System.out.println(sql);
@@ -170,7 +157,6 @@ public abstract class AbstractSQLHelper implements SQLHelper {
                 //System.out.println('\t' + sql);
                 int count = stmt.executeUpdate(sql);
             }
-            stmt.close();
             con.commit();
         } catch (SQLException e) {
             System.err.println(e.getMessage());

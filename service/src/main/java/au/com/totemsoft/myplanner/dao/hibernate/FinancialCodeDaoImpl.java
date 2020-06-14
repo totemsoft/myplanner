@@ -57,21 +57,15 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
      */
     @Override
     public FinancialCode findByColumnName(String column_name, String id) throws SQLException {
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
         StringBuffer sql = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            sql.append("SELECT * ");
-            sql.append("FROM ");
-            sql.append("[" + FinancialCode.TABLE_NAME + "] ");
-            sql.append("WHERE [" + column_name + "] = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(sql.toString());
+        sql.append("SELECT * ");
+        sql.append("FROM ");
+        sql.append("[" + FinancialCode.TABLE_NAME + "] ");
+        sql.append("WHERE [" + column_name + "] = ? ");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
-            rs = pstmt.executeQuery();
-            // do we have any result?
+            ResultSet rs = pstmt.executeQuery();
             FinancialCode result = null;
             if (rs.next()) {
                 result = new FinancialCode();
@@ -80,12 +74,11 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
                 result.setCode(rs.getString("FinancialCode"));
                 result.setDescription(rs.getString("FinancialCodeDesc"));
             }
+            rs.close();
             return result;
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(rs, pstmt);
         }
     }
 
@@ -94,131 +87,97 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
      */
     @Override
     public Vector findByKeywords(String keywords, String column_name) throws SQLException {
+        // check if we have some keywords
+        Vector result = new Vector();
         if (StringUtils.isBlank(keywords) || StringUtils.isBlank(column_name)) {
-            return new Vector();
+            return result;
         }
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer sql = new StringBuffer();
-        StringTokenizer tok = null;
+        // split keywords String into tokens (single keywords)
+        final StringTokenizer tok = new StringTokenizer(keywords);
+        final int number_of_tokens = tok.countTokens();
         int token_count = 0;
-        int number_of_tokens = 0;
-
-        Vector table_rows = new Vector();
         column_name = column_name.trim();
-        try (Connection con = sqlHelper.getConnection();) {
-            // check if we have some keywords
-            if (keywords != null && keywords.length() > 0) {
-                // split keywords String into tokens (single keywords)
-                tok = new StringTokenizer(keywords);
-                number_of_tokens = tok.countTokens();
-
-                // build pstmt query
-                sql.append("SELECT DISTINCT ");
-                sql.append("[FinancialCode], [FinancialCodeDesc] ");
-                sql.append("FROM [" + FinancialCode.TABLE_NAME + "] ");
-                sql.append("WHERE (");
-                // add all tokens (single keywords) to the query
-                while (tok.hasMoreTokens()) {
-                    // do we need to add "AND "?
-                    if (token_count > 0 && token_count < number_of_tokens) {
-                        sql.append("OR ");
-                    }
-                    sql.append("[" + column_name + "] LIKE '%" + tok.nextToken() + "%' ");
-                    token_count++;
-                }
-                // select only user created FinancialCodes, they start with '#'
-                sql.append(" OR [FinancialCode] LIKE '#%'");
-                sql.append(") ");
-                //
-                sql.append(" AND LogicallyDeleted IS NULL ");
-                // order by description
-                sql.append("ORDER BY [" + column_name + "] ");
-
-                // set and execute query
-                pstmt = con.prepareStatement(sql.toString());
-                rs = pstmt.executeQuery();
-
-                // have we any result?
-                while (rs.next()) {
-                    // create new row
-                    AvailableInvestmentsTableRow table_row = new AvailableInvestmentsTableRow();
-
-                    // fill it with data
-                    table_row.origin = checkString(FinancialCode.TABLE_NAME);
-                    table_row.investmentCode = checkString(rs.getString(FinancialCode.COLUMN_CODE));
-                    table_row.description = checkString(rs.getString(FinancialCode.COLUMN_DESC));
-                    table_row.code = "";
-                    table_row.institution = "";
-                    // store row
-                    table_rows.add(table_row);
-                }
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT DISTINCT ");
+        sql.append("[FinancialCode], [FinancialCodeDesc] ");
+        sql.append("FROM [" + FinancialCode.TABLE_NAME + "] ");
+        sql.append("WHERE (");
+        while (tok.hasMoreTokens()) {
+            // do we need to add "AND "?
+            if (token_count > 0 && token_count < number_of_tokens) {
+                sql.append("OR ");
             }
-            return table_rows;
+            sql.append("[" + column_name + "] LIKE '%" + tok.nextToken() + "%' ");
+            token_count++;
+        }
+        // select only user created FinancialCodes, they start with '#'
+        sql.append(" OR [FinancialCode] LIKE '#%'");
+        sql.append(") ");
+        sql.append(" AND LogicallyDeleted IS NULL ");
+        sql.append("ORDER BY [" + column_name + "] ");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                // create new row
+                AvailableInvestmentsTableRow table_row = new AvailableInvestmentsTableRow();
+                // fill it with data
+                table_row.origin = checkString(FinancialCode.TABLE_NAME);
+                table_row.investmentCode = checkString(rs.getString(FinancialCode.COLUMN_CODE));
+                table_row.description = checkString(rs.getString(FinancialCode.COLUMN_DESC));
+                table_row.code = "";
+                table_row.institution = "";
+                // store row
+                result.add(table_row);
+            }
+            rs.close();
+            return result;
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(rs, pstmt);
         }
     }
 
-    /* (non-Javadoc)
-     * @see au.com.totemsoft.myplanner.api.dao.FinancialCodeDao#create(au.com.totemsoft.myplanner.api.bean.hibernate.FinancialCode)
-     */
     @Override
     public void create(FinancialCode entity) throws SQLException {
         Integer financialTypeId = entity.getFinancialTypeId();
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer sql = new StringBuffer();
+        int financialCodeId = 0;
         try (Connection con = sqlHelper.getConnection();) {
             // get max. FinancialCodeID
-            // build sql query
+            StringBuffer sql = new StringBuffer();
             sql.append("SELECT MAX(FinancialCodeID) ");
             sql.append("FROM ");
             sql.append("[" + FinancialCode.TABLE_NAME + "] ");
-            // set and execute query
-            pstmt = con.prepareStatement(sql.toString());
-            rs = pstmt.executeQuery();
-
-            // do we have any result?
-            int financialCodeId = 0;
-            if (rs.next()) {
-                // get the data
-                financialCodeId = rs.getInt(1);
-                // create new "unique" FinancialCodeId
-                financialCodeId++;
+            try (PreparedStatement pstmt = con.prepareStatement(sql.toString());
+                    ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    financialCodeId = rs.getInt(1);
+                    // create new "unique" FinancialCodeId
+                    financialCodeId++;
+                }
             }
-            // close ResultSet and PreparedStatement
-            sqlHelper.close(rs, pstmt);
 
-            // build sql query
-            sql.setLength(0);
+            sql = new StringBuffer();
             sql.append("INSERT INTO ");
             sql.append("[" + FinancialCode.TABLE_NAME + "] ");
             sql.append("(FinancialCodeID, FinancialTypeID, FinancialCode, FinancialCodeDesc) ");
             sql.append("VALUES ( ?, ?, ?, ? )");
-
-            // set and execute query
-            pstmt = con.prepareStatement(sql.toString());
-            pstmt.setInt(1, financialCodeId);
-            // pstmt.setInt (2, this.financialTypeId); // should already
-            // exists in FinancialType table
-            if (financialTypeId != null && financialTypeId > 0) {
-                pstmt.setInt(2, financialTypeId);
-            } else {
-                pstmt.setInt(2, FinancialTypeEnum.UNDEFINED.getId());
+            try (PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
+                pstmt.setInt(1, financialCodeId);
+                // pstmt.setInt (2, this.financialTypeId); // should already
+                // exists in FinancialType table
+                if (financialTypeId != null && financialTypeId > 0) {
+                    pstmt.setInt(2, financialTypeId);
+                } else {
+                    pstmt.setInt(2, FinancialTypeEnum.UNDEFINED.getId());
+                }
+                pstmt.setString(3, entity.getCode());
+                pstmt.setString(4, entity.getDescription());
+                /*int status = */pstmt.executeUpdate();
             }
-            pstmt.setString(3, entity.getCode());
-            pstmt.setString(4, entity.getDescription());
-
-            /*int status = */pstmt.executeUpdate();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
     }
 
@@ -227,21 +186,16 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
      */
     @Override
     public void store(FinancialCode entity) throws SQLException {
-        PreparedStatement pstmt = null;
         StringBuffer sql = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            sql.append("UPDATE ");
-            sql.append("[" + FinancialCode.TABLE_NAME + "] ");
-            sql.append("SET ");
-            sql.append("FinancialTypeID = ?, ");
-            sql.append("FinancialCode = ?, ");
-            sql.append("FinancialCodeDesc = ? ");
-            sql.append("WHERE FinancialCodeID = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(sql.toString());
-
+        sql.append("UPDATE ");
+        sql.append("[" + FinancialCode.TABLE_NAME + "] ");
+        sql.append("SET ");
+        sql.append("FinancialTypeID = ?, ");
+        sql.append("FinancialCode = ?, ");
+        sql.append("FinancialCodeDesc = ? ");
+        sql.append("WHERE FinancialCodeID = ? ");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             Integer financialTypeId = entity.getFinancialType().getId();
             if (financialTypeId > 0) {
                 pstmt.setInt(1, financialTypeId);
@@ -251,13 +205,10 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
             pstmt.setString(2, entity.getCode());
             pstmt.setString(3, entity.getDescription());
             pstmt.setInt(4, entity.getId());
-
             int count = pstmt.executeUpdate();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
     }
 

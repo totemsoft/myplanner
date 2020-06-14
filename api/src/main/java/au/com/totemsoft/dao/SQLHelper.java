@@ -1,15 +1,11 @@
 package au.com.totemsoft.dao;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public interface SQLHelper {
 
     Connection getConnection() throws SQLException;
-
-    void close(ResultSet rs, Statement sql) throws SQLException;
 
     /**
      * Prints the SQLException's messages, SQLStates and ErrorCode to System.err

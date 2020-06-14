@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import au.com.totemsoft.myplanner.api.bean.ICountry;
+import au.com.totemsoft.myplanner.api.bean.ITitleCode;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -24,11 +26,16 @@ public class ClientDto {
 
     private Long id;
 
+    private ITitleCode title;
+
     @NotNull @Size(min = 2, max = 64)
-    private String name;
+    private String firstname;
+
+    @NotNull @Size(min = 2, max = 64)
+    private String surname;
 
     private Date dateOfBirth;
 
-    private String country;
+    private ICountry dobCountry;
 
 }

@@ -14,19 +14,19 @@ import au.com.totemsoft.myplanner.api.bean.ITitleCode;
 public interface EntityService
 {
 
-    List<? extends ICountry> findCountries();
+    List<ICountry> findCountries();
 
-    List<? extends IState> findStates(Integer countryId);
+    List<IState> findStates(Integer countryId);
 
     IMaritalCode findMaritalCode(Integer id);
     IMaritalCode findMaritalCode(String codeDesc);
-    List<? extends IMaritalCode> findMaritalCodes();
+    List<IMaritalCode> findMaritalCodes();
 
     ISexCode findSexCode(Integer id);
     ISexCode findSexCode(String codeDesc);
 
     ITitleCode findTitleCode(Integer id);
     ITitleCode findTitleCode(String codeDesc);
-    List<? extends ITitleCode> findTitleCodes();
+    List<ITitleCode> findTitleCodes();
 
 }

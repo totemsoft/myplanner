@@ -21,6 +21,7 @@ import au.com.totemsoft.myplanner.api.bean.IClientView;
 import au.com.totemsoft.myplanner.api.service.UserService;
 import au.com.totemsoft.myplanner.domain.dto.ClientDto;
 import au.com.totemsoft.myplanner.service.ClientService;
+import au.com.totemsoft.myplanner.service.client.EntityService;
 import au.com.totemsoft.myplanner.vaadin.client.ClientForm;
 
 @Route(value = "", layout = MainLayout.class)
@@ -32,28 +33,31 @@ public class ClientsView extends VerticalLayout {
     private static final long serialVersionUID = -6231446012104860018L;
 
     @Inject private ClientService clientService;
-
+    //private final EntityService entityService;
     private final UserService userService;
 
     private final ClientForm form;
 
     private final Grid<ClientDto> grid;
 
-    public ClientsView(UserService userService) {
+    public ClientsView(EntityService entityService, UserService userService) {
+        //this.entityService = entityService;
         this.userService = userService;
         //
         addClassName("clients-view");
         setSizeFull();
         //
-        this.grid = new Grid<>(ClientDto.class, false);
-        configureGrid();
-        //
-        this.form = new ClientForm();
+        this.form = new ClientForm(
+            entityService.findTitleCodes(),
+            entityService.findCountries());
         this.form.addListener(ClientForm.SaveEvent.class, this::saveClient);
         this.form.addListener(ClientForm.DeleteEvent.class, this::removeClient);
         this.form.addListener(ClientForm.CloseEvent.class, e -> closeEditor());
         //
-        Div content = new Div(grid, form);
+        this.grid = new Grid<>(ClientDto.class, false);
+        configureGrid();
+        //
+        Div content = new Div(form, grid);
         content.addClassName("content");
         content.setSizeFull();
         //
@@ -79,7 +83,14 @@ public class ClientsView extends VerticalLayout {
     private void configureGrid() {
         grid.addClassName("clients-grid");
         grid.setSizeFull();
-        grid.setColumns("id", "name", "dateOfBirth", "country");
+        // ClientDto properties
+        grid.addColumn(ClientDto::getId).setHeader("Id");
+        grid.addColumn(c -> c.getTitle() == null ? null : c.getTitle().getDescription()).setHeader("Title");
+        grid.addColumn(ClientDto::getFirstname).setHeader("First Name");
+        grid.addColumn(ClientDto::getSurname).setHeader("Surname");
+        grid.addColumn(ClientDto::getDateOfBirth).setHeader("Date Of Birth");
+        grid.addColumn(c -> c.getDobCountry() == null ? null : c.getDobCountry().getDescription()).setHeader("Country");
+        //
         grid.getColumns().forEach(col -> col.setAutoWidth(true));
         grid.asSingleSelect().addValueChangeListener(e -> editClient(e.getValue()));
     }
@@ -128,9 +139,11 @@ public class ClientsView extends VerticalLayout {
         grid.setItems(clients.stream().map(
             c -> ClientDto.builder()
                 .id(c.getId())
-                .name(c.getFullName())
+                .title(c.getTitle())
+                .firstname(c.getFirstname())
+                .surname(c.getSurname())
                 .dateOfBirth(c.getDateOfBirth())
-                .country(c.getDobCountry() == null ? null : c.getDobCountry().getDescription())
+                .dobCountry(c.getDobCountry())
                 .build()));
     }
 

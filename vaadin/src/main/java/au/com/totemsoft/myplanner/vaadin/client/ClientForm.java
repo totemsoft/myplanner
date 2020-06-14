@@ -1,5 +1,7 @@
 package au.com.totemsoft.myplanner.vaadin.client;
 
+import java.util.List;
+
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEvent;
 import com.vaadin.flow.component.ComponentEventListener;
@@ -14,6 +16,8 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.shared.Registration;
 
+import au.com.totemsoft.myplanner.api.bean.ICountry;
+import au.com.totemsoft.myplanner.api.bean.ITitleCode;
 import au.com.totemsoft.myplanner.domain.dto.ClientDto;
 
 public class ClientForm extends FormLayout {
@@ -21,8 +25,10 @@ public class ClientForm extends FormLayout {
     /** serialVersionUID */
     private static final long serialVersionUID = 2237074066676533140L;
 
-    private TextField name = new TextField("Name");
-    private ComboBox<String> country = new ComboBox<>("Country");
+    private ComboBox<ITitleCode> title;
+    private TextField firstname;
+    private TextField surname;
+    private ComboBox<ICountry> dobCountry;
 
     private Binder<ClientDto> binder = new BeanValidationBinder<>(ClientDto.class);
 
@@ -30,17 +36,28 @@ public class ClientForm extends FormLayout {
     private Button delete = new Button("Delete");
     private Button close = new Button("Cancel");
 
-    public ClientForm() {
+    public ClientForm(List<ITitleCode> titles, List<ICountry> countries) {
         addClassName("client-search-form");
         //
-        binder.bindInstanceFields(this);
-        //country.setItems(countries);
+        title = new ComboBox<>("Title", titles);
+        title.setItemLabelGenerator(ITitleCode::getDescription);
+        //
+        firstname = new TextField("First Name");
+        //
+        surname = new TextField("Surname");
+        //
+        dobCountry = new ComboBox<>("Country", countries);
+        dobCountry.setItemLabelGenerator(ICountry::getDescription);
         //
         add(
-            name,
-            country,
+            title,
+            firstname,
+            surname,
+            dobCountry,
             createButtonsLayout()
         );
+        //
+        binder.bindInstanceFields(this);
     }
 
     public void setClient(ClientDto client) {

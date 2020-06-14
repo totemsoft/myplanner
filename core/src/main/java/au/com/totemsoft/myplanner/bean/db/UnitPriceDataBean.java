@@ -75,20 +75,13 @@ public class UnitPriceDataBean implements UnitSharePrice {
      * entry must be set before creating a new entry.
      */
     public void create() throws java.sql.SQLException {
-        PreparedStatement pstmt = null;
         StringBuffer sql = new StringBuffer();
-        int status = 0;
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            sql.append("INSERT INTO ");
-            sql.append("[" + DATABASE_TABLE_NAME + "] ");
-            sql
-                    .append("(identifier, code, [price_date], [entry_price], [exit_price]) ");
-            sql.append("VALUES ( ?, ?, ?, ?, ? )");
-
-            // set and execute query
-            pstmt = con.prepareStatement(sql.toString());
-
+        sql.append("INSERT INTO ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("(identifier, code, [price_date], [entry_price], [exit_price]) ");
+        sql.append("VALUES ( ?, ?, ?, ?, ? )");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, this.identifier);
             pstmt.setInt(2, this.code);
             pstmt.setString(3, this.price_date);
@@ -96,12 +89,10 @@ public class UnitPriceDataBean implements UnitSharePrice {
             pstmt.setDouble(5, this.exit_price);
             // pstmt.setString ( 6, this.id );
 
-            status = pstmt.executeUpdate();
+            int status = pstmt.executeUpdate();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
     }
 
@@ -110,24 +101,18 @@ public class UnitPriceDataBean implements UnitSharePrice {
      * must be set before storing it.
      */
     public void store() throws java.sql.SQLException {
-        PreparedStatement pstmt = null;
         StringBuffer sql = new StringBuffer();
-        int status = 0;
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            sql.append("UPDATE ");
-            sql.append("[" + DATABASE_TABLE_NAME + "] ");
-            sql.append("SET ");
-            sql.append("identifier = ?, ");
-            sql.append("[price_date] = ?, ");
-            sql.append("[entry_price] = ?, ");
-            sql.append("[exit_price] = ?  ");
-            // sql.append ( "id = ? " );
-            sql.append("WHERE code = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(sql.toString());
-
+        sql.append("UPDATE ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("SET ");
+        sql.append("identifier = ?, ");
+        sql.append("[price_date] = ?, ");
+        sql.append("[entry_price] = ?, ");
+        sql.append("[exit_price] = ?  ");
+        // sql.append ( "id = ? " );
+        sql.append("WHERE code = ? ");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, this.identifier);
             pstmt.setString(2, this.price_date);
             pstmt.setDouble(3, this.entry_price);
@@ -135,12 +120,10 @@ public class UnitPriceDataBean implements UnitSharePrice {
             // pstmt.setString ( 5, this.id );
             pstmt.setInt(5, this.code);
 
-            status = pstmt.executeUpdate();
+            int status = pstmt.executeUpdate();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
     }
 
@@ -154,44 +137,34 @@ public class UnitPriceDataBean implements UnitSharePrice {
      */
     public boolean findByCode(String id) throws java.sql.SQLException {
         boolean found = false;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
         StringBuffer sql = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            sql.append("SELECT * ");
-            sql.append("FROM ");
-            sql.append("[" + DATABASE_TABLE_NAME + "] ");
-            sql.append("WHERE [code] = ? ");
-            sql.append("AND [price_date] = ");
-            sql.append("(");
-            sql.append("SELECT max([price_date]) ");
-            sql.append("FROM ");
-            sql.append("[" + DATABASE_TABLE_NAME + "] ");
-            sql.append("WHERE [code] = ? ");
-            sql.append(")");
-
-            // set and execute query
-            pstmt = con.prepareStatement(sql.toString());
-
+        sql.append("SELECT * ");
+        sql.append("FROM ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE [code] = ? ");
+        sql.append("AND [price_date] = ");
+        sql.append("(");
+        sql.append("SELECT max([price_date]) ");
+        sql.append("FROM ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE [code] = ? ");
+        sql.append(")");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             // transform String to int
             int code_int = -1;
             try {
                 if (id != null && id.length() > 0) {
                     code_int = Integer.parseInt(id);
                 }
-            } catch (java.lang.NumberFormatException e) {
-            }
+            } catch (java.lang.NumberFormatException e) {}
 
             pstmt.setInt(1, code_int);
             pstmt.setInt(2, code_int);
 
-            rs = pstmt.executeQuery();
-
-            // do we have any result?
+            ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
                 found = true;
-                // get the data
                 this.identifier = rs.getString("identifier");
                 this.code = rs.getInt("code");
                 // this.price_date = rs.getString ( "price_date" );
@@ -200,11 +173,10 @@ public class UnitPriceDataBean implements UnitSharePrice {
                 this.exit_price = rs.getDouble("exit_price");
                 this.id = rs.getString("id");
             }
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
 
         return found;
@@ -238,30 +210,19 @@ public class UnitPriceDataBean implements UnitSharePrice {
     private boolean findByColumnName(String column_name, String id,
             String add_sql_str) throws java.sql.SQLException {
         boolean found = false;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
         StringBuffer sql = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build sql query
-            sql.append("SELECT * ");
-            sql.append("FROM ");
-            sql.append("[" + DATABASE_TABLE_NAME + "] ");
-            sql.append("WHERE [" + column_name + "] = ? ");
-
-            if (add_sql_str != null) {
-                sql.append(" " + add_sql_str);
-            }
-
-            // set and execute query
-            pstmt = con.prepareStatement(sql.toString());
-
+        sql.append("SELECT * ");
+        sql.append("FROM ");
+        sql.append("[" + DATABASE_TABLE_NAME + "] ");
+        sql.append("WHERE [" + column_name + "] = ? ");
+        if (add_sql_str != null) {
+            sql.append(" " + add_sql_str);
+        }
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
-
-            rs = pstmt.executeQuery();
-
-            // do we have any result?
+            ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                // get the data
                 this.identifier = rs.getString("identifier");
                 this.code = rs.getInt("code");
                 // this.price_date = rs.getString ( "price_date" );
@@ -269,14 +230,12 @@ public class UnitPriceDataBean implements UnitSharePrice {
                 this.entry_price = rs.getDouble("entry_price");
                 this.exit_price = rs.getDouble("exit_price");
                 this.id = rs.getString("id");
-
                 found = true;
             }
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
 
         return found;

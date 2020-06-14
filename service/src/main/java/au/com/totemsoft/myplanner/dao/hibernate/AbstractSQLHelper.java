@@ -99,7 +99,7 @@ public abstract class AbstractSQLHelper implements SQLHelper {
         Statement sql = con.createStatement();
         sql.executeUpdate("INSERT INTO Object (ObjectTypeID) VALUES ("
                 + objectTypeID + ")");
-        close(null, sql); // new
+        sql.close(); // new
 
         return getIdentityID(con);
 
@@ -155,16 +155,12 @@ public abstract class AbstractSQLHelper implements SQLHelper {
         throws IOException, SQLException
     {
         String createScript = "data/updates/core/0.sql";
-    
         List list = parse(createScript);
-    
         // add to Map, send to execute
-        Statement stmt = null;
-        String sql = null;
         try {
-            stmt = con.createStatement();
+            Statement stmt = con.createStatement();
             for (int i = 0; i < list.size(); i++) {
-                sql = (String) list.get(i);
+                String sql = (String) list.get(i);
                 //System.out.println(sql);
                 sql = sql.replaceAll("\\$\\{DB_NAME\\}", dbName);
                 //sql = sql.replaceAll("(\\$\\{DB_LOCATION\\})", dbLocation);
@@ -175,9 +171,7 @@ public abstract class AbstractSQLHelper implements SQLHelper {
                 int count = stmt.executeUpdate(sql);
             }
             stmt.close();
-    
             con.commit();
-    
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             con.rollback();
@@ -186,10 +180,7 @@ public abstract class AbstractSQLHelper implements SQLHelper {
             System.err.println(e.getMessage());
             con.rollback();
             throw e;
-        } finally {
-            close(null, stmt);
         }
-    
         System.out.println("\tDB create successfully completed: " + createScript);    
     }
 

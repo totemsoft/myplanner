@@ -139,77 +139,59 @@ public class UnitInformationSearchBean {
      *         criteria
      */
     private Vector findByKeywordsSearch(String keywords, String column_name) throws java.sql.SQLException {
+        Vector result = new Vector();
+        // check if we have some keywords
         if (StringUtils.isBlank(keywords) || StringUtils.isBlank(column_name)) {
-            return new Vector();
+            return result;
         }
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        StringBuffer sql = new StringBuffer();
-        StringTokenizer tok = null;
+        // split keywords String into tokens (single keywords)
+        final StringTokenizer tok = new StringTokenizer(keywords);
+        final int number_of_tokens = tok.countTokens();
         int token_count = 0;
-        int number_of_tokens = 0;
-
-        Vector table_rows = new Vector(INITIAL_VECTOR_SIZE, INITIAL_VECTOR_GROWTH_SIZE);
         column_name = column_name.trim();
-        try (Connection con = sqlHelper.getConnection();) {
-            // check if we have some keywords
-            if (keywords != null && keywords.length() > 0) {
-                // split keywords String into tokens (single keywords)
-                tok = new StringTokenizer(keywords);
-                number_of_tokens = tok.countTokens();
-
-                // build pstmt query
-                sql.append("SELECT DISTINCT ");
-                sql.append("b.code, b.[full_name], a.[full_name] AS institution, c.[apir_pic] ");
-                sql.append("FROM [" + MANAGER_DATA_DATABASE_TABLE_NAME + "] a, ");
-                sql.append("[" + PRODUCT_INFORMATION_DATABASE_TABLE_NAME + "] b, ");
-                sql.append("[" + APIR_PIC_DATABASE_TABLE_NAME + "] c ");
-                sql.append("WHERE ");
-                sql.append("a.code = b.[manager_code] AND b.code = c.code AND ");
-                // add all tokens (single keywords) to the query
-                sql.append("(");
-                while (tok.hasMoreTokens()) {
-                    // do we need to add "AND "?
-                    if (token_count > 0 && token_count < number_of_tokens) {
-                        sql.append(SEARCH_OPERATOR + " ");
-                    }
-                    sql.append(column_name + " LIKE '%" + tok.nextToken() + "%' ");
-                    token_count++;
-                }
-                sql.append(") ");
-                // order by description
-                sql.append("ORDER BY " + column_name);
-
-                // set and execute query
-                pstmt = con.prepareStatement(sql.toString());
-                rs = pstmt.executeQuery();
-
-                // have we any result?
-                while (rs.next()) {
-                    // create new row
-                    AvailableInvestmentsTableRow table_row = new AvailableInvestmentsTableRow();
-
-                    // fill it with data
-                    table_row.origin = checkString(APIR_PIC_DATABASE_TABLE_NAME);
-                    table_row.investmentCode = checkString(rs
-                            .getString("apir_pic"));
-                    table_row.description = checkString(rs
-                            .getString("full_name"));
-                    table_row.code = checkString(rs.getString("code"));
-                    table_row.institution = checkString(rs
-                            .getString("institution"));
-                    // store row
-                    table_rows.add(table_row);
-                }
+        StringBuffer sql = new StringBuffer();
+        sql.append("SELECT DISTINCT ");
+        sql.append("b.code, b.[full_name], a.[full_name] AS institution, c.[apir_pic] ");
+        sql.append("FROM [" + MANAGER_DATA_DATABASE_TABLE_NAME + "] a, ");
+        sql.append("[" + PRODUCT_INFORMATION_DATABASE_TABLE_NAME + "] b, ");
+        sql.append("[" + APIR_PIC_DATABASE_TABLE_NAME + "] c ");
+        sql.append("WHERE ");
+        sql.append("a.code = b.[manager_code] AND b.code = c.code AND ");
+        // add all tokens (single keywords) to the query
+        sql.append("(");
+        while (tok.hasMoreTokens()) {
+            // do we need to add "AND "?
+            if (token_count > 0 && token_count < number_of_tokens) {
+                sql.append(SEARCH_OPERATOR + " ");
             }
+            sql.append(column_name + " LIKE '%" + tok.nextToken() + "%' ");
+            token_count++;
+        }
+        sql.append(") ");
+        // order by description
+        sql.append("ORDER BY " + column_name);
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                // create new row
+                AvailableInvestmentsTableRow table_row = new AvailableInvestmentsTableRow();
+                // fill it with data
+                table_row.origin = checkString(APIR_PIC_DATABASE_TABLE_NAME);
+                table_row.investmentCode = checkString(rs.getString("apir_pic"));
+                table_row.description = checkString(rs.getString("full_name"));
+                table_row.code = checkString(rs.getString("code"));
+                table_row.institution = checkString(rs.getString("institution"));
+                // store row
+                result.add(table_row);
+            }
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(rs, pstmt);
         }
 
-        return table_rows;
+        return result;
     }
 
     /**
@@ -225,48 +207,30 @@ public class UnitInformationSearchBean {
     private boolean findByColumnName(String column_name, String id)
             throws java.sql.SQLException {
         boolean found = false;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
         StringBuffer sql = new StringBuffer();
-        try (Connection con = sqlHelper.getConnection();) {
-            // build pstmt query
-            sql.append("SELECT DISTINCT ");
-            sql
-                    .append("b.code, b.[full_name], a.[full_name] AS institution, c.[apir_pic] ");
-
-            sql.append("FROM ["
-                    + MANAGER_DATA_DATABASE_TABLE_NAME + "] a, ");
-            sql.append("["
-                    + PRODUCT_INFORMATION_DATABASE_TABLE_NAME + "] b, ");
-            sql.append("[" + APIR_PIC_DATABASE_TABLE_NAME
-                    + "] c");
-
-            sql.append("WHERE ");
-            sql
-                    .append("a.code = b.[manager_code] AND b.code = c.code AND");
-            sql.append(column_name + " = ? ");
-
-            // set and execute query
-            pstmt = con.prepareStatement(sql.toString());
-
+        sql.append("SELECT DISTINCT ");
+        sql.append("b.code, b.[full_name], a.[full_name] AS institution, c.[apir_pic] ");
+        sql.append("FROM [" + MANAGER_DATA_DATABASE_TABLE_NAME + "] a, ");
+        sql.append("[" + PRODUCT_INFORMATION_DATABASE_TABLE_NAME + "] b, ");
+        sql.append("[" + APIR_PIC_DATABASE_TABLE_NAME + "] c");
+        sql.append("WHERE ");
+        sql.append("a.code = b.[manager_code] AND b.code = c.code AND");
+        sql.append(column_name + " = ? ");
+        try (Connection con = sqlHelper.getConnection();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
-
-            rs = pstmt.executeQuery();
-
-            // do we have any result?
+            ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                // get the data
                 this.apir_pic = rs.getString("apir_pic");
                 this.full_name = rs.getString("full_name");
                 this.institution = rs.getString("institution");
                 this.code = rs.getInt("code");
                 found = true;
             }
+            rs.close();
         } catch (SQLException e) {
             sqlHelper.printSQLException(e);
             throw e;
-        } finally {
-            sqlHelper.close(null, pstmt);
         }
 
         return found;

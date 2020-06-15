@@ -9,7 +9,6 @@ package au.com.totemsoft.myplanner.bean.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import au.com.totemsoft.dao.SQLHelper;
 import au.com.totemsoft.myplanner.assetinvestment.UnitSharePrice;
@@ -81,9 +80,6 @@ public class SharePriceDataBean implements UnitSharePrice {
             pstmt.setDouble(3, this.open_price);
             pstmt.setDouble(4, this.close_price);
             int status = pstmt.executeUpdate();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
     }
 
@@ -107,9 +103,6 @@ public class SharePriceDataBean implements UnitSharePrice {
             pstmt.setDouble(3, this.close_price);
             pstmt.setString(4, this.code);
             int status = pstmt.executeUpdate();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
     }
 
@@ -139,21 +132,17 @@ public class SharePriceDataBean implements UnitSharePrice {
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
             pstmt.setString(2, id);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                this.code = rs.getString("code");
-                // this.price_date = rs.getString ( "price_date" );
-                setPriceDate2(rs.getDate("price_date"));
-                this.open_price = rs.getDouble("open_price");
-                this.close_price = rs.getDouble("close_price");
-                found = true;
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    this.code = rs.getString("code");
+                    // this.price_date = rs.getString ( "price_date" );
+                    setPriceDate2(rs.getDate("price_date"));
+                    this.open_price = rs.getDouble("open_price");
+                    this.close_price = rs.getDouble("close_price");
+                    found = true;
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 
@@ -185,21 +174,17 @@ public class SharePriceDataBean implements UnitSharePrice {
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
             pstmt.setString(2, id);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                this.code = rs.getString("code");
-                // this.price_date = rs.getString ( "price_date" );
-                setPriceDate2(rs.getDate("price_date"));
-                this.open_price = rs.getDouble("open_price");
-                this.close_price = rs.getDouble("close_price");
-                found = true;
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    this.code = rs.getString("code");
+                    // this.price_date = rs.getString ( "price_date" );
+                    setPriceDate2(rs.getDate("price_date"));
+                    this.open_price = rs.getDouble("open_price");
+                    this.close_price = rs.getDouble("close_price");
+                    found = true;
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 

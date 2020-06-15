@@ -9,7 +9,6 @@ package au.com.totemsoft.myplanner.bean.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import au.com.totemsoft.dao.SQLHelper;
 import au.com.totemsoft.myplanner.api.ObjectNotFoundException;
@@ -261,9 +260,6 @@ public class AssetAllocationBean {
                 pstmt.setInt(1, aaid.intValue());
                 int status = pstmt.executeUpdate();
             }
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
     }
 

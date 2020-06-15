@@ -9,7 +9,6 @@ package au.com.totemsoft.myplanner.bean.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import au.com.totemsoft.dao.SQLHelper;
 
@@ -59,15 +58,13 @@ public class FundTypeBean {
             sql.append("FROM ");
             sql.append("[" + DATABASE_TABLE_NAME + "] ");
             // set and execute query
-            try (PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
-                ResultSet rs = pstmt.executeQuery();
-                // do we have any result?
+            try (PreparedStatement pstmt = con.prepareStatement(sql.toString());
+                    ResultSet rs = pstmt.executeQuery();) {
                 if (rs.next()) {
                     this.fundTypeID = rs.getInt(1);
                     // create new "unique" FinancialCodeID
                     this.fundTypeID++;
                 }
-                rs.close();
             }
 
             sql.append("INSERT INTO ");
@@ -79,9 +76,6 @@ public class FundTypeBean {
                 pstmt.setString(2, this.fundTypeDesc);
                 int status = pstmt.executeUpdate();
             }
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
     }
 
@@ -101,9 +95,6 @@ public class FundTypeBean {
             pstmt.setString(1, this.fundTypeDesc);
             pstmt.setInt(2, this.fundTypeID);
             int status = pstmt.executeUpdate();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
     }
 
@@ -155,19 +146,14 @@ public class FundTypeBean {
         try (Connection con = sqlHelper.getConnection();
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            // do we have any result?
-            if (rs.next()) {
-                this.fundTypeID = rs.getInt("FundTypeID");
-                this.fundTypeDesc = rs.getString("FundTypeDesc");
-                found = true;
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    this.fundTypeID = rs.getInt("FundTypeID");
+                    this.fundTypeDesc = rs.getString("FundTypeDesc");
+                    found = true;
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 

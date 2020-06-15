@@ -65,20 +65,17 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
         try (Connection con = sqlHelper.getConnection();
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            FinancialCode result = null;
-            if (rs.next()) {
-                result = new FinancialCode();
-                result.setId(rs.getInt("FinancialCodeID"));
-                result.setFinancialTypeId(rs.getInt("FinancialTypeID"));
-                result.setCode(rs.getString("FinancialCode"));
-                result.setDescription(rs.getString("FinancialCodeDesc"));
+            try (ResultSet rs = pstmt.executeQuery();) {
+                FinancialCode result = null;
+                if (rs.next()) {
+                    result = new FinancialCode();
+                    result.setId(rs.getInt("FinancialCodeID"));
+                    result.setFinancialTypeId(rs.getInt("FinancialTypeID"));
+                    result.setCode(rs.getString("FinancialCode"));
+                    result.setDescription(rs.getString("FinancialCodeDesc"));
+                }
+                return result;
             }
-            rs.close();
-            return result;
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
     }
 
@@ -116,8 +113,8 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
         sql.append(" AND LogicallyDeleted IS NULL ");
         sql.append("ORDER BY [" + column_name + "] ");
         try (Connection con = sqlHelper.getConnection();
-                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
-            ResultSet rs = pstmt.executeQuery();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());
+                ResultSet rs = pstmt.executeQuery();) {
             while (rs.next()) {
                 // create new row
                 AvailableInvestmentsTableRow table_row = new AvailableInvestmentsTableRow();
@@ -130,11 +127,7 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
                 // store row
                 result.add(table_row);
             }
-            rs.close();
             return result;
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
     }
 
@@ -175,9 +168,6 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
                 pstmt.setString(4, entity.getDescription());
                 /*int status = */pstmt.executeUpdate();
             }
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
     }
 
@@ -206,9 +196,6 @@ public class FinancialCodeDaoImpl extends BaseDAOImpl implements FinancialCodeDa
             pstmt.setString(3, entity.getDescription());
             pstmt.setInt(4, entity.getId());
             int count = pstmt.executeUpdate();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
     }
 

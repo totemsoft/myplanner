@@ -46,18 +46,6 @@ public abstract class AbstractSQLHelper implements SQLHelper {
         return dataSource.getConnection();
     }
 
-    @Override
-    public void printSQLException(SQLException e) {
-        System.err.println("\n--- SQLException caught ---\n");
-        while (e != null) {
-            e.printStackTrace(System.err);
-            System.err.println("Message:   " + e.getMessage());
-            System.err.println("SQLState:  " + e.getSQLState());
-            System.err.println("ErrorCode: " + e.getErrorCode());
-            e = e.getNextException();
-        }
-    }
-
     protected String getFullPath(String file) {
         if (!new java.io.File(file).exists())
             file = IOUtils.getUserDirectory() + file;

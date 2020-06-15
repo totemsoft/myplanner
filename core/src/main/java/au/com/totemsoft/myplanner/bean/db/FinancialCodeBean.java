@@ -12,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import au.com.totemsoft.dao.SQLHelper;
-import au.com.totemsoft.myplanner.api.code.FinancialTypeEnum;
 import au.com.totemsoft.myplanner.api.code.FinancialTypeID;
 import au.com.totemsoft.util.ReferenceCode;
 
@@ -92,22 +91,16 @@ public class FinancialCodeBean implements FinancialTypeID {
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, financial_code_id);
             pstmt.setString(2, financialTypeID);
-
-            ResultSet rs = pstmt.executeQuery();
-            // do we have any result?
-            if (rs.next()) {
-                this.financialCodeID = rs.getInt("FinancialCodeID");
-                this.financialTypeID = rs.getInt("FinancialTypeID");
-                this.financialCode = rs.getString("FinancialCode");
-                this.financialCodeDesc = rs.getString("FinancialCodeDesc");
-                found = true;
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    this.financialCodeID = rs.getInt("FinancialCodeID");
+                    this.financialTypeID = rs.getInt("FinancialTypeID");
+                    this.financialCode = rs.getString("FinancialCode");
+                    this.financialCodeDesc = rs.getString("FinancialCodeDesc");
+                    found = true;
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 
@@ -142,22 +135,16 @@ public class FinancialCodeBean implements FinancialTypeID {
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             // pstmt.setString ( 1, financialCodeDesc );
             pstmt.setString(1, financialTypeID);
-
-            ResultSet rs = pstmt.executeQuery();
-            // do we have any result?
-            if (rs.next()) {
-                this.financialCodeID = rs.getInt("FinancialCodeID");
-                this.financialTypeID = rs.getInt("FinancialTypeID");
-                this.financialCode = rs.getString("FinancialCode");
-                this.financialCodeDesc = rs.getString("FinancialCodeDesc");
-                found = true;
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    this.financialCodeID = rs.getInt("FinancialCodeID");
+                    this.financialTypeID = rs.getInt("FinancialTypeID");
+                    this.financialCode = rs.getString("FinancialCode");
+                    this.financialCodeDesc = rs.getString("FinancialCodeDesc");
+                    found = true;
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 
@@ -184,22 +171,16 @@ public class FinancialCodeBean implements FinancialTypeID {
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             // pstmt.setString ( 1, financialCodeDesc );
             pstmt.setString(1, financial_code_id);
-
-            ResultSet rs = pstmt.executeQuery();
-            // do we have any result?
-            if (rs.next()) {
-                this.financialCodeID = rs.getInt("FinancialCodeID");
-                this.financialTypeID = rs.getInt("FinancialTypeID");
-                this.financialCode = rs.getString("FinancialCode");
-                this.financialCodeDesc = rs.getString("FinancialCodeDesc");
-                found = true;
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    this.financialCodeID = rs.getInt("FinancialCodeID");
+                    this.financialTypeID = rs.getInt("FinancialTypeID");
+                    this.financialCode = rs.getString("FinancialCode");
+                    this.financialCodeDesc = rs.getString("FinancialCodeDesc");
+                    found = true;
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 
@@ -227,22 +208,16 @@ public class FinancialCodeBean implements FinancialTypeID {
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             // pstmt.setString ( 1, financialCodeDesc );
             pstmt.setString(1, financialTypeID);
-
-            ResultSet rs = pstmt.executeQuery();
-            // do we have any result?
-            if (rs.next()) {
-                this.financialCodeID = rs.getInt("FinancialCodeID");
-                this.financialTypeID = rs.getInt("FinancialTypeID");
-                this.financialCode = rs.getString("FinancialCode");
-                this.financialCodeDesc = rs.getString("FinancialCodeDesc");
-                found = true;
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    this.financialCodeID = rs.getInt("FinancialCodeID");
+                    this.financialTypeID = rs.getInt("FinancialTypeID");
+                    this.financialCode = rs.getString("FinancialCode");
+                    this.financialCodeDesc = rs.getString("FinancialCodeDesc");
+                    found = true;
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 
@@ -271,22 +246,16 @@ public class FinancialCodeBean implements FinancialTypeID {
             pstmt.setInt(1, financialTypeID);
             if (financial_code_id > 0)
                 pstmt.setInt(2, financial_code_id);
-
-            ResultSet rs = pstmt.executeQuery();
-            // do we have any result?
-            if (rs.next()) {
-                this.financialCodeID = rs.getInt("FinancialCodeID");
-                this.financialTypeID = rs.getInt("FinancialTypeID");
-                this.financialCode = rs.getString("FinancialCode");
-                this.financialCodeDesc = rs.getString("FinancialCodeDesc");
-                found = true;
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    this.financialCodeID = rs.getInt("FinancialCodeID");
+                    this.financialTypeID = rs.getInt("FinancialTypeID");
+                    this.financialCode = rs.getString("FinancialCode");
+                    this.financialCodeDesc = rs.getString("FinancialCodeDesc");
+                    found = true;
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 
@@ -319,22 +288,16 @@ public class FinancialCodeBean implements FinancialTypeID {
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, financial_code);
             pstmt.setString(2, financialTypeID);
-
-            ResultSet rs = pstmt.executeQuery();
-            // do we have any result?
-            if (rs.next()) {
-                this.financialCodeID = rs.getInt("FinancialCodeID");
-                this.financialTypeID = rs.getInt("FinancialTypeID");
-                this.financialCode = rs.getString("FinancialCode");
-                this.financialCodeDesc = rs.getString("FinancialCodeDesc");
-                found = true;
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    this.financialCodeID = rs.getInt("FinancialCodeID");
+                    this.financialTypeID = rs.getInt("FinancialTypeID");
+                    this.financialCode = rs.getString("FinancialCode");
+                    this.financialCodeDesc = rs.getString("FinancialCodeDesc");
+                    found = true;
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 

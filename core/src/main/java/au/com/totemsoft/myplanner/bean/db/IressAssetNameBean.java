@@ -9,7 +9,6 @@ package au.com.totemsoft.myplanner.bean.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -170,9 +169,6 @@ public class IressAssetNameBean {
             pstmt.setString(18, this.isin);
             pstmt.setDouble(19, this.gics);
             int status = pstmt.executeUpdate();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
     }
 
@@ -263,25 +259,21 @@ public class IressAssetNameBean {
         sql.append("ORDER BY [" + column_name + "] ");
         try (Connection con = sqlHelper.getConnection();
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
-            ResultSet rs = pstmt.executeQuery();
-            while (rs.next()) {
-                // create new row
-                AvailableInvestmentsTableRow table_row = new AvailableInvestmentsTableRow();
-                // fill it with data
-                table_row.origin = checkString(DATABASE_TABLE_NAME);
-                table_row.investmentCode = checkString(rs.getString("code"));
-                table_row.description = checkString(rs.getString("asset_full_name"));
-                table_row.code = checkString(rs.getString("code"));
-                table_row.institution = checkString(rs.getString("issuerName"));
-                // store row
-                result.add(table_row);
+            try (ResultSet rs = pstmt.executeQuery();) {
+                while (rs.next()) {
+                    // create new row
+                    AvailableInvestmentsTableRow table_row = new AvailableInvestmentsTableRow();
+                    // fill it with data
+                    table_row.origin = checkString(DATABASE_TABLE_NAME);
+                    table_row.investmentCode = checkString(rs.getString("code"));
+                    table_row.description = checkString(rs.getString("asset_full_name"));
+                    table_row.code = checkString(rs.getString("code"));
+                    table_row.institution = checkString(rs.getString("issuerName"));
+                    // store row
+                    result.add(table_row);
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return result;
     }
 
@@ -325,35 +317,31 @@ public class IressAssetNameBean {
         try (Connection con = sqlHelper.getConnection();
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                this.code = rs.getString("code");
-                this.asset_full_name = rs.getString("asset_full_name");
-                this.issuerName = rs.getString("IssuerName");
-                this.issuerAbbName = rs.getString("IssuerAbbName");
-                this.issuerShortName = rs.getString("IssuerShortName");
-                this.issuerType = rs.getString("IssuerType");
-                this.securityType = rs.getDouble("SecurityType");
-                this.exchange = rs.getString("Exchange");
-                this.industrySubgroup = rs.getDouble("IndustrySubgroup");
-                this.description = rs.getString("Description");
-                this.shortDescription = rs.getString("ShortDescription");
-                this.abbDescription = rs.getString("AbbDescription");
-                this.assetBacking = rs.getDouble("AssetBacking");
-                this.issuerCode = rs.getString("IssuerCode");
-                this.issuerExchange = rs.getString("IssuerExchange");
-                this.industrySubgroupDesc = rs.getString("IndustrySubgroupDesc");
-                this.industryGroupDesc = rs.getString("IndustryGroupDesc");
-                this.isin = rs.getString("ISIN");
-                this.gics = rs.getDouble("GICS");
-                found = true;
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    this.code = rs.getString("code");
+                    this.asset_full_name = rs.getString("asset_full_name");
+                    this.issuerName = rs.getString("IssuerName");
+                    this.issuerAbbName = rs.getString("IssuerAbbName");
+                    this.issuerShortName = rs.getString("IssuerShortName");
+                    this.issuerType = rs.getString("IssuerType");
+                    this.securityType = rs.getDouble("SecurityType");
+                    this.exchange = rs.getString("Exchange");
+                    this.industrySubgroup = rs.getDouble("IndustrySubgroup");
+                    this.description = rs.getString("Description");
+                    this.shortDescription = rs.getString("ShortDescription");
+                    this.abbDescription = rs.getString("AbbDescription");
+                    this.assetBacking = rs.getDouble("AssetBacking");
+                    this.issuerCode = rs.getString("IssuerCode");
+                    this.issuerExchange = rs.getString("IssuerExchange");
+                    this.industrySubgroupDesc = rs.getString("IndustrySubgroupDesc");
+                    this.industryGroupDesc = rs.getString("IndustryGroupDesc");
+                    this.isin = rs.getString("ISIN");
+                    this.gics = rs.getDouble("GICS");
+                    found = true;
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 

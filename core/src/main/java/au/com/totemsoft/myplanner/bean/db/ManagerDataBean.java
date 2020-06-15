@@ -9,7 +9,6 @@ package au.com.totemsoft.myplanner.bean.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import au.com.totemsoft.dao.SQLHelper;
 
@@ -90,27 +89,23 @@ public class ManagerDataBean {
         try (Connection con = sqlHelper.getConnection();
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                this.identifier = rs.getString("identifier");
-                this.country_code = rs.getString("country_code");
-                this.code = rs.getString("code");
-                this.full_name = rs.getString("full_name");
-                this.status = rs.getString("status");
-                this.short_name = rs.getString("short_name");
-                this.brief_name = rs.getString("brief_name");
-                this.very_brief_name = rs.getString("very_brief_name");
-                this.group_code = rs.getString("group_code");
-                this.consolidated_code = rs.getString("consolidated_code");
-                // this.id = rs.getTimestamp( "id" );
-                found = true;
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    this.identifier = rs.getString("identifier");
+                    this.country_code = rs.getString("country_code");
+                    this.code = rs.getString("code");
+                    this.full_name = rs.getString("full_name");
+                    this.status = rs.getString("status");
+                    this.short_name = rs.getString("short_name");
+                    this.brief_name = rs.getString("brief_name");
+                    this.very_brief_name = rs.getString("very_brief_name");
+                    this.group_code = rs.getString("group_code");
+                    this.consolidated_code = rs.getString("consolidated_code");
+                    // this.id = rs.getTimestamp( "id" );
+                    found = true;
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 

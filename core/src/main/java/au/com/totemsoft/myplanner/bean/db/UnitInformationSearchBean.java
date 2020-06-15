@@ -9,7 +9,6 @@ package au.com.totemsoft.myplanner.bean.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -171,8 +170,8 @@ public class UnitInformationSearchBean {
         // order by description
         sql.append("ORDER BY " + column_name);
         try (Connection con = sqlHelper.getConnection();
-                PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
-            ResultSet rs = pstmt.executeQuery();
+                PreparedStatement pstmt = con.prepareStatement(sql.toString());
+                ResultSet rs = pstmt.executeQuery();) {
             while (rs.next()) {
                 // create new row
                 AvailableInvestmentsTableRow table_row = new AvailableInvestmentsTableRow();
@@ -185,12 +184,7 @@ public class UnitInformationSearchBean {
                 // store row
                 result.add(table_row);
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return result;
     }
 
@@ -219,20 +213,16 @@ public class UnitInformationSearchBean {
         try (Connection con = sqlHelper.getConnection();
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                this.apir_pic = rs.getString("apir_pic");
-                this.full_name = rs.getString("full_name");
-                this.institution = rs.getString("institution");
-                this.code = rs.getInt("code");
-                found = true;
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    this.apir_pic = rs.getString("apir_pic");
+                    this.full_name = rs.getString("full_name");
+                    this.institution = rs.getString("institution");
+                    this.code = rs.getInt("code");
+                    found = true;
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 

@@ -9,7 +9,6 @@ package au.com.totemsoft.myplanner.bean.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import au.com.totemsoft.dao.SQLHelper;
 import au.com.totemsoft.myplanner.assetinvestment.UnitSharePrice;
@@ -88,11 +87,7 @@ public class UnitPriceDataBean implements UnitSharePrice {
             pstmt.setDouble(4, this.entry_price);
             pstmt.setDouble(5, this.exit_price);
             // pstmt.setString ( 6, this.id );
-
             int status = pstmt.executeUpdate();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
     }
 
@@ -119,11 +114,7 @@ public class UnitPriceDataBean implements UnitSharePrice {
             pstmt.setDouble(4, this.exit_price);
             // pstmt.setString ( 5, this.id );
             pstmt.setInt(5, this.code);
-
             int status = pstmt.executeUpdate();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
     }
 
@@ -162,23 +153,19 @@ public class UnitPriceDataBean implements UnitSharePrice {
             pstmt.setInt(1, code_int);
             pstmt.setInt(2, code_int);
 
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                found = true;
-                this.identifier = rs.getString("identifier");
-                this.code = rs.getInt("code");
-                // this.price_date = rs.getString ( "price_date" );
-                setPriceDate2(rs.getDate("price_date"));
-                this.entry_price = rs.getDouble("entry_price");
-                this.exit_price = rs.getDouble("exit_price");
-                this.id = rs.getString("id");
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    found = true;
+                    this.identifier = rs.getString("identifier");
+                    this.code = rs.getInt("code");
+                    // this.price_date = rs.getString ( "price_date" );
+                    setPriceDate2(rs.getDate("price_date"));
+                    this.entry_price = rs.getDouble("entry_price");
+                    this.exit_price = rs.getDouble("exit_price");
+                    this.id = rs.getString("id");
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 
@@ -221,23 +208,19 @@ public class UnitPriceDataBean implements UnitSharePrice {
         try (Connection con = sqlHelper.getConnection();
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                this.identifier = rs.getString("identifier");
-                this.code = rs.getInt("code");
-                // this.price_date = rs.getString ( "price_date" );
-                setPriceDate2(rs.getDate("price_date"));
-                this.entry_price = rs.getDouble("entry_price");
-                this.exit_price = rs.getDouble("exit_price");
-                this.id = rs.getString("id");
-                found = true;
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    this.identifier = rs.getString("identifier");
+                    this.code = rs.getInt("code");
+                    // this.price_date = rs.getString ( "price_date" );
+                    setPriceDate2(rs.getDate("price_date"));
+                    this.entry_price = rs.getDouble("entry_price");
+                    this.exit_price = rs.getDouble("exit_price");
+                    this.id = rs.getString("id");
+                    found = true;
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 

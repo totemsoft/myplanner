@@ -9,7 +9,6 @@ package au.com.totemsoft.myplanner.bean.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import au.com.totemsoft.dao.SQLHelper;
 
@@ -131,47 +130,43 @@ public class ProductInformationBean {
         try (Connection con = sqlHelper.getConnection();
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                this.identifier = rs.getString("identifier");
-                this.code = rs.getInt("code");
-                this.full_name = rs.getString("full_name");
-                this.country_code = rs.getString("country_code");
-                this.tax_group_code = rs.getString("tax_group_code");
-                this.manager_code = rs.getString("manager_code");
-                this.group_code = rs.getInt("group_code");
-                this.short_name = rs.getString("short_name");
-                this.brief_name = rs.getString("brief_name");
-                this.legal_type_code = rs.getString("legal_type_code");
-                this.region_code = rs.getString("region_code");
-                this.asset_type_code = rs.getString("asset_type_code");
-                this.cash_distribution_code = rs.getString("cash_distribution_code");
-                this.trustee_code = rs.getString("trustee_code");
-                this.custodian_code = rs.getString("custodian_code");
-                // this.commencement_date = rs.getTimestamp( "commencement_date");
-                // this.data_date = rs.getTimestamp( "data_date" );
-                this.stock_exchange = rs.getInt("stock_exchange");
-                this.guarantees = rs.getInt("guarantees");
-                this.unit_linked = rs.getInt("unit_linked");
-                this.valuation_frequency = rs.getString("valuation_frequency");
-                this.declared_yield = rs.getInt("declared_yield");
-                this.rate_of_return_advance = rs.getInt("rate_of_return_advance");
-                this.category = rs.getString("category");
-                this.subcategory = rs.getString("subcategory");
-                this.manager_group_code = rs.getString("manager_group_code");
-                this.gearing = rs.getInt("gearing");
-                this.gearing_max = rs.getDouble("gearing_max");
-                this.gearing_comments = rs.getString("gearing_comments");
-                this.special_features = rs.getString("special_features");
-                // this.id = rs.getTimestamp( "id" );
-                found = true;
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    this.identifier = rs.getString("identifier");
+                    this.code = rs.getInt("code");
+                    this.full_name = rs.getString("full_name");
+                    this.country_code = rs.getString("country_code");
+                    this.tax_group_code = rs.getString("tax_group_code");
+                    this.manager_code = rs.getString("manager_code");
+                    this.group_code = rs.getInt("group_code");
+                    this.short_name = rs.getString("short_name");
+                    this.brief_name = rs.getString("brief_name");
+                    this.legal_type_code = rs.getString("legal_type_code");
+                    this.region_code = rs.getString("region_code");
+                    this.asset_type_code = rs.getString("asset_type_code");
+                    this.cash_distribution_code = rs.getString("cash_distribution_code");
+                    this.trustee_code = rs.getString("trustee_code");
+                    this.custodian_code = rs.getString("custodian_code");
+                    // this.commencement_date = rs.getTimestamp( "commencement_date");
+                    // this.data_date = rs.getTimestamp( "data_date" );
+                    this.stock_exchange = rs.getInt("stock_exchange");
+                    this.guarantees = rs.getInt("guarantees");
+                    this.unit_linked = rs.getInt("unit_linked");
+                    this.valuation_frequency = rs.getString("valuation_frequency");
+                    this.declared_yield = rs.getInt("declared_yield");
+                    this.rate_of_return_advance = rs.getInt("rate_of_return_advance");
+                    this.category = rs.getString("category");
+                    this.subcategory = rs.getString("subcategory");
+                    this.manager_group_code = rs.getString("manager_group_code");
+                    this.gearing = rs.getInt("gearing");
+                    this.gearing_max = rs.getDouble("gearing_max");
+                    this.gearing_comments = rs.getString("gearing_comments");
+                    this.special_features = rs.getString("special_features");
+                    // this.id = rs.getTimestamp( "id" );
+                    found = true;
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 
@@ -195,16 +190,12 @@ public class ProductInformationBean {
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setInt(1, code);
             pstmt.setString(2, full_name);
-            ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) {
-                found = true;
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    found = true;
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 

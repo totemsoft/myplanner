@@ -9,7 +9,6 @@ package au.com.totemsoft.myplanner.bean.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import au.com.totemsoft.dao.SQLHelper;
 
@@ -62,15 +61,13 @@ public class InstitutionBean {
             sql.append("SELECT MAX(institutionID) ");
             sql.append("FROM ");
             sql.append("[" + DATABASE_TABLE_NAME + "] ");
-            try (PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
-                ResultSet rs = pstmt.executeQuery();
-                // do we have any result?
+            try (PreparedStatement pstmt = con.prepareStatement(sql.toString());
+                    ResultSet rs = pstmt.executeQuery();) {
                 if (rs.next()) {
                     this.institutionID = rs.getInt(1);
                     // create new "unique" FinancialCodeID
                     this.institutionID++;
                 }
-                rs.close();
             }
 
             sql = new StringBuffer();
@@ -83,9 +80,6 @@ public class InstitutionBean {
                 pstmt.setString(2, this.institutionName);
                 int status = pstmt.executeUpdate();
             }
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
     }
 
@@ -105,9 +99,6 @@ public class InstitutionBean {
             pstmt.setString(1, this.institutionName);
             pstmt.setInt(2, this.institutionID);
             int status = pstmt.executeUpdate();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
     }
 
@@ -158,19 +149,14 @@ public class InstitutionBean {
         try (Connection con = sqlHelper.getConnection();
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
-            ResultSet rs = pstmt.executeQuery();
-            // do we have any result?
-            if (rs.next()) {
-                this.institutionID = rs.getInt("InstitutionID");
-                this.institutionName = rs.getString("InstitutionName");
-                found = true;
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    this.institutionID = rs.getInt("InstitutionID");
+                    this.institutionName = rs.getString("InstitutionName");
+                    found = true;
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 

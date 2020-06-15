@@ -137,8 +137,7 @@ public class FinancialServiceImpl implements FinancialService {
             FinancialBean fb = ObjectClass.createNewInstance(objectTypeId);
             return initFinancial(financialId, personId, fb, con);
         } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException(e);
         }
     }
 
@@ -196,9 +195,7 @@ public class FinancialServiceImpl implements FinancialService {
             // Map( ObjectTypeID, Map( ObjectID, Object ) )
             return result;
         } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            //con.rollback();
-            throw new ServiceException(e.getMessage());
+            throw new ServiceException(e);
         }
     }
 

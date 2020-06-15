@@ -9,7 +9,6 @@ package au.com.totemsoft.myplanner.bean.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -71,10 +70,6 @@ public class ApirPicBean {
 
     private static final int MAX_LENGTH_id = 9;
 
-    private static final int INITIAL_VECTOR_SIZE = 64;
-
-    private static final int INITIAL_VECTOR_GROWTH_SIZE = 32;
-
     /**
      * Creates a new entry in the "apir_pic" table. The properties for the new
      * entry must be set before creating a new entry.
@@ -95,11 +90,7 @@ public class ApirPicBean {
             pstmt.setInt(6, this.code);
             // pstmt.setTimestamp ( 7, this.id_old );
             pstmt.setInt(7, this.id);
-
             int status = pstmt.executeUpdate();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
     }
 
@@ -129,11 +120,7 @@ public class ApirPicBean {
             // pstmt.setTimestamp ( 7, this.id_old );
             pstmt.setInt(6, this.id);
             pstmt.setString(7, this.apir_pic);
-
             int status = pstmt.executeUpdate();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
     }
 
@@ -236,11 +223,7 @@ public class ApirPicBean {
                 // store row
                 result.add(table_row);
             }
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return result;
     }
 
@@ -280,11 +263,7 @@ public class ApirPicBean {
                 // this.id = rs.getInt( "id" );
                 found = true;
             }
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 

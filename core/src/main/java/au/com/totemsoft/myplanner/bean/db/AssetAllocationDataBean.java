@@ -9,7 +9,6 @@ package au.com.totemsoft.myplanner.bean.db;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import au.com.totemsoft.dao.SQLHelper;
 
@@ -88,9 +87,6 @@ public class AssetAllocationDataBean {
             pstmt.setString(8, this.dataDate);
             pstmt.setDouble(9, this.id);
             int status = pstmt.executeUpdate();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
     }
 
@@ -135,11 +131,7 @@ public class AssetAllocationDataBean {
                 found = true;
             }
             rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 
@@ -178,26 +170,21 @@ public class AssetAllocationDataBean {
                 PreparedStatement pstmt = con.prepareStatement(sql.toString());) {
             pstmt.setString(1, id);
             pstmt.setString(2, id);
-            ResultSet rs = pstmt.executeQuery();
-            // do we have any result?
-            if (rs.next()) {
-                this.code = rs.getInt("code");
-                this.inCash = rs.getDouble("InCash");
-                this.inFixedInterest = rs.getDouble("InFixedInterest");
-                this.inAustShares = rs.getDouble("InAustShares");
-                this.inIntnlShares = rs.getDouble("InIntnlShares");
-                this.inProperty = rs.getDouble("InProperty");
-                this.inOther = rs.getDouble("InOther");
-                this.dataDate = rs.getString("DataDate");
-                this.id = rs.getDouble("id");
-                found = true;
+            try (ResultSet rs = pstmt.executeQuery();) {
+                if (rs.next()) {
+                    this.code = rs.getInt("code");
+                    this.inCash = rs.getDouble("InCash");
+                    this.inFixedInterest = rs.getDouble("InFixedInterest");
+                    this.inAustShares = rs.getDouble("InAustShares");
+                    this.inIntnlShares = rs.getDouble("InIntnlShares");
+                    this.inProperty = rs.getDouble("InProperty");
+                    this.inOther = rs.getDouble("InOther");
+                    this.dataDate = rs.getString("DataDate");
+                    this.id = rs.getDouble("id");
+                    found = true;
+                }
             }
-            rs.close();
-        } catch (SQLException e) {
-            sqlHelper.printSQLException(e);
-            throw e;
         }
-
         return found;
     }
 

@@ -24,7 +24,7 @@ import lombok.ToString;
 @ToString
 public class ClientDto {
 
-    private Long id;
+    private Integer id;
 
     private ITitleCode title;
 

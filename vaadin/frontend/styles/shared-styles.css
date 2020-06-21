@@ -4,6 +4,12 @@
    https://vaadin.com/themes/lumo for more information.
 */
 
+.bordered {
+    /*border: 1px solid #65a1d7;*/
+    border-style: solid;
+    border-color: gray;
+}
+
 /* Example: CSS class name to center align the content . */
 .centered-content {
   margin: 0 auto;

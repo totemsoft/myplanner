@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import au.com.totemsoft.myplanner.api.ObjectNotFoundException;
 import au.com.totemsoft.myplanner.api.ServiceException;
+import au.com.totemsoft.myplanner.api.bean.IClient;
 import au.com.totemsoft.myplanner.api.bean.IStrategyGroup;
 import au.com.totemsoft.myplanner.api.bean.IUser;
 import au.com.totemsoft.myplanner.api.code.LinkObjectTypeConstant;
@@ -32,7 +33,6 @@ import au.com.totemsoft.myplanner.dao.ClientDao;
 import au.com.totemsoft.myplanner.dao.PersonDao;
 import au.com.totemsoft.myplanner.domain.dto.ClientDto;
 import au.com.totemsoft.myplanner.domain.hibernate.Client;
-import au.com.totemsoft.myplanner.domain.hibernate.Person;
 import au.com.totemsoft.myplanner.service.ClientService;
 import au.com.totemsoft.myplanner.service.CreateException;
 import au.com.totemsoft.myplanner.service.FinderException;
@@ -63,8 +63,10 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
 
     private java.util.Date feeDate;
 
-    public ClientServiceImpl() {
-        super();
+    @Override
+    public IClient findClientById(Long clientId) {
+        // TODO Auto-generated method stub
+        return clientDao.findById(clientId);
     }
 
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
@@ -176,7 +178,7 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     @Override
     public void saveClient(ClientDto client) {
-        Client c = clientDao.findById(client.getId());
+        Client c = clientDao.findById(client.getId().longValue());
         if (c != null) {
             
             LOG.info("saveClient: " + client);
@@ -186,7 +188,7 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     @Override
     public void removeClient(ClientDto client) {
-        Client c = clientDao.findById(client.getId());
+        Client c = clientDao.findById(client.getId().longValue());
         if (c != null) {
             //c.setActive(false);
             clientDao.remove(c);
@@ -221,10 +223,8 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
         PreparedStatement sql = null;
         ResultSet rs = null;
         try (Connection con = sqlHelper.getConnection();) {
-            // sql = con.
             sql = con.prepareStatement(
-            // "SELECT ClientPersonID FROM ClientPerson WHERE ( ClientPersonID =
-            // ?)"
+            // "SELECT ClientPersonID FROM ClientPerson WHERE ( ClientPersonID = ?)"
                     "SELECT ObjectID1, Active, FeeDate, ReviewDate"
                             + " FROM Link l, ClientPerson c"
                             + " WHERE"

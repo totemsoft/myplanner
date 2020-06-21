@@ -19,13 +19,14 @@ import com.vaadin.flow.router.Route;
 
 import au.com.totemsoft.myplanner.api.bean.IClientView;
 import au.com.totemsoft.myplanner.api.service.UserService;
+import au.com.totemsoft.myplanner.domain.dto.BuilderClientDto;
 import au.com.totemsoft.myplanner.domain.dto.ClientDto;
 import au.com.totemsoft.myplanner.service.ClientService;
 import au.com.totemsoft.myplanner.service.client.EntityService;
 import au.com.totemsoft.myplanner.vaadin.client.ClientForm;
 
-@Route(value = "", layout = MainLayout.class)
 @PageTitle("Clients | MyPlanner")
+@Route(value = "", layout = MainLayout.class)
 @CssImport("./styles/shared-styles.css")
 public class ClientsView extends VerticalLayout {
 
@@ -33,7 +34,6 @@ public class ClientsView extends VerticalLayout {
     private static final long serialVersionUID = -6231446012104860018L;
 
     @Inject private ClientService clientService;
-    //private final EntityService entityService;
     private final UserService userService;
 
     private final ClientForm form;
@@ -41,7 +41,6 @@ public class ClientsView extends VerticalLayout {
     private final Grid<ClientDto> grid;
 
     public ClientsView(EntityService entityService, UserService userService) {
-        //this.entityService = entityService;
         this.userService = userService;
         //
         addClassName("clients-view");
@@ -119,12 +118,14 @@ public class ClientsView extends VerticalLayout {
             closeEditor();
         } else {
             if (client.getId() == null) {
-                client.setId(clientService.createClient());
+                client.setId(clientService.createClient().intValue());
                 updateList();
             }
             form.setClient(client);
             form.setVisible(true);
             addClassName("editing");
+            // TODO: store in cache/user session
+            clientService.setId(client.getId());
         }
     }
 
@@ -137,14 +138,8 @@ public class ClientsView extends VerticalLayout {
     private void updateList() {
         List<IClientView> clients = userService.findClients(getSelectionCriteria(), 0, 0);
         grid.setItems(clients.stream().map(
-            c -> ClientDto.builder()
-                .id(c.getId())
-                .title(c.getTitle())
-                .firstname(c.getFirstname())
-                .surname(c.getSurname())
-                .dateOfBirth(c.getDateOfBirth())
-                .dobCountry(c.getDobCountry())
-                .build()));
+            c -> BuilderClientDto.clientView(c)
+        ));
     }
 
     private Map<String, Object> getSelectionCriteria() {

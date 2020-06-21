@@ -6,6 +6,8 @@
 
 package au.com.totemsoft.myplanner.swing.sql;
 
+import java.sql.Connection;
+
 import au.com.totemsoft.dao.SQLHelper;
 import au.com.totemsoft.myplanner.config.PropertySourceManager;
 
@@ -241,10 +243,7 @@ public class UpdateManagerApp extends javax.swing.JFrame {
             sqlText = jTextAreaSQL.getText();
 
         java.util.Vector data = parse(sqlText);
-
-        java.sql.Connection con = sqlHelper.getConnection();
-        try {
-
+        try (Connection con = sqlHelper.getConnection();) {
             java.util.Iterator iter = data.iterator();
             while (iter.hasNext()) {
                 String s = (String) iter.next();
@@ -253,14 +252,8 @@ public class UpdateManagerApp extends javax.swing.JFrame {
                 java.sql.Statement stmt = con.createStatement();
                 int count = stmt.executeUpdate(s);
             }
-
             con.commit();
-
-        } catch (java.sql.SQLException e) {
-            con.rollback();
-            throw e;
         }
-
     }
 
     private java.util.Vector parse(String sqlText) throws java.io.IOException {
@@ -299,20 +292,13 @@ public class UpdateManagerApp extends javax.swing.JFrame {
     }
 
     private void doBackup() throws java.sql.SQLException {
-
-        java.sql.Connection con = sqlHelper.getConnection();
-        try {
+        try (Connection con = sqlHelper.getConnection();) {
             /*
              * BACKUP DATABASE MyPlanner TO DISK = 'C:\BACKUP\MyPlanner_001.dat' WITH
              * FORMAT, NAME = 'Full Backup of MyPlanner' GO
              */
             con.commit();
-
-        } catch (java.sql.SQLException e) {
-            con.rollback();
-            throw e;
         }
-
     }
 
 }

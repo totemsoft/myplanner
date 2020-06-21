@@ -16,11 +16,14 @@ import java.util.Vector;
 import org.springframework.stereotype.Service;
 
 import au.com.totemsoft.myplanner.api.ServiceException;
+import au.com.totemsoft.myplanner.api.bean.IClient;
 import au.com.totemsoft.myplanner.api.bean.IStrategyGroup;
 import au.com.totemsoft.myplanner.domain.dto.ClientDto;
 
 @Service
 public interface ClientService extends PersonService {
+
+    IClient findClientById(Long clientId);
 
     Long createClient() throws ServiceException, CreateException;
 

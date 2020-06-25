@@ -333,7 +333,7 @@ public class PlanWriterTemplate
         boolean adminPerson = false;
         boolean supportPerson = false;
         try {
-            IUser user = userPreferences.getUser();
+            IUser user = userPreferences.user();
             Integer userTypeId = user == null ? null : user.getTypeId();
             adminPerson = AdviserTypeCode.isAdminPerson(userTypeId);
             supportPerson = AdviserTypeCode.isSupportPerson(userTypeId);

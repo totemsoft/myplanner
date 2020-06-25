@@ -68,10 +68,9 @@ public class UserServiceImpl implements UserService {
 
     @Inject private ClientService clientService;
 
-    /* (non-Javadoc)
-     * @see au.com.totemsoft.myplanner.service.UserService#findUserByLoginPassword(java.lang.String, java.lang.String)
-     */
+    @Deprecated
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    @Override
     public IUser login(String login, String password) throws ServiceException, ObjectNotFoundException
     {
         // validate
@@ -94,8 +93,10 @@ public class UserServiceImpl implements UserService {
                     userDao.persist(user);
                 }
             }
-            userPreferences.setUser(user);
-            LOG.info("New user logged in: " + userPreferences.getUser());
+            //
+            userPreferences.clear();
+            userPreferences.user(user);
+            LOG.info("New user logged in: " + userPreferences.user());
             return user;
         }
         catch (ObjectNotFoundException e) {
@@ -106,13 +107,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    /* (non-Javadoc)
-     * @see au.com.totemsoft.myplanner.service.UserService#logout()
-     */
+    @Deprecated
+    @Override
     public void logout() throws ServiceException
     {
-        LOG.info("User logged out: " + userPreferences.getUser());
-        userPreferences.setUser(null);
+        LOG.info("User logged out: " + userPreferences.user());
+        userPreferences.clear();
     }
 
     /* (non-Javadoc)
@@ -130,7 +130,7 @@ public class UserServiceImpl implements UserService {
         throws ServiceException
     {
         // add user
-        IUser user = userPreferences.getUser();
+        IUser user = userPreferences.user();
         if (user == null) {
             return Collections.emptyList();
         }
@@ -157,7 +157,7 @@ public class UserServiceImpl implements UserService {
     {
         Connection con = null;
         try {
-            IUser user = userPreferences.getUser();
+            IUser user = userPreferences.user();
             con = sqlHelper.getConnection();
             Long clientId = client.getId();
             boolean result = linkObjectDao.unlink(user.getId().intValue(),

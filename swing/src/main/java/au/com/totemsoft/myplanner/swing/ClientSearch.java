@@ -518,7 +518,7 @@ public final class ClientSearch extends AbstractPanel {
         ClientSearch view = getInstance();
         try
         {
-            IUser user = userPreferences.getUser();
+            IUser user = userPreferences.user();
             Integer userTypeId = user == null ? null : user.getTypeId();
             view.setUserType(userTypeId);
             SwingUtil.add2Dialog(owner, view.getViewCaption(), true, view, true, true);
@@ -704,7 +704,7 @@ public final class ClientSearch extends AbstractPanel {
             return criteria;
         }
         //
-        IUser user = userPreferences.getUser();
+        IUser user = userPreferences.user();
         Integer userTypeId = user == null ? null : user.getTypeId();
         boolean supportPerson = AdviserTypeCode.isSupportPerson(userTypeId);
         if (!supportPerson) {

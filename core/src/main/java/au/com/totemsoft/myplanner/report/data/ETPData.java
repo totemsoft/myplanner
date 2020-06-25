@@ -143,7 +143,7 @@ public class ETPData extends ClientPersonData {
 
         client = new Client();
         adviser = new Adviser();
-        adviser.FullName = userPreferences.getUser().getFullName();
+        adviser.FullName = userPreferences.user().getFullName();
 
         // etp data
         if (calc.getIsClient() == null || calc.getIsClient().booleanValue()) {

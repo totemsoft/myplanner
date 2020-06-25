@@ -465,7 +465,7 @@ public class ExportImportManagerApp
 
         if (exportData == null)
             exportData = new ExportData(
-                (Integer) userPreferences.getUser().getId().intValue(),
+                (Integer) userPreferences.user().getId().intValue(),
                 clientService.getId());
 
         exportData.open(fileName);

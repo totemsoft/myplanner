@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.grid.Grid;
@@ -18,6 +16,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import au.com.totemsoft.myplanner.api.bean.IClientView;
+import au.com.totemsoft.myplanner.api.bean.UserPreferences;
 import au.com.totemsoft.myplanner.api.service.UserService;
 import au.com.totemsoft.myplanner.domain.dto.BuilderClientDto;
 import au.com.totemsoft.myplanner.domain.dto.ClientDto;
@@ -33,15 +32,22 @@ public class ClientsView extends VerticalLayout {
     /** serialVersionUID */
     private static final long serialVersionUID = -6231446012104860018L;
 
-    @Inject private ClientService clientService;
+    private final ClientService clientService;
     private final UserService userService;
+    private final UserPreferences userPreferences;
 
     private final ClientForm form;
 
     private final Grid<ClientDto> grid;
 
-    public ClientsView(EntityService entityService, UserService userService) {
+    public ClientsView(
+            EntityService entityService,
+            ClientService clientService,
+            UserService userService,
+            UserPreferences userPreferences) {
+        this.clientService = clientService;
         this.userService = userService;
+        this.userPreferences = userPreferences;
         //
         addClassName("clients-view");
         setSizeFull();
@@ -62,7 +68,13 @@ public class ClientsView extends VerticalLayout {
         //
         add(getToolBar(), content);
         updateList();
-        closeEditor();
+        //
+        Long clientId = userPreferences.clientId();
+        if (clientId == null) {
+            closeEditor();
+        } else {
+            editClient(BuilderClientDto.client(clientService.findClientById(clientId)));
+        }
     }
 
     private void removeClient(ClientForm.DeleteEvent evt) {
@@ -117,19 +129,26 @@ public class ClientsView extends VerticalLayout {
         if (client == null) {
             closeEditor();
         } else {
+            final Long clientId;
             if (client.getId() == null) {
-                client.setId(clientService.createClient().intValue());
+                clientId = clientService.createClient();
+                client.setId(clientId.intValue());
                 updateList();
+            } else {
+                clientId = client.getId().longValue();
             }
             form.setClient(client);
             form.setVisible(true);
             addClassName("editing");
-            // TODO: store in cache/user session
-            clientService.setId(client.getId());
+            // store in user session
+            userPreferences.clientId(clientId.longValue());
         }
     }
 
     private void closeEditor() {
+        // remove from user session
+        userPreferences.clientId(null);
+        //
         form.setClient(null);
         form.setVisible(false);
         removeClassName("editing");

@@ -30,8 +30,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-        userPreferences.setUser(user);
-        log.info("New user logged in: " + userPreferences.getUser());
+        //
+        userPreferences.clear();
+        userPreferences.user(user);
+        log.info("New user logged in: " + userPreferences.user());
         return User.withUsername(username)
             .password(user.getPassword())
             .roles("USER")

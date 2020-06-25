@@ -14,41 +14,41 @@ public class UserPreferences implements Serializable {
     /** TODO: move to Principal - current logged user */
     private IUser user;
 
-    private IClient client;
+    private Long clientId;
 
     /**
      * 
      */
     public void clear()
     {
-        this.client = null;
+        this.clientId = null;
         this.user = null;
     }
 
     /**
      * @return the user
      */
-    public IUser getUser()
+    public IUser user()
     {
         return user;
     }
 
-    public void setUser(IUser user)
+    public void user(IUser user)
     {
         this.user = user;
     }
 
     /**
-     * @return the client
+     * @return the clientId
      */
-    public IClient getClient()
+    public Long clientId()
     {
-        return client;
+        return clientId;
     }
 
-    public void setClient(IClient client)
+    public void clientId(Long clientId)
     {
-        this.client = client;
+        this.clientId = clientId;
     }
 
 }

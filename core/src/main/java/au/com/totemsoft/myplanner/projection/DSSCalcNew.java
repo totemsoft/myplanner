@@ -1438,7 +1438,7 @@ public class DSSCalcNew extends AbstractComponentModel implements
             reportFields.initialize(person);
         else {
             reportFields.setValue(reportFields.Adviser_FullName,
-                userPreferences.getUser().getFullName());
+                userPreferences.user().getFullName());
             reportFields.setValue(reportFields.Client_FullName,
                 getValue(CLIENT_NAME));
             Date now = new Date();

@@ -30,13 +30,14 @@ public interface UserService
      * @throws ServiceException
      * @throws ObjectNotFoundException
      */
+    @Deprecated
     IUser login(String login, String password) throws ServiceException,
         ObjectNotFoundException;
 
     /**
-     * 
      * @throws ServiceException
      */
+    @Deprecated
     void logout() throws ServiceException;
 
     /**

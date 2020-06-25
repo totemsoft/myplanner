@@ -56,7 +56,7 @@ public class ClientForm extends FormLayout {
             dobCountry,
             createButtonsLayout()
         );
-        //
+        // last
         binder.bindInstanceFields(this);
     }
 

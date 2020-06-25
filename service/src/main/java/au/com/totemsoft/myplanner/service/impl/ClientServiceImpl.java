@@ -126,7 +126,7 @@ public class ClientServiceImpl extends PersonServiceImpl implements ClientServic
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     @Override
     public Long createClient() throws ServiceException, CreateException {
-        final IUser user = userPreferences.getUser();
+        final IUser user = userPreferences.user();
         final Integer ownerId = user.getId().intValue();
 
         PreparedStatement sql = null;

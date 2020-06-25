@@ -139,7 +139,7 @@ public final class ClientView extends PersonView2 {
         Object obj = jComboBoxAdviser.getSelectedItem();
         if (obj == null)
         {
-            person.setOwnerPrimaryKey(userPreferences.getUser().getId());
+            person.setOwnerPrimaryKey(userPreferences.user().getId());
         }
         else
         {

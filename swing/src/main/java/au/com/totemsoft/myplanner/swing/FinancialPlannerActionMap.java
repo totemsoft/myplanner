@@ -760,7 +760,7 @@ public class FinancialPlannerActionMap
     public void updateAccessability() {
 
         try {
-            IUser user = userPreferences.getUser();
+            IUser user = userPreferences.user();
             Integer userTypeId = user == null ? null : user.getTypeId();
 
             boolean adminPerson = AdviserTypeCode.isAdminPerson(userTypeId);

@@ -13,7 +13,7 @@
     <name>Vaadin UI</name>
 
     <properties>
-        <vaadin.version>14.1.28</vaadin.version>
+        <vaadin.version>16.0.0</vaadin.version>
 
         <drivers.dir>${project.basedir}/drivers</drivers.dir>
         <drivers.downloader.phase>pre-integration-test</drivers.downloader.phase>
@@ -51,10 +51,10 @@
             <artifactId>myplanner-service</artifactId>
         </dependency>
 
+        <!-- use only free components -->
         <dependency>
             <groupId>com.vaadin</groupId>
-            <!-- Replace artifactId with vaadin-core to use only free components -->
-            <artifactId>vaadin</artifactId>
+            <artifactId>vaadin-core</artifactId>
             <exclusions>
                 <!-- Webjars are only needed when running in Vaadin 13 compatibility mode -->
                 <exclusion>

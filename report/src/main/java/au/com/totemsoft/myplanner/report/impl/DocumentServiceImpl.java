@@ -16,7 +16,6 @@ public class DocumentServiceImpl implements DocumentService {
 
     public DocumentServiceImpl() {
         pdf = new PdfIText(); // lowagie free (itextpdf $2,000 license for commercial distribution)
-        //pdf = new PdfBox(); // apache.pdfbox free
         //pdf = new PdfJt();  // com.adobe.pdfjt $5,000 license
     }
 

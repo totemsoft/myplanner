@@ -13,6 +13,7 @@
     <name>Vaadin UI</name>
 
     <properties>
+        <jkube.version>1.2.0</jkube.version>
         <vaadin.version>16.0.0</vaadin.version>
 
         <drivers.dir>${project.basedir}/drivers</drivers.dir>
@@ -117,6 +118,30 @@
                     <wait>500</wait>
                     <maxAttempts>240</maxAttempts>
                     <excludeDevtools>false</excludeDevtools>
+                </configuration>
+            </plugin>
+
+            <!-- https://github.com/eclipse/jkube -->
+            <plugin>
+                <groupId>org.eclipse.jkube</groupId>
+                <artifactId>kubernetes-maven-plugin</artifactId>
+                <version>${jkube.version}</version>
+                <configuration>
+                    <images>
+                        <image>
+                            <name>myplanner:${project.version}</name>
+                            <alias>myplanner</alias>
+                            <build>
+                                <from>openjdk:latest</from>
+                                <cmd>java -jar maven/${project.artifactId}-${project.version}.jar</cmd>
+                            </build>
+                            <run>
+                                <wait>
+                                    <log>My Planner!</log>
+                                </wait>
+                            </run>
+                        </image>
+                    </images>
                 </configuration>
             </plugin>
 

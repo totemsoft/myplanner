@@ -14,7 +14,7 @@
 
     <properties>
         <jkube.version>1.2.0</jkube.version>
-        <vaadin.version>19.0.3</vaadin.version>
+        <vaadin.version>19.0.9</vaadin.version>
 
         <drivers.dir>${project.basedir}/drivers</drivers.dir>
         <drivers.downloader.phase>pre-integration-test</drivers.downloader.phase>
